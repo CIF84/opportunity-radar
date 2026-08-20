@@ -528,3 +528,328 @@ At completion, provide:
    NO-GO
 
 for proceeding to Opportunity Radar V1.
+
+Architecture Decisions Added in v0.2
+
+Adapter Boundary
+
+Adapters must separate vacancy discovery from vacancy detail retrieval.
+
+The adapter contract is:
+
+list_jobs(company_config) -> list[JobReference]
+fetch_job(job_reference) -> NormalizedJob
+
+list_jobs() answers:
+
+What vacancies currently exist for this employer?
+
+fetch_job() answers:
+
+What are the normalized details for this vacancy?
+
+This separation is intentional because many ATS platforms expose lightweight vacancy inventories separately from detailed vacancy pages or endpoints.
+
+It also preserves a clean path toward future incremental ingestion, where only newly discovered or changed vacancies need full detail retrieval.
+
+The spike does not need persistent incremental state yet.
+
+⸻
+
+JobReference
+
+A JobReference should contain only the minimum information needed to uniquely reference and retrieve a vacancy.
+
+Suggested model:
+
+@dataclass
+class JobReference:
+    company_id: str
+    external_job_id: str | None
+    canonical_url: str
+
+Additional source-specific metadata may be stored only if needed for later retrieval.
+
+⸻
+
+NormalizedJob
+
+The normalized model represents one underlying vacancy regardless of source platform.
+
+Suggested fields:
+
+@dataclass
+class NormalizedJob:
+    company_id: str
+    company_name: str
+    external_job_id: str | None
+    title: str
+    locations: list[JobLocation]
+    work_mode: WorkMode
+    canonical_url: str
+    description: str | None
+    date_posted: date | None
+    valid_through: date | None
+    employment_type: str | None
+    department: str | None
+    source: str
+    retrieved_at: datetime
+
+Adapters must not invent missing values.
+
+⸻
+
+Location Model
+
+A vacancy is represented as one job regardless of how many locations are associated with the posting.
+
+Locations must not be represented by duplicating job records.
+
+Each job contains:
+
+locations: list[JobLocation]
+
+Suggested location model:
+
+@dataclass
+class JobLocation:
+    raw: str
+    city: str | None = None
+    region: str | None = None
+    country: str | None = None
+
+The original source location string must always be preserved in raw.
+
+Work arrangement is represented separately:
+
+class WorkMode(Enum):
+    ONSITE = "onsite"
+    HYBRID = "hybrid"
+    REMOTE = "remote"
+    UNSPECIFIED = "unspecified"
+
+Do not infer work mode unless the source provides sufficient evidence.
+
+Example:
+
+Senior Pricing Analyst
+external_job_id: R12345
+work_mode: HYBRID
+locations:
+  - Prague, Czechia
+  - Zagreb, Croatia
+  - Istanbul, Turkey
+
+⸻
+
+Source Truth vs Interpretation
+
+Adapters are responsible for preserving and normalizing source data.
+
+They are not responsible for deciding whether a job is relevant to the user.
+
+Conceptually:
+
+source value
+    ↓
+raw source representation
+    ↓
+safe normalization
+    ↓
+later filtering/scoring
+
+Example:
+
+"Prague, Czech Republic"
+    ↓
+raw = "Prague, Czech Republic"
+city = "Prague"
+country = "Czechia"
+
+Whether Prague is an eligible location is handled later outside the adapter layer.
+
+⸻
+
+Company Configuration
+
+Research data and runtime configuration must remain separate.
+
+research/target_companies.csv is the feasibility dataset.
+
+Runtime ingestion configuration should live separately, for example:
+
+config/companies.yaml
+
+Suggested runtime model:
+
+@dataclass
+class CompanyConfig:
+    company_id: str
+    company_name: str
+    adapter: str
+    careers_url: str | None = None
+    jobs_search_url: str | None = None
+    ats_tenant: str | None = None
+    endpoint_url: str | None = None
+    location_filters: list[str] | None = None
+    remote_eligible: bool | None = None
+    options: dict[str, Any] = field(default_factory=dict)
+
+Employer-specific values should be expressed as configuration wherever possible.
+
+⸻
+
+Adapter Registry
+
+The registry maps configured adapter families to their implementations.
+
+Conceptually:
+
+class AdapterRegistry:
+    _adapters = {
+        "workday": WorkdayAdapter,
+        "greenhouse": GreenhouseAdapter,
+        "almacareer": AlmaCareerAdapter,
+        "successfactors": SuccessFactorsAdapter,
+        "generic_html": GenericHtmlAdapter,
+    }
+
+The registry must not contain employer-specific conditional logic.
+
+Forbidden pattern:
+
+if company_id == "johnson_johnson":
+    ...
+
+The registry chooses adapter families only.
+
+⸻
+
+Configuration Validation
+
+Adapter-specific configuration must be validated before network requests begin.
+
+Examples:
+
+* Greenhouse may require an ATS tenant/board identifier.
+* Workday may require tenant/site information.
+* Generic HTML may require declarative selector configuration.
+
+Failures should produce explicit configuration errors rather than obscure downstream parsing failures.
+
+⸻
+
+Generic Adapter Constraint
+
+A generic adapter must genuinely be generic.
+
+Adding a new employer to GenericHtmlAdapter should normally require configuration rather than Python code.
+
+Acceptable:
+
+selectors:
+  job_container: "..."
+  title: "..."
+  url: "..."
+  location: "..."
+
+Not acceptable:
+
+if company == "GoodData":
+    ...
+elif company == "Kiwi":
+    ...
+
+If Python changes are required for one employer, treat it as bespoke integration and record that fact explicitly.
+
+⸻
+
+Reusability Test
+
+Where practical, each reusable adapter family should be tested against at least three employers.
+
+An adapter family is considered reusable only if the same implementation works across multiple employers without employer-specific parsing logic.
+
+Example:
+
+WorkdayAdapter
+    ├── Johnson & Johnson
+    ├── Red Hat
+    └── Pfizer
+
+All three should use the same code path.
+
+⸻
+
+Job Identity
+
+Preferred exact identity:
+
+company_id + external_job_id
+
+When a stable external ID is unavailable, canonical URL may act as a secondary exact identifier.
+
+Adapters should preserve enough source information to support future deduplication.
+
+⸻
+
+Deduplication Strategy
+
+The long-term deduplication hierarchy is:
+
+1. Exact identity:
+    company_id + external_job_id
+2. Canonical URL match
+3. Deterministic fingerprint based on normalized fields
+4. Probabilistic duplicate scoring when deterministic identity is insufficient
+
+Probabilistic scoring is intentionally not implemented in the ingestion spike.
+
+Its eventual weights and thresholds must be configurable and calibrated against real vacancy data rather than hardcoded now.
+
+⸻
+
+Duplicate vs Repost
+
+Future versions should distinguish between:
+
+* duplicate: multiple representations of the same vacancy
+* repost: a newly issued vacancy that is materially similar to an older posting
+
+A future model may separate:
+
+job_instance_id
+job_family_id
+
+This is out of scope for the current ingestion spike.
+
+⸻
+
+Implementation Scope Reminder
+
+Implement now:
+
+* source configuration
+* adapter registry
+* JobReference
+* structured locations
+* work mode
+* NormalizedJob
+* list_jobs()
+* fetch_job()
+* adapter-family reuse
+* explicit validation and reporting
+* JSON output
+* tests
+
+Do not implement now:
+
+* persistent job state
+* incremental database ingestion
+* probabilistic deduplication
+* repost detection
+* relevance scoring
+* LLMs
+* UI
+* notifications
+* automated applications
