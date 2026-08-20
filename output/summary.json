@@ -1,22 +1,32 @@
 {
-  "employers_tested": 15,
-  "employers_successful": 11,
-  "employer_success_rate": 0.7333333333333333,
-  "jobs_normalized": 22,
+  "employers_tested": 18,
+  "employers_successful": 17,
+  "employer_success_rate": 0.9444444444444444,
+  "jobs_normalized": 34,
   "adapter_metrics": {
     "almacareer": {
       "tested": 3,
-      "successful": 0,
-      "success_rate": 0.0
+      "successful": 3,
+      "success_rate": 1.0
     },
     "generic_html": {
-      "tested": 3,
+      "tested": 2,
       "successful": 2,
-      "success_rate": 0.6666666666666666
+      "success_rate": 1.0
     },
     "greenhouse": {
       "tested": 3,
       "successful": 3,
+      "success_rate": 1.0
+    },
+    "json_feed": {
+      "tested": 2,
+      "successful": 2,
+      "success_rate": 1.0
+    },
+    "phenom": {
+      "tested": 2,
+      "successful": 2,
       "success_rate": 1.0
     },
     "successfactors": {
@@ -26,8 +36,8 @@
     },
     "workday": {
       "tested": 3,
-      "successful": 3,
-      "success_rate": 1.0
+      "successful": 2,
+      "success_rate": 0.6666666666666666
     }
   },
   "field_completeness": {
@@ -37,7 +47,7 @@
     "canonical_url": 1.0,
     "external_job_id": 1.0,
     "description": 1.0,
-    "date_posted": 0.6363636363636364
+    "date_posted": 0.6470588235294118
   },
   "research_coverage": {
     "dataset_employers": 50,
@@ -45,21 +55,25 @@
       "almacareer": 9,
       "ashby": 2,
       "barclays_careers": 1,
-      "cisco_careers": 1,
-      "custom": 8,
+      "custom": 5,
       "deloitte_ce": 1,
-      "greenhouse": 5,
+      "greenhouse": 4,
+      "jibe": 1,
+      "json_feed": 1,
       "microsoft_careers": 1,
       "novartis_careers": 1,
       "oracle_recruiting": 1,
-      "phenom_like": 3,
+      "phenom": 2,
+      "phenom_like": 2,
       "smartrecruiters": 2,
       "successfactors": 6,
+      "talentbrew": 1,
+      "unsupported_linkedin": 1,
       "workday": 9
     },
-    "theoretically_covered": 20,
-    "theoretical_coverage_rate": 0.4,
-    "research_bespoke_count": 6,
-    "research_bespoke_rate": 0.12
+    "theoretically_covered": 28,
+    "theoretical_coverage_rate": 0.56,
+    "research_bespoke_count": 7,
+    "research_bespoke_rate": 0.14
   }
 }

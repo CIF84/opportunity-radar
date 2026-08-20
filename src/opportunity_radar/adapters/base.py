@@ -31,6 +31,26 @@ class EmptyInventoryError(ExtractionError):
     pass
 
 
+class SchemaMismatchError(ExtractionError):
+    pass
+
+
+class CountMismatchError(ExtractionError):
+    pass
+
+
+def value_at_path(value: Any, path: str | None, default: Any = None) -> Any:
+    if not path:
+        return value
+    current = value
+    for part in path.split("."):
+        if isinstance(current, dict) and part in current:
+            current = current[part]
+        else:
+            return default
+    return current
+
+
 class JobSourceAdapter(ABC):
     source = "unknown"
 

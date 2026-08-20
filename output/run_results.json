@@ -3,11 +3,11 @@
     "company_id": "johnson_johnson",
     "company_name": "Johnson & Johnson",
     "adapter": "workday",
-    "status": "PASS",
-    "references_found": 1794,
-    "jobs_normalized": 2,
+    "status": "FAIL",
+    "references_found": 0,
+    "jobs_normalized": 0,
     "detail_failures": 0,
-    "error": null
+    "error": "SourceRequestError: live source exceeded isolated acceptance-run timeout"
   },
   {
     "company_id": "red_hat",
@@ -34,7 +34,7 @@
     "company_name": "Pure Storage",
     "adapter": "greenhouse",
     "status": "PASS",
-    "references_found": 299,
+    "references_found": 297,
     "jobs_normalized": 2,
     "detail_failures": 0,
     "error": null
@@ -63,31 +63,31 @@
     "company_id": "siemens",
     "company_name": "Siemens",
     "adapter": "almacareer",
-    "status": "EMPTY",
-    "references_found": 0,
-    "jobs_normalized": 0,
+    "status": "PASS",
+    "references_found": 62,
+    "jobs_normalized": 2,
     "detail_failures": 0,
-    "error": "generic HTML extraction found no job references"
+    "error": null
   },
   {
     "company_id": "honeywell",
     "company_name": "Honeywell",
     "adapter": "almacareer",
-    "status": "EMPTY",
-    "references_found": 0,
-    "jobs_normalized": 0,
+    "status": "PASS",
+    "references_found": 13,
+    "jobs_normalized": 2,
     "detail_failures": 0,
-    "error": "generic HTML extraction found no job references"
+    "error": null
   },
   {
     "company_id": "csob",
     "company_name": "ČSOB",
     "adapter": "almacareer",
-    "status": "EMPTY",
-    "references_found": 0,
-    "jobs_normalized": 0,
+    "status": "PASS",
+    "references_found": 111,
+    "jobs_normalized": 2,
     "detail_failures": 0,
-    "error": "generic HTML extraction found no job references"
+    "error": null
   },
   {
     "company_id": "sap",
@@ -142,11 +142,41 @@
   {
     "company_id": "allegro",
     "company_name": "Allegro",
-    "adapter": "generic_html",
-    "status": "EMPTY",
-    "references_found": 0,
-    "jobs_normalized": 0,
+    "adapter": "json_feed",
+    "status": "PASS",
+    "references_found": 177,
+    "jobs_normalized": 2,
     "detail_failures": 0,
-    "error": "generic HTML extraction found no job references"
+    "error": null
+  },
+  {
+    "company_id": "schneider_electric",
+    "company_name": "Schneider Electric",
+    "adapter": "json_feed",
+    "status": "PASS",
+    "references_found": 2260,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "roche",
+    "company_name": "Roche",
+    "adapter": "phenom",
+    "status": "PASS",
+    "references_found": 1203,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "cisco",
+    "company_name": "Cisco",
+    "adapter": "phenom",
+    "status": "PASS",
+    "references_found": 1195,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
   }
 ]

@@ -4,6 +4,8 @@ from opportunity_radar.adapters import (
     AlmaCareerAdapter,
     GenericHtmlAdapter,
     GreenhouseAdapter,
+    JsonFeedAdapter,
+    PhenomAdapter,
     SuccessFactorsAdapter,
     WorkdayAdapter,
 )
@@ -18,6 +20,8 @@ class AdapterRegistry:
         "almacareer": AlmaCareerAdapter,
         "successfactors": SuccessFactorsAdapter,
         "generic_html": GenericHtmlAdapter,
+        "json_feed": JsonFeedAdapter,
+        "phenom": PhenomAdapter,
     }
 
     @classmethod
@@ -27,4 +31,3 @@ class AdapterRegistry:
         except KeyError as exc:
             raise ConfigurationError(f"unknown adapter: {config.adapter}") from exc
         return adapter(config)
-

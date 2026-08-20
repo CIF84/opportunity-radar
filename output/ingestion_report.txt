@@ -1,32 +1,39 @@
 OPPORTUNITY RADAR — INGESTION FEASIBILITY SPIKE
 
-Employers tested: 15
-Successful: 11
-Success rate: 73.3%
-Jobs normalized: 22
+Employers tested: 18
+Successful: 17
+Success rate: 94.4%
+Jobs normalized: 34
 
-almacareer: 0/3 (0.0%)
-  Siemens: EMPTY, 0 references, 0 details — generic HTML extraction found no job references
-  Honeywell: EMPTY, 0 references, 0 details — generic HTML extraction found no job references
-  ČSOB: EMPTY, 0 references, 0 details — generic HTML extraction found no job references
+almacareer: 3/3 (100.0%)
+  Siemens: PASS, 62 references, 2 details
+  Honeywell: PASS, 13 references, 2 details
+  ČSOB: PASS, 111 references, 2 details
 
-generic_html: 2/3 (66.7%)
+generic_html: 2/2 (100.0%)
   GoodData: PASS, 7 references, 2 details
   Kiwi.com: PASS, 17 references, 2 details
-  Allegro: EMPTY, 0 references, 0 details — generic HTML extraction found no job references
 
 greenhouse: 3/3 (100.0%)
-  Pure Storage: PASS, 299 references, 2 details
+  Pure Storage: PASS, 297 references, 2 details
   Wrike: PASS, 69 references, 2 details
   WPP: PASS, 231 references, 2 details
+
+json_feed: 2/2 (100.0%)
+  Allegro: PASS, 177 references, 2 details
+  Schneider Electric: PASS, 2260 references, 2 details
+
+phenom: 2/2 (100.0%)
+  Roche: PASS, 1203 references, 2 details
+  Cisco: PASS, 1195 references, 2 details
 
 successfactors: 3/3 (100.0%)
   SAP: PASS, 25 references, 2 details
   EY: PASS, 125 references, 2 details
   Deutsche Börse Group: PASS, 125 references, 2 details
 
-workday: 3/3 (100.0%)
-  Johnson & Johnson: PASS, 1794 references, 2 details
+workday: 2/3 (66.7%)
+  Johnson & Johnson: FAIL, 0 references, 0 details — SourceRequestError: live source exceeded isolated acceptance-run timeout
   Red Hat: PASS, 40 references, 2 details
   Pfizer: PASS, 40 references, 2 details
 
@@ -37,7 +44,7 @@ location: 100.0%
 canonical_url: 100.0%
 external_job_id: 100.0%
 description: 100.0%
-date_posted: 63.6%
+date_posted: 64.7%
 
 See docs/ingestion_feasibility_report.md for research corrections, coverage analysis,
-and the CONDITIONAL GO recommendation.
+and the ingestion-architecture GO recommendation.

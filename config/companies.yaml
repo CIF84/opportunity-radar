@@ -37,34 +37,18 @@ companies:
     adapter: almacareer
     endpoint_url: https://siemens.jobs.cz/
     ats_tenant: siemens.jobs.cz
-    options:
-      selectors:
-        job_container: ".vacancy, .vacancies__item, [data-vacancy-id]"
-        title: "a"
-        url: "a[href]"
-        location: ".vacancy__location, .location"
   - company_id: honeywell
     company_name: Honeywell
     adapter: almacareer
     endpoint_url: https://honeywell.jobs.cz/en/positions
     ats_tenant: honeywell.jobs.cz
     options:
-      selectors:
-        job_container: ".vacancy, .vacancies__item, [data-vacancy-id]"
-        title: "a"
-        url: "a[href]"
-        location: ".vacancy__location, .location"
+      widget_name: main-en
   - company_id: csob
     company_name: ČSOB
     adapter: almacareer
     endpoint_url: https://csob.jobs.cz/
     ats_tenant: csob.jobs.cz
-    options:
-      selectors:
-        job_container: ".vacancy, .vacancies__item, [data-vacancy-id]"
-        title: "a"
-        url: "a[href]"
-        location: ".vacancy__location, .location"
 
   - company_id: sap
     company_name: SAP
@@ -147,11 +131,48 @@ companies:
         description: ".b-job-detail, main"
   - company_id: allegro
     company_name: Allegro
-    adapter: generic_html
-    endpoint_url: https://jobs.allegro.eu/offer/
+    adapter: json_feed
+    endpoint_url: https://jobs.allegro.eu/wp-json/api/v1/offer
     options:
-      selectors:
-        job_container: ".job-offer, .offer"
-        title: ".job-offer__title, .offer__title"
-        url: "a[href]"
-        location: ".job-offer__location, .offer__location"
+      query_params: {lang: en}
+      items_path: offers
+      pagination: {page_param: page, start: 1, pages_path: max_pages, count_path: results_count}
+      fields:
+        external_job_id: uid
+        title: name
+        canonical_url: url
+        locations: location
+        date_posted: releaseDate
+        employment_type: contract
+        department: team
+
+  - company_id: schneider_electric
+    company_name: Schneider Electric
+    adapter: json_feed
+    endpoint_url: https://careers.se.com/api/jobs
+    options:
+      query_params: {sortBy: relevance, descending: false, internal: false, limit: 100}
+      items_path: jobs
+      pagination: {page_param: page, start: 1, count_path: totalCount}
+      fields:
+        external_job_id: data.req_id
+        title: data.title
+        canonical_url: data.meta_data.canonical_url
+        locations: data.full_location
+        description: data.description
+        date_posted: data.posted_date
+        work_mode: data.location_type
+
+  - company_id: roche
+    company_name: Roche
+    adapter: phenom
+    endpoint_url: https://careers.roche.com/widgets
+    options:
+      canonical_url_template: https://careers.roche.com/global/en/job/{jobId}/{title_slug}
+
+  - company_id: cisco
+    company_name: Cisco
+    adapter: phenom
+    endpoint_url: https://careers.cisco.com/widgets
+    options:
+      canonical_url_template: https://careers.cisco.com/global/en/job/{jobId}/{title_slug}

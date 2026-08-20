@@ -83,6 +83,9 @@ def research_coverage(research_path: str | Path, passing_adapters: set[str]) -> 
         "greenhouse": "greenhouse",
         "almacareer": "almacareer",
         "successfactors": "successfactors",
+        "phenom": "phenom",
+        "jibe": "json_feed",
+        "json_feed": "json_feed",
         "custom": "generic_html",
     }
     with Path(research_path).open(encoding="utf-8-sig", newline="") as handle:
@@ -180,7 +183,7 @@ def write_outputs(results, output_dir: str | Path, research_path: str | Path) ->
             *[f"{field}: {rate:.1%}" for field, rate in summary["field_completeness"].items()],
             "",
             "See docs/ingestion_feasibility_report.md for research corrections, coverage analysis,",
-            "and the CONDITIONAL GO recommendation.",
+            "and the ingestion-architecture GO recommendation.",
         ]
     )
     (output / "ingestion_report.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")

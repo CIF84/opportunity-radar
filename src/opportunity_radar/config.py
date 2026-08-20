@@ -48,7 +48,7 @@ class CompanyConfig:
                 raise ConfigurationError(
                     f"{self.company_id}: Workday ats_tenant must be host|tenant|site"
                 )
-        if self.adapter in {"almacareer", "successfactors", "generic_html"} and not self.endpoint_url:
+        if self.adapter in {"almacareer", "successfactors", "generic_html", "json_feed", "phenom"} and not self.endpoint_url:
             raise ConfigurationError(f"{self.company_id}: {self.adapter} requires endpoint_url")
         if self.adapter == "generic_html" and not self.options.get("selectors") and not self.options.get("json_ld", True):
             raise ConfigurationError(
@@ -65,4 +65,3 @@ def load_companies(path: str | Path) -> list[CompanyConfig]:
     if len(ids) != len(set(ids)):
         raise ConfigurationError("company_id values must be unique")
     return companies
-
