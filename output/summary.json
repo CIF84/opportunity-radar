@@ -1,0 +1,65 @@
+{
+  "employers_tested": 15,
+  "employers_successful": 11,
+  "employer_success_rate": 0.7333333333333333,
+  "jobs_normalized": 22,
+  "adapter_metrics": {
+    "almacareer": {
+      "tested": 3,
+      "successful": 0,
+      "success_rate": 0.0
+    },
+    "generic_html": {
+      "tested": 3,
+      "successful": 2,
+      "success_rate": 0.6666666666666666
+    },
+    "greenhouse": {
+      "tested": 3,
+      "successful": 3,
+      "success_rate": 1.0
+    },
+    "successfactors": {
+      "tested": 3,
+      "successful": 3,
+      "success_rate": 1.0
+    },
+    "workday": {
+      "tested": 3,
+      "successful": 3,
+      "success_rate": 1.0
+    }
+  },
+  "field_completeness": {
+    "company": 1.0,
+    "title": 1.0,
+    "location": 1.0,
+    "canonical_url": 1.0,
+    "external_job_id": 1.0,
+    "description": 1.0,
+    "date_posted": 0.6363636363636364
+  },
+  "research_coverage": {
+    "dataset_employers": 50,
+    "family_counts": {
+      "almacareer": 9,
+      "ashby": 2,
+      "barclays_careers": 1,
+      "cisco_careers": 1,
+      "custom": 8,
+      "deloitte_ce": 1,
+      "greenhouse": 5,
+      "microsoft_careers": 1,
+      "novartis_careers": 1,
+      "oracle_recruiting": 1,
+      "phenom_like": 3,
+      "smartrecruiters": 2,
+      "successfactors": 6,
+      "workday": 9
+    },
+    "theoretically_covered": 20,
+    "theoretical_coverage_rate": 0.4,
+    "research_bespoke_count": 6,
+    "research_bespoke_rate": 0.12
+  }
+}

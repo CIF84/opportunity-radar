@@ -1,0 +1,152 @@
+[
+  {
+    "company_id": "johnson_johnson",
+    "company_name": "Johnson & Johnson",
+    "adapter": "workday",
+    "status": "PASS",
+    "references_found": 1794,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "red_hat",
+    "company_name": "Red Hat",
+    "adapter": "workday",
+    "status": "PASS",
+    "references_found": 40,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "pfizer",
+    "company_name": "Pfizer",
+    "adapter": "workday",
+    "status": "PASS",
+    "references_found": 40,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "pure_storage",
+    "company_name": "Pure Storage",
+    "adapter": "greenhouse",
+    "status": "PASS",
+    "references_found": 299,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "wrike",
+    "company_name": "Wrike",
+    "adapter": "greenhouse",
+    "status": "PASS",
+    "references_found": 69,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "wpp",
+    "company_name": "WPP",
+    "adapter": "greenhouse",
+    "status": "PASS",
+    "references_found": 231,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "siemens",
+    "company_name": "Siemens",
+    "adapter": "almacareer",
+    "status": "EMPTY",
+    "references_found": 0,
+    "jobs_normalized": 0,
+    "detail_failures": 0,
+    "error": "generic HTML extraction found no job references"
+  },
+  {
+    "company_id": "honeywell",
+    "company_name": "Honeywell",
+    "adapter": "almacareer",
+    "status": "EMPTY",
+    "references_found": 0,
+    "jobs_normalized": 0,
+    "detail_failures": 0,
+    "error": "generic HTML extraction found no job references"
+  },
+  {
+    "company_id": "csob",
+    "company_name": "ČSOB",
+    "adapter": "almacareer",
+    "status": "EMPTY",
+    "references_found": 0,
+    "jobs_normalized": 0,
+    "detail_failures": 0,
+    "error": "generic HTML extraction found no job references"
+  },
+  {
+    "company_id": "sap",
+    "company_name": "SAP",
+    "adapter": "successfactors",
+    "status": "PASS",
+    "references_found": 25,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "ey",
+    "company_name": "EY",
+    "adapter": "successfactors",
+    "status": "PASS",
+    "references_found": 125,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "deutsche_boerse_group",
+    "company_name": "Deutsche Börse Group",
+    "adapter": "successfactors",
+    "status": "PASS",
+    "references_found": 125,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "gooddata",
+    "company_name": "GoodData",
+    "adapter": "generic_html",
+    "status": "PASS",
+    "references_found": 7,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "kiwi_com",
+    "company_name": "Kiwi.com",
+    "adapter": "generic_html",
+    "status": "PASS",
+    "references_found": 17,
+    "jobs_normalized": 2,
+    "detail_failures": 0,
+    "error": null
+  },
+  {
+    "company_id": "allegro",
+    "company_name": "Allegro",
+    "adapter": "generic_html",
+    "status": "EMPTY",
+    "references_found": 0,
+    "jobs_normalized": 0,
+    "detail_failures": 0,
+    "error": "generic HTML extraction found no job references"
+  }
+]

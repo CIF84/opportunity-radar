@@ -63,3 +63,25 @@ The architecture is considered promising if:
 5. Verify assumptions before committing to architecture.
 6. Keep the system explainable and maintainable.
 7. Build only what demonstrably reduces manual effort.
+
+## Feasibility spike
+
+The repository contains the technical ingestion feasibility spike described in
+`SPEC.md`. Runtime employer settings live in `config/companies.yaml`; the
+research CSV remains evidence rather than runtime configuration.
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e '.[test]'
+.venv/bin/pytest -q
+.venv/bin/opportunity-radar --max-jobs 2
+```
+
+Live integration tests are intentionally separate:
+
+```bash
+.venv/bin/pytest -m live -o addopts='' -q
+```
+
+See `docs/ingestion_feasibility_report.md` for measured coverage, research
+corrections, and the recommendation.

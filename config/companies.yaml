@@ -1,0 +1,157 @@
+companies:
+  - company_id: johnson_johnson
+    company_name: Johnson & Johnson
+    adapter: workday
+    careers_url: https://www.careers.jnj.com/
+    endpoint_url: https://jj.wd5.myworkdayjobs.com/JJ
+    ats_tenant: wd5|jj|JJ
+  - company_id: red_hat
+    company_name: Red Hat
+    adapter: workday
+    endpoint_url: https://redhat.wd5.myworkdayjobs.com/jobs
+    ats_tenant: wd5|redhat|jobs
+  - company_id: pfizer
+    company_name: Pfizer
+    adapter: workday
+    endpoint_url: https://pfizer.wd1.myworkdayjobs.com/PfizerCareers
+    ats_tenant: wd1|pfizer|PfizerCareers
+
+  - company_id: pure_storage
+    company_name: Pure Storage
+    adapter: greenhouse
+    endpoint_url: https://job-boards.greenhouse.io/purestorage
+    ats_tenant: purestorage
+  - company_id: wrike
+    company_name: Wrike
+    adapter: greenhouse
+    endpoint_url: https://www.wrike.com/jobs/
+    ats_tenant: wrike
+  - company_id: wpp
+    company_name: WPP
+    adapter: greenhouse
+    endpoint_url: https://job-boards.greenhouse.io/wpp
+    ats_tenant: wpp
+
+  - company_id: siemens
+    company_name: Siemens
+    adapter: almacareer
+    endpoint_url: https://siemens.jobs.cz/
+    ats_tenant: siemens.jobs.cz
+    options:
+      selectors:
+        job_container: ".vacancy, .vacancies__item, [data-vacancy-id]"
+        title: "a"
+        url: "a[href]"
+        location: ".vacancy__location, .location"
+  - company_id: honeywell
+    company_name: Honeywell
+    adapter: almacareer
+    endpoint_url: https://honeywell.jobs.cz/en/positions
+    ats_tenant: honeywell.jobs.cz
+    options:
+      selectors:
+        job_container: ".vacancy, .vacancies__item, [data-vacancy-id]"
+        title: "a"
+        url: "a[href]"
+        location: ".vacancy__location, .location"
+  - company_id: csob
+    company_name: ČSOB
+    adapter: almacareer
+    endpoint_url: https://csob.jobs.cz/
+    ats_tenant: csob.jobs.cz
+    options:
+      selectors:
+        job_container: ".vacancy, .vacancies__item, [data-vacancy-id]"
+        title: "a"
+        url: "a[href]"
+        location: ".vacancy__location, .location"
+
+  - company_id: sap
+    company_name: SAP
+    adapter: successfactors
+    endpoint_url: https://jobs.sap.com/go/Czech-Republic/8806201/
+    options:
+      selectors:
+        job_container: "tr.data-row"
+        title: "a.jobTitle-link"
+        url: "a.jobTitle-link"
+        location: ".jobLocation"
+      pagination:
+        param: startrow
+        start: 0
+        step: 25
+        max_pages: 5
+      detail_selectors:
+        description: ".jobdescription"
+  - company_id: ey
+    company_name: EY
+    adapter: successfactors
+    endpoint_url: https://careers.ey.com/ey/search/
+    options:
+      selectors:
+        job_container: "tr.data-row"
+        title: "a.jobTitle-link"
+        url: "a.jobTitle-link"
+        location: ".jobLocation"
+      pagination:
+        param: startrow
+        start: 0
+        step: 25
+        max_pages: 5
+      detail_selectors:
+        description: ".jobdescription"
+  - company_id: deutsche_boerse_group
+    company_name: Deutsche Börse Group
+    adapter: successfactors
+    endpoint_url: https://career.deutsche-boerse.com/search/
+    options:
+      selectors:
+        job_container: "tr.data-row"
+        title: "a.jobTitle-link"
+        url: "a.jobTitle-link"
+        location: ".jobLocation"
+      pagination:
+        param: startrow
+        start: 0
+        step: 25
+        max_pages: 5
+      detail_selectors:
+        description: ".jobdescription"
+        date_posted: ".jobDate"
+
+  - company_id: gooddata
+    company_name: GoodData
+    adapter: generic_html
+    endpoint_url: https://www.gooddata.ai/company/careers/open-positions/
+    options:
+      external_id_pattern: "-([0-9a-f]{8})/$"
+      selectors:
+        job_container: ".careers-list-jobs__item"
+        title: ".careers-list-jobs__title"
+        url: "a.careers-list-jobs__link"
+        location: ".careers-list-jobs__locations"
+      detail_selectors:
+        description: ".p-careers-detail-content"
+  - company_id: kiwi_com
+    company_name: Kiwi.com
+    adapter: generic_html
+    endpoint_url: https://jobs.kiwi.com/jobs/
+    options:
+      selectors:
+        job_container: ".b-job"
+        title: ".b-job__title"
+        url: "a.b-job__link"
+        location: ".b-job__definition"
+      detail_selectors:
+        title: "h1"
+        description: ".b-job-detail, main"
+  - company_id: allegro
+    company_name: Allegro
+    adapter: generic_html
+    endpoint_url: https://jobs.allegro.eu/offer/
+    options:
+      selectors:
+        job_container: ".job-offer, .offer"
+        title: ".job-offer__title, .offer__title"
+        url: "a[href]"
+        location: ".job-offer__location, .offer__location"

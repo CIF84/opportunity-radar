@@ -1,0 +1,43 @@
+OPPORTUNITY RADAR — INGESTION FEASIBILITY SPIKE
+
+Employers tested: 15
+Successful: 11
+Success rate: 73.3%
+Jobs normalized: 22
+
+almacareer: 0/3 (0.0%)
+  Siemens: EMPTY, 0 references, 0 details — generic HTML extraction found no job references
+  Honeywell: EMPTY, 0 references, 0 details — generic HTML extraction found no job references
+  ČSOB: EMPTY, 0 references, 0 details — generic HTML extraction found no job references
+
+generic_html: 2/3 (66.7%)
+  GoodData: PASS, 7 references, 2 details
+  Kiwi.com: PASS, 17 references, 2 details
+  Allegro: EMPTY, 0 references, 0 details — generic HTML extraction found no job references
+
+greenhouse: 3/3 (100.0%)
+  Pure Storage: PASS, 299 references, 2 details
+  Wrike: PASS, 69 references, 2 details
+  WPP: PASS, 231 references, 2 details
+
+successfactors: 3/3 (100.0%)
+  SAP: PASS, 25 references, 2 details
+  EY: PASS, 125 references, 2 details
+  Deutsche Börse Group: PASS, 125 references, 2 details
+
+workday: 3/3 (100.0%)
+  Johnson & Johnson: PASS, 1794 references, 2 details
+  Red Hat: PASS, 40 references, 2 details
+  Pfizer: PASS, 40 references, 2 details
+
+FIELD COMPLETENESS
+company: 100.0%
+title: 100.0%
+location: 100.0%
+canonical_url: 100.0%
+external_job_id: 100.0%
+description: 100.0%
+date_posted: 63.6%
+
+See docs/ingestion_feasibility_report.md for research corrections, coverage analysis,
+and the CONDITIONAL GO recommendation.
