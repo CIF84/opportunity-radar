@@ -853,3 +853,736 @@ Do not implement now:
 * UI
 * notifications
 * automated applications
+
+
+# Opportunity Radar
+## Phase 2 — Operational Stability: State & Change Detection
+
+## 1. Purpose
+
+Phase 1 validated that Opportunity Radar can ingest vacancies from reusable source families and normalize them into a common job representation.
+
+Phase 2 validates that repeated ingestion runs can be converted into reliable persistent state and meaningful change events.
+
+The system must distinguish:
+
+- what was observed;
+- what is currently believed to be true;
+- how that belief changed over time.
+
+This phase is about temporal correctness and operational stability.
+
+It is not yet about personal relevance, notifications, or user interface.
+
+---
+
+## 2. Core Principle
+
+> Observations are evidence.  
+> State is interpretation.  
+> Events describe how state changes over time.
+
+Never destroy observation evidence merely because the current interpretation changes.
+
+---
+
+## 3. Question Being Tested
+
+Can Opportunity Radar repeatedly ingest employer inventories and correctly identify:
+
+- new vacancies;
+- unchanged vacancies;
+- materially changed vacancies;
+- closed vacancies;
+- reopened vacancies;
+
+without creating false lifecycle transitions when a source fails or is incompletely observed?
+
+---
+
+## 4. Architectural Boundary
+
+Phase 1 remains unchanged.
+
+```text
+External career sources
+        ↓
+JobSourceAdapter
+        ↓
+NormalizedJob[]
+        ↓
+──────── Phase 1 boundary ────────
+        ↓
+State / Observation Layer
+        ↓
+Change Detection
+        ↓
+Events
+```
+
+Adapters must remain unaware of persistence and historical state.
+
+---
+
+## 5. Persistence Technology
+
+Use SQLite as the Phase 2 persistence layer.
+
+Reasons:
+
+- zero external infrastructure;
+- transactional state;
+- uniqueness constraints;
+- incremental writes;
+- simple historical queries;
+- built into Python;
+- sufficient scale for the expected workload;
+- straightforward migration path later if required.
+
+Do not introduce PostgreSQL, cloud databases, or distributed infrastructure.
+
+---
+
+## 6. Core Concepts
+
+### IngestionRun
+
+Represents one execution of the ingestion pipeline.
+
+Suggested fields:
+
+```python
+run_id
+started_at
+completed_at
+status
+```
+
+Possible run status values:
+
+```text
+RUNNING
+COMPLETED
+PARTIAL
+FAILED
+```
+
+---
+
+### SourceObservation
+
+Represents what happened when one employer/source was inspected during one run.
+
+Suggested fields:
+
+```python
+run_id
+company_id
+adapter
+status
+expected_count
+observed_count
+complete
+error_type
+error_message
+observed_at
+```
+
+Source-level completeness is critical.
+
+Possible source states should preserve the Phase 1 failure semantics:
+
+```text
+SUCCESS
+EMPTY
+SCHEMA_MISMATCH
+COUNT_MISMATCH
+REQUEST_ERROR
+```
+
+Absence of a vacancy may only be interpreted as closure when the source observation is successful and complete.
+
+---
+
+### JobInstance
+
+Represents the persistent identity of one vacancy over time.
+
+Suggested fields:
+
+```python
+job_instance_id
+company_id
+external_job_id
+canonical_url
+
+first_seen_at
+last_seen_at
+
+lifecycle_state
+current_fingerprint
+current_snapshot
+```
+
+Initial lifecycle states:
+
+```text
+ACTIVE
+CLOSED
+```
+
+A future phase may introduce richer lifecycle states if justified.
+
+---
+
+### JobObservation
+
+Represents one observed state of a vacancy during one ingestion run.
+
+Suggested fields:
+
+```python
+run_id
+job_instance_id
+observed_at
+fingerprint
+normalized_snapshot
+```
+
+`normalized_snapshot` should preserve the serialized normalized job representation.
+
+The observation history must allow later re-evaluation of state transitions.
+
+---
+
+### Event
+
+Represents a meaningful transition or material change.
+
+Suggested fields:
+
+```python
+event_id
+job_instance_id
+run_id
+event_type
+occurred_at
+change_data
+```
+
+Initial lifecycle events:
+
+```text
+NEW
+CLOSED
+REOPENED
+```
+
+Initial content events:
+
+```text
+TITLE_CHANGED
+LOCATION_CHANGED
+WORK_MODE_CHANGED
+EMPLOYMENT_TYPE_CHANGED
+DEPARTMENT_CHANGED
+DESCRIPTION_CHANGED
+```
+
+Multiple content changes may occur in one run.
+
+---
+
+## 7. Identity
+
+Use the identity hierarchy already defined in Phase 1.
+
+Primary:
+
+```text
+company_id + external_job_id
+```
+
+Secondary exact identity:
+
+```text
+canonical_url
+```
+
+Probabilistic duplicate detection remains out of scope.
+
+Do not implement `job_family_id` or repost similarity in Phase 2.
+
+---
+
+## 8. Location Model
+
+Retain the Phase 1 multi-location representation.
+
+One vacancy remains one `JobInstance`.
+
+```python
+locations: list[JobLocation]
+```
+
+Location ordering must not create false change events.
+
+Canonical comparison must therefore normalize/sort locations deterministically before fingerprinting.
+
+Raw source location values remain preserved in snapshots.
+
+---
+
+## 9. Content Fingerprint
+
+Each observed job must have a deterministic material-content fingerprint.
+
+The fingerprint should be calculated from a canonical representation containing fields such as:
+
+```text
+title
+locations
+work_mode
+department
+employment_type
+description
+```
+
+Do not include volatile operational metadata such as:
+
+```text
+retrieved_at
+tracking query parameters
+formatting-only HTML differences
+```
+
+Suggested process:
+
+```text
+NormalizedJob
+    ↓
+Canonical material representation
+    ↓
+Normalize harmless formatting
+    ↓
+Deterministic serialization
+    ↓
+SHA-256
+```
+
+Equal fingerprints imply no material content change.
+
+Different fingerprints trigger field-level comparison.
+
+---
+
+## 10. Field-Level Change Detection
+
+When fingerprints differ, compare material fields individually.
+
+Example output:
+
+```text
+TITLE_CHANGED
+old: Senior Pricing Analyst
+new: Senior Pricing Analytics Specialist
+```
+
+```text
+LOCATION_CHANGED
+added:
+  Prague, Czechia
+removed:
+  Zagreb, Croatia
+```
+
+For descriptions:
+
+- normalize HTML and insignificant whitespace;
+- preserve source snapshots;
+- do not emit changes caused solely by formatting noise.
+
+Description materiality thresholds should be configurable.
+
+Do not use an LLM for comparison.
+
+---
+
+## 11. Lifecycle Inference
+
+### New
+
+A vacancy is `NEW` when its identity is observed successfully for the first time.
+
+```text
+unknown job
++
+successful source observation
++
+job present
+→ NEW + ACTIVE
+```
+
+---
+
+### Unchanged
+
+Previously active vacancy is observed again with the same material fingerprint.
+
+```text
+ACTIVE
++
+present
++
+same fingerprint
+→ remains ACTIVE
+```
+
+No event is required unless useful for debugging.
+
+---
+
+### Changed
+
+Previously active vacancy is observed again with a different material fingerprint.
+
+```text
+ACTIVE
++
+present
++
+different fingerprint
+→ remains ACTIVE
++ content event(s)
+```
+
+---
+
+### Closed
+
+A vacancy may transition to `CLOSED` only when:
+
+1. it was previously ACTIVE;
+2. the employer/source inventory was successfully and completely observed;
+3. the vacancy identity is absent from that complete inventory.
+
+```text
+ACTIVE
++
+source SUCCESS + COMPLETE
++
+job absent
+→ CLOSED
+```
+
+Critical rule:
+
+> A source timeout, schema error, incomplete pagination, count mismatch, or other unsuccessful source observation must never close jobs.
+
+---
+
+### Reopened
+
+If the same exact vacancy identity is observed after being CLOSED:
+
+```text
+CLOSED
++
+same exact identity observed
+→ ACTIVE + REOPENED
+```
+
+Do not attempt to decide whether a different requisition ID represents a repost during this phase.
+
+---
+
+## 12. Observation Retention
+
+Preserve enough evidence to explain every state transition.
+
+For Phase 2:
+
+- retain every `SourceObservation`;
+- retain every material `JobObservation`;
+- retain every generated `Event`.
+
+Optimization or historical compaction is out of scope.
+
+---
+
+## 13. SQLite Schema
+
+Initial logical schema:
+
+```text
+ingestion_runs
+source_observations
+jobs
+job_observations
+events
+```
+
+Use relational constraints where helpful.
+
+Examples:
+
+- unique identity where safely enforceable;
+- foreign keys between observations/events and runs/jobs;
+- transactional writes for one source/run where appropriate.
+
+Avoid over-normalizing `NormalizedJob`.
+
+The full normalized snapshot may be stored as JSON text in `job_observations`.
+
+---
+
+## 14. Transaction Semantics
+
+A partial write must not create false lifecycle state.
+
+Suggested rule:
+
+1. persist the run;
+2. ingest one employer;
+3. validate source completeness;
+4. persist observations;
+5. infer transitions;
+6. commit employer-level state atomically.
+
+If processing an employer fails before completeness is established:
+
+- record the source failure;
+- do not alter lifecycle state for that employer's existing jobs.
+
+---
+
+## 15. Change Detection Service
+
+Persistence and change inference should remain separate concerns.
+
+Conceptual boundary:
+
+```python
+previous_state = repository.get_job_state(...)
+
+changes = change_detector.compare(
+    previous_state,
+    current_observation,
+)
+
+repository.persist(...)
+```
+
+Do not bury change rules inside SQL statements or source adapters.
+
+---
+
+## 16. Offline Test Scenarios
+
+Phase 2 must be testable without live career sites.
+
+Create deterministic synthetic runs covering at least:
+
+### Scenario A — New job
+
+Run 1:
+```text
+A
+B
+```
+
+Expected:
+```text
+A NEW
+B NEW
+```
+
+### Scenario B — Unchanged
+
+Run 2:
+```text
+A
+B
+```
+
+Expected:
+```text
+A unchanged
+B unchanged
+```
+
+### Scenario C — New + closed
+
+Run 3:
+```text
+A
+C
+```
+
+with complete source observation.
+
+Expected:
+```text
+A active
+B CLOSED
+C NEW
+```
+
+### Scenario D — Source failure
+
+Run 4:
+```text
+source REQUEST_ERROR
+```
+
+Expected:
+
+```text
+A remains active
+C remains active
+no closures
+```
+
+### Scenario E — Material change
+
+Run 5:
+
+```text
+A work_mode HYBRID → REMOTE
+```
+
+Expected:
+
+```text
+A remains ACTIVE
+WORK_MODE_CHANGED event
+```
+
+### Scenario F — Formatting-only description change
+
+Expected:
+
+```text
+no material DESCRIPTION_CHANGED event
+```
+
+### Scenario G — Reopen
+
+Previously closed B reappears with the same exact identity.
+
+Expected:
+
+```text
+B ACTIVE
+REOPENED event
+```
+
+### Scenario H — Multi-location ordering
+
+Same locations returned in different order.
+
+Expected:
+
+```text
+no LOCATION_CHANGED event
+```
+
+---
+
+## 17. Live Stability Test
+
+After offline behavior is proven, perform repeated live ingestion against a small representative employer set.
+
+Suggested:
+
+- Johnson & Johnson / Workday
+- Pure Storage / Greenhouse
+- Siemens / Alma
+- SAP / SuccessFactors
+- Roche / Phenom
+
+Execute at least two live observations.
+
+The objective is not necessarily to wait for a real vacancy change.
+
+Validate:
+
+- repeated inventories remain stable;
+- unchanged jobs are not falsely marked changed;
+- source failures do not alter lifecycle state;
+- snapshots and run metadata persist correctly.
+
+Synthetic fixtures remain authoritative for lifecycle edge cases.
+
+---
+
+## 18. Success Criteria
+
+Phase 2 passes if:
+
+1. all defined offline lifecycle scenarios pass;
+2. failed/incomplete source observations create zero false closures;
+3. repeated identical observations create zero false content changes;
+4. multi-location ordering does not create false changes;
+5. material field changes produce correct field-level events;
+6. reopening the same exact identity produces `REOPENED`;
+7. SQLite retains enough evidence to reconstruct why each event occurred;
+8. repeated live runs do not corrupt or duplicate state;
+9. adapters remain completely independent from persistence;
+10. no product features enter scope.
+
+---
+
+## 19. Non-Goals
+
+Do not implement:
+
+- relevance scoring;
+- LLM classification;
+- personalized ranking;
+- alerts;
+- email;
+- UI;
+- Streamlit;
+- scheduled execution;
+- cloud deployment;
+- LinkedIn ingestion;
+- probabilistic deduplication;
+- repost-family detection;
+- automatic applications;
+- CV tailoring.
+
+---
+
+## 20. Deliverables
+
+At completion provide:
+
+1. SQLite persistence implementation;
+2. schema/migrations or initialization mechanism;
+3. state repository layer;
+4. change detection service;
+5. deterministic fingerprints;
+6. lifecycle/content events;
+7. offline tests;
+8. limited repeated live tests;
+9. sample database;
+10. human-readable state/change report;
+11. documented architecture corrections;
+12. recommendation:
+
+```text
+GO
+CONDITIONAL GO
+NO-GO
+```
+
+for operational state/change architecture.
+
+---
+
+## 21. Guiding Principle
+
+> Never infer more certainty than the observations support.
+
+Source reliability and completeness always take precedence over lifecycle inference.
