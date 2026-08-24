@@ -31,6 +31,14 @@ class EmptyInventoryError(ExtractionError):
     pass
 
 
+class ConfirmedEmptyInventoryError(EmptyInventoryError):
+    """The source explicitly and successfully reported an empty inventory."""
+
+
+class UnvalidatedEmptyInventoryError(EmptyInventoryError):
+    """Extraction found nothing without evidence that the inventory is empty."""
+
+
 class SchemaMismatchError(ExtractionError):
     pass
 

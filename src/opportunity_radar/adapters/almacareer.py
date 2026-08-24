@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 from opportunity_radar.adapters.base import (
-    CountMismatchError, EmptyInventoryError, JobSourceAdapter, SchemaMismatchError,
+    ConfirmedEmptyInventoryError, CountMismatchError, JobSourceAdapter, SchemaMismatchError,
     clean_text, parse_date, work_mode_from_explicit,
 )
 from opportunity_radar.models import JobLocation, JobReference, NormalizedJob, utc_now
@@ -73,7 +73,7 @@ class AlmaCareerAdapter(JobSourceAdapter):
             if page >= last_page:
                 break
         if expected == 0:
-            raise EmptyInventoryError(f"{self.config.company_id}: source explicitly reports zero jobs")
+            raise ConfirmedEmptyInventoryError(f"{self.config.company_id}: source explicitly reports zero jobs")
         if len({r.external_job_id for r in refs}) != expected:
             raise CountMismatchError(f"{self.config.company_id}: expected {expected} Alma jobs, extracted {len(refs)}")
         return refs

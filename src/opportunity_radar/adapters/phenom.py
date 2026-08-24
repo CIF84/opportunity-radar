@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 
-from opportunity_radar.adapters.base import CountMismatchError, EmptyInventoryError, JobSourceAdapter, SchemaMismatchError, clean_text, locations_from_raw, parse_date, work_mode_from_explicit
+from opportunity_radar.adapters.base import ConfirmedEmptyInventoryError, CountMismatchError, JobSourceAdapter, SchemaMismatchError, clean_text, locations_from_raw, parse_date, work_mode_from_explicit
 from opportunity_radar.models import JobReference, NormalizedJob, utc_now
 
 
@@ -36,7 +36,7 @@ class PhenomAdapter(JobSourceAdapter):
             if offset >= total or not jobs:
                 break
         if expected == 0:
-            raise EmptyInventoryError(f"{self.config.company_id}: source explicitly reports zero jobs")
+            raise ConfirmedEmptyInventoryError(f"{self.config.company_id}: source explicitly reports zero jobs")
         if expected is None or len(refs) != expected:
             raise CountMismatchError(f"{self.config.company_id}: expected {expected} Phenom jobs, extracted {len(refs)}")
         return refs

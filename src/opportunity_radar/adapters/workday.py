@@ -6,7 +6,7 @@ from opportunity_radar.config import CompanyConfig
 from opportunity_radar.models import JobReference, NormalizedJob, utc_now
 
 from .base import (
-    EmptyInventoryError,
+    ConfirmedEmptyInventoryError,
     ExtractionError,
     JobSourceAdapter,
     clean_text,
@@ -58,7 +58,11 @@ class WorkdayAdapter(JobSourceAdapter):
             if not postings or offset >= total:
                 break
         if not references:
-            raise EmptyInventoryError("Workday returned a valid but empty inventory")
+            if total == 0:
+                raise ConfirmedEmptyInventoryError("Workday returned a valid but empty inventory")
+            raise ExtractionError(
+                f"Workday reported {total} jobs but no usable identities were extracted"
+            )
         return references
 
     def fetch_job(self, job_reference: JobReference) -> NormalizedJob:
@@ -88,4 +92,3 @@ class WorkdayAdapter(JobSourceAdapter):
             source=self.source,
             retrieved_at=utc_now(),
         )
-

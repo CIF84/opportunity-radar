@@ -4,7 +4,7 @@ from opportunity_radar.config import CompanyConfig
 from opportunity_radar.models import JobReference, NormalizedJob, utc_now
 
 from .base import (
-    EmptyInventoryError,
+    ConfirmedEmptyInventoryError,
     ExtractionError,
     JobSourceAdapter,
     clean_text,
@@ -27,7 +27,7 @@ class GreenhouseAdapter(JobSourceAdapter):
         if not isinstance(jobs, list):
             raise ExtractionError("Greenhouse response has no jobs list")
         if not jobs:
-            raise EmptyInventoryError("Greenhouse returned a valid but empty inventory")
+            raise ConfirmedEmptyInventoryError("Greenhouse returned a valid but empty inventory")
         return [
             JobReference(
                 company_id=company_config.company_id,
@@ -61,4 +61,3 @@ class GreenhouseAdapter(JobSourceAdapter):
             source=self.source,
             retrieved_at=utc_now(),
         )
-

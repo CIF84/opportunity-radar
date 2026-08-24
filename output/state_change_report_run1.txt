@@ -1,0 +1,26 @@
+OPPORTUNITY RADAR — PHASE 2 STATE RUN
+
+Run: f4082c59-0301-4406-bed6-488a398e4a69
+Status: PARTIAL
+Sources: 5
+Active jobs: 10
+Closed jobs: 0
+Events in run: 10
+
+Red Hat: SUCCESS, inventory_complete=True, details_complete=False, observed=40, details=2/40
+Pure Storage: SUCCESS, inventory_complete=True, details_complete=False, observed=302, details=2/302
+Siemens: SUCCESS, inventory_complete=True, details_complete=False, observed=51, details=2/51
+SAP: SUCCESS, inventory_complete=True, details_complete=False, observed=25, details=2/25
+Roche: SUCCESS, inventory_complete=True, details_complete=False, observed=1159, details=2/1159
+
+EVENTS
+NEW job_instance_id=1
+NEW job_instance_id=2
+NEW job_instance_id=3
+NEW job_instance_id=4
+NEW job_instance_id=5
+NEW job_instance_id=6
+NEW job_instance_id=7
+NEW job_instance_id=8
+NEW job_instance_id=9
+NEW job_instance_id=10

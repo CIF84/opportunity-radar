@@ -85,3 +85,15 @@ Live integration tests are intentionally separate:
 
 See `docs/ingestion_feasibility_report.md` for measured coverage, research
 corrections, and the recommendation.
+
+## Phase 2 state spike
+
+The optional stateful runner wraps the validated ingestion boundary with SQLite
+observations, lifecycle state, and deterministic change events:
+
+```bash
+.venv/bin/opportunity-radar-state --company pure_storage --max-jobs 2
+```
+
+This does not change the Phase 1 CLI or adapter contracts. See
+`docs/state_change_architecture_report.md` for the Phase 2 evidence and limits.

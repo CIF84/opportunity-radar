@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from opportunity_radar.config import CompanyConfig
 from opportunity_radar.models import JobReference, NormalizedJob, utc_now
 
-from .base import EmptyInventoryError, ExtractionError, JobSourceAdapter, clean_text, locations_from_raw, parse_date, work_mode_from_explicit
+from .base import UnvalidatedEmptyInventoryError, ExtractionError, JobSourceAdapter, clean_text, locations_from_raw, parse_date, work_mode_from_explicit
 from .html import id_from_url, jobposting_json_ld, selector_refs
 
 
@@ -78,7 +78,7 @@ class GenericHtmlAdapter(JobSourceAdapter):
                 break
         unique = {ref.canonical_url: ref for ref in references}
         if not unique:
-            raise EmptyInventoryError("generic HTML extraction found no job references")
+            raise UnvalidatedEmptyInventoryError("generic HTML extraction found no job references")
         return list(unique.values())
 
     def fetch_job(self, job_reference: JobReference) -> NormalizedJob:

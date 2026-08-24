@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 
-from opportunity_radar.adapters.base import CountMismatchError, EmptyInventoryError, JobSourceAdapter, SchemaMismatchError, clean_text, locations_from_raw, parse_date, value_at_path, work_mode_from_explicit
+from opportunity_radar.adapters.base import ConfirmedEmptyInventoryError, CountMismatchError, JobSourceAdapter, SchemaMismatchError, UnvalidatedEmptyInventoryError, clean_text, locations_from_raw, parse_date, value_at_path, work_mode_from_explicit
 from opportunity_radar.models import JobReference, NormalizedJob, utc_now
 
 
@@ -45,11 +45,11 @@ class JsonFeedAdapter(JobSourceAdapter):
                 break
             page += pagination.get("step", 1)
         if expected == 0:
-            raise EmptyInventoryError(f"{self.config.company_id}: source explicitly reports zero jobs")
+            raise ConfirmedEmptyInventoryError(f"{self.config.company_id}: source explicitly reports zero jobs")
         if expected is not None and len(refs) != expected:
             raise CountMismatchError(f"{self.config.company_id}: expected {expected} JSON jobs, extracted {len(refs)}")
         if not refs:
-            raise EmptyInventoryError(f"{self.config.company_id}: no jobs and no validated zero count")
+            raise UnvalidatedEmptyInventoryError(f"{self.config.company_id}: no jobs and no validated zero count")
         return refs
 
     def fetch_job(self, ref):
