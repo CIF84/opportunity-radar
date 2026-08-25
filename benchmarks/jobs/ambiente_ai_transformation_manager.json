@@ -1,0 +1,30 @@
+{
+  "fixture_metadata": {
+    "benchmark_id": "ambiente_ai_transformation_manager",
+    "captured_from": "historical_posting_and_verified_public_repost",
+    "capture_date": "2026-08-25",
+    "source_completeness": "FULL",
+    "strict_benchmark_eligible": true,
+    "notes": "Vacancy content matches the AI & Transformation Manager role reviewed during the candidate's application and interview process."
+  },
+  "job": {
+    "company_name": "Ambiente",
+    "title": "AI & Transformation Manager pro Ambiente",
+    "external_job_id": null,
+    "canonical_url": null,
+    "date_posted": null,
+    "valid_through": null,
+    "employment_type": "FULL_TIME",
+    "department": null,
+    "work_mode": "hybrid",
+    "locations": [
+      {
+        "raw": "Praha",
+        "city": "Prague",
+        "region": null,
+        "country": "Czechia"
+      }
+    ],
+    "description": "Jsme skupina různorodých restaurací, kde každý GM rozhoduje sám. Máme čerstvě dokončený datový sklad – a interně nikoho, kdo by z toho vytěžil maximum. To bude Vaše výchozí pozice.\n\nHledáme ale někoho, kdo se nezastaví u dat. Půjdete do restaurací, poznáte lidi v provozu, získáte jejich důvěru – a teprve pak budete navrhovat, kde technologie skutečně pomůže.\n\nCo u nás budete dělat?\n\nMapovat procesy a hledat příležitosti pro využití AI, automatizace a digitalizace.\nNavrhovat konkrétní řešení a řídit jejich zavádění do praxe.\nKoordinovat dodavatele a technologická řešení.\nTestovat nové nástroje formou pilotů a experimentů.\nSpolupracovat s týmy napříč firmou – od kancelářských týmů až po restaurace.\nSledovat trendy v oblasti AI a přinášet inspiraci z trhu.\n\nCo od Vás očekáváme?\n\nZkušenost s digitalizací, inovacemi a řízením změnových projektů.\nSchopnost propojovat byznys, lidi a technologie.\nPřehled o aktuálním dění v oblasti AI a schopnost novinky převádět do praxe.\nSamostatnost, proaktivitu a schopnost dotahovat věci do konce.\nVýborné komunikační a prezentační dovednosti.\n\nCo nabízíme?\n\nSlevu do restaurací Ambiente.\nRoční bonus.\nAmbi Tour – úvodní představení naší skupiny spojené s návštěvou restaurací napříč řemesly.\nTestování nově otevřených restaurací.\nPříspěvek na stravování a Multisport kartu.\nPříspěvek na mobilní tarif.\nPříjemnou kancelář v centru Prahy.\nMožnost práce z domova.\nPravidelné úterní snídaně a další společné akce.\n\nDatum nástupu: Ihned.\nMzda: Dle domluvy.\nÚvazek: Plný.\nMinimální vzdělání: Středoškolské."
+  }
+}

@@ -1,0 +1,301 @@
+profile:
+  profile_id: roman_christov
+  version: 1
+  created_at: "2026-08-25"
+
+facts:
+  residence:
+    country: Czechia
+    city: Prague
+
+  career:
+    total_years: 20
+    technology_years: 20
+    cybersecurity_years: 6
+
+  leadership:
+    people_management: true
+    max_direct_team_size: 3
+    senior_stakeholder_exposure: true
+
+  languages:
+    - language: Czech
+      proficiency: NATIVE
+
+    - language: English
+      proficiency: FLUENT
+
+    - language: Slovak
+      proficiency: PROFESSIONAL
+
+    - language: French
+      proficiency: BASIC
+
+  education:
+    completed_bachelors_degree: false
+
+  work_authorization:
+    czechia: UNKNOWN
+    european_union: UNKNOWN
+
+capabilities:
+  - capability_id: business_operations
+    level: EXPERT
+    confidence: HIGH
+    evidence:
+      - source: career_history
+        summary: "Led Business Operations and executive decision support in a global subscription business."
+
+  - capability_id: business_analytics
+    level: EXPERT
+    confidence: HIGH
+    evidence:
+      - source: career_history
+        summary: "Extensive analytical decision support, KPI decomposition, forecasting and performance analysis."
+
+  - capability_id: decision_support
+    level: EXPERT
+    confidence: HIGH
+    evidence:
+      - source: career_history
+        summary: "Built executive decision frameworks supporting strategic prioritization and investment decisions."
+
+  - capability_id: pricing_strategy
+    level: EXPERT
+    confidence: HIGH
+    evidence:
+      - source: career_history
+        summary: "Led global pricing transformation and experimentation programs with material commercial impact."
+
+  - capability_id: forecasting
+    level: EXPERT
+    confidence: HIGH
+    evidence:
+      - source: career_history
+        summary: "Built forecasting and lead-indicator frameworks linking operational performance to future outcomes."
+
+  - capability_id: experimentation
+    level: ADVANCED
+    confidence: HIGH
+    evidence:
+      - source: career_history
+        summary: "Designed and governed hypothesis-to-experiment-to-scale operating models."
+
+  - capability_id: business_case_development
+    level: EXPERT
+    confidence: HIGH
+
+  - capability_id: scenario_modeling
+    level: ADVANCED
+    confidence: HIGH
+
+  - capability_id: stakeholder_management
+    level: EXPERT
+    confidence: HIGH
+
+  - capability_id: executive_communication
+    level: ADVANCED
+    confidence: HIGH
+
+  - capability_id: cross_functional_leadership
+    level: ADVANCED
+    confidence: HIGH
+
+  - capability_id: transformation
+    level: ADVANCED
+    confidence: HIGH
+
+  - capability_id: change_management
+    level: ADVANCED
+    confidence: MEDIUM
+
+  - capability_id: customer_retention
+    level: EXPERT
+    confidence: HIGH
+
+  - capability_id: commercial_strategy
+    level: EXPERT
+    confidence: HIGH
+
+  - capability_id: machine_learning_business_application
+    level: INTERMEDIATE
+    confidence: HIGH
+    evidence:
+      - source: career_history
+        summary: "Worked with Data Science on segmentation and machine-learning-enabled customer lifecycle initiatives."
+
+  - capability_id: ai_strategy
+    level: INTERMEDIATE
+    confidence: MEDIUM
+
+  - capability_id: ai_adoption
+    level: INTERMEDIATE
+    confidence: MEDIUM
+
+  - capability_id: ai_assisted_development
+    level: INTERMEDIATE
+    confidence: HIGH
+    evidence:
+      - source: project
+        summary: "Uses AI-assisted specification, implementation, testing and architecture workflows in software projects."
+
+  - capability_id: excel
+    level: EXPERT
+    confidence: HIGH
+
+  - capability_id: sql
+    level: DEVELOPING
+    confidence: HIGH
+    evidence:
+      - source: learning
+        summary: "Active structured SQL learning and practical query work."
+
+  - capability_id: python
+    level: DEVELOPING
+    confidence: HIGH
+    evidence:
+      - source: project
+        summary: "Built Python-based analytical applications using AI-assisted development."
+
+  - capability_id: power_bi
+    level: INTERMEDIATE
+    confidence: MEDIUM
+    evidence:
+      - source: career_history
+        summary: "Previous practical use with limited recent hands-on exposure."
+
+  - capability_id: software_architecture
+    level: DEVELOPING
+    confidence: HIGH
+
+  - capability_id: product_development
+    level: DEVELOPING
+    confidence: HIGH
+    evidence:
+      - source: project
+        summary: "Designed and iteratively developed decision-support software products."
+
+experience:
+  organizational_contexts:
+    - GLOBAL_ENTERPRISE
+    - MATRIX_ORGANIZATION
+    - TECHNOLOGY
+    - CYBERSECURITY
+    - B2C
+    - SUBSCRIPTION_BUSINESS
+
+  domains:
+    - domain_id: business_operations
+      depth: DEEP
+
+    - domain_id: customer_retention
+      depth: DEEP
+
+    - domain_id: pricing
+      depth: DEEP
+
+    - domain_id: commercial_analytics
+      depth: DEEP
+
+    - domain_id: consumer_technology
+      depth: DEEP
+
+    - domain_id: artificial_intelligence
+      depth: MODERATE
+
+  role_history_summary:
+    - "Senior leadership in commercial retention, business operations and decision support."
+    - "Managed analytical teams and cross-functional strategic initiative portfolios."
+    - "Worked across Product, Marketing, Finance, Data Science and Engineering."
+    - "Supported executive decision-making in a $3B+ global subscription business."
+
+preferences:
+  sectors:
+    - sector_id: technology
+      importance: HIGH
+
+    - sector_id: artificial_intelligence
+      importance: VERY_HIGH
+
+    - sector_id: cybersecurity
+      importance: MEDIUM
+
+    - sector_id: healthcare
+      importance: MEDIUM
+
+    - sector_id: fintech
+      importance: MEDIUM
+
+  role_characteristics:
+    - characteristic_id: analytical_problem_solving
+      importance: VERY_HIGH
+
+    - characteristic_id: decision_intelligence
+      importance: VERY_HIGH
+
+    - characteristic_id: ai_enabled_work
+      importance: VERY_HIGH
+
+    - characteristic_id: strategy
+      importance: HIGH
+
+    - characteristic_id: business_operations
+      importance: HIGH
+
+    - characteristic_id: transformation
+      importance: HIGH
+
+    - characteristic_id: autonomy
+      importance: HIGH
+
+    - characteristic_id: cross_functional_work
+      importance: HIGH
+
+    - characteristic_id: continuous_learning
+      importance: VERY_HIGH
+
+  sector_bias:
+    b2c_over_b2b:
+      importance: MEDIUM
+
+hard_constraints:
+  mandatory_location_exclusions: []
+
+  prohibited_role_families: []
+
+  relocation:
+    prohibited: false
+
+strategic_goals:
+  - goal_id: ai_enabled_career
+    importance: VERY_HIGH
+    description: "Build durable professional value at the intersection of business, analytics and AI."
+
+  - goal_id: decision_intelligence
+    importance: VERY_HIGH
+    description: "Deepen ability to build systems that improve business decision quality."
+
+  - goal_id: technical_depth
+    importance: HIGH
+    description: "Increase practical capability in SQL, Python, software architecture and modern data/AI systems."
+
+  - goal_id: career_optionality
+    importance: VERY_HIGH
+    description: "Build capabilities that increase access to multiple attractive future career paths."
+
+  - goal_id: autonomy
+    importance: HIGH
+    description: "Move toward work with substantial ownership, judgment and control over execution."
+
+  - goal_id: leadership_leverage
+    importance: MEDIUM
+    description: "Continue leveraging leadership experience without requiring every future role to be a large people-management role."
+
+scoring_preferences:
+  dimensions:
+    functional_alignment: 0.25
+    experience_leverage: 0.15
+    learning_growth_value: 0.15
+    strategic_alignment: 0.20
+    seniority_alignment: 0.10
+    application_competitiveness: 0.15

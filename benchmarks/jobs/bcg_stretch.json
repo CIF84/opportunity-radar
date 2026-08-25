@@ -1,0 +1,30 @@
+{
+  "fixture_metadata": {
+    "benchmark_id": "bcg_stretch",
+    "captured_from": "historical_role_and_verified_public_posting",
+    "capture_date": "2026-08-25",
+    "source_completeness": "FULL",
+    "strict_benchmark_eligible": true,
+    "notes": "BCG Associate, Prague role evaluated during the candidate's job search. Current BCG Prague materials independently confirm the substantive role and requirements."
+  },
+  "job": {
+    "company_name": "Boston Consulting Group",
+    "title": "Associate, Prague",
+    "external_job_id": null,
+    "canonical_url": null,
+    "date_posted": null,
+    "valid_through": null,
+    "employment_type": "FULL_TIME",
+    "department": "Consulting",
+    "work_mode": "unspecified",
+    "locations": [
+      {
+        "raw": "Prague, Czech Republic",
+        "city": "Prague",
+        "region": null,
+        "country": "Czechia"
+      }
+    ],
+    "description": "Boston Consulting Group partners with leaders in business and society to address major challenges, enable transformation, create competitive advantage, and deliver business impact. The firm combines management consulting with technology, design, corporate and digital ventures, and works collaboratively across client organizations.\n\nAs an Associate in Prague, the role works in collaborative and cross-functional teams to identify, develop, and implement solutions to client challenges.\n\nCore responsibilities include analyzing data, formulating hypotheses, developing actionable recommendations, communicating results to stakeholders, supporting implementation, and driving independent workstreams as part of broader project teams.\n\nCandidates are expected to demonstrate strong quantitative analytical and problem-solving skills, attention to detail, critical thinking, the ability to evaluate information and develop innovative solutions, comfort working across changing projects and dynamic environments, strong written and verbal communication, teamwork, and adaptability.\n\nCompletion or near completion of a Bachelor's degree is required. An advanced graduate degree or equivalent work experience is preferred. English is required, while proficiency in Czech or Slovak is a strong additional benefit for the Prague office.\n\nBCG Prague seeks candidates with strong career trajectories and evidence of significant impact in previous work. The consulting environment exposes employees to different industries, business problems, clients, functional areas, and geographies, creating a substantial continuous-learning component."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "fixture_metadata": {
+    "benchmark_id": "control_software_engineering",
+    "captured_from": "verified_public_posting",
+    "capture_date": "2026-08-25",
+    "source_completeness": "FULL",
+    "strict_benchmark_eligible": true,
+    "notes": "Negative-control benchmark selected deliberately as a real Prague technology role with attractive employer context but fundamental candidate-role mismatch."
+  },
+  "job": {
+    "company_name": "Microsoft",
+    "title": "Senior Software Engineer",
+    "external_job_id": null,
+    "canonical_url": null,
+    "date_posted": "2026-08-17",
+    "valid_through": null,
+    "employment_type": "FULL_TIME",
+    "department": "Software Engineering",
+    "work_mode": "hybrid",
+    "locations": [
+      {
+        "raw": "Czech Republic, Prague, Prague",
+        "city": "Prague",
+        "region": "Prague",
+        "country": "Czechia"
+      }
+    ],
+    "description": "Microsoft is seeking a Senior Software Engineer in Prague to work on SDKs used by developers to build and observe services. The role focuses on creating software solutions with broad technical impact, solving engineering problems, improving performance and efficiency, and contributing directly to production software. The position is part of Microsoft's engineering organization and requires substantial hands-on software engineering capability. The role is based in Prague with a hybrid work arrangement."
+  }
+}

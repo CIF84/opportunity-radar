@@ -1,0 +1,30 @@
+{
+  "fixture_metadata": {
+    "benchmark_id": "control_ml_research",
+    "captured_from": "verified_public_posting",
+    "capture_date": "2026-08-25",
+    "source_completeness": "FULL",
+    "strict_benchmark_eligible": true,
+    "notes": "Negative-control benchmark selected deliberately as a strategically attractive AI role with fundamental specialist capability mismatch."
+  },
+  "job": {
+    "company_name": "REVEL",
+    "title": "RAI Research Scientist, Embodied AI",
+    "external_job_id": "a27f96d5-c5c2-4f6c-bed8-64c9e9183a71",
+    "canonical_url": null,
+    "date_posted": null,
+    "valid_through": null,
+    "employment_type": "FULL_TIME",
+    "department": "Engineering",
+    "work_mode": "onsite",
+    "locations": [
+      {
+        "raw": "Prague",
+        "city": "Prague",
+        "region": null,
+        "country": "Czechia"
+      }
+    ],
+    "description": "REVEL is an AI robotics company developing physical intelligence for general-purpose humanoid robots. The RAI Research Scientist drives research on intent, force and generalisation for physical AI. Responsibilities include training and evaluating models on human-demonstration data, building scalable and reproducible training and evaluation pipelines, collaborating with AI, hardware and data teams, and moving research into production on robotic systems. Requirements include strong Python and PyTorch or JAX, solid deep-learning fundamentals, experimental rigour, and good software engineering practices. Experience with vision-language-action or foundation models, ML or robotics publications, and deployment to physical hardware are beneficial."
+  }
+}

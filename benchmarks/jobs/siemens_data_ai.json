@@ -1,0 +1,30 @@
+{
+  "fixture_metadata": {
+    "benchmark_id": "siemens_data_ai",
+    "captured_from": "conversation",
+    "capture_date": "2026-08-25",
+    "source_completeness": "DESCRIPTION_COMPLETE_TITLE_UNKNOWN",
+    "strict_benchmark_eligible": true,
+    "notes": "Original vacancy text supplied by the candidate during application review."
+  },
+  "job": {
+    "company_name": "Siemens",
+    "title": null,
+    "external_job_id": null,
+    "canonical_url": null,
+    "date_posted": null,
+    "valid_through": null,
+    "employment_type": null,
+    "department": "Global Business Services",
+    "work_mode": "unspecified",
+    "locations": [
+      {
+        "raw": "Prague or Ostrava, Czechia",
+        "city": null,
+        "region": null,
+        "country": "Czechia"
+      }
+    ],
+    "description": "At Siemens Global Business Services (GBS), we believe that data holds the key to unlocking unprecedented potential. We're not just looking for someone to run reports; we're seeking a visionary who can consult with our customers, understand their deepest challenges, and leverage cutting-edge data science and artificial intelligence to deliver insights that truly create an impact.\n\nOur international team tackles the most exciting challenges of our customers. We have everything in our hands, whether it's cloud architecture, data engineering, AI & data science, or analytics. With us, you will have the opportunity to apply and implement the latest technical solutions in the cloud environment.\n\nHelp us to bring the Siemens OneTech Company to live and be part of our transformation to a data centric company.\n\nChange the world of tomorrow together with us.\n\nConsult and Discover: Engage directly with our international clients and internal stakeholders to uncover their true business needs, pain points, and strategic goals. We're talking about understanding the \"why,\" not just the \"what.\"\n\nGenerate Deep Insights: Move beyond basic data requests. You'll design and execute sophisticated analyses, applying advanced analytical techniques to extract meaningful, often hidden, insights from complex datasets. You'll also continuously explore and introduce emerging technologies and methodologies to keep us at the cutting edge.\n\nChampion AI Innovation: Help us to bring our portfolio the next level by exploring, experimenting and implementing AI methodologies to solve real-world problems and create predictive, prescriptive, and cognitive capabilities.\n\nBuild Robust Data Foundations: Work hands-on with large volumes of data in relational databases, creating custom analyses, optimizing SQL queries, and designing/implementing automated data flows (ETL/ELT) and extensive data migrations to ensure data integrity and accessibility.\n\nYour profile - solid and ready for the future\n\nA strong foundation in Business Informatics, Data Science, Statistics, Mathematics, Computer Science, or a related field is essential.\nA minimum of 2 years of demonstrated experience as a Data Analyst or in a similar role is required.\nProficiency in working with data visualization tools preferably Power BI.\nProficiency in working with relational databases, including MySQL, is a mandatory requirement. Familiarity with Snowflake is an asset.\nKnowledge of machine learning techniques and predictive modeling is highly desirable.\nFamiliarity with data processing tools like Airflow, dbt and SSIS is considered an asset.\nKnowledge of Python programming is a definite advantage.\nGreat communication and consulting skills are required.\nFluent proficiency in the English language is a necessary skill to complete your profile.\n\nWhat is Siemens offering beyond great career opportunities?\n\nMore time to rest\n\nUp to 33 days of vacation (5 weeks of holiday + up to 8 extra days from the benefits budget).\nThe option to take unpaid leave for rest or travel.\n\nFlexibility and home office\n\nFlexible working hours and the ability to work from home, with a contribution towards home office expenses.\n\nIndividual Benefits Budget\n\nPersonal budget of at least CZK 34,000 to buy selected benefits from categories finance, wellbeing and health.\n\nMy finance\n\nContributions towards pension and/or life insurance and/or DIP (a long-term investment product) from your benefits budget.\nEmployee stock ownership plan – share in the company's success.\n\nMy wellbeing\n\nCafeteria system from the benefits budget.\nMeal e-vouchers paid by Siemens\nCompany nursery in Prague and Ostrava to support working parents.\nExclusive employee offers and discounts.\n\nMy health\n\nDiscounted MultiSport card.\nThe option of access to premium healthcare and crisis support (e.g., psychological counseling).\n\nSiemens is committed to creating a workplace where diverse perspectives are valued and every employee has the opportunity to succeed and belong. We actively encourage applications from people of all backgrounds, experiences, and identities.\n\nWe believe that diverse teams drive innovation and better solutions for our customers and society. We're committed to building an inclusive culture where you can bring your whole self to work."
+  }
+}

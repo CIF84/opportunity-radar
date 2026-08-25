@@ -1,0 +1,566 @@
+# Opportunity Radar — Phase 3 Human Judgment Benchmark
+#
+# PURPOSE
+# -------
+# This benchmark records human judgments established before Phase 3
+# scoring implementation.
+#
+# It is NOT:
+# - a training dataset;
+# - an exact scoring target;
+# - a complete annotation of every vacancy;
+# - evidence that unlisted strengths/gaps/risks are incorrect.
+#
+# It IS intended to test:
+# - eligibility safety;
+# - deterministic triage recall;
+# - broad opportunity ranking;
+# - separation of opportunity attractiveness from candidate competitiveness;
+# - recognition of important strengths, gaps, and risks;
+# - misleading or strategically attractive role handling;
+# - portability of Phase 3 architecture.
+#
+# INTERPRETATION OF EXPECTED CONCEPTS
+# -----------------------------------
+# required_concepts / expected_concepts represent MINIMUM important concepts
+# that a competent assessment should normally recognize.
+#
+# Additional reasonable concepts discovered by the assessment are allowed.
+#
+# A benchmark failure should therefore not be triggered merely because the
+# semantic assessor identifies additional defensible strengths, gaps, or risks.
+#
+# BENCHMARK DISCIPLINE
+# --------------------
+# These judgments must not be casually changed to make Phase 3 output appear
+# more accurate.
+#
+# Genuine annotation errors discovered later should be documented and should
+# result in a benchmark-version change.
+
+benchmark_version: 1
+
+benchmark_status: FROZEN
+
+qualitative_scale:
+  VERY_WEAK: 1
+  WEAK: 2
+  MIXED: 3
+  STRONG: 4
+  VERY_STRONG: 5
+  UNKNOWN: null
+
+rank_tiers:
+  - TOP
+  - HIGH
+  - REVIEW
+  - LOW
+
+human_decisions:
+  - APPLY
+  - REVIEW
+  - DONT_APPLY
+
+
+cases:
+
+  # ============================================================
+  # SIEMENS
+  #
+  # Benchmark purpose:
+  # Strong strategic and functional opportunity despite meaningful
+  # technical capability gaps.
+  #
+  # Important expected behavior:
+  # Capability gaps should reduce application competitiveness without
+  # causing the system to conclude that this is a poor opportunity.
+  # ============================================================
+
+  - benchmark_id: siemens_data_ai
+    company: Siemens
+    role_label: data_ai_consulting_analytics
+    job_fixture: jobs/siemens_data_ai.json
+
+    expected:
+
+      eligibility:
+        allowed:
+          - ELIGIBLE
+
+      rank_tier: TOP
+      human_decision: APPLY
+
+      strengths:
+        required_concepts:
+          - business_analytics
+          - stakeholder_management
+          - analytical_problem_solving
+          - transformation
+
+        allowed_additional: true
+
+      gaps:
+        expected_concepts:
+          - sql
+          - data_engineering
+
+        allowed_additional:
+          - python
+          - mysql
+          - etl_elt
+          - dbt
+          - airflow
+
+      risks:
+        expected_categories:
+          - technical_intensity
+
+        allowed_additional: true
+
+      qualitative_dimensions:
+        functional_alignment: STRONG
+        experience_leverage: STRONG
+        learning_growth_value: VERY_STRONG
+        strategic_alignment: VERY_STRONG
+        seniority_alignment: MIXED
+        application_competitiveness: MIXED
+
+      notes:
+        - "Role combines stakeholder consulting, sophisticated analysis, transformation and AI innovation."
+        - "Business analytics and decision-support experience transfer strongly."
+        - "Relational database and data-engineering requirements create genuine technical gaps."
+        - "MySQL proficiency is explicitly mandatory while Python and several data-processing technologies are secondary requirements or advantages."
+        - "Technical gaps should reduce application competitiveness without making the opportunity unattractive."
+        - "This is an important test that gap severity and opportunity value remain separate concepts."
+
+
+  # ============================================================
+  # RESISTANT AI
+  #
+  # Benchmark purpose:
+  # High experience-leverage opportunity inside a strategically
+  # attractive AI company.
+  #
+  # Important expected behavior:
+  # RADAR should recognize substantial transferability while still
+  # being allowed to identify narrower enterprise-CS specificity gaps.
+  # ============================================================
+
+  - benchmark_id: resistant_ai_global_csm_lead
+    company: Resistant AI
+    role_label: global_csm_lead
+    job_fixture: jobs/resistant_ai_global_csm_lead.json
+
+    expected:
+
+      eligibility:
+        allowed:
+          - ELIGIBLE
+          - UNCERTAIN
+
+      rank_tier: TOP
+      human_decision: APPLY
+
+      strengths:
+        required_concepts:
+          - business_operations
+          - stakeholder_management
+          - cross_functional_leadership
+          - transformation
+          - customer_retention
+
+        allowed_additional:
+          - operating_model_design
+          - commercial_strategy
+          - leadership
+
+      gaps:
+        expected_concepts: []
+
+        allowed_additional:
+          - b2b_enterprise_software
+          - direct_customer_success_practice
+          - fintech_domain
+          - financial_services_domain
+
+      risks:
+        expected_categories:
+          - domain_transition
+
+        allowed_additional: true
+
+      qualitative_dimensions:
+        functional_alignment: STRONG
+        experience_leverage: VERY_STRONG
+        learning_growth_value: STRONG
+        strategic_alignment: VERY_STRONG
+        seniority_alignment: STRONG
+        application_competitiveness: STRONG
+
+      notes:
+        - "Strong transfer of leadership, operating-model, retention and transformation experience."
+        - "The mandate to build a repeatable customer-success operating model strongly leverages existing experience."
+        - "AI company context creates substantial strategic value without requiring the role itself to be deeply technical."
+        - "The vacancy contains more specific enterprise-CS practitioner requirements than the initial human annotation captured."
+        - "Those narrower gaps may legitimately be discovered by the assessor and should not constitute benchmark failure."
+
+
+  # ============================================================
+  # DUCKDUCKGO
+  #
+  # Benchmark purpose:
+  # Attractive senior analytical/insights leadership opportunity with
+  # a meaningful specialist-methodology gap.
+  #
+  # Important expected behavior:
+  # Strong leadership and analytical transferability must not obscure
+  # the requirement for deep practitioner-level user-research methods.
+  # ============================================================
+
+  - benchmark_id: duckduckgo_head_user_insights
+    company: DuckDuckGo
+    role_label: head_user_insights
+    job_fixture: jobs/duckduckgo_head_user_insights.json
+
+    expected:
+
+      eligibility:
+        allowed:
+          - ELIGIBLE
+
+      rank_tier: HIGH
+      human_decision: APPLY
+
+      strengths:
+        required_concepts:
+          - business_analytics
+          - stakeholder_management
+          - leadership
+          - decision_support
+
+        allowed_additional:
+          - experimentation
+          - executive_communication
+          - consumer_technology
+
+      gaps:
+        expected_concepts:
+          - user_research_methodology
+
+        allowed_additional:
+          - conjoint_analysis
+          - maxdiff
+          - discrete_choice
+          - diary_studies
+          - moderated_research
+          - unmoderated_research
+
+      risks:
+        expected_categories:
+          - specialist_methodology_depth
+
+        allowed_additional: true
+
+      qualitative_dimensions:
+        functional_alignment: STRONG
+        experience_leverage: STRONG
+        learning_growth_value: STRONG
+        strategic_alignment: STRONG
+        seniority_alignment: STRONG
+        application_competitiveness: MIXED
+
+      notes:
+        - "Role was sufficiently attractive to justify an application."
+        - "Leadership, analytics, experimentation and consumer-technology experience transfer meaningfully."
+        - "The vacancy expects deep practitioner-level command of specialist user-research methods."
+        - "The specialist-methodology gap should reduce application competitiveness without collapsing overall opportunity value."
+        - "This case tests separation between attractive opportunity and imperfect candidacy."
+
+
+  # ============================================================
+  # AMBIENTE
+  #
+  # Benchmark purpose:
+  # Excellent candidate-role and strategic alignment where the quality
+  # of the organizational environment creates material uncertainty.
+  #
+  # Important expected behavior:
+  # Strong fit must not automatically imply TOP ranking when execution
+  # authority and organizational structure may limit impact.
+  # ============================================================
+
+  - benchmark_id: ambiente_ai_transformation_manager
+    company: Ambiente
+    role_label: ai_transformation_manager
+    job_fixture: jobs/ambiente_ai_transformation_manager.json
+
+    expected:
+
+      eligibility:
+        allowed:
+          - ELIGIBLE
+
+      rank_tier: REVIEW
+      human_decision: REVIEW
+
+      job_description_only:
+        strict_rank_assertion: false
+        expected_minimum_tier: HIGH
+
+      supplemental_human_evidence:
+        present: true
+        source: interview
+        summary:
+          - "Decentralized operating model may limit implementation authority."
+          - "Cost sensitivity was raised early in the process."
+
+      strengths:
+        required_concepts:
+          - transformation
+          - stakeholder_management
+          - business_operations
+          - ai_enabled_work
+
+        allowed_additional:
+          - experimentation
+          - change_management
+          - cross_functional_leadership
+
+      gaps:
+        expected_concepts: []
+
+        allowed_additional: true
+
+      risks:
+        expected_categories:
+          - execution_authority
+          - organizational_structure
+
+        allowed_additional:
+          - decentralized_decision_making
+          - adoption_dependency
+
+      qualitative_dimensions:
+        functional_alignment: VERY_STRONG
+        experience_leverage: STRONG
+        learning_growth_value: VERY_STRONG
+        strategic_alignment: VERY_STRONG
+        seniority_alignment: STRONG
+        application_competitiveness: STRONG
+
+      notes:
+        - "The substantive role direction is highly relevant to the candidate."
+        - "The vacancy explicitly describes a decentralized organization where restaurant general managers make independent decisions."
+        - "Successful transformation therefore depends heavily on trust, persuasion and local adoption."
+        - "Interview discussion subsequently increased concern about implementation authority and organizational structure."
+        - "This benchmark deliberately captures a case where candidate-role fit can be excellent while opportunity-level risk prevents TOP ranking."
+        - "The case may expose a future need for opportunity-quality or EmployerProfile evidence, but Phase 3 should not pre-emptively add such a dimension."
+
+
+  # ============================================================
+  # BCG
+  #
+  # Benchmark purpose:
+  # Attractive asymmetric stretch opportunity with meaningful formal
+  # requirement and competitiveness concerns.
+  #
+  # Important expected behavior:
+  # A degree requirement or other competitiveness gap must not become
+  # deterministic eligibility rejection.
+  # ============================================================
+
+  - benchmark_id: bcg_stretch
+    company: Boston Consulting Group
+    role_label: consulting_opportunity
+    job_fixture: jobs/bcg_stretch.json
+
+    expected:
+
+      eligibility:
+        allowed:
+          - ELIGIBLE
+          - UNCERTAIN
+
+      rank_tier: REVIEW
+      human_decision: APPLY
+
+      strengths:
+        required_concepts:
+          - analytical_problem_solving
+          - strategy
+          - stakeholder_management
+
+        allowed_additional:
+          - business_analytics
+          - executive_communication
+          - transformation
+          - cross_functional_work
+
+      gaps:
+        expected_concepts:
+          - bachelors_degree
+
+        allowed_additional:
+          - consulting_experience
+
+      risks:
+        expected_categories:
+          - application_competitiveness
+
+        allowed_additional:
+          - seniority_mismatch
+          - down_leveling
+
+      qualitative_dimensions:
+        functional_alignment: STRONG
+        experience_leverage: MIXED
+        learning_growth_value: VERY_STRONG
+        strategic_alignment: STRONG
+        seniority_alignment: MIXED
+        application_competitiveness: WEAK
+
+      notes:
+        - "Worth applying despite materially lower expected application competitiveness."
+        - "The vacancy explicitly requires completion or near-completion of a Bachelor's degree."
+        - "The candidate does not have a completed Bachelor's degree."
+        - "Degree mismatch must affect competitiveness rather than trigger deterministic rejection."
+        - "The Associate level also creates a possible seniority/down-leveling concern."
+        - "This benchmark tests asymmetric opportunity logic: low application competitiveness does not automatically imply DONT_APPLY."
+
+
+  # ============================================================
+  # NEGATIVE CONTROL — SOFTWARE ENGINEERING
+  #
+  # Benchmark purpose:
+  # Attractive employer, technology environment and location combined
+  # with fundamental functional and capability mismatch.
+  #
+  # Important expected behavior:
+  # Generic technology attractiveness must not overpower poor actual fit.
+  # ============================================================
+
+  - benchmark_id: control_software_engineering
+    company: Microsoft
+    role_label: software_engineering_control
+    job_fixture: jobs/control_software_engineering.json
+
+    expected:
+
+      eligibility:
+        allowed:
+          - ELIGIBLE
+          - UNCERTAIN
+
+      rank_tier: LOW
+      human_decision: DONT_APPLY
+
+      strengths:
+        required_concepts: []
+
+        allowed_additional:
+          - technology_domain
+          - analytical_problem_solving
+
+      gaps:
+        expected_concepts:
+          - software_engineering
+          - programming
+
+        allowed_additional:
+          - production_software_development
+          - sdk_development
+          - systems_engineering
+
+      risks:
+        expected_categories:
+          - technical_intensity
+
+        allowed_additional:
+          - functional_mismatch
+
+      qualitative_dimensions:
+        functional_alignment: VERY_WEAK
+        experience_leverage: WEAK
+        learning_growth_value: MIXED
+        strategic_alignment: MIXED
+        seniority_alignment: UNKNOWN
+        application_competitiveness: VERY_WEAK
+
+      notes:
+        - "Negative control."
+        - "Employer, technology environment and Prague location are individually attractive."
+        - "The substantive work is hands-on software engineering and does not align with the candidate's current professional capability profile."
+        - "The role should remain LOW despite superficial technology and strategic signals."
+
+
+  # ============================================================
+  # NEGATIVE CONTROL — ML / EMBODIED AI RESEARCH
+  #
+  # Benchmark purpose:
+  # Extremely strong superficial AI/strategic signal combined with
+  # fundamental specialist capability mismatch.
+  #
+  # Important expected behavior:
+  # AI strategic alignment must not dominate functional alignment and
+  # application competitiveness.
+  # ============================================================
+
+  - benchmark_id: control_ml_research
+    company: REVEL
+    role_label: ml_research_control
+    job_fixture: jobs/control_ml_research.json
+
+    expected:
+
+      eligibility:
+        allowed:
+          - ELIGIBLE
+          - UNCERTAIN
+
+      rank_tier: LOW
+      human_decision: DONT_APPLY
+
+      strengths:
+        required_concepts: []
+
+        allowed_additional:
+          - ai_interest
+          - analytical_problem_solving
+
+      gaps:
+        expected_concepts:
+          - machine_learning
+          - deep_learning
+          - python
+          - ml_research
+
+        allowed_additional:
+          - pytorch
+          - jax
+          - robotics
+          - model_training
+          - research_publications
+          - physical_ai
+
+      risks:
+        expected_categories:
+          - technical_specialization
+
+        allowed_additional:
+          - functional_mismatch
+          - research_depth
+
+      qualitative_dimensions:
+        functional_alignment: VERY_WEAK
+        experience_leverage: VERY_WEAK
+        learning_growth_value: STRONG
+        strategic_alignment: STRONG
+        seniority_alignment: UNKNOWN
+        application_competitiveness: VERY_WEAK
+
+      notes:
+        - "Negative control."
+        - "The role is highly attractive at the level of AI subject matter and future technology."
+        - "The actual work requires specialist ML research, deep-learning engineering and model-training capabilities that the candidate does not possess."
+        - "High learning value and AI strategic relevance must not compensate for fundamental functional and competitiveness mismatch."
+        - "If this role ranks highly, Strategic Alignment is likely overpowering more important dimensions."

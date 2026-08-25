@@ -1,0 +1,36 @@
+{
+  "fixture_metadata": {
+    "benchmark_id": "duckduckgo_head_user_insights",
+    "captured_from": "conversation_and_verified_public_posting",
+    "capture_date": "2026-08-25",
+    "source_completeness": "FULL",
+    "strict_benchmark_eligible": true,
+    "notes": "Original role reviewed during the candidate's application process. Public Ashby posting independently confirms the vacancy structure and requirements."
+  },
+  "job": {
+    "company_name": "DuckDuckGo",
+    "title": "Director, User Insights",
+    "external_job_id": "4c21670f-9057-42a5-a88e-af42db91dc58",
+    "canonical_url": null,
+    "date_posted": "2026-04-27",
+    "valid_through": null,
+    "employment_type": "FULL_TIME",
+    "department": "Marketing",
+    "work_mode": "remote",
+    "locations": [
+      {
+        "raw": "Czechia (Remote)",
+        "city": null,
+        "region": null,
+        "country": "Czechia"
+      }
+    ],
+    "compensation": {
+      "amount": 243800,
+      "currency": "USD",
+      "period": "YEAR",
+      "equity": true
+    },
+    "description": "DuckDuckGo is a remote-first online protection company. The Director, User Insights leads researchers embedded across product areas, turning user behavior and feedback into decisions that ship. The team works across qualitative and quantitative methods and partners closely with product, data science, and leadership. The Director sets the strategic direction for how research connects to product decisions across the company and ensures the team focuses on work that materially influences outcomes.\n\nRepresentative work includes designing cross-objective research intake systems ahead of roadmap commitments, running longitudinal research on AI feature adoption to inform product-launch strategy, and consolidating research across objectives into decision-ready briefs for product, engineering, and design stakeholders.\n\nRequirements include 15+ years of professional experience and 4+ years in senior leadership roles such as Director, Head, or VP within user insights or research. The candidate is expected to have deep practitioner-level command of quantitative and qualitative research methods including conjoint, MaxDiff, discrete choice, regression, multivariate analysis, moderated and unmoderated testing, diary studies, and metric-framework development.\n\nThe role requires the ability to take ambiguous product questions without established measurement approaches and build approaches from first principles. Relevant experience includes consumer-facing technology with a meaningful US user base, working across multiple product surfaces, environments with frequent sequenced A/B experiments, developing researchers, communicating research strategy to senior leadership in terms of business outcomes, operating in resource-constrained organizations, and using AI and agent-based workflows to accelerate work.\n\nThe role is remote and Czechia is among the explicitly eligible countries. Expected commitment is approximately 40 hours per week with no core hours. Travel is expected approximately twice per year for an all-hands meeting and team retreat. Compensation is $243,800 USD annually plus stock options."
+  }
+}
