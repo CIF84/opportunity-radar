@@ -15,6 +15,7 @@ test = ["pytest>=8.0"]
 [project.scripts]
 opportunity-radar = "opportunity_radar.runner:main"
 opportunity-radar-state = "opportunity_radar.state_runner:main"
+opportunity-radar-phase3 = "opportunity_radar.phase3_runner:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

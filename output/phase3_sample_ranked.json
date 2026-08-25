@@ -1,0 +1,18 @@
+{
+  "candidate_profile_id": "roman_christov",
+  "candidate_profile_version": 1,
+  "assessor": {
+    "id": "deterministic-fake",
+    "version": "1",
+    "purpose": "offline architecture validation"
+  },
+  "ranked_opportunities": [
+    {"rank": 1, "benchmark_id": "ambiente_ai_transformation_manager", "radar_score": 9.38, "tier": "TOP", "recommendation": "APPLY", "note": "Job-description-only; final human REVIEW includes interview evidence."},
+    {"rank": 2, "benchmark_id": "resistant_ai_global_csm_lead", "radar_score": 8.62, "tier": "TOP", "recommendation": "APPLY"},
+    {"rank": 3, "benchmark_id": "duckduckgo_head_user_insights", "radar_score": 8.62, "tier": "TOP", "recommendation": "APPLY"},
+    {"rank": 4, "benchmark_id": "siemens_data_ai", "radar_score": 8.38, "tier": "TOP", "recommendation": "APPLY"},
+    {"rank": 5, "benchmark_id": "bcg_stretch", "radar_score": 7.75, "tier": "HIGH", "recommendation": "APPLY"},
+    {"rank": 6, "benchmark_id": "control_software_engineering", "radar_score": 4.50, "tier": "LOW", "recommendation": "LOW_PRIORITY"},
+    {"rank": 7, "benchmark_id": "control_ml_research", "radar_score": 3.75, "tier": "LOW", "recommendation": "LOW_PRIORITY"}
+  ]
+}

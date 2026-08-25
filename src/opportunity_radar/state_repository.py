@@ -10,7 +10,7 @@ from opportunity_radar.change_detection import compare_material, fingerprint, ma
 from opportunity_radar.state_models import DetailObservation, SourceOutcome
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS ingestion_runs (
   run_id TEXT PRIMARY KEY,
@@ -68,6 +68,52 @@ CREATE TABLE IF NOT EXISTS events (
   occurred_at TEXT NOT NULL,
   change_data TEXT,
   UNIQUE(run_id, job_instance_id, event_type)
+);
+CREATE TABLE IF NOT EXISTS candidate_profiles (
+  candidate_profile_row_id INTEGER PRIMARY KEY,
+  profile_id TEXT NOT NULL,
+  profile_version INTEGER NOT NULL,
+  created_at TEXT NOT NULL,
+  full_profile_fingerprint TEXT NOT NULL,
+  semantic_profile_fingerprint TEXT NOT NULL,
+  scoring_preference_fingerprint TEXT NOT NULL,
+  profile_json TEXT NOT NULL,
+  UNIQUE(profile_id, profile_version)
+);
+CREATE TABLE IF NOT EXISTS semantic_assessments (
+  semantic_assessment_id INTEGER PRIMARY KEY,
+  job_instance_id INTEGER NOT NULL REFERENCES job_instances(job_instance_id),
+  job_observation_id INTEGER REFERENCES job_observations(job_observation_id),
+  content_fingerprint TEXT NOT NULL,
+  candidate_profile_row_id INTEGER NOT NULL REFERENCES candidate_profiles(candidate_profile_row_id),
+  semantic_profile_fingerprint TEXT NOT NULL,
+  semantic_contract_version TEXT NOT NULL,
+  assessor_id TEXT NOT NULL,
+  assessor_version TEXT NOT NULL,
+  assessment_json TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE(job_instance_id, content_fingerprint, semantic_profile_fingerprint,
+         semantic_contract_version, assessor_id, assessor_version)
+);
+CREATE TABLE IF NOT EXISTS opportunity_assessments (
+  opportunity_assessment_id INTEGER PRIMARY KEY,
+  job_instance_id INTEGER NOT NULL REFERENCES job_instances(job_instance_id),
+  job_observation_id INTEGER REFERENCES job_observations(job_observation_id),
+  candidate_profile_row_id INTEGER NOT NULL REFERENCES candidate_profiles(candidate_profile_row_id),
+  semantic_assessment_id INTEGER REFERENCES semantic_assessments(semantic_assessment_id),
+  scoring_preference_fingerprint TEXT NOT NULL,
+  scoring_config_version TEXT NOT NULL,
+  eligibility_json TEXT NOT NULL,
+  features_json TEXT NOT NULL,
+  triage_score INTEGER NOT NULL,
+  composite_score REAL,
+  core_dimension_coverage REAL NOT NULL,
+  assessment_confidence TEXT,
+  recommendation TEXT NOT NULL,
+  missing_dimensions_json TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  UNIQUE(job_instance_id, job_observation_id, candidate_profile_row_id,
+         semantic_assessment_id, scoring_preference_fingerprint, scoring_config_version)
 );
 """
 
@@ -246,7 +292,7 @@ class StateRepository:
                     self._event(connection, run_id, job_id, "CLOSED", at)
 
     def rows(self, table: str):
-        if table not in {"ingestion_runs", "source_observations", "job_instances", "job_observations", "events"}:
+        if table not in {"ingestion_runs", "source_observations", "job_instances", "job_observations", "events", "candidate_profiles", "semantic_assessments", "opportunity_assessments"}:
             raise ValueError(table)
         with self.connect() as connection:
             return connection.execute(f"SELECT * FROM {table} ORDER BY 1").fetchall()

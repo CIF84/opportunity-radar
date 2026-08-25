@@ -97,3 +97,19 @@ observations, lifecycle state, and deterministic change events:
 
 This does not change the Phase 1 CLI or adapter contracts. See
 `docs/state_change_architecture_report.md` for the Phase 2 evidence and limits.
+
+## Phase 3 relevance spike
+
+The offline Phase 3 layer loads a versioned candidate profile and shared
+taxonomy, applies conservative eligibility, extracts neutral evidence,
+performs rank-only triage, and produces explainable candidate-specific
+assessments. Its deterministic fake semantic assessor validates contracts,
+scoring, SQLite reuse, and benchmark portability without an external model:
+
+```bash
+.venv/bin/opportunity-radar-phase3 --output output/phase3_benchmark.json
+```
+
+Phase 3 does not modify adapters, normalized jobs, or lifecycle state. See
+`docs/phase3_architecture_report.md` for benchmark limitations and the next
+experimental step.
