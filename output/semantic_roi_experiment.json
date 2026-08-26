@@ -1,0 +1,1913 @@
+{
+  "experiment_version": 1,
+  "execution_status": "EXTERNAL_COMPLETED",
+  "credential_available": true,
+  "external_diagnostics": {
+    "connect_timeout_seconds": 15,
+    "read_timeout_seconds": 300,
+    "reasoning_effort": {
+      "economical": "low",
+      "stronger": "medium"
+    }
+  },
+  "deterministic_baseline": {
+    "eligibility_agreement": 1.0,
+    "rank_tier_agreement": 0.42857142857142855,
+    "apply_job_recall": 0.75,
+    "control_job_handling": 1.0,
+    "false_negative_ids": [
+      "siemens_data_ai"
+    ],
+    "insufficient_evidence_ids": [],
+    "pairwise_ordering": {
+      "status": "NOT_DEFINED_IN_BENCHMARK"
+    },
+    "cases": [
+      {
+        "benchmark_id": "siemens_data_ai",
+        "eligibility": "ELIGIBLE",
+        "eligibility_pass": true,
+        "score": 4.66,
+        "rank_tier": "LOW",
+        "rank_pass": false,
+        "triage_score": 96,
+        "evidence_sufficient": true,
+        "reasons": [
+          "triage evidence density=96",
+          "explicit direct matches=6",
+          "explicit low capabilities=2",
+          "specialist work lacks an explicit matching capability"
+        ],
+        "human_decision": "APPLY"
+      },
+      {
+        "benchmark_id": "resistant_ai_global_csm_lead",
+        "eligibility": "ELIGIBLE",
+        "eligibility_pass": true,
+        "score": 7.24,
+        "rank_tier": "HIGH",
+        "rank_pass": false,
+        "triage_score": 84,
+        "evidence_sufficient": true,
+        "reasons": [
+          "triage evidence density=84",
+          "explicit direct matches=6",
+          "explicit low capabilities=0"
+        ],
+        "human_decision": "APPLY"
+      },
+      {
+        "benchmark_id": "duckduckgo_head_user_insights",
+        "eligibility": "ELIGIBLE",
+        "eligibility_pass": true,
+        "score": 5.98,
+        "rank_tier": "REVIEW",
+        "rank_pass": false,
+        "triage_score": 88,
+        "evidence_sufficient": true,
+        "reasons": [
+          "triage evidence density=88",
+          "explicit direct matches=8",
+          "explicit low capabilities=0",
+          "specialist work lacks an explicit matching capability"
+        ],
+        "human_decision": "APPLY"
+      },
+      {
+        "benchmark_id": "ambiente_ai_transformation_manager",
+        "eligibility": "ELIGIBLE",
+        "eligibility_pass": true,
+        "score": 6.12,
+        "rank_tier": "REVIEW",
+        "rank_pass": false,
+        "triage_score": 52,
+        "evidence_sufficient": true,
+        "reasons": [
+          "triage evidence density=52",
+          "explicit direct matches=6",
+          "explicit low capabilities=0"
+        ],
+        "human_decision": "REVIEW"
+      },
+      {
+        "benchmark_id": "bcg_stretch",
+        "eligibility": "ELIGIBLE",
+        "eligibility_pass": true,
+        "score": 6.95,
+        "rank_tier": "REVIEW",
+        "rank_pass": true,
+        "triage_score": 67,
+        "evidence_sufficient": true,
+        "reasons": [
+          "triage evidence density=67",
+          "explicit direct matches=7",
+          "explicit low capabilities=0"
+        ],
+        "human_decision": "APPLY"
+      },
+      {
+        "benchmark_id": "control_software_engineering",
+        "eligibility": "ELIGIBLE",
+        "eligibility_pass": true,
+        "score": 1.58,
+        "rank_tier": "LOW",
+        "rank_pass": true,
+        "triage_score": 31,
+        "evidence_sufficient": true,
+        "reasons": [
+          "triage evidence density=31",
+          "explicit direct matches=0",
+          "explicit low capabilities=0",
+          "specialist work lacks an explicit matching capability"
+        ],
+        "human_decision": "DONT_APPLY"
+      },
+      {
+        "benchmark_id": "control_ml_research",
+        "eligibility": "ELIGIBLE",
+        "eligibility_pass": true,
+        "score": 3.68,
+        "rank_tier": "LOW",
+        "rank_pass": true,
+        "triage_score": 88,
+        "evidence_sufficient": true,
+        "reasons": [
+          "triage evidence density=88",
+          "explicit direct matches=2",
+          "explicit low capabilities=1",
+          "specialist work lacks an explicit matching capability"
+        ],
+        "human_decision": "DONT_APPLY"
+      }
+    ]
+  },
+  "semantic_models": {
+    "economical": {
+      "status": "COMPLETED",
+      "model": "gpt-5.6-luna",
+      "required_environment_variable": "OPENAI_API_KEY",
+      "quality": {
+        "case_count": 7,
+        "eligibility_pass_rate": 1.0,
+        "rank_pass_rate": 0.5714285714285714,
+        "apply_job_triage_recall": 1.0,
+        "mean_strength_recall": 0.8928571428571429,
+        "mean_gap_recall": 0.7142857142857143,
+        "mean_risk_recall": 0.42857142857142855,
+        "mean_dimension_agreement": 0.9761904761904762,
+        "cases": [
+          {
+            "benchmark_id": "siemens_data_ai",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 96,
+            "composite_score": 7.88,
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "eligibility_pass": true,
+            "rank_pass": false,
+            "strength_recall": 0.75,
+            "gap_recall": 0.5,
+            "risk_recall": 1.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          },
+          {
+            "benchmark_id": "resistant_ai_global_csm_lead",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 84,
+            "composite_score": 7.12,
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "eligibility_pass": true,
+            "rank_pass": false,
+            "strength_recall": 1.0,
+            "gap_recall": 1.0,
+            "risk_recall": 0.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          },
+          {
+            "benchmark_id": "duckduckgo_head_user_insights",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 88,
+            "composite_score": 7.0,
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "eligibility_pass": true,
+            "rank_pass": true,
+            "strength_recall": 0.5,
+            "gap_recall": 1.0,
+            "risk_recall": 1.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          },
+          {
+            "benchmark_id": "ambiente_ai_transformation_manager",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 52,
+            "composite_score": 9.12,
+            "rank_tier": "TOP",
+            "recommendation": "APPLY",
+            "eligibility_pass": true,
+            "rank_pass": true,
+            "strength_recall": 1.0,
+            "gap_recall": 1.0,
+            "risk_recall": 0.0,
+            "dimension_agreement": 1.0,
+            "notes": [
+              "Final human judgment includes evidence unavailable to job-description-only assessment."
+            ]
+          },
+          {
+            "benchmark_id": "bcg_stretch",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 67,
+            "composite_score": 7.62,
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "eligibility_pass": true,
+            "rank_pass": false,
+            "strength_recall": 1.0,
+            "gap_recall": 1.0,
+            "risk_recall": 1.0,
+            "dimension_agreement": 0.8333333333333334,
+            "notes": []
+          },
+          {
+            "benchmark_id": "control_software_engineering",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 31,
+            "composite_score": 3.25,
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "eligibility_pass": true,
+            "rank_pass": true,
+            "strength_recall": 1.0,
+            "gap_recall": 0.0,
+            "risk_recall": 0.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          },
+          {
+            "benchmark_id": "control_ml_research",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 88,
+            "composite_score": 4.12,
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "eligibility_pass": true,
+            "rank_pass": true,
+            "strength_recall": 1.0,
+            "gap_recall": 0.5,
+            "risk_recall": 0.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          }
+        ]
+      },
+      "structured_output_validity": 1.0,
+      "actual_calls": 14,
+      "actual_tokens": {
+        "input": 72660,
+        "cached_input": 55034,
+        "output": 24832,
+        "reasoning": 1555
+      },
+      "actual_cost_usd": 0.03442428,
+      "failure_rate": 0.0,
+      "latency_seconds": {
+        "mean": 20.560347508861533
+      },
+      "stability": {
+        "status": "COMPLETED",
+        "repetitions": 2,
+        "mean_dimension_variance": 0.08333333333333333,
+        "tier_change_cases": 1,
+        "recommendation_change_cases": 1,
+        "mean_concept_consistency": 0.47486772486772494
+      },
+      "raw_repeated_outputs": [
+        [
+          {
+            "benchmark_id": "siemens_data_ai",
+            "dimensions": {
+              "functional_alignment": 4,
+              "experience_leverage": 5,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 2,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "business_analytics",
+              "stakeholder_management",
+              "machine_learning_business_application",
+              "experimentation",
+              "executive_communication",
+              "transformation"
+            ],
+            "gaps": [
+              "bachelors_degree",
+              "mysql",
+              "etl_elt",
+              "data_engineering",
+              "power_bi",
+              "airflow",
+              "dbt"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "technical_intensity",
+              "application_competitiveness"
+            ]
+          },
+          {
+            "benchmark_id": "resistant_ai_global_csm_lead",
+            "dimensions": {
+              "functional_alignment": 4,
+              "experience_leverage": 4,
+              "learning_growth_value": 4,
+              "strategic_alignment": 4,
+              "seniority_alignment": 4,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "customer_retention",
+              "transformation",
+              "business_operations",
+              "cross_functional_leadership",
+              "stakeholder_management",
+              "financial_services_domain"
+            ],
+            "gaps": [
+              "direct_customer_success_practice",
+              "b2b_enterprise_software",
+              "people_management_scope"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "b2c",
+              "people_management_scope"
+            ]
+          },
+          {
+            "benchmark_id": "duckduckgo_head_user_insights",
+            "dimensions": {
+              "functional_alignment": 3,
+              "experience_leverage": 4,
+              "learning_growth_value": 4,
+              "strategic_alignment": 5,
+              "seniority_alignment": 4,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "business_analytics",
+              "decision_support",
+              "ai_adoption",
+              "experimentation",
+              "consumer_technology",
+              "cross_functional_leadership"
+            ],
+            "gaps": [
+              "user_research_methodology",
+              "research_depth",
+              "people_management_scope"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "specialist_methodology_depth",
+              "people_management_scope"
+            ]
+          },
+          {
+            "benchmark_id": "ambiente_ai_transformation_manager",
+            "dimensions": {
+              "functional_alignment": 5,
+              "experience_leverage": 5,
+              "learning_growth_value": 4,
+              "strategic_alignment": 5,
+              "seniority_alignment": 3,
+              "application_competitiveness": 5
+            },
+            "rank_tier": "TOP",
+            "recommendation": "APPLY",
+            "strengths": [
+              "functional_alignment",
+              "ai_enabled_work",
+              "transformation",
+              "business_operations",
+              "cross_functional_leadership",
+              "experimentation",
+              "stakeholder_management"
+            ],
+            "gaps": [],
+            "risks": [
+              "seniority_mismatch",
+              "domain_transition"
+            ]
+          },
+          {
+            "benchmark_id": "bcg_stretch",
+            "dimensions": {
+              "functional_alignment": 5,
+              "experience_leverage": 4,
+              "learning_growth_value": 4,
+              "strategic_alignment": 4,
+              "seniority_alignment": 2,
+              "application_competitiveness": 4
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "analytical_problem_solving",
+              "decision_support",
+              "stakeholder_management",
+              "cross_functional_work",
+              "strategy",
+              "executive_communication",
+              "bachelors_degree"
+            ],
+            "gaps": [
+              "bachelors_degree",
+              "consulting_experience"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "application_competitiveness",
+              "down_leveling"
+            ]
+          },
+          {
+            "benchmark_id": "control_software_engineering",
+            "dimensions": {
+              "functional_alignment": 1,
+              "experience_leverage": 2,
+              "learning_growth_value": 4,
+              "strategic_alignment": 4,
+              "seniority_alignment": 2,
+              "application_competitiveness": 1
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "technology_domain",
+              "analytical_problem_solving",
+              "ai_assisted_development",
+              "cross_functional_work"
+            ],
+            "gaps": [
+              "software_engineering_intensity",
+              "production_software_development",
+              "sdk_development"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "technical_depth",
+              "seniority_mismatch"
+            ]
+          },
+          {
+            "benchmark_id": "control_ml_research",
+            "dimensions": {
+              "functional_alignment": 1,
+              "experience_leverage": 2,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 2,
+              "application_competitiveness": 1
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "artificial_intelligence",
+              "experimentation",
+              "cross_functional_leadership",
+              "learning_growth_value",
+              "ai_enabled_career"
+            ],
+            "gaps": [
+              "deep_learning",
+              "robotics",
+              "ml_research",
+              "pytorch",
+              "technical_depth"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "technical_intensity",
+              "application_competitiveness",
+              "down_leveling"
+            ]
+          }
+        ],
+        [
+          {
+            "benchmark_id": "siemens_data_ai",
+            "dimensions": {
+              "functional_alignment": 4,
+              "experience_leverage": 4,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 3,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "business_analytics",
+              "stakeholder_management",
+              "ai_strategy",
+              "transformation",
+              "commercial_strategy",
+              "executive_communication"
+            ],
+            "gaps": [
+              "mysql",
+              "bachelors_degree",
+              "etl_elt",
+              "data_engineering"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "sql",
+              "power_bi",
+              "technical_depth"
+            ]
+          },
+          {
+            "benchmark_id": "resistant_ai_global_csm_lead",
+            "dimensions": {
+              "functional_alignment": 4,
+              "experience_leverage": 5,
+              "learning_growth_value": 4,
+              "strategic_alignment": 4,
+              "seniority_alignment": 4,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "transformation",
+              "customer_retention",
+              "business_operations",
+              "commercial_strategy",
+              "cross_functional_leadership",
+              "stakeholder_management",
+              "artificial_intelligence",
+              "autonomy"
+            ],
+            "gaps": [
+              "direct_customer_success_practice",
+              "b2b_enterprise_software",
+              "people_management_scope",
+              "financial_services_domain"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "people_management_scope",
+              "technical_intensity"
+            ]
+          },
+          {
+            "benchmark_id": "duckduckgo_head_user_insights",
+            "dimensions": {
+              "functional_alignment": 2,
+              "experience_leverage": 4,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 4,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "REVIEW",
+            "recommendation": "REVIEW",
+            "strengths": [
+              "consumer_technology",
+              "ai_adoption",
+              "decision_support",
+              "experimentation",
+              "cross_functional_leadership",
+              "executive_communication",
+              "seniority_alignment"
+            ],
+            "gaps": [
+              "user_research_methodology",
+              "research_depth",
+              "people_management_scope",
+              "moderated_research",
+              "conjoint_analysis",
+              "maxdiff",
+              "diary_studies"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "specialist_methodology_depth",
+              "people_management_scope"
+            ]
+          },
+          {
+            "benchmark_id": "ambiente_ai_transformation_manager",
+            "dimensions": {
+              "functional_alignment": 5,
+              "experience_leverage": 5,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 4,
+              "application_competitiveness": 5
+            },
+            "rank_tier": "TOP",
+            "recommendation": "APPLY",
+            "strengths": [
+              "functional_alignment",
+              "business_operations",
+              "ai_strategy",
+              "transformation",
+              "experimentation",
+              "stakeholder_management",
+              "decision_support",
+              "autonomy"
+            ],
+            "gaps": [
+              "change_management",
+              "ai_adoption",
+              "technical_depth"
+            ],
+            "risks": [
+              "down_leveling",
+              "technical_intensity",
+              "domain_transition"
+            ]
+          },
+          {
+            "benchmark_id": "bcg_stretch",
+            "dimensions": {
+              "functional_alignment": 5,
+              "experience_leverage": 5,
+              "learning_growth_value": 5,
+              "strategic_alignment": 4,
+              "seniority_alignment": 1,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "analytical_problem_solving",
+              "decision_support",
+              "stakeholder_management",
+              "cross_functional_work",
+              "transformation",
+              "bachelors_degree"
+            ],
+            "gaps": [
+              "bachelors_degree",
+              "consulting_experience",
+              "people_management_scope"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "application_competitiveness",
+              "consulting_experience"
+            ]
+          },
+          {
+            "benchmark_id": "control_software_engineering",
+            "dimensions": {
+              "functional_alignment": 1,
+              "experience_leverage": 2,
+              "learning_growth_value": 5,
+              "strategic_alignment": 4,
+              "seniority_alignment": 3,
+              "application_competitiveness": 2
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "technology",
+              "software_engineering",
+              "product_development",
+              "cross_functional_leadership",
+              "continuous_learning"
+            ],
+            "gaps": [
+              "software_engineering_intensity",
+              "sdk_development",
+              "production_software_development",
+              "technical_depth"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "seniority_mismatch",
+              "down_leveling"
+            ]
+          },
+          {
+            "benchmark_id": "control_ml_research",
+            "dimensions": {
+              "functional_alignment": 1,
+              "experience_leverage": 2,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 2,
+              "application_competitiveness": 1
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "analytical_problem_solving",
+              "experimentation",
+              "cross_functional_leadership",
+              "ai_strategy",
+              "continuous_learning"
+            ],
+            "gaps": [
+              "deep_learning",
+              "model_training",
+              "pytorch",
+              "jax",
+              "robotics",
+              "ml_research",
+              "software_engineering_intensity"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "technical_intensity",
+              "technical_specialization",
+              "seniority_mismatch"
+            ]
+          }
+        ]
+      ],
+      "usage_records": [
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 6368,
+          "cached_input_tokens": 6365,
+          "output_tokens": 2084,
+          "reasoning_tokens": 95,
+          "latency_seconds": 23.474279625021154,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0026287,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 6137,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1721,
+          "reasoning_tokens": 71,
+          "latency_seconds": 19.0541573750088,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0029218,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 5742,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1647,
+          "reasoning_tokens": 39,
+          "latency_seconds": 17.391816458984977,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.002754,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 4697,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1613,
+          "reasoning_tokens": 137,
+          "latency_seconds": 17.996704999997746,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0025042,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 4707,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1657,
+          "reasoning_tokens": 100,
+          "latency_seconds": 17.511570250004297,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.002559,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 3963,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1654,
+          "reasoning_tokens": 223,
+          "latency_seconds": 18.588019541988615,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0024066,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 4716,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1832,
+          "reasoning_tokens": 157,
+          "latency_seconds": 22.709014542022487,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0027708,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 6368,
+          "cached_input_tokens": 6365,
+          "output_tokens": 1817,
+          "reasoning_tokens": 158,
+          "latency_seconds": 21.293853666022187,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0023083,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 6137,
+          "cached_input_tokens": 6134,
+          "output_tokens": 2047,
+          "reasoning_tokens": 87,
+          "latency_seconds": 23.88513837501523,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.00257968,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 5742,
+          "cached_input_tokens": 5739,
+          "output_tokens": 1854,
+          "reasoning_tokens": 103,
+          "latency_seconds": 25.026913582987618,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.00234018,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 4697,
+          "cached_input_tokens": 4694,
+          "output_tokens": 1791,
+          "reasoning_tokens": 89,
+          "latency_seconds": 21.344946958008222,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.00224368,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 4707,
+          "cached_input_tokens": 4704,
+          "output_tokens": 1773,
+          "reasoning_tokens": 88,
+          "latency_seconds": 19.64563591699698,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.00222228,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 3963,
+          "cached_input_tokens": 3960,
+          "output_tokens": 1510,
+          "reasoning_tokens": 102,
+          "latency_seconds": 18.83936829099548,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0018918,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-luna",
+          "input_tokens": 4716,
+          "cached_input_tokens": 4713,
+          "output_tokens": 1832,
+          "reasoning_tokens": 106,
+          "latency_seconds": 21.083445541007677,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.00229326,
+          "error": null
+        }
+      ]
+    },
+    "stronger": {
+      "status": "COMPLETED",
+      "model": "gpt-5.6-terra",
+      "required_environment_variable": "OPENAI_API_KEY",
+      "quality": {
+        "case_count": 7,
+        "eligibility_pass_rate": 1.0,
+        "rank_pass_rate": 0.42857142857142855,
+        "apply_job_triage_recall": 1.0,
+        "mean_strength_recall": 0.7095238095238096,
+        "mean_gap_recall": 0.6071428571428571,
+        "mean_risk_recall": 0.42857142857142855,
+        "mean_dimension_agreement": 0.9761904761904763,
+        "cases": [
+          {
+            "benchmark_id": "siemens_data_ai",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 96,
+            "composite_score": 7.13,
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "eligibility_pass": true,
+            "rank_pass": false,
+            "strength_recall": 0.75,
+            "gap_recall": 0.5,
+            "risk_recall": 1.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          },
+          {
+            "benchmark_id": "resistant_ai_global_csm_lead",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 84,
+            "composite_score": 6.25,
+            "rank_tier": "REVIEW",
+            "recommendation": "REVIEW",
+            "eligibility_pass": true,
+            "rank_pass": false,
+            "strength_recall": 0.8,
+            "gap_recall": 1.0,
+            "risk_recall": 1.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          },
+          {
+            "benchmark_id": "duckduckgo_head_user_insights",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 88,
+            "composite_score": 4.87,
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "eligibility_pass": true,
+            "rank_pass": false,
+            "strength_recall": 0.25,
+            "gap_recall": 0.0,
+            "risk_recall": 0.0,
+            "dimension_agreement": 0.8333333333333334,
+            "notes": []
+          },
+          {
+            "benchmark_id": "ambiente_ai_transformation_manager",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 52,
+            "composite_score": 7.75,
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "eligibility_pass": true,
+            "rank_pass": true,
+            "strength_recall": 0.5,
+            "gap_recall": 1.0,
+            "risk_recall": 0.0,
+            "dimension_agreement": 1.0,
+            "notes": [
+              "Final human judgment includes evidence unavailable to job-description-only assessment."
+            ]
+          },
+          {
+            "benchmark_id": "bcg_stretch",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 67,
+            "composite_score": 7.63,
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "eligibility_pass": true,
+            "rank_pass": false,
+            "strength_recall": 0.6666666666666666,
+            "gap_recall": 1.0,
+            "risk_recall": 1.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          },
+          {
+            "benchmark_id": "control_software_engineering",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 31,
+            "composite_score": 2.0,
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "eligibility_pass": true,
+            "rank_pass": true,
+            "strength_recall": 1.0,
+            "gap_recall": 0.5,
+            "risk_recall": 0.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          },
+          {
+            "benchmark_id": "control_ml_research",
+            "eligibility": "ELIGIBLE",
+            "triage_score": 88,
+            "composite_score": 3.63,
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "eligibility_pass": true,
+            "rank_pass": true,
+            "strength_recall": 1.0,
+            "gap_recall": 0.25,
+            "risk_recall": 0.0,
+            "dimension_agreement": 1.0,
+            "notes": []
+          }
+        ]
+      },
+      "structured_output_validity": 1.0,
+      "actual_calls": 14,
+      "actual_tokens": {
+        "input": 72660,
+        "cached_input": 48669,
+        "output": 21927,
+        "reasoning": 1832
+      },
+      "actual_cost_usd": 0.3208398,
+      "failure_rate": 0.0,
+      "latency_seconds": {
+        "mean": 17.17664476185954
+      },
+      "stability": {
+        "status": "COMPLETED",
+        "repetitions": 2,
+        "mean_dimension_variance": 0.08928571428571429,
+        "tier_change_cases": 3,
+        "recommendation_change_cases": 2,
+        "mean_concept_consistency": 0.4860544217687075
+      },
+      "raw_repeated_outputs": [
+        [
+          {
+            "benchmark_id": "siemens_data_ai",
+            "dimensions": {
+              "functional_alignment": 3,
+              "experience_leverage": 4,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 3,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "business_analytics",
+              "stakeholder_management",
+              "experimentation",
+              "transformation",
+              "ai_enabled_work"
+            ],
+            "gaps": [
+              "sql",
+              "python",
+              "bachelors_degree"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "technical_intensity"
+            ]
+          },
+          {
+            "benchmark_id": "resistant_ai_global_csm_lead",
+            "dimensions": {
+              "functional_alignment": 3,
+              "experience_leverage": 4,
+              "learning_growth_value": 4,
+              "strategic_alignment": 4,
+              "seniority_alignment": 3,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "REVIEW",
+            "recommendation": "REVIEW",
+            "strengths": [
+              "customer_retention",
+              "transformation",
+              "business_operations",
+              "cross_functional_leadership",
+              "ai_strategy"
+            ],
+            "gaps": [
+              "functional_mismatch",
+              "direct_customer_success_practice"
+            ],
+            "risks": [
+              "people_management_scope",
+              "domain_transition"
+            ]
+          },
+          {
+            "benchmark_id": "duckduckgo_head_user_insights",
+            "dimensions": {
+              "functional_alignment": 2,
+              "experience_leverage": 3,
+              "learning_growth_value": 4,
+              "strategic_alignment": 4,
+              "seniority_alignment": 3,
+              "application_competitiveness": 2
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "consumer_technology",
+              "cybersecurity",
+              "decision_support",
+              "cross_functional_leadership",
+              "experimentation",
+              "ai_adoption"
+            ],
+            "gaps": [],
+            "risks": [
+              "user_research_methodology",
+              "research_depth",
+              "seniority_mismatch",
+              "people_management_scope"
+            ]
+          },
+          {
+            "benchmark_id": "ambiente_ai_transformation_manager",
+            "dimensions": {
+              "functional_alignment": 4,
+              "experience_leverage": 4,
+              "learning_growth_value": 4,
+              "strategic_alignment": 5,
+              "seniority_alignment": 3,
+              "application_competitiveness": 4
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "transformation",
+              "business_operations",
+              "experimentation",
+              "cross_functional_leadership",
+              "ai_adoption"
+            ],
+            "gaps": [],
+            "risks": [
+              "domain_transition",
+              "seniority_mismatch",
+              "decentralized_decision_making"
+            ]
+          },
+          {
+            "benchmark_id": "bcg_stretch",
+            "dimensions": {
+              "functional_alignment": 5,
+              "experience_leverage": 4,
+              "learning_growth_value": 5,
+              "strategic_alignment": 4,
+              "seniority_alignment": 2,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "HIGH",
+            "recommendation": "APPLY",
+            "strengths": [
+              "analytical_problem_solving",
+              "decision_support",
+              "transformation",
+              "stakeholder_management",
+              "cross_functional_work",
+              "consulting_experience"
+            ],
+            "gaps": [
+              "bachelors_degree"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "application_competitiveness"
+            ]
+          },
+          {
+            "benchmark_id": "control_software_engineering",
+            "dimensions": {
+              "functional_alignment": 1,
+              "experience_leverage": 2,
+              "learning_growth_value": 4,
+              "strategic_alignment": 2,
+              "seniority_alignment": 1,
+              "application_competitiveness": 1
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "analytical_problem_solving",
+              "ai_assisted_development",
+              "technology_domain"
+            ],
+            "gaps": [
+              "software_engineering",
+              "production_software_development",
+              "sdk_development",
+              "software_engineering_intensity"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "functional_mismatch",
+              "down_leveling"
+            ]
+          },
+          {
+            "benchmark_id": "control_ml_research",
+            "dimensions": {
+              "functional_alignment": 1,
+              "experience_leverage": 2,
+              "learning_growth_value": 5,
+              "strategic_alignment": 4,
+              "seniority_alignment": 2,
+              "application_competitiveness": 1
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "experimentation",
+              "cross_functional_leadership",
+              "ai_interest"
+            ],
+            "gaps": [
+              "python",
+              "technical_intensity",
+              "domain_transition"
+            ],
+            "risks": [
+              "application_competitiveness",
+              "seniority_mismatch",
+              "physical_ai"
+            ]
+          }
+        ],
+        [
+          {
+            "benchmark_id": "siemens_data_ai",
+            "dimensions": {
+              "functional_alignment": 3,
+              "experience_leverage": 3,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 2,
+              "application_competitiveness": 2
+            },
+            "rank_tier": "REVIEW",
+            "recommendation": "REVIEW",
+            "strengths": [
+              "business_analytics",
+              "stakeholder_management",
+              "machine_learning_business_application",
+              "transformation",
+              "ai_enabled_career"
+            ],
+            "gaps": [
+              "bachelors_degree",
+              "technical_depth"
+            ],
+            "risks": [
+              "down_leveling",
+              "application_competitiveness"
+            ]
+          },
+          {
+            "benchmark_id": "resistant_ai_global_csm_lead",
+            "dimensions": {
+              "functional_alignment": 3,
+              "experience_leverage": 3,
+              "learning_growth_value": 4,
+              "strategic_alignment": 4,
+              "seniority_alignment": 3,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "REVIEW",
+            "recommendation": "REVIEW",
+            "strengths": [
+              "customer_retention",
+              "transformation",
+              "business_operations",
+              "stakeholder_management",
+              "ai_enabled_work"
+            ],
+            "gaps": [
+              "b2b_enterprise_software",
+              "direct_customer_success_practice",
+              "financial_services_domain"
+            ],
+            "risks": [
+              "people_management_scope",
+              "functional_mismatch"
+            ]
+          },
+          {
+            "benchmark_id": "duckduckgo_head_user_insights",
+            "dimensions": {
+              "functional_alignment": 2,
+              "experience_leverage": 3,
+              "learning_growth_value": 4,
+              "strategic_alignment": 3,
+              "seniority_alignment": 3,
+              "application_competitiveness": 2
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "decision_support",
+              "experimentation",
+              "consumer_technology",
+              "ai_adoption"
+            ],
+            "gaps": [
+              "user_research_methodology",
+              "conjoint_analysis",
+              "maxdiff",
+              "discrete_choice"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "seniority_mismatch",
+              "people_management_scope"
+            ]
+          },
+          {
+            "benchmark_id": "ambiente_ai_transformation_manager",
+            "dimensions": {
+              "functional_alignment": 5,
+              "experience_leverage": 4,
+              "learning_growth_value": 5,
+              "strategic_alignment": 5,
+              "seniority_alignment": 4,
+              "application_competitiveness": 4
+            },
+            "rank_tier": "TOP",
+            "recommendation": "APPLY",
+            "strengths": [
+              "transformation",
+              "business_operations",
+              "experimentation",
+              "cross_functional_leadership",
+              "ai_adoption"
+            ],
+            "gaps": [],
+            "risks": [
+              "domain_transition",
+              "ai_adoption",
+              "seniority_mismatch"
+            ]
+          },
+          {
+            "benchmark_id": "bcg_stretch",
+            "dimensions": {
+              "functional_alignment": 4,
+              "experience_leverage": 4,
+              "learning_growth_value": 4,
+              "strategic_alignment": 4,
+              "seniority_alignment": 2,
+              "application_competitiveness": 3
+            },
+            "rank_tier": "REVIEW",
+            "recommendation": "REVIEW",
+            "strengths": [
+              "business_analytics",
+              "decision_support",
+              "transformation",
+              "stakeholder_management",
+              "analytical_problem_solving",
+              "continuous_learning"
+            ],
+            "gaps": [
+              "bachelors_degree"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "application_competitiveness",
+              "ai_enabled_career"
+            ]
+          },
+          {
+            "benchmark_id": "control_software_engineering",
+            "dimensions": {
+              "functional_alignment": 1,
+              "experience_leverage": 1,
+              "learning_growth_value": 5,
+              "strategic_alignment": 3,
+              "seniority_alignment": 1,
+              "application_competitiveness": 1
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "technology_domain",
+              "ai_assisted_development",
+              "analytical_problem_solving"
+            ],
+            "gaps": [
+              "software_engineering",
+              "production_software_development",
+              "sdk_development"
+            ],
+            "risks": [
+              "seniority_mismatch",
+              "functional_mismatch",
+              "application_competitiveness"
+            ]
+          },
+          {
+            "benchmark_id": "control_ml_research",
+            "dimensions": {
+              "functional_alignment": 1,
+              "experience_leverage": 1,
+              "learning_growth_value": 5,
+              "strategic_alignment": 3,
+              "seniority_alignment": 2,
+              "application_competitiveness": 1
+            },
+            "rank_tier": "LOW",
+            "recommendation": "LOW_PRIORITY",
+            "strengths": [
+              "ai_interest",
+              "continuous_learning",
+              "cross_functional_work"
+            ],
+            "gaps": [
+              "python"
+            ],
+            "risks": [
+              "functional_mismatch",
+              "technical_specialization",
+              "career_optionality"
+            ]
+          }
+        ]
+      ],
+      "usage_records": [
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 6368,
+          "cached_input_tokens": 0,
+          "output_tokens": 1754,
+          "reasoning_tokens": 147,
+          "latency_seconds": 17.63861349999206,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.033784,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 6137,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1504,
+          "reasoning_tokens": 153,
+          "latency_seconds": 15.190757458010921,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.026614,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 5742,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1758,
+          "reasoning_tokens": 145,
+          "latency_seconds": 18.23019899998326,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.028872,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 4697,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1372,
+          "reasoning_tokens": 101,
+          "latency_seconds": 16.160065542004304,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.02215,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 4707,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1449,
+          "reasoning_tokens": 52,
+          "latency_seconds": 16.314576166012557,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.023094,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 3963,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1371,
+          "reasoning_tokens": 54,
+          "latency_seconds": 14.536728459002916,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.02067,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 4716,
+          "cached_input_tokens": 2060,
+          "output_tokens": 1494,
+          "reasoning_tokens": 154,
+          "latency_seconds": 14.838511291018222,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.023652,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 6368,
+          "cached_input_tokens": 6365,
+          "output_tokens": 1798,
+          "reasoning_tokens": 235,
+          "latency_seconds": 20.716641375009203,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.022855,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 6137,
+          "cached_input_tokens": 6134,
+          "output_tokens": 1621,
+          "reasoning_tokens": 119,
+          "latency_seconds": 17.32575433299644,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0206848,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 5742,
+          "cached_input_tokens": 5739,
+          "output_tokens": 1781,
+          "reasoning_tokens": 215,
+          "latency_seconds": 20.716416875016876,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0225258,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 4697,
+          "cached_input_tokens": 4694,
+          "output_tokens": 1596,
+          "reasoning_tokens": 115,
+          "latency_seconds": 18.16885070799617,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0200968,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 4707,
+          "cached_input_tokens": 4704,
+          "output_tokens": 1654,
+          "reasoning_tokens": 126,
+          "latency_seconds": 19.65910658298526,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0207948,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 3963,
+          "cached_input_tokens": 3960,
+          "output_tokens": 1445,
+          "reasoning_tokens": 115,
+          "latency_seconds": 15.678691917011747,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.018138,
+          "error": null
+        },
+        {
+          "model": "gpt-5.6-terra",
+          "input_tokens": 4716,
+          "cached_input_tokens": 4713,
+          "output_tokens": 1330,
+          "reasoning_tokens": 101,
+          "latency_seconds": 15.298113458993612,
+          "success": true,
+          "retry_count": 0,
+          "estimated_cost_usd": 0.0169086,
+          "error": null
+        }
+      ]
+    }
+  },
+  "cost_projections": {
+    "economical": {
+      "assumption": "configured token estimate; not actual usage",
+      "estimated_cost_per_job_usd": 0.00204,
+      "estimated_benchmark_run_usd": 0.01428,
+      "monthly": {
+        "100": 0.204,
+        "500": 1.02,
+        "1000": 2.04,
+        "5000": 10.2
+      },
+      "cached_opportunity_radar_assessment_cost_usd": 0.0,
+      "material_change_reassessment_cost_usd": 0.00204
+    },
+    "stronger": {
+      "assumption": "configured token estimate; not actual usage",
+      "estimated_cost_per_job_usd": 0.0204,
+      "estimated_benchmark_run_usd": 0.1428,
+      "monthly": {
+        "100": 2.04,
+        "500": 10.2,
+        "1000": 20.4,
+        "5000": 102.0
+      },
+      "cached_opportunity_radar_assessment_cost_usd": 0.0,
+      "material_change_reassessment_cost_usd": 0.0204
+    }
+  },
+  "selective_strategies": {
+    "SEMANTIC_NONE": {
+      "selected_ids": [],
+      "semantic_calls": 0,
+      "decision_quality": {
+        "eligibility_agreement": 1.0,
+        "rank_tier_agreement": 0.42857142857142855,
+        "apply_job_recall": 0.75,
+        "control_job_handling": 1.0,
+        "false_negative_ids": [
+          "siemens_data_ai"
+        ],
+        "insufficient_evidence_ids": [],
+        "pairwise_ordering": {
+          "status": "NOT_DEFINED_IN_BENCHMARK"
+        },
+        "cases": [
+          {
+            "benchmark_id": "siemens_data_ai",
+            "eligibility": "ELIGIBLE",
+            "eligibility_pass": true,
+            "score": 4.66,
+            "rank_tier": "LOW",
+            "rank_pass": false,
+            "triage_score": 96,
+            "evidence_sufficient": true,
+            "reasons": [
+              "triage evidence density=96",
+              "explicit direct matches=6",
+              "explicit low capabilities=2",
+              "specialist work lacks an explicit matching capability"
+            ],
+            "human_decision": "APPLY"
+          },
+          {
+            "benchmark_id": "resistant_ai_global_csm_lead",
+            "eligibility": "ELIGIBLE",
+            "eligibility_pass": true,
+            "score": 7.24,
+            "rank_tier": "HIGH",
+            "rank_pass": false,
+            "triage_score": 84,
+            "evidence_sufficient": true,
+            "reasons": [
+              "triage evidence density=84",
+              "explicit direct matches=6",
+              "explicit low capabilities=0"
+            ],
+            "human_decision": "APPLY"
+          },
+          {
+            "benchmark_id": "duckduckgo_head_user_insights",
+            "eligibility": "ELIGIBLE",
+            "eligibility_pass": true,
+            "score": 5.98,
+            "rank_tier": "REVIEW",
+            "rank_pass": false,
+            "triage_score": 88,
+            "evidence_sufficient": true,
+            "reasons": [
+              "triage evidence density=88",
+              "explicit direct matches=8",
+              "explicit low capabilities=0",
+              "specialist work lacks an explicit matching capability"
+            ],
+            "human_decision": "APPLY"
+          },
+          {
+            "benchmark_id": "ambiente_ai_transformation_manager",
+            "eligibility": "ELIGIBLE",
+            "eligibility_pass": true,
+            "score": 6.12,
+            "rank_tier": "REVIEW",
+            "rank_pass": false,
+            "triage_score": 52,
+            "evidence_sufficient": true,
+            "reasons": [
+              "triage evidence density=52",
+              "explicit direct matches=6",
+              "explicit low capabilities=0"
+            ],
+            "human_decision": "REVIEW"
+          },
+          {
+            "benchmark_id": "bcg_stretch",
+            "eligibility": "ELIGIBLE",
+            "eligibility_pass": true,
+            "score": 6.95,
+            "rank_tier": "REVIEW",
+            "rank_pass": true,
+            "triage_score": 67,
+            "evidence_sufficient": true,
+            "reasons": [
+              "triage evidence density=67",
+              "explicit direct matches=7",
+              "explicit low capabilities=0"
+            ],
+            "human_decision": "APPLY"
+          },
+          {
+            "benchmark_id": "control_software_engineering",
+            "eligibility": "ELIGIBLE",
+            "eligibility_pass": true,
+            "score": 1.58,
+            "rank_tier": "LOW",
+            "rank_pass": true,
+            "triage_score": 31,
+            "evidence_sufficient": true,
+            "reasons": [
+              "triage evidence density=31",
+              "explicit direct matches=0",
+              "explicit low capabilities=0",
+              "specialist work lacks an explicit matching capability"
+            ],
+            "human_decision": "DONT_APPLY"
+          },
+          {
+            "benchmark_id": "control_ml_research",
+            "eligibility": "ELIGIBLE",
+            "eligibility_pass": true,
+            "score": 3.68,
+            "rank_tier": "LOW",
+            "rank_pass": true,
+            "triage_score": 88,
+            "evidence_sufficient": true,
+            "reasons": [
+              "triage evidence density=88",
+              "explicit direct matches=2",
+              "explicit low capabilities=1",
+              "specialist work lacks an explicit matching capability"
+            ],
+            "human_decision": "DONT_APPLY"
+          }
+        ]
+      },
+      "quality_status": "BASELINE",
+      "cost_reduction_vs_all": 1.0,
+      "estimated_cost_usd": {
+        "economical": 0.0,
+        "stronger": 0.0
+      },
+      "simulated_quality_by_model": {
+        "economical": {
+          "rank_tier_agreement": 0.42857142857142855,
+          "apply_job_recall": 0.75,
+          "control_job_handling": 1.0,
+          "estimated_actual_cost_usd": 0.0
+        },
+        "stronger": {
+          "rank_tier_agreement": 0.42857142857142855,
+          "apply_job_recall": 0.75,
+          "control_job_handling": 1.0,
+          "estimated_actual_cost_usd": 0.0
+        }
+      }
+    },
+    "SEMANTIC_ALL": {
+      "selected_ids": [
+        "siemens_data_ai",
+        "resistant_ai_global_csm_lead",
+        "duckduckgo_head_user_insights",
+        "ambiente_ai_transformation_manager",
+        "bcg_stretch",
+        "control_software_engineering",
+        "control_ml_research"
+      ],
+      "semantic_calls": 7,
+      "decision_quality": null,
+      "quality_status": "REQUIRES_EXTERNAL_RESULTS",
+      "cost_reduction_vs_all": 0.0,
+      "estimated_cost_usd": {
+        "economical": 0.01428,
+        "stronger": 0.1428
+      },
+      "simulated_quality_by_model": {
+        "economical": {
+          "rank_tier_agreement": 0.5714285714285714,
+          "apply_job_recall": 1.0,
+          "control_job_handling": 1.0,
+          "estimated_actual_cost_usd": 0.01721214
+        },
+        "stronger": {
+          "rank_tier_agreement": 0.42857142857142855,
+          "apply_job_recall": 0.75,
+          "control_job_handling": 1.0,
+          "estimated_actual_cost_usd": 0.1604199
+        }
+      }
+    },
+    "SEMANTIC_TOP_N": {
+      "selected_ids": [
+        "siemens_data_ai",
+        "duckduckgo_head_user_insights",
+        "control_ml_research"
+      ],
+      "semantic_calls": 3,
+      "decision_quality": null,
+      "quality_status": "REQUIRES_EXTERNAL_RESULTS",
+      "cost_reduction_vs_all": 0.5714285714285714,
+      "estimated_cost_usd": {
+        "economical": 0.00612,
+        "stronger": 0.0612
+      },
+      "simulated_quality_by_model": {
+        "economical": {
+          "rank_tier_agreement": 0.5714285714285714,
+          "apply_job_recall": 1.0,
+          "control_job_handling": 1.0,
+          "estimated_actual_cost_usd": 0.00737663
+        },
+        "stronger": {
+          "rank_tier_agreement": 0.42857142857142855,
+          "apply_job_recall": 0.75,
+          "control_job_handling": 1.0,
+          "estimated_actual_cost_usd": 0.06875139
+        }
+      }
+    },
+    "SEMANTIC_AMBIGUOUS": {
+      "selected_ids": [
+        "siemens_data_ai",
+        "duckduckgo_head_user_insights",
+        "ambiente_ai_transformation_manager",
+        "bcg_stretch",
+        "control_ml_research"
+      ],
+      "semantic_calls": 5,
+      "decision_quality": null,
+      "quality_status": "REQUIRES_EXTERNAL_RESULTS",
+      "cost_reduction_vs_all": 0.2857142857142857,
+      "estimated_cost_usd": {
+        "economical": 0.0102,
+        "stronger": 0.102
+      },
+      "simulated_quality_by_model": {
+        "economical": {
+          "rank_tier_agreement": 0.5714285714285714,
+          "apply_job_recall": 1.0,
+          "control_job_handling": 1.0,
+          "estimated_actual_cost_usd": 0.01229439
+        },
+        "stronger": {
+          "rank_tier_agreement": 0.42857142857142855,
+          "apply_job_recall": 0.75,
+          "control_job_handling": 1.0,
+          "estimated_actual_cost_usd": 0.11458564
+        }
+      }
+    }
+  },
+  "experimental_limits": [
+    "Seven cases are directional evidence, not statistically significant.",
+    "No prompt, weight, or benchmark expectation was tuned.",
+    "Semantic quality and stability remain unknown until bounded external runs execute."
+  ]
+}

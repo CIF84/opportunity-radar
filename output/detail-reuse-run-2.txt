@@ -1,0 +1,12 @@
+OPPORTUNITY RADAR — PHASE 2 STATE RUN
+
+Run: 1e876d75-3a6c-43ba-96f1-80122071e43c
+Status: PARTIAL
+Sources: 1
+Active jobs: 2
+Closed jobs: 0
+Events in run: 0
+
+Red Hat: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=40, selected=37, skipped=3, reused=2, to_fetch=0, details=0/0
+
+EVENTS

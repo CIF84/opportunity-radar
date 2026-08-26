@@ -1,0 +1,119 @@
+OPPORTUNITY RADAR — PHASE 2 STATE RUN
+
+Run: 7aa092b6-2afa-4021-a04c-3548bfd208c9
+Status: PARTIAL
+Sources: 18
+Active jobs: 90
+Closed jobs: 0
+Events in run: 90
+
+Johnson & Johnson: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=1845, selected=477, skipped=1368, details=5/477
+Red Hat: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=40, selected=37, skipped=3, details=5/37
+Pfizer: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=40, selected=12, skipped=28, details=5/12
+Pure Storage: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=315, selected=199, skipped=116, details=5/199
+Wrike: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=72, selected=72, skipped=0, details=5/72
+WPP: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=224, selected=55, skipped=169, details=5/55
+Siemens: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=56, selected=56, skipped=0, details=5/56
+Honeywell: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=11, selected=11, skipped=0, details=5/11
+ČSOB: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=117, selected=117, skipped=0, details=5/117
+SAP: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=29, selected=29, skipped=0, details=5/29
+EY: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=7986, selected=1920, skipped=6066, details=5/1920
+Deutsche Börse Group: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=216, selected=81, skipped=135, details=5/81
+GoodData: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=6, selected=6, skipped=0, details=5/6
+Kiwi.com: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=19, selected=19, skipped=0, details=5/19
+Allegro: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=167, selected=167, skipped=0, details=5/167
+Schneider Electric: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=2567, selected=601, skipped=1966, details=5/601
+Roche: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=1212, selected=23, skipped=1189, details=5/23
+Cisco: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=1200, selected=133, skipped=1067, details=5/133
+
+EVENTS
+NEW job_instance_id=1
+NEW job_instance_id=2
+NEW job_instance_id=3
+NEW job_instance_id=4
+NEW job_instance_id=5
+NEW job_instance_id=6
+NEW job_instance_id=7
+NEW job_instance_id=8
+NEW job_instance_id=9
+NEW job_instance_id=10
+NEW job_instance_id=11
+NEW job_instance_id=12
+NEW job_instance_id=13
+NEW job_instance_id=14
+NEW job_instance_id=15
+NEW job_instance_id=16
+NEW job_instance_id=17
+NEW job_instance_id=18
+NEW job_instance_id=19
+NEW job_instance_id=20
+NEW job_instance_id=21
+NEW job_instance_id=22
+NEW job_instance_id=23
+NEW job_instance_id=24
+NEW job_instance_id=25
+NEW job_instance_id=26
+NEW job_instance_id=27
+NEW job_instance_id=28
+NEW job_instance_id=29
+NEW job_instance_id=30
+NEW job_instance_id=31
+NEW job_instance_id=32
+NEW job_instance_id=33
+NEW job_instance_id=34
+NEW job_instance_id=35
+NEW job_instance_id=36
+NEW job_instance_id=37
+NEW job_instance_id=38
+NEW job_instance_id=39
+NEW job_instance_id=40
+NEW job_instance_id=41
+NEW job_instance_id=42
+NEW job_instance_id=43
+NEW job_instance_id=44
+NEW job_instance_id=45
+NEW job_instance_id=46
+NEW job_instance_id=47
+NEW job_instance_id=48
+NEW job_instance_id=49
+NEW job_instance_id=50
+NEW job_instance_id=51
+NEW job_instance_id=52
+NEW job_instance_id=53
+NEW job_instance_id=54
+NEW job_instance_id=55
+NEW job_instance_id=56
+NEW job_instance_id=57
+NEW job_instance_id=58
+NEW job_instance_id=59
+NEW job_instance_id=60
+NEW job_instance_id=61
+NEW job_instance_id=62
+NEW job_instance_id=63
+NEW job_instance_id=64
+NEW job_instance_id=65
+NEW job_instance_id=66
+NEW job_instance_id=67
+NEW job_instance_id=68
+NEW job_instance_id=69
+NEW job_instance_id=70
+NEW job_instance_id=71
+NEW job_instance_id=72
+NEW job_instance_id=73
+NEW job_instance_id=74
+NEW job_instance_id=75
+NEW job_instance_id=76
+NEW job_instance_id=77
+NEW job_instance_id=78
+NEW job_instance_id=79
+NEW job_instance_id=80
+NEW job_instance_id=81
+NEW job_instance_id=82
+NEW job_instance_id=83
+NEW job_instance_id=84
+NEW job_instance_id=85
+NEW job_instance_id=86
+NEW job_instance_id=87
+NEW job_instance_id=88
+NEW job_instance_id=89
+NEW job_instance_id=90

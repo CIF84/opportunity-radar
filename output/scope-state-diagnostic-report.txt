@@ -1,0 +1,14 @@
+OPPORTUNITY RADAR — PHASE 2 STATE RUN
+
+Run: 2691f953-e93f-45b9-b087-91f7fc43e352
+Status: PARTIAL
+Sources: 1
+Active jobs: 2
+Closed jobs: 0
+Events in run: 2
+
+Johnson & Johnson: SUCCESS, inventory_complete=True, selected_details_complete=False, observed=1845, selected=477, skipped=1368, details=2/477
+
+EVENTS
+NEW job_instance_id=1
+NEW job_instance_id=2
