@@ -24,6 +24,9 @@ def test_alma_same_code_path_and_detail(company, widget):
     session = FakeSession([FakeResponse(url="", text=html), FakeResponse(url="", text=js), FakeResponse(url="", data=listing), FakeResponse(url="", data=detail)])
     adapter = AlmaCareerAdapter(cfg(company, "almacareer", {}), session)
     refs = adapter.list_jobs(adapter.config)
+    assert refs[0].listing_facts.title == "Engineer"
+    assert refs[0].listing_facts.locations[0].country == "Czechia"
+    assert refs[0].listing_facts.date_posted.isoformat() == "2026-08-01"
     assert adapter.fetch_job(refs[0]).locations[0].raw == "Prague, Czechia"
 
 
@@ -34,6 +37,8 @@ def test_json_feed_same_code_path(company, item_path):
     options = {"items_path":item_path, "pagination":{"count_path":"count","pages_path":"pages"}, "fields":{"external_job_id":"id","title":"title","canonical_url":"url","locations":"place"}}
     adapter = JsonFeedAdapter(cfg(company, "json_feed", options), FakeSession([FakeResponse(url="", data=payload)]))
     refs = adapter.list_jobs(adapter.config)
+    assert refs[0].listing_facts.title == "Engineer"
+    assert refs[0].listing_facts.locations[0].raw == "Prague"
     assert adapter.fetch_job(refs[0]).title == "Engineer"
 
 
@@ -51,6 +56,9 @@ def test_phenom_same_code_path(company):
     options = {"canonical_url_template":f"https://{company}.example/job/{{jobId}}/{{title_slug}}"}
     adapter = PhenomAdapter(cfg(company, "phenom", options), FakeSession([FakeResponse(url="", data=payload)]))
     refs = adapter.list_jobs(adapter.config)
+    assert refs[0].listing_facts.title == "Data Lead"
+    assert refs[0].listing_facts.locations[0].raw == "Prague"
+    assert refs[0].listing_facts.date_posted.isoformat() == "2026-08-01"
     assert adapter.fetch_job(refs[0]).canonical_url.endswith("/7/data-lead")
 
 

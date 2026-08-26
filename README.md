@@ -97,6 +97,40 @@ observations, lifecycle state, and deterministic change events:
 
 This does not change the Phase 1 CLI or adapter contracts. See
 `docs/state_change_architecture_report.md` for the Phase 2 evidence and limits.
+The state refresh is serial across employers and serial across each employer's
+details. It preserves the complete identity inventory for lifecycle inference,
+then fetches details only for references retained by the geography-first scope
+policy. Explicitly out-of-scope references are intentional skips, not detail
+failures. `--max-jobs N` applies after scope selection, so it never limits the
+lifecycle inventory; sampling is recorded with `selected_details_complete=false`.
+Successful details are reused while their listing fingerprint is unchanged and
+the periodic refresh interval is not due. The default conservative interval is
+168 hours; override it with `--detail-refresh-hours HOURS` or declaratively per
+source with `options.detail_refresh_hours`. Existing pre-migration detail rows
+are refreshed once to establish reuse evidence.
+A bounded 18-employer diagnostic run is therefore:
+
+```bash
+.venv/bin/opportunity-radar-state --max-jobs 5
+```
+
+The bounded pre-detail scope experiment measures conservative geography
+selection from complete listing inventories without fetching any details or
+writing Phase 2 state:
+
+```bash
+.venv/bin/opportunity-radar-scope-measure
+```
+
+Its immutable JSON artifact separates projected normalization operations from
+projected network detail requests. Unknown geography and remote eligibility
+remain selected; titles are recorded but never used for exclusion.
+`--workday-schema-sample 3` additionally records bounded public listing-entry
+samples and the first listing response's keys/facets for each Workday employer;
+it still performs no detail requests.
+`--successfactors-diagnostic-pages 2` captures a bounded, sanitized snapshot of
+pagination, totals, filters, data attributes, hidden fields, and referenced
+public endpoints from SuccessFactors listing pages already requested.
 
 ## Phase 3 relevance spike
 
@@ -113,3 +147,47 @@ scoring, SQLite reuse, and benchmark portability without an external model:
 Phase 3 does not modify adapters, normalized jobs, or lifecycle state. See
 `docs/phase3_architecture_report.md` for benchmark limitations and the next
 experimental step.
+
+The bounded semantic ROI harness compares a genuinely pre-semantic baseline,
+configured model tiers, projected token cost, stability, and selective-call
+strategies:
+
+```bash
+.venv/bin/python -m opportunity_radar.roi_experiment
+```
+
+External calls are opt-in with `--run-external` and require the credential
+named in `config/semantic_experiment.yaml`. Offline execution never makes a
+model call.
+
+Before the bounded 28-call run, verify transport and credentials with exactly
+one identical semantic request:
+
+```bash
+.venv/bin/python -m opportunity_radar.roi_experiment --smoke-external
+```
+
+## Live Decision Validation experiment
+
+The live-validation layer reuses the existing Phase 1–3 state and assessment
+contracts. Preflight is read-only and never calls a semantic model:
+
+```bash
+.venv/bin/opportunity-radar-live-validation preflight
+```
+
+After reviewing source health, cache misses, and estimated cost, assessment is
+an explicit opt-in command. It uses Luna only and writes an immutable usage
+manifest:
+
+```bash
+.venv/bin/opportunity-radar-live-validation assess
+.venv/bin/opportunity-radar-live-validation prepare
+.venv/bin/opportunity-radar-live-validation record <batch_id> <review_number> APPLY --agree
+.venv/bin/opportunity-radar-live-validation report <batch_id>
+```
+
+Batch manifests are immutable. Human corrections append a new JSONL judgment
+that identifies the judgment it supersedes; historical records are never
+rewritten. The reviewed sample is deliberately stratified and its aggregate
+metrics are not presented as a market-wide estimate.

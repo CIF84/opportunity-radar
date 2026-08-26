@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from html import unescape
 from abc import ABC, abstractmethod
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from typing import Any, Iterable
 
 import requests
@@ -45,6 +45,10 @@ class SchemaMismatchError(ExtractionError):
 
 class CountMismatchError(ExtractionError):
     pass
+
+
+class PaginationCapError(CountMismatchError):
+    """A configured pagination safety cap was reached before completeness was proven."""
 
 
 def value_at_path(value: Any, path: str | None, default: Any = None) -> Any:
@@ -116,6 +120,16 @@ def parse_date(value: Any) -> date | None:
         except ValueError:
             pass
     return None
+
+
+def parse_datetime(value: Any) -> datetime | None:
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(value).strip().replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
 
 
 def work_mode_from_explicit(*values: Any) -> WorkMode:

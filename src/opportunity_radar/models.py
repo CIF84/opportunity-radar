@@ -26,11 +26,39 @@ class JobLocation:
 
 
 @dataclass(frozen=True)
+class ListingFacts:
+    """Optional normalized evidence available before detail retrieval."""
+
+    title: str | None = None
+    locations: tuple[JobLocation, ...] = ()
+    work_mode: WorkMode | None = None
+    department: str | None = None
+    employment_type: str | None = None
+    date_posted: date | None = None
+    source_updated_at: datetime | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        updated = self.source_updated_at
+        if updated and updated.tzinfo is None:
+            updated = updated.replace(tzinfo=timezone.utc)
+        return {
+            "title": self.title,
+            "locations": [asdict(item) for item in self.locations],
+            "work_mode": self.work_mode.value if self.work_mode else None,
+            "department": self.department,
+            "employment_type": self.employment_type,
+            "date_posted": self.date_posted.isoformat() if self.date_posted else None,
+            "source_updated_at": updated.astimezone(timezone.utc).isoformat() if updated else None,
+        }
+
+
+@dataclass(frozen=True)
 class JobReference:
     company_id: str
     external_job_id: str | None
     canonical_url: str
     metadata: dict[str, Any] = field(default_factory=dict, compare=False, repr=False)
+    listing_facts: ListingFacts = field(default_factory=ListingFacts)
 
 
 @dataclass(frozen=True)
@@ -69,4 +97,3 @@ class NormalizedJob:
 
 def utc_now() -> datetime:
     return datetime.now(timezone.utc)
-

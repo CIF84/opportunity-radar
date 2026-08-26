@@ -16,6 +16,9 @@ test = ["pytest>=8.0"]
 opportunity-radar = "opportunity_radar.runner:main"
 opportunity-radar-state = "opportunity_radar.state_runner:main"
 opportunity-radar-phase3 = "opportunity_radar.phase3_runner:main"
+opportunity-radar-semantic-roi = "opportunity_radar.roi_experiment:main"
+opportunity-radar-live-validation = "opportunity_radar.live_validation:main"
+opportunity-radar-scope-measure = "opportunity_radar.scope_measurement:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

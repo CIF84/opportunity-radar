@@ -3,7 +3,7 @@ from __future__ import annotations
 from urllib.parse import urljoin
 
 from opportunity_radar.config import CompanyConfig
-from opportunity_radar.models import JobReference, NormalizedJob, utc_now
+from opportunity_radar.models import JobReference, ListingFacts, NormalizedJob, WorkMode, utc_now
 
 from .base import (
     ConfirmedEmptyInventoryError,
@@ -24,6 +24,24 @@ class WorkdayAdapter(JobSourceAdapter):
         host, tenant, site = config.ats_tenant.split("|")
         self.web_root = f"https://{tenant}.{host}.myworkdayjobs.com/{site}"
         self.api_root = f"https://{tenant}.{host}.myworkdayjobs.com/wday/cxs/{tenant}/{site}"
+        self._listing_diagnostic_limit = 0
+        self.listing_schema_samples = []
+        self.listing_response_diagnostics = []
+
+    def enable_listing_schema_diagnostics(self, sample_size: int) -> None:
+        self._listing_diagnostic_limit = max(0, int(sample_size))
+
+    @staticmethod
+    def _diagnostic_value(value):
+        if value is None or isinstance(value, (bool, int, float)):
+            return value
+        if isinstance(value, str):
+            return value[:500]
+        if isinstance(value, list):
+            return [WorkdayAdapter._diagnostic_value(item) for item in value[:10]]
+        if isinstance(value, dict):
+            return {key: WorkdayAdapter._diagnostic_value(item) for key, item in sorted(value.items())}
+        return f"<{type(value).__name__}>"
 
     def list_jobs(self, company_config: CompanyConfig) -> list[JobReference]:
         limit = int(self.config.options.get("page_size", 20))
@@ -37,20 +55,41 @@ class WorkdayAdapter(JobSourceAdapter):
                 "searchText": self.config.options.get("search_text", ""),
             }
             data = self._request("POST", f"{self.api_root}/jobs", json=payload).json()
+            if self._listing_diagnostic_limit and not self.listing_response_diagnostics:
+                self.listing_response_diagnostics.append({
+                    "keys": sorted(data) if isinstance(data, dict) else [],
+                    "total": data.get("total") if isinstance(data, dict) else None,
+                    "facets": self._diagnostic_value(data.get("facets")) if isinstance(data, dict) else None,
+                    "applied_facets": self._diagnostic_value(payload["appliedFacets"]),
+                    "search_text_set": bool(payload["searchText"]),
+                })
             postings = data.get("jobPostings")
             if not isinstance(postings, list):
                 raise ExtractionError("Workday response has no jobPostings list")
             for item in postings:
+                if len(self.listing_schema_samples) < self._listing_diagnostic_limit:
+                    self.listing_schema_samples.append({
+                        "keys": sorted(item),
+                        "types": {key: type(value).__name__ for key, value in sorted(item.items())},
+                        "sample": self._diagnostic_value(item),
+                    })
                 path = item.get("externalPath")
                 if not path:
                     continue
                 external_id = item.get("bulletFields", [None])[0] if item.get("bulletFields") else None
+                locations_text = clean_text(item.get("locationsText"))
+                mode = work_mode_from_explicit(item.get("remoteType"), locations_text)
                 references.append(
                     JobReference(
                         company_id=company_config.company_id,
                         external_job_id=str(external_id) if external_id else None,
                         canonical_url=urljoin(self.web_root + "/", path.lstrip("/")),
                         metadata={"external_path": path},
+                        listing_facts=ListingFacts(
+                            title=clean_text(item.get("title")),
+                            locations=tuple(locations_from_raw(locations_text)),
+                            work_mode=mode if mode is not WorkMode.UNSPECIFIED else None,
+                        ),
                     )
                 )
             total = int(data.get("total", len(references)))

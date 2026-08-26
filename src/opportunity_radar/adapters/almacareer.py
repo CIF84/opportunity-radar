@@ -9,7 +9,7 @@ from opportunity_radar.adapters.base import (
     ConfirmedEmptyInventoryError, CountMismatchError, JobSourceAdapter, SchemaMismatchError,
     clean_text, parse_date, work_mode_from_explicit,
 )
-from opportunity_radar.models import JobLocation, JobReference, NormalizedJob, utc_now
+from opportunity_radar.models import JobLocation, JobReference, ListingFacts, NormalizedJob, utc_now
 
 
 LIST_QUERY = """query($widgetId: ID!, $filters: [JobAdFilter!]!, $useExampleData: Boolean!, $page: Int, $host: String) { widget(id: $widgetId, useExampleData: $useExampleData, host: $host) { jobAdList(page: $page, filters: $filters) { groupedJobAds { jobAds { id title validFrom locations { city country region } } } paginator { totalNumberOfItems lastPage } } } }"""
@@ -69,7 +69,15 @@ class AlmaCareerAdapter(JobSourceAdapter):
                 if not job.get("id") or not job.get("title"):
                     raise SchemaMismatchError(f"{self.config.company_id}: Alma job schema mismatch")
                 url = urljoin(self.config.endpoint_url, detail_path) + f"?r=detail&id={job['id']}"
-                refs.append(JobReference(self.config.company_id, str(job["id"]), url, {"job": job, "widget_id": widget_id, "api_key": api_key, "host": host}))
+                refs.append(JobReference(
+                    self.config.company_id, str(job["id"]), url,
+                    {"job": job, "widget_id": widget_id, "api_key": api_key, "host": host},
+                    ListingFacts(
+                        title=clean_text(job.get("title")),
+                        locations=tuple(self._locations(job.get("locations"))),
+                        date_posted=parse_date(job.get("validFrom")),
+                    ),
+                ))
             if page >= last_page:
                 break
         if expected == 0:

@@ -1,0 +1,30 @@
+experiment_version: 1
+provider: openai_responses
+endpoint: https://api.openai.com/v1/responses
+api_key_env: OPENAI_API_KEY
+connect_timeout_seconds: 15
+read_timeout_seconds: 300
+repetitions: 2
+top_n: 3
+ambiguous_triage_min: 45
+ambiguous_triage_max: 75
+
+# Pricing assumptions are USD per one million tokens and are deliberately data.
+# Verify against the provider pricing page immediately before a paid run.
+models:
+  economical:
+    model: gpt-5.6-luna
+    reasoning_effort: low
+    input_per_million: 0.20
+    cached_input_per_million: 0.02
+    output_per_million: 1.20
+    estimated_input_tokens_per_job: 6000
+    estimated_output_tokens_per_job: 700
+  stronger:
+    model: gpt-5.6-terra
+    reasoning_effort: medium
+    input_per_million: 2.00
+    cached_input_per_million: 0.20
+    output_per_million: 12.00
+    estimated_input_tokens_per_job: 6000
+    estimated_output_tokens_per_job: 700

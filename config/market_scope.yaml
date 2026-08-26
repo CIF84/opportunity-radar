@@ -1,0 +1,85 @@
+scope_version: 1
+compatible_country_aliases:
+  - Czechia
+  - Czech Republic
+  - Česká republika
+  - CZ
+  - CZE
+compatible_city_aliases:
+  - Prague
+  - Praha
+  - Brno
+  - Ostrava
+  - Mladá Boleslav
+compatible_remote_region_aliases:
+  - global
+  - worldwide
+  - Europe
+  - European Union
+  - EU
+  - EEA
+explicit_incompatible_country_aliases:
+  - Argentina
+  - Armenia
+  - Australia
+  - Austria
+  - Belgium
+  - Brazil
+  - Canada
+  - Chile
+  - China
+  - China's Mainland
+  - Colombia
+  - Costa Rica
+  - Croatia
+  - Cyprus
+  - Denmark
+  - Egypt
+  - Estonia
+  - Finland
+  - France
+  - Germany
+  - Greece
+  - Hong Kong
+  - Hungary
+  - India
+  - Indonesia
+  - Ireland
+  - Israel
+  - Italy
+  - Japan
+  - Latvia
+  - Lithuania
+  - Luxembourg
+  - Malaysia
+  - Mexico
+  - Netherlands
+  - New Zealand
+  - Norway
+  - Pakistan
+  - Peru
+  - Philippines
+  - Poland
+  - Portugal
+  - Romania
+  - Saudi Arabia
+  - Serbia
+  - Singapore
+  - Slovakia
+  - South Africa
+  - South Korea
+  - Spain
+  - Sweden
+  - Switzerland
+  - Taiwan
+  - Thailand
+  - Türkiye
+  - Turkey
+  - Ukraine
+  - United Kingdom
+  - United States
+  - United States of America
+  - USA
+  - Vietnam
+retain_unknown_geography: true
+retain_remote_unknown_eligibility: true

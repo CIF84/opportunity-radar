@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 
 from opportunity_radar.adapters.base import ConfirmedEmptyInventoryError, CountMismatchError, JobSourceAdapter, SchemaMismatchError, clean_text, locations_from_raw, parse_date, work_mode_from_explicit
-from opportunity_radar.models import JobReference, NormalizedJob, utc_now
+from opportunity_radar.models import JobLocation, JobReference, ListingFacts, NormalizedJob, WorkMode, utc_now
 
 
 class PhenomAdapter(JobSourceAdapter):
@@ -31,7 +31,29 @@ class PhenomAdapter(JobSourceAdapter):
                 if not job_id or not title:
                     raise SchemaMismatchError(f"{self.config.company_id}: Phenom job schema mismatch")
                 url = o["canonical_url_template"].format(jobId=job_id, reqId=job.get("reqId", ""), title_slug=self._slug(title))
-                refs.append(JobReference(self.config.company_id, str(job_id), url, {"job": job}))
+                raw_locations = job.get("multi_location") or job.get("location") or []
+                locations = locations_from_raw(raw_locations)
+                structured_parts = [job.get(key) for key in ("city", "state", "country") if job.get(key)]
+                if structured_parts:
+                    structured = JobLocation(
+                        ", ".join(dict.fromkeys(structured_parts)),
+                        city=job.get("city"), region=job.get("state"), country=job.get("country"),
+                    )
+                    if structured.raw not in {item.raw for item in locations}:
+                        locations.append(structured)
+                    else:
+                        locations = [structured if item.raw == structured.raw else item for item in locations]
+                mode = work_mode_from_explicit(job.get("RemoteType"), job.get("type"))
+                refs.append(JobReference(
+                    self.config.company_id, str(job_id), url, {"job": job},
+                    ListingFacts(
+                        title=clean_text(title), locations=tuple(locations),
+                        work_mode=mode if mode is not WorkMode.UNSPECIFIED else None,
+                        department=clean_text(job.get("category")),
+                        employment_type=clean_text(job.get("type")),
+                        date_posted=parse_date(job.get("postedDate")),
+                    ),
+                ))
             offset += len(jobs)
             if offset >= total or not jobs:
                 break

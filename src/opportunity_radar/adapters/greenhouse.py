@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from opportunity_radar.config import CompanyConfig
-from opportunity_radar.models import JobReference, NormalizedJob, utc_now
+from opportunity_radar.models import JobReference, ListingFacts, NormalizedJob, WorkMode, utc_now
 
 from .base import (
     ConfirmedEmptyInventoryError,
@@ -9,7 +9,7 @@ from .base import (
     JobSourceAdapter,
     clean_text,
     locations_from_raw,
-    parse_date,
+    parse_date, parse_datetime,
     work_mode_from_explicit,
 )
 
@@ -28,16 +28,25 @@ class GreenhouseAdapter(JobSourceAdapter):
             raise ExtractionError("Greenhouse response has no jobs list")
         if not jobs:
             raise ConfirmedEmptyInventoryError("Greenhouse returned a valid but empty inventory")
-        return [
-            JobReference(
+        references = []
+        for job in jobs:
+            if not job.get("id") or not job.get("absolute_url"):
+                continue
+            raw_location = (job.get("location") or {}).get("name")
+            mode = work_mode_from_explicit(raw_location)
+            references.append(JobReference(
                 company_id=company_config.company_id,
                 external_job_id=str(job["id"]),
                 canonical_url=job["absolute_url"],
                 metadata={"api_url": f"{self.api_root}/jobs/{job['id']}"},
-            )
-            for job in jobs
-            if job.get("id") and job.get("absolute_url")
-        ]
+                listing_facts=ListingFacts(
+                    title=clean_text(job.get("title")),
+                    locations=tuple(locations_from_raw(raw_location)),
+                    work_mode=mode if mode is not WorkMode.UNSPECIFIED else None,
+                    source_updated_at=parse_datetime(job.get("updated_at")),
+                ),
+            ))
+        return references
 
     def fetch_job(self, job_reference: JobReference) -> NormalizedJob:
         url = job_reference.metadata.get("api_url") or f"{self.api_root}/jobs/{job_reference.external_job_id}"

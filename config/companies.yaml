@@ -61,10 +61,8 @@ companies:
         url: "a.jobTitle-link"
         location: ".jobLocation"
       pagination:
-        param: startrow
-        start: 0
-        step: 25
-        max_pages: 5
+        mode: discovered_offset_link
+        safety_max_pages: 1000
       detail_selectors:
         description: ".jobdescription"
   - company_id: ey
@@ -81,7 +79,7 @@ companies:
         param: startrow
         start: 0
         step: 25
-        max_pages: 5
+        safety_max_pages: 1000
       detail_selectors:
         description: ".jobdescription"
   - company_id: deutsche_boerse_group
@@ -95,10 +93,8 @@ companies:
         url: "a.jobTitle-link"
         location: ".jobLocation"
       pagination:
-        param: startrow
-        start: 0
-        step: 25
-        max_pages: 5
+        mode: discovered_offset_link
+        safety_max_pages: 1000
       detail_selectors:
         description: ".jobdescription"
         date_posted: ".jobDate"

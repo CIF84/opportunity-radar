@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Callable
 
 from opportunity_radar.phase3_benchmark import BenchmarkCase
 from opportunity_radar.phase3_models import CandidateProfile
@@ -35,10 +35,17 @@ def _recall(expected: list[str], actual: set[str]) -> float:
     return 1.0 if not expected else len(set(expected) & actual) / len(set(expected))
 
 
-def evaluate_benchmark(cases: list[BenchmarkCase], candidate: CandidateProfile, taxonomy: Taxonomy, assessor: DeterministicSemanticAssessor) -> list[BenchmarkCaseResult]:
+def evaluate_benchmark(cases: list[BenchmarkCase], candidate: CandidateProfile, taxonomy: Taxonomy, assessor: DeterministicSemanticAssessor, progress: Callable[..., None] | None = None) -> list[BenchmarkCaseResult]:
     results = []
     for case in cases:
-        assessment = assess_opportunity(case.fixture.job, candidate, taxonomy, assessor)
+        if progress:
+            progress("start", case, None, None)
+        try:
+            assessment = assess_opportunity(case.fixture.job, candidate, taxonomy, assessor)
+        except Exception as exc:
+            if progress:
+                progress("error", case, None, exc)
+            raise
         expected = case.expected
         actual_tier = rank_tier(assessment.composite_score)
         strict_rank = expected.get("job_description_only", {}).get("strict_rank_assertion", True)
@@ -61,14 +68,17 @@ def evaluate_benchmark(cases: list[BenchmarkCase], candidate: CandidateProfile, 
         notes = []
         if not strict_rank:
             notes.append("Final human judgment includes evidence unavailable to job-description-only assessment.")
-        results.append(BenchmarkCaseResult(
+        case_result = BenchmarkCaseResult(
             case.benchmark_id, assessment.eligibility.status.value, assessment.triage_score,
             assessment.composite_score, actual_tier, assessment.recommendation.value,
             assessment.eligibility.status.value in expected["eligibility"]["allowed"], rank_pass,
             _recall(expected["strengths"]["required_concepts"], strengths),
             _recall(expected["gaps"]["expected_concepts"], gaps),
             _recall(expected["risks"]["expected_categories"], risks), agreement, tuple(notes),
-        ))
+        )
+        results.append(case_result)
+        if progress:
+            progress("finish", case, case_result, None)
     return results
 
 

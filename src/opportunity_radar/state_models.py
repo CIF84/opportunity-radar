@@ -22,19 +22,33 @@ class SourceOutcome:
     references: list[JobReference] = field(default_factory=list)
     details: list[DetailObservation] = field(default_factory=list)
     inventory_complete: bool = False
-    details_complete: bool = False
+    selected_details_complete: bool = False
     expected_count: int | None = None
     detail_failure_count: int = 0
     error_type: str | None = None
     error_message: str | None = None
+    selected_for_detail_count: int = 0
+    intentionally_skipped_count: int = 0
+    network_detail_request_count: int = 0
+    reused_detail_count: int = 0
+    details_to_fetch_count: int = 0
 
     @property
     def observed_count(self) -> int:
         return len(self.references)
 
     @property
+    def inventory_count(self) -> int:
+        return len(self.references)
+
+    @property
     def detail_success_count(self) -> int:
         return len(self.details)
+
+    @property
+    def details_complete(self) -> bool:
+        """Compatibility alias for the persisted Phase 2 column name."""
+        return self.selected_details_complete
 
 
 @dataclass(frozen=True)

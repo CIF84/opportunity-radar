@@ -8,9 +8,10 @@ from typing import Iterator
 
 from opportunity_radar.change_detection import compare_material, fingerprint, material, snapshot, stable_json
 from opportunity_radar.state_models import DetailObservation, SourceOutcome
+from opportunity_radar.scope_selection import listing_facts_fingerprint
 
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS ingestion_runs (
   run_id TEXT PRIMARY KEY,
@@ -44,6 +45,9 @@ CREATE TABLE IF NOT EXISTS job_instances (
   last_seen_at TEXT NOT NULL,
   lifecycle_state TEXT NOT NULL CHECK(lifecycle_state IN ('ACTIVE','CLOSED')),
   current_fingerprint TEXT,
+  detail_listing_fingerprint TEXT,
+  detail_source_updated_at TEXT,
+  detail_refreshed_at TEXT,
   latest_observation_id INTEGER REFERENCES job_observations(job_observation_id)
 );
 CREATE UNIQUE INDEX IF NOT EXISTS uq_job_external
@@ -133,8 +137,41 @@ class StateRepository:
 
     def initialize(self) -> None:
         with self.connect() as connection:
+            version = connection.execute("PRAGMA user_version").fetchone()[0]
+            if version > SCHEMA_VERSION:
+                raise RuntimeError(
+                    f"database schema version {version} is newer than supported version {SCHEMA_VERSION}"
+                )
             connection.executescript(SCHEMA)
+            columns = {
+                row["name"] for row in connection.execute("PRAGMA table_info(job_instances)")
+            }
+            for name in (
+                "detail_listing_fingerprint", "detail_source_updated_at", "detail_refreshed_at",
+            ):
+                if name not in columns:
+                    connection.execute(f"ALTER TABLE job_instances ADD COLUMN {name} TEXT")
             connection.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
+
+    def detail_reuse_evidence(self, company_id: str) -> dict[tuple[str, str], dict]:
+        """Read successful-detail evidence before network work or a write transaction."""
+        with self.connect() as connection:
+            rows = connection.execute(
+                """SELECT external_job_id,canonical_url,current_fingerprint,
+                          latest_observation_id,detail_listing_fingerprint,
+                          detail_source_updated_at,detail_refreshed_at
+                   FROM job_instances WHERE company_id=?""",
+                (company_id,),
+            ).fetchall()
+        result = {}
+        for row in rows:
+            identity = (
+                ("external", str(row["external_job_id"]))
+                if row["external_job_id"] is not None
+                else ("url", row["canonical_url"])
+            )
+            result[identity] = dict(row)
+        return result
 
     def create_run(self, run_id: str, started_at: str) -> None:
         with self.connect() as connection:
@@ -173,7 +210,7 @@ class StateRepository:
             ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
             (run_id, outcome.company_id, outcome.adapter, outcome.status,
              outcome.expected_count, outcome.observed_count, outcome.inventory_complete,
-             outcome.details_complete, outcome.detail_success_count,
+             outcome.selected_details_complete, outcome.detail_success_count,
              outcome.detail_failure_count, outcome.error_type, outcome.error_message,
              outcome.observed_at.isoformat()),
         )
@@ -228,10 +265,13 @@ class StateRepository:
                     fp = fingerprint(detail.job)
                     cursor = connection.execute(
                         """INSERT INTO job_instances(company_id,external_job_id,canonical_url,
-                           first_seen_at,last_seen_at,lifecycle_state,current_fingerprint)
-                           VALUES (?,?,?,?,?,'ACTIVE',?)""",
+                           first_seen_at,last_seen_at,lifecycle_state,current_fingerprint,
+                           detail_listing_fingerprint,detail_source_updated_at,detail_refreshed_at)
+                           VALUES (?,?,?,?,?,'ACTIVE',?,?,?,?)""",
                         (outcome.company_id, reference.external_job_id,
-                         reference.canonical_url, at, at, fp),
+                         reference.canonical_url, at, at, fp,
+                         listing_facts_fingerprint(reference.listing_facts),
+                         reference.listing_facts.to_dict()["source_updated_at"], at),
                     )
                     job_id = cursor.lastrowid
                     self._event(connection, run_id, job_id, "NEW", at)
@@ -273,9 +313,13 @@ class StateRepository:
                 ).fetchone()
                 connection.execute(
                     """UPDATE job_instances SET current_fingerprint=?,latest_observation_id=?,
-                       canonical_url=? WHERE job_instance_id=?""",
+                       canonical_url=?,detail_listing_fingerprint=?,
+                       detail_source_updated_at=?,detail_refreshed_at=?
+                       WHERE job_instance_id=?""",
                     (fp, observation["job_observation_id"],
                      reference.canonical_url if reference.external_job_id is not None else existing["canonical_url"] if existing else reference.canonical_url,
+                     listing_facts_fingerprint(reference.listing_facts),
+                     reference.listing_facts.to_dict()["source_updated_at"], at,
                      job_id),
                 )
             active = connection.execute(

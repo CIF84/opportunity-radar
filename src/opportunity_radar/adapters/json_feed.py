@@ -3,14 +3,15 @@ from __future__ import annotations
 import math
 
 from opportunity_radar.adapters.base import ConfirmedEmptyInventoryError, CountMismatchError, JobSourceAdapter, SchemaMismatchError, UnvalidatedEmptyInventoryError, clean_text, locations_from_raw, parse_date, value_at_path, work_mode_from_explicit
-from opportunity_radar.models import JobReference, NormalizedJob, utc_now
+from opportunity_radar.models import JobReference, ListingFacts, NormalizedJob, WorkMode, utc_now
 
 
 class JsonFeedAdapter(JobSourceAdapter):
     source = "json_feed"
 
     def _field(self, item, name, default=None):
-        return value_at_path(item, self.config.options.get("fields", {}).get(name), default)
+        path = self.config.options.get("fields", {}).get(name)
+        return value_at_path(item, path, default) if path else default
 
     def list_jobs(self, company_config):
         o = self.config.options
@@ -38,7 +39,24 @@ class JsonFeedAdapter(JobSourceAdapter):
                 if not title or not url:
                     raise SchemaMismatchError(f"{self.config.company_id}: mapped title/canonical_url missing")
                 external_id = self._field(item, "external_job_id")
-                refs.append(JobReference(self.config.company_id, str(external_id) if external_id is not None else None, str(url), {"item": item}))
+                locations = self._field(item, "locations", [])
+                if isinstance(locations, dict):
+                    locations = list(locations.values())
+                mode = work_mode_from_explicit(self._field(item, "work_mode"), locations)
+                refs.append(JobReference(
+                    self.config.company_id,
+                    str(external_id) if external_id is not None else None,
+                    str(url),
+                    {"item": item},
+                    ListingFacts(
+                        title=clean_text(title),
+                        locations=tuple(locations_from_raw(locations)),
+                        work_mode=mode if mode is not WorkMode.UNSPECIFIED else None,
+                        department=clean_text(self._field(item, "department")),
+                        employment_type=clean_text(self._field(item, "employment_type")),
+                        date_posted=parse_date(self._field(item, "date_posted")),
+                    ),
+                ))
             if max_pages is None and expected is not None and items:
                 max_pages = math.ceil(expected / len(items))
             if not items or (max_pages is not None and page >= max_pages):

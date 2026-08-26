@@ -162,7 +162,7 @@ def test_identical_content_on_later_phase2_observation_reuses_semantic(tmp_path)
 def test_phase3_schema_is_minimal_extension(tmp_path):
     state = StateRepository(tmp_path / "state.db")
     with state.connect() as connection:
-        assert connection.execute("PRAGMA user_version").fetchone()[0] == SCHEMA_VERSION == 2
+        assert connection.execute("PRAGMA user_version").fetchone()[0] == SCHEMA_VERSION == 3
     assert state.rows("candidate_profiles") == []
 
 
