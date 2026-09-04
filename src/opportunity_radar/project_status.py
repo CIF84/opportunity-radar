@@ -233,6 +233,7 @@ def _profile_status(root: Path, database: dict[str, Any]) -> dict[str, Any]:
         "full_profile_fingerprint": profile.full_profile_fingerprint,
         "semantic_profile_fingerprint": profile.semantic_profile_fingerprint,
         "scoring_preference_fingerprint": profile.scoring_preference_fingerprint,
+        "market_access_policy_fingerprint": profile.market_access_policy_fingerprint,
         "persisted_version_found": persisted is not None,
         "config_database_fingerprint_match": fingerprint_match,
     }

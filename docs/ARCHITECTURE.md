@@ -115,6 +115,9 @@ Invariants:
 - Semantic models do not own identity, lifecycle, persistence, hard
   eligibility, composite arithmetic, recommendation, or action authority.
 - Job descriptions are evidence and untrusted input, never model instructions.
+- `CandidateProfile` version 2 validates a separately fingerprinted
+  `market_access_policy`; that policy is excluded from semantic-v1 inputs and
+  is not yet consumed by an evaluator or ranking path.
 
 ## DECIDE
 
@@ -187,8 +190,9 @@ JobInstance != Opportunity != Application intent
 
 ## Planned and audited, not implemented
 
-The post-validation architecture audit identified four Phase 4 concepts. They
-are design direction only and must not be described as current behavior:
+The post-validation architecture audit identified four Phase 4 behavioral
+concepts. They are design direction only and must not be described as current
+behavior:
 
 1. `CurrentCandidateMarketStatus`: `IN_SCOPE`, `UNCERTAIN`, or `OUT_OF_SCOPE`
    after detailed active state and before candidate ranking. It must never
@@ -202,9 +206,10 @@ are design direction only and must not be described as current behavior:
 
 The candidate's Prague onsite/hybrid boundary, Czech-compatible remote policy,
 exceptional-relocation posture, language/work-access facts, `UNCERTAIN` cap,
-junior-role guard, and soft preference trade-offs are accepted policy inputs.
-They remain unimplemented. Phase 4 of `SPEC.md` defines their intended
-configuration and evaluation boundaries.
+and junior-role guard are now represented in the generic CandidateProfile
+schema and configuration. Their behavioral evaluation remains unimplemented.
+Soft preference trade-offs remain accepted policy but are deferred to the
+decision-preference slice. Phase 4 of `SPEC.md` defines the boundaries.
 
 The planned responsibility split is:
 

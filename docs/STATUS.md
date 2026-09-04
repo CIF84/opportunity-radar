@@ -13,8 +13,10 @@ state, and explain which active opportunities deserve a candidate's attention.
 Phases 1–3 are implemented. Scope-aware ingestion and persisted detail reuse
 have passed bounded validation. The first Live Decision Validation is complete.
 
-Phase 4 is in **experiment design / pre-implementation**. No Phase 4 product
-behavior is implemented.
+Phase 4 Slice 1 is implemented: both candidate profiles now carry a validated,
+versioned, independently fingerprinted market-access policy. No market-status
+evaluation, routing, recommendation cap, clustering, preference behavior, or
+other Phase 4 product behavior is implemented.
 
 ## Last validated state
 
@@ -63,8 +65,9 @@ complete inventory
 ```
 
 The first three stages and Phase 3 assessment/decision contracts exist. The
-candidate-market, clustering, preferred-variant, and preference-policy stages
-are planned only.
+candidate market-access representation exists, but candidate-market
+evaluation/routing, clustering, preferred-variant, and preference-policy
+stages are planned only.
 
 ## Confirmed Phase 4 candidate policy
 
@@ -96,11 +99,11 @@ The accepted decisions and rationale are recorded in `docs/decisions.yaml`.
 The runtime representation and validation contract are specified in Phase 4
 of `SPEC.md`.
 
-`config/candidate.yaml` remains the frozen Phase 3 version-1 profile and cannot
-represent this policy losslessly. Its older authorization/language/relocation
-fields must not be mistaken for implemented Phase 4 behavior. Slice 1 will
-introduce a new profile version and separate fingerprints while preserving the
-semantic-v1 projection.
+`config/candidate.yaml` is now profile version 2. Its new
+`market_access_policy` is the Phase 4 authority for these facts and policies.
+The older `facts` fields remain unchanged solely to preserve the exact
+`phase3-semantic-v1` input projection and semantic cache identity. The policy
+is represented and validated but is not yet consumed by runtime routing.
 
 ## Frozen items
 
@@ -126,7 +129,8 @@ The next gate is not “tune Luna.”
 
 ## Next intended experiments
 
-1. Implement and replay a conservative current-candidate market status.
+1. Implement the pure current-candidate market-status evaluator and prove it
+   against synthetic and historical regression evidence.
 2. Demonstrate high-confidence employer-scoped opportunity clustering without
    merging `JobInstance` records.
 3. Add a versioned preference-aware decision policy without one-off dislikes.
@@ -155,8 +159,10 @@ Repository inspection on 2026-09-04 found:
   `PARTIAL`, with all 18 source observations `SUCCESS`;
 - 431 active and 1 closed persisted job instances;
 - 406 Luna / low / semantic-v1 assessments;
-- current candidate `roman_christov` version 1 matching its persisted
-  fingerprints;
+- operational SQLite contains candidate `roman_christov` version 1; repository
+  configuration is now version 2 with only separately fingerprinted Phase 4
+  market-access additions, so it is intentionally not yet persisted by a
+  normal run;
 - two intentionally retained interrupted historical `RUNNING` rows;
 - offline tests passing; see the optional test receipt/status output for the
   exact most recent command and count.

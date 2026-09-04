@@ -141,6 +141,10 @@ def _write_control_plane(root: Path, include_judgments: bool = True) -> Path:
 
 def test_status_is_read_only_and_detects_complete_latest_validation(tmp_path):
     database = _write_control_plane(tmp_path)
+    profile = load_candidate_profile(
+        tmp_path / "config/candidate.yaml",
+        load_taxonomy(tmp_path / "config/taxonomy.yaml"),
+    )
     before = hashlib.sha256(database.read_bytes()).hexdigest()
     modified = database.stat().st_mtime_ns
     status = collect_project_status(
@@ -153,6 +157,7 @@ def test_status_is_read_only_and_detects_complete_latest_validation(tmp_path):
     assert status["database"]["schema_version"] == 3
     assert status["database"]["source_health"]["total"] == 2
     assert status["candidate"]["config_database_fingerprint_match"] is True
+    assert status["candidate"]["market_access_policy_fingerprint"] == profile.market_access_policy_fingerprint
     assert status["latest_validation"] == {
         "experiment_id": "EXP-TEST", "batch_id": "batch-test", "reviewed": 2,
         "sample_size": 2, "verdict": "NO_GO",

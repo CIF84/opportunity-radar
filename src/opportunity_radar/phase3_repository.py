@@ -33,7 +33,9 @@ class Phase3Repository:
     def save_profile(self, profile: CandidateProfile) -> int:
         payload = {
             "profile": {"profile_id": profile.profile_id, "version": profile.version, "created_at": profile.created_at},
-            **profile.semantic_payload(), "hard_constraints": profile.hard_constraints,
+            **profile.semantic_payload(),
+            "market_access_policy": profile.market_access_policy.payload(),
+            "hard_constraints": profile.hard_constraints,
             "scoring_preferences": {"dimensions": profile.scoring_weights},
         }
         with self.state.connect() as connection:

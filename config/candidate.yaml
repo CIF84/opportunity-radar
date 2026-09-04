@@ -1,8 +1,10 @@
 profile:
   profile_id: roman_christov
-  version: 1
-  created_at: "2026-08-25"
+  version: 2
+  created_at: "2026-09-04"
 
+# Frozen phase3-semantic-v1 facts. Phase 4 market-access authority is the
+# separately fingerprinted policy below.
 facts:
   residence:
     country: Czechia
@@ -257,6 +259,64 @@ preferences:
   sector_bias:
     b2c_over_b2b:
       importance: MEDIUM
+
+# Phase 4 Slice 1 representation only; no market evaluator/routing is active.
+market_access_policy:
+  policy_version: 1
+
+  onsite_hybrid:
+    accepted_locations:
+      - country: Czechia
+        city: Prague
+    outside_accepted_locations: OUT_OF_SCOPE
+
+  remote:
+    residence_country: Czechia
+    require_confirmed_residence_compatibility: true
+    compatible_scope_labels:
+      - CZECHIA
+      - EUROPE
+      - EUROPEAN_UNION
+      - EUROPEAN_ECONOMIC_AREA
+      - GLOBAL
+    compatible_working_time_regions:
+      - EUROPEAN_COMPATIBLE
+    confirmed_compatible: IN_SCOPE
+    employment_access_unspecified: UNCERTAIN
+    explicit_foreign_restriction: OUT_OF_SCOPE
+    incompatible_working_hours: OUT_OF_SCOPE
+    working_hours_unspecified: UNCERTAIN
+
+  relocation:
+    mode: EXCEPTIONAL_ONLY
+    normal_shortlist: false
+
+  work_access:
+    Czechia: CONFIRMED
+    foreign_default: UNKNOWN
+
+  languages:
+    Czech:
+      support: NATIVE_PROFESSIONAL
+    English:
+      support: PROFESSIONAL
+    Slovak:
+      support: COMPREHENSION_ONLY
+      notes: "Full comprehension; candidate normally speaks Czech rather than Slovak."
+    French:
+      support: NONE
+      notes: "Studied historically but not currently professionally usable."
+    Japanese:
+      support: NONE
+
+  uncertainty:
+    terminal_recommendation_cap: REVIEW
+
+  seniority_guard:
+    explicit_levels:
+      - JUNIOR
+      - GRADUATE
+    terminal_recommendation_cap: LOW_PRIORITY
 
 hard_constraints:
   mandatory_location_exclusions: []

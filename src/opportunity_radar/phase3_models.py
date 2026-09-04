@@ -29,6 +29,37 @@ class Recommendation(str, Enum):
 
 
 @dataclass(frozen=True)
+class MarketAccessPolicy:
+    policy_version: int
+    onsite_hybrid: dict[str, Any]
+    remote: dict[str, Any]
+    relocation: dict[str, Any]
+    work_access: dict[str, str]
+    languages: dict[str, dict[str, Any]]
+    uncertainty: dict[str, Any]
+    seniority_guard: dict[str, Any]
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "policy_version": self.policy_version,
+            "onsite_hybrid": self.onsite_hybrid,
+            "remote": self.remote,
+            "relocation": self.relocation,
+            "work_access": self.work_access,
+            "languages": self.languages,
+            "uncertainty": self.uncertainty,
+            "seniority_guard": self.seniority_guard,
+        }
+
+    def work_access_status(self, jurisdiction: str) -> str | None:
+        return self.work_access.get(jurisdiction)
+
+    def language_support(self, language: str) -> str | None:
+        value = self.languages.get(language)
+        return None if value is None else str(value["support"])
+
+
+@dataclass(frozen=True)
 class CandidateProfile:
     profile_id: str
     version: int
@@ -37,12 +68,14 @@ class CandidateProfile:
     capabilities: tuple[dict[str, Any], ...]
     experience: dict[str, Any]
     preferences: dict[str, Any]
+    market_access_policy: MarketAccessPolicy
     hard_constraints: dict[str, Any]
     strategic_goals: tuple[dict[str, Any], ...]
     scoring_weights: dict[str, float]
     full_profile_fingerprint: str
     semantic_profile_fingerprint: str
     scoring_preference_fingerprint: str
+    market_access_policy_fingerprint: str
 
     def capability(self, concept_id: str) -> dict[str, Any] | None:
         """None means UNKNOWN; an explicit record may have level NONE."""

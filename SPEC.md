@@ -3583,8 +3583,10 @@ dominant upstream failures before any change to `gpt-5.6-luna`, reasoning
 `low`, `phase3-semantic-v1`, the six scoring weights, or the historical
 benchmark.
 
-Phase 4 is initially an experiment, not a claim that the described runtime
-behavior already exists.
+Phase 4 is initially an experiment. Slice 1 implements only the generic,
+versioned candidate market-access representation and fingerprint. No market
+evaluation, routing, clustering, preference effect, or recommendation behavior
+described below exists yet.
 
 ## 2. Scope and Invariants
 
@@ -3651,12 +3653,11 @@ projection must remain byte-for-byte equivalent for retrospective replay; a
 future decision to send any new field to a semantic model requires a new
 semantic contract and fingerprint.
 
-The current `config/candidate.yaml` is the frozen Phase 3 version-1 artifact.
-Its existing authorization, language, and relocation fields cannot represent
-the confirmed Phase 4 policy losslessly and are not silently edited by this
-specification task. Until Slice 1 creates a validated version-2 profile, the
-accepted decision records are authoritative for Phase 4 policy and no Phase 4
-runtime behavior is claimed.
+`config/candidate.yaml` is now a validated version-2 profile with a versioned
+`market_access_policy`. Existing Phase 3 `facts` are intentionally unchanged
+so the semantic-v1 projection and fingerprint remain identical to version 1.
+The new market policy is the Phase 4 authority for market-access decisions,
+but no evaluator or routing behavior consumes it until later slices.
 
 The minimum policy representation must support:
 
@@ -4333,9 +4334,10 @@ The full Phase 1–3 offline suite remains required.
 
 Implement Phase 4 in bounded, reviewable slices:
 
-1. **Candidate market-access representation** — extend the generic profile
-   loader, version/fingerprint market policy separately, add the confirmed
-   initial policy, and preserve the exact semantic-v1 projection.
+1. **Candidate market-access representation — implemented** — the generic
+   profile loader validates and fingerprints market policy separately, both
+   candidate profiles use the same schema, and the exact semantic-v1
+   projection is preserved. This slice adds no market behavior.
 2. **Market evaluator** — implement evidence normalization and pure
    `CurrentCandidateMarketStatus` evaluation with historical/synthetic
    regressions; do not yet alter normal shortlist orchestration.

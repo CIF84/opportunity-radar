@@ -133,11 +133,28 @@ def test_semantic_cache_reuse_and_invalidation(tmp_path):
     assert assessor.calls == 1 and same.semantic_reused
 
     weights = dict(candidate.scoring_weights); weights["functional_alignment"] = .30; weights["strategic_alignment"] = .15
-    weight_only = replace(candidate, version=2, scoring_weights=weights, scoring_preference_fingerprint=digest(weights), full_profile_fingerprint=digest((candidate.full_profile_fingerprint, weights)))
+    weight_only = replace(candidate, version=candidate.version + 1, scoring_weights=weights, scoring_preference_fingerprint=digest(weights), full_profile_fingerprint=digest((candidate.full_profile_fingerprint, weights)))
     rescored = assess_opportunity(job, weight_only, taxonomy, assessor, repository=repo, job_instance_id=job_id, job_observation_id=observation_id, content_fingerprint=content_fp)
     assert assessor.calls == 1 and rescored.semantic_reused
 
-    semantic_change = replace(candidate, version=3, semantic_profile_fingerprint=digest("changed semantic profile"), full_profile_fingerprint=digest("changed full profile"))
+    market_payload = candidate.market_access_policy.payload()
+    market_payload["remote"] = {
+        **market_payload["remote"], "working_hours_unspecified": "OUT_OF_SCOPE",
+    }
+    market_only = replace(
+        candidate,
+        version=candidate.version + 2,
+        market_access_policy=replace(
+            candidate.market_access_policy,
+            remote=market_payload["remote"],
+        ),
+        market_access_policy_fingerprint=digest(market_payload),
+        full_profile_fingerprint=digest((candidate.full_profile_fingerprint, market_payload)),
+    )
+    rerouted = assess_opportunity(job, market_only, taxonomy, assessor, repository=repo, job_instance_id=job_id, job_observation_id=observation_id, content_fingerprint=content_fp)
+    assert assessor.calls == 1 and rerouted.semantic_reused
+
+    semantic_change = replace(candidate, version=candidate.version + 3, semantic_profile_fingerprint=digest("changed semantic profile"), full_profile_fingerprint=digest("changed full profile"))
     assess_opportunity(job, semantic_change, taxonomy, assessor, repository=repo, job_instance_id=job_id, job_observation_id=observation_id, content_fingerprint=content_fp)
     assert assessor.calls == 2
     changed_job = replace(job, description=job.description + " Materially changed responsibilities.")
