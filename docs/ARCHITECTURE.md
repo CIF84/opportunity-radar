@@ -200,6 +200,23 @@ are design direction only and must not be described as current behavior:
 4. Preference-aware decision layer: versioned candidate decision preferences
    applied without silently changing cached semantic interpretation.
 
+The candidate's Prague onsite/hybrid boundary, Czech-compatible remote policy,
+exceptional-relocation posture, language/work-access facts, `UNCERTAIN` cap,
+junior-role guard, and soft preference trade-offs are accepted policy inputs.
+They remain unimplemented. Phase 4 of `SPEC.md` defines their intended
+configuration and evaluation boundaries.
+
+The planned responsibility split is:
+
+- candidate-market status owns geographic, remote-employment,
+  work-authorization/residency, and required-language practicality;
+- hard eligibility owns only explicit non-market hard constraints;
+- opportunity clusters group postings without changing member identity or
+  lifecycle;
+- preferred-variant and decision-preference policy are candidate-dependent;
+- terminal policy composition stays deterministic and downstream of semantic
+  interpretation.
+
 The gate and implementation order for these experiments are in `STATUS.md`.
 
 ## Known architecture debt

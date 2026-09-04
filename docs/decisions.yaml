@@ -223,3 +223,73 @@ decisions:
     supersedes: []
     related_experiments: []
     affected_contracts: [agent authority, future action log]
+
+  - decision_id: DR-017
+    title: Use Prague as the normal onsite and hybrid market
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: The candidate explicitly confirmed a narrower normal employment market than residence-country matching implies; relocation would create substantial household and career disruption.
+    decision: Treat Prague as the normal onsite/hybrid market, treat foreign onsite/hybrid roles as out of normal scope, and retain relocation only as an exceptional explicit exploration path without quantifying it in Phase 4.
+    evidence: [candidate confirmation recorded in this decision, output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md]
+    alternatives_rejected: [Accept every Czech city, allow foreign onsite roles whenever relocation is theoretically possible, encode household details in generic scoring]
+    assumptions: [Exceptional relocation opportunities may require a later separately authorized override]
+    consequences: [Other Czech cities are not automatically in scope, lifecycle remains independent of this candidate policy]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [planned CurrentCandidateMarketStatus, planned CandidateProfile market-access policy]
+
+  - decision_id: DR-018
+    title: Require evidence for Czech-compatible remote and foreign work access
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: The candidate can work in Czechia but has no separately established foreign-country authorization; remote labels alone do not prove legal or practical Czech access.
+    decision: Treat confirmed Czech-compatible, European-hours remote arrangements as in scope; explicit foreign restrictions as out of scope; and missing employment-access evidence as uncertain. Do not infer foreign authorization or make legal/tax determinations. Treat Czech and English as work-capable, Slovak comprehension as supported, French as not work-capable, and Japanese as NONE.
+    evidence: [candidate confirmation recorded in this decision, output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md]
+    alternatives_rejected: [Treat all global remote roles as accessible, infer foreign authorization, use French as professionally usable, treat missing language evidence as incompatibility]
+    assumptions: [European-compatible hours can be represented declaratively without a fixed UTC-offset rule]
+    consequences: [Candidate facts require a new profile version when implemented, unknown access remains distinct from incompatibility]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [planned CurrentCandidateMarketStatus, planned CandidateProfile facts]
+
+  - decision_id: DR-019
+    title: Cap uncertain candidate-market status at review
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: Uncertain practical access means the opportunity may be attractive but a material fact still requires verification.
+    decision: A CurrentCandidateMarketStatus of UNCERTAIN must never produce terminal recommendation APPLY; its maximum recommendation is REVIEW.
+    evidence: [candidate confirmation recorded in this decision]
+    alternatives_rejected: [Treat uncertainty as eligibility, reject every uncertainty]
+    assumptions: [Uncertain opportunities remain inspectable and may still receive semantic assessment]
+    consequences: [Recommendation precedence requires a deterministic market-status cap]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [planned CurrentCandidateMarketStatus, Recommendation]
+
+  - decision_id: DR-020
+    title: Use a candidate-configurable junior-role guard
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: An explicitly junior vacancy was materially below the candidate's normal career level, but lower-level roles are not universally invalid choices.
+    decision: When explicit junior/graduate evidence matches the candidate's seniority-floor policy, cap recommendation at LOW_PRIORITY rather than mark the vacancy INELIGIBLE.
+    evidence: [candidate confirmation recorded in this decision, output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md]
+    alternatives_rejected: [Universal junior-role rejection, let a high aggregate score erase explicit down-leveling]
+    assumptions: [The guard activates only on explicit evidence and is candidate configuration]
+    consequences: [Missing or ambiguous seniority evidence cannot activate the cap]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [planned SeniorityGuard, Recommendation]
+
+  - decision_id: DR-021
+    title: Keep candidate aversions soft and tradeable
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: Human judgments showed recurring aversions, while WPP Automation and AI remained APPLY because strategic learning upside outweighed broader agency skepticism.
+    decision: Represent functional, domain, employer, and product attractions/aversions as structured decision preferences. Omission is neutral; soft aversions may reduce priority but never act as hidden hard rejection and may be outweighed by positive strategic evidence.
+    evidence: [candidate confirmation recorded in this decision, output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md]
+    alternatives_rejected: [Employer-specific Python branches, convert observed dislikes into hard constraints, prevent positive evidence from offsetting aversion]
+    assumptions: [Preference effects can be versioned and applied after semantic assessment]
+    consequences: [Decision preferences need a fingerprint independent of semantic-profile identity]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [planned DecisionPreferences, planned decision-preference fingerprint]

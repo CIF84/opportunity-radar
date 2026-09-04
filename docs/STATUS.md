@@ -66,6 +66,42 @@ The first three stages and Phase 3 assessment/decision contracts exist. The
 candidate-market, clustering, preferred-variant, and preference-policy stages
 are planned only.
 
+## Confirmed Phase 4 candidate policy
+
+The candidate has explicitly confirmed the following policy. It is durable
+design input for Phase 4, not implemented behavior:
+
+- Normal onsite/hybrid work is acceptable in Prague, Czechia. Other Czech
+  cities and foreign locations are not automatically acceptable.
+- Remote work is acceptable while resident in Czechia when Czech-based
+  employment/engagement is confirmed and working hours are reasonably
+  European-compatible. Missing practical eligibility evidence is uncertain;
+  an explicitly foreign-restricted arrangement is out of scope.
+- Relocation is exceptional rather than part of the normal shortlist. It may
+  be explored later only as an explicit override for exceptional upside.
+- Czech work access is confirmed. Foreign work authorization must not be
+  inferred, and the system must not purport to decide international employment
+  or tax law.
+- Czech and English are work-capable; Slovak comprehension must not itself
+  disqualify a role; French is not currently work-capable; Japanese is `NONE`.
+- Candidate-market `UNCERTAIN` can produce at most `REVIEW`.
+- Explicit junior/graduate roles are capped at `LOW_PRIORITY` when the
+  candidate-configured seniority guard applies; they are not universally
+  ineligible.
+- Domain, function, employer, and product aversions remain soft and tradeable.
+  Strong AI, automation, transformation, learning, or strategic upside may
+  outweigh them.
+
+The accepted decisions and rationale are recorded in `docs/decisions.yaml`.
+The runtime representation and validation contract are specified in Phase 4
+of `SPEC.md`.
+
+`config/candidate.yaml` remains the frozen Phase 3 version-1 profile and cannot
+represent this policy losslessly. Its older authorization/language/relocation
+fields must not be mistaken for implemented Phase 4 behavior. Slice 1 will
+introduce a new profile version and separate fingerprints while preserving the
+semantic-v1 projection.
+
 ## Frozen items
 
 Until the current gate is evaluated, do not change casually:
@@ -101,13 +137,10 @@ The next gate is not “tune Luna.”
 
 ## Known blockers and open decisions
 
-- Define candidate-acceptable onsite/hybrid countries and cities.
-- Confirm remote employment regions, work authorization, and relocation facts.
-- Decide whether `UNCERTAIN` caps recommendation at `REVIEW`.
-- Decide how explicit junior roles affect recommendation for this candidate.
 - Decide whether manual opportunity-cluster overrides are allowed.
-- Choose future validation unit: posting attention, opportunity attention, or
-  application intent.
+- Predeclare the initial bounded numeric/ordinal effect mapping for soft
+  decision preferences before retrospective replay.
+- Choose the prospective Phase 4 batch size and stopping rule.
 - Confirm repository privacy before tracking raw candidate judgment notes.
 - Choose a durable private backup/retention policy for operational SQLite and
   local judgment evidence.

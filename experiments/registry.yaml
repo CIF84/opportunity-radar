@@ -109,5 +109,5 @@ experiments:
     result: Recall passed, but precision/agreement failed. Routing, posting-level identity, and preference representation dominate the failure pattern; the semantic hypothesis remains viable.
     decision: Directional NO_GO. Freeze Luna/low/semantic-v1 and test upstream Phase 4 corrections before semantic tuning.
     limitations: Stratified sample is not an unbiased market estimate; raw judgments are private local evidence pending repository privacy/backup policy.
-    related_decisions: [DR-012, DR-013, DR-014, DR-015]
-    commit_or_worktree_state: "fe03f72 plus uncommitted final judgments, report, and judgment identity-resolution fix"
+    related_decisions: [DR-012, DR-013, DR-014, DR-015, DR-017, DR-018, DR-019, DR-020, DR-021]
+    commit_or_worktree_state: "fd4c579 (control-plane commit preserving the final report and judgment identity-resolution fix; raw judgment evidence remains local by policy)"

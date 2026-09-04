@@ -44,6 +44,13 @@ One judgment is evidence, not an automatic policy change. Feedback must never
 silently mutate candidate configuration, taxonomy, deterministic rules,
 semantic prompts, weights, or production behavior.
 
+An explicit candidate confirmation may promote a fact or preference into an
+accepted decision record. That promotion preserves the human policy, but does
+not claim runtime implementation. Code/configuration adoption is a separate,
+reviewable change with its own version, tests, and experiment gate. Personal
+rationale may remain in the decision record while runtime configuration keeps
+only the minimum operational policy.
+
 Promotion guidance:
 
 - Candidate fact corrections require candidate confirmation and a new profile

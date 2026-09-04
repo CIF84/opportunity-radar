@@ -3556,3 +3556,836 @@ Phase 3 passes if:
 13. material semantic-input changes invalidate cached assessments;
 14. Phase 1 and Phase 2 continue passing unchanged;
 15. candidate-specific logic does not leak into adapters, job identity, or market state.
+
+# Opportunity Radar
+## Phase 4 — Candidate-Market Routing, Opportunity Identity & Preference-Aware Decision
+
+## 1. Purpose
+
+Phase 4 tests whether deterministic routing, high-confidence opportunity
+grouping, and explicitly declared candidate preferences can improve shortlist
+precision without sacrificing the reviewed-sample recall achieved by Phase 3.
+
+The motivating Live Decision Validation v1 baseline is the immutable batch
+`batch-20260826T210045Z-6492b09a`:
+
+- 30/30 judgments recorded;
+- directional verdict `NO_GO`;
+- top attention acceptance 35%;
+- ranking agreement 40%;
+- strict and shortlist APPLY recall 100%;
+- 11 deterministic eligibility disagreements;
+- 7 unrepresented-preference disagreements;
+- only 2 semantic-interpretation disagreements.
+
+The semantic hypothesis remains viable. Phase 4 therefore addresses the
+dominant upstream failures before any change to `gpt-5.6-luna`, reasoning
+`low`, `phase3-semantic-v1`, the six scoring weights, or the historical
+benchmark.
+
+Phase 4 is initially an experiment, not a claim that the described runtime
+behavior already exists.
+
+## 2. Scope and Invariants
+
+The intended flow is:
+
+```text
+complete inventory
+  -> retrieval scope
+  -> detailed active state
+  -> current-candidate market status
+  -> hard eligibility
+  -> high-confidence opportunity clustering
+  -> preferred variant
+  -> semantic assessment or semantic-cache reuse
+  -> preference-aware decision layer
+  -> deterministic composite / recommendation / shortlist
+  -> human validation
+```
+
+Phase 4 preserves these existing boundaries:
+
+- adapters remain persistence-agnostic and candidate-agnostic;
+- complete unfiltered identity inventory remains the only evidence that may
+  drive presence and closure;
+- retrieval scope controls detail cost, not candidate eligibility;
+- `JobInstance` identity and lifecycle remain independent of current-candidate
+  suitability;
+- `JobInstance`, human opportunity, and application intent remain distinct;
+- semantic models do not own identity, lifecycle, persistence, eligibility,
+  policy precedence, composite arithmetic, recommendation, or action;
+- recommendation never grants authority to apply;
+- existing semantic assessments and human judgments remain immutable evidence;
+- `UNKNOWN` or missing evidence never becomes deterministic incompatibility;
+- no Phase 4 decision-only change may weaken semantic-cache identity.
+
+Phase 4 does not merge source postings, infer probabilistic identity, make
+employment-law determinations, quantify relocation economics, or implement an
+application action.
+
+## 3. Candidate Configuration Boundary
+
+Candidate-specific market access and decision preferences remain versioned
+data. Python logic consumes generic schemas and must not branch on candidate
+identity, employer name, or one-off dislikes.
+
+The first implementation extends the `CandidateProfile` configuration with two
+separate sections:
+
+1. `market_access_policy` — practical geography, remote-employment,
+   work-access, language, relocation, and seniority-guard policy;
+2. `decision_preferences` — soft, tradeable attractions and aversions applied
+   after semantic assessment.
+
+These sections are excluded from the existing `semantic_profile_fingerprint`
+and from `phase3-semantic-v1` input. They receive independent deterministic
+fingerprints:
+
+- `market_access_policy_fingerprint`;
+- `decision_preference_fingerprint`.
+
+The full profile fingerprint includes both new sections. The candidate profile
+version must increment when they are introduced. The existing semantic
+projection must remain byte-for-byte equivalent for retrospective replay; a
+future decision to send any new field to a semantic model requires a new
+semantic contract and fingerprint.
+
+The current `config/candidate.yaml` is the frozen Phase 3 version-1 artifact.
+Its existing authorization, language, and relocation fields cannot represent
+the confirmed Phase 4 policy losslessly and are not silently edited by this
+specification task. Until Slice 1 creates a validated version-2 profile, the
+accepted decision records are authoritative for Phase 4 policy and no Phase 4
+runtime behavior is claimed.
+
+The minimum policy representation must support:
+
+- accepted onsite/hybrid locations at city and country granularity;
+- remote residence country and evidence required for employment access;
+- declarative compatible working-hours regions, without a fixed UTC-offset
+  rule;
+- exceptional-only relocation outside normal shortlist behavior;
+- confirmed, absent, and unknown work-access assertions;
+- language support including explicit `NONE` and comprehension-only evidence;
+- a candidate-configurable explicit junior/graduate recommendation cap;
+- versioned soft preferences with subject/concept, stance, importance, and
+  optional scope.
+
+Confirmed policy for the initial candidate is:
+
+- Prague, Czechia is the normal onsite/hybrid market;
+- other Czech cities are not automatically acceptable;
+- foreign onsite/hybrid employment is outside the normal shortlist;
+- Czech-compatible remote work with reasonably European-compatible hours is
+  acceptable when the arrangement is confirmed;
+- remote employment access that is not established is uncertain;
+- relocation is exceptional and requires a separate future override;
+- normal Czech work access is confirmed and foreign authorization must not be
+  inferred;
+- Czech and English are work-capable;
+- Slovak comprehension is sufficient and must not itself disqualify a role;
+- French is not currently work-capable;
+- Japanese is explicitly `NONE`.
+
+The personal rationale for exceptional relocation belongs in the accepted
+decision record. Generic runtime configuration needs only the operational
+policy and must not encode spouse details.
+
+## 4. Current-Candidate Market Status
+
+`CurrentCandidateMarketStatus` is a candidate-dependent, post-detail
+assessment of whether the candidate can practically pursue a currently active
+vacancy.
+
+Its vocabulary is exactly:
+
+- `IN_SCOPE`
+- `UNCERTAIN`
+- `OUT_OF_SCOPE`
+
+It is not Phase 2 lifecycle, pre-detail retrieval scope, semantic fit,
+recommendation, or relocation scoring.
+
+Conceptual output:
+
+```text
+CurrentCandidateMarketAssessment
+  job_instance_id
+  job_observation_id
+  job_content_fingerprint
+  candidate_profile_id
+  candidate_profile_version
+  market_policy_version
+  market_access_policy_fingerprint
+  normalization_version
+  input_fingerprint
+  status
+  reasons[]
+```
+
+Each reason must contain:
+
+```text
+code
+effect: SUPPORTS_IN_SCOPE | SUPPORTS_UNCERTAIN | SUPPORTS_OUT_OF_SCOPE
+source_field
+job_evidence
+candidate_policy_evidence
+```
+
+Inputs are limited to evidence relevant to practical access:
+
+- normalized locations and preserved raw location strings;
+- work mode;
+- explicit remote geography or employment region;
+- explicit authorization, residence, or employment-access requirements;
+- explicit required languages;
+- explicit working-hours/time-zone constraints;
+- incomplete multi-location indicators;
+- the candidate's market-access policy.
+
+Aggregation is conservative:
+
+1. an explicit incompatible residence, authorization, required-language,
+   onsite/hybrid location, or working-hours restriction produces
+   `OUT_OF_SCOPE` when the evidence is complete and unambiguous;
+2. fully supported Prague onsite/hybrid or confirmed Czech-compatible remote
+   evidence produces `IN_SCOPE`;
+3. a material missing, incomplete, conflicting, or ambiguous access fact
+   produces `UNCERTAIN`;
+4. authoritative explicit incompatibility may still determine
+   `OUT_OF_SCOPE` when unrelated location evidence is incomplete;
+5. absence of an authorization or language statement is not evidence of
+   incompatibility.
+
+Required effects:
+
+- `OUT_OF_SCOPE` is excluded from the normal candidate shortlist;
+- `OUT_OF_SCOPE` does not close, deactivate, delete, or mutate the
+  `JobInstance`;
+- a market-policy change alone does not invalidate semantic assessment;
+- `UNCERTAIN` remains inspectable and may receive semantic assessment when
+  useful;
+- `UNCERTAIN` can produce at most terminal recommendation `REVIEW`;
+- `IN_SCOPE` proceeds normally.
+
+The evaluator should be a deterministic pure function over normalized evidence
+and versioned candidate policy where practical.
+
+## 5. Composition with Hard Eligibility
+
+Phase 4 assigns non-overlapping responsibilities:
+
+- current-candidate market status owns geographic, remote-employment,
+  work-authorization/residency, required-language, and working-hours
+  practicality;
+- hard eligibility owns explicit candidate hard constraints outside that
+  market-access concern.
+
+The existing `ELIGIBLE`, `UNCERTAIN`, and `INELIGIBLE` vocabulary remains.
+Examples of possible hard-eligibility evidence include an explicitly prohibited
+role family or another explicit, human-declared non-market constraint.
+
+Phase 4 orchestration must not independently reject a job twice for the same
+market-access fact. Existing Phase 3 geography/language/authorization rules
+must be routed through the market assessment or disabled in the Phase 4 path,
+while the frozen Phase 3 benchmark path remains reproducible.
+
+Hard rejection still requires both:
+
+- explicit source evidence; and
+- an explicit candidate hard constraint that establishes incompatibility.
+
+Missing or ambiguous evidence produces `UNCERTAIN`, never `INELIGIBLE`.
+Degree, capability, domain, experience-year, seniority, compensation, and soft
+preference mismatches remain non-terminal unless separately governed by the
+seniority guard defined below.
+
+## 6. Minimum Evidence Normalization
+
+Phase 4 requires a reusable normalization layer downstream of normalized job
+detail. It must preserve original evidence and produce only bounded facts
+needed by market assessment.
+
+Minimum normalized facts are:
+
+- country, city, and region when explicitly present;
+- explicit foreign-country evidence;
+- work mode and remote-location scope;
+- incomplete multi-location evidence such as `+N more`;
+- explicit authorization/residency/employment-access requirements;
+- explicit required languages and whether alternatives are permitted;
+- explicit time-zone or working-hours restrictions.
+
+Normalization must be declarative and common across employers. Country/city
+aliases, language aliases, and bounded requirement phrases may be versioned
+configuration. Raw location and matched text are retained. Employer-specific
+Python branches are prohibited.
+
+The implementation need not solve all world geography. Unknown cities,
+conflicting location data, generic `Remote`, and incomplete location lists stay
+unknown or uncertain unless other explicit evidence resolves them.
+
+Regression evidence must cover:
+
+- US-only Johnson & Johnson;
+- explicit US authorization at Pfizer;
+- Santa Clara;
+- Chicago and New York;
+- Tokyo with Japanese required;
+- Mexico City;
+- Düsseldorf;
+- Cork with incomplete multi-location evidence;
+- Belgium/remote with Czech employment access unresolved.
+
+`externalPath`, title tokens, company identity, and unsupported legal
+assumptions must not be used as geography evidence.
+
+## 7. OpportunityCluster
+
+`OpportunityCluster` is a candidate-independent grouping above independent
+`JobInstance` records. It represents multiple source postings that provide
+high-confidence evidence of one human opportunity.
+
+Minimum conceptual fields:
+
+```text
+OpportunityCluster
+  cluster_id
+  company_id
+  canonical_role_identity
+  member_job_instance_ids[]
+  cluster_fingerprint
+  clustering_method
+  clustering_method_version
+  clustering_evidence[]
+```
+
+It must never replace or merge member identities. Every member retains its own
+source, observation history, content fingerprint, lifecycle, semantic cache,
+and closure/reopen behavior.
+
+Initial clustering is deterministic and high-confidence only. A cluster
+requires the same employer plus at least two independent strong signals, such
+as:
+
+- exact normalized title;
+- an explicit source-level variant/requisition relationship;
+- exactly equivalent normalized core responsibilities and requirements after
+  removal of known location/local legal boilerplate;
+- a declared source URL variant pattern;
+- differences demonstrably limited to geography or local boilerplate.
+
+Title alone is never sufficient. Cross-employer clustering is prohibited.
+Ambiguous cases remain separate.
+
+The initial implementation should prefer exact normalized equality and
+explicit relationships over fuzzy similarity. It must not introduce general
+entity resolution, embeddings, or probabilistic deduplication.
+
+Do not cluster when:
+
+- responsibilities or requirements differ materially;
+- role level, employment type, or business unit differs materially;
+- evidence completeness is insufficient;
+- the only shared evidence is employer and title;
+- employers differ.
+
+`cluster_id` should be deterministic from company, canonical role identity,
+and clustering-method version. `cluster_fingerprint` additionally covers the
+sorted member identities, member material content fingerprints used as
+evidence, and clustering evidence. Membership/evidence change invalidates the
+cluster derivation, not member lifecycle or semantics.
+
+Required regression cases:
+
+- Kiwi.com Senior Business Analyst - Inventory in Bratislava, Brno, Barcelona,
+  and Prague becomes one cluster;
+- WPP Consultant - Growth Consulting in New York and Chicago becomes one
+  cluster;
+- same employer and title with materially different responsibilities stays
+  separate;
+- different employers always stay separate.
+
+## 8. Preferred Variant
+
+Preferred variant selection is deterministic and candidate-dependent. It is a
+decision about which cluster member to show or pursue, not a change to cluster
+membership or source identity.
+
+Minimum output:
+
+```text
+PreferredVariantSelection
+  cluster_id
+  candidate_profile_id
+  market_access_policy_fingerprint
+  preferred_variant_job_instance_id
+  ordered_member_job_instance_ids[]
+  reasons[]
+  selection_policy_version
+  selection_fingerprint
+```
+
+Primary ordering is:
+
+```text
+IN_SCOPE > UNCERTAIN > OUT_OF_SCOPE
+```
+
+Within `IN_SCOPE`, Prague onsite/hybrid and confirmed Czech-compatible remote
+variants are both acceptable. Phase 4 must not invent a universal preference
+between them. An explicit future candidate ordering may decide it; otherwise
+evidence completeness and stable deterministic tie-breaks apply.
+
+Further tie-breaks, in order, are:
+
+1. complete and explicit market-access evidence;
+2. complete current detail evidence;
+3. the most current source evidence;
+4. stable `job_instance_id` ordering.
+
+If every member is `OUT_OF_SCOPE`, the cluster is absent from the normal
+shortlist. If any member is `IN_SCOPE`, an uncertain or out-of-scope member
+cannot be preferred. The shortlist emits one cluster/preferred variant while
+retaining diagnostics for every posting.
+
+## 9. Decision Preferences
+
+Decision preferences represent what the candidate wants. They do not assert
+candidate capability and do not modify semantic evidence.
+
+The schema must support reusable preference subjects including:
+
+- functional attraction or aversion;
+- domain attraction or aversion;
+- implementation ownership / execution authority;
+- industry conviction;
+- employer or product conviction;
+- learning upside;
+- strategic optionality;
+- seniority floor (implemented by the separate guard).
+
+Conceptual entry:
+
+```text
+DecisionPreference
+  preference_id
+  subject_kind
+  concept_id or scoped_subject_id
+  stance: ATTRACT | AVOID
+  importance: LOW | MEDIUM | HIGH | VERY_HIGH
+  hard_constraint: false
+  rationale
+```
+
+Reusable concepts must resolve through the shared taxonomy. Employer/product
+preferences may use typed configuration identifiers rather than pretending to
+be universal taxonomy concepts. Matching rules remain declarative and
+versioned.
+
+Omitted preference is neutral. Unknown job evidence emits no effect. A soft
+aversion may lower score or recommendation, but it cannot directly produce
+`INELIGIBLE` or `OUT_OF_SCOPE`. Positive evidence may offset a negative effect.
+For example, AI/automation/transformation and learning upside may outweigh a
+soft legacy-agency aversion.
+
+Evaluation produces structured effects:
+
+```text
+PreferenceEffect
+  preference_id
+  matched_subject
+  direction: POSITIVE | NEGATIVE
+  importance
+  evidence_confidence
+  job_or_semantic_evidence[]
+  candidate_preference_evidence
+  configured_effect
+  rule_version
+```
+
+The existing Phase 3 weighted composite remains preserved as
+`base_composite_score`. Phase 4 may calculate a separate
+`decision_adjusted_score` from the base score and bounded signed preference
+effects under a declared policy version. The effect mapping and aggregate cap
+must be configuration, frozen before a replay, and reported separately from
+the six semantic weights. It must not silently rewrite Phase 3 scores.
+
+## 10. Decision-Preference Fingerprint
+
+`decision_preference_fingerprint` is a stable hash of deterministic canonical
+JSON containing only decision preferences and their schema version.
+
+The effective decision-policy identity additionally includes:
+
+- preference matching-rule version;
+- preference effect mapping and aggregate cap;
+- recommendation thresholds;
+- seniority-guard policy/version;
+- preferred-variant policy version.
+
+A decision-only preference or policy change must:
+
+- recompute preference effects;
+- recompute decision-adjusted score, recommendation, and ranking;
+- preserve the Phase 3 base composite as historical evidence;
+- cause zero semantic reassessments when job material content,
+  semantic-profile fingerprint, semantic contract, and assessor identity are
+  unchanged.
+
+Decision preferences must not be added to `phase3-semantic-v1` input merely to
+make a retrospective replay convenient.
+
+## 11. Seniority Guard
+
+The seniority guard is candidate-configurable deterministic policy.
+
+Required rule:
+
+```text
+explicit junior or graduate source evidence
+  + enabled candidate seniority-floor policy
+  -> terminal recommendation capped at LOW_PRIORITY
+```
+
+It is not hard eligibility. It does not produce `INELIGIBLE`, and it is not a
+universal policy for all candidates. Missing, inferred, or ambiguous seniority
+evidence does not activate the guard.
+
+The output preserves matched source text, source field, rule version, candidate
+policy evidence, and whether a cap was applied. DBG Cork is the historical
+regression case.
+
+## 12. Deterministic Recommendation Composition
+
+Terminal policy composition occurs outside the semantic model in this order:
+
+1. Compute `CurrentCandidateMarketStatus`.
+2. Exclude `OUT_OF_SCOPE` from the normal shortlist without assigning a false
+   lifecycle or semantic conclusion.
+3. Evaluate remaining non-market hard eligibility.
+4. If hard eligibility is `INELIGIBLE`, terminal recommendation is
+   `INELIGIBLE`; semantic assessment is not required.
+5. Form high-confidence clusters and select the preferred market-viable
+   variant.
+6. Reuse or obtain semantic assessment for the selected member when permitted.
+7. Calculate the unchanged Phase 3 base composite when all six dimensions are
+   present.
+8. Apply structured, bounded decision-preference effects to a separate
+   decision-adjusted score.
+9. Derive the tentative recommendation from configured deterministic
+   thresholds.
+10. Apply all applicable caps, choosing the most restrictive result:
+    incomplete semantic dimensions -> `REVIEW`; market `UNCERTAIN` -> at most
+    `REVIEW`; explicit junior guard -> at most `LOW_PRIORITY`.
+
+Recommendation priority for cap comparison is:
+
+```text
+APPLY > REVIEW > LOW_PRIORITY > INELIGIBLE
+```
+
+`OUT_OF_SCOPE` is a routing status, not a new recommendation label. A soft
+preference is an explainable adjustment, never a hidden terminal rejection.
+No recommendation or cluster selection grants external-action authority.
+
+## 13. Validation Units
+
+Future validation records must distinguish:
+
+- `JobInstance` — one source vacancy identity;
+- `OpportunityCluster` — high-confidence grouping of posting variants;
+- `PreferredVariant` — candidate-dependent member selected for attention;
+- human attention decision — whether the opportunity deserved review;
+- application intent — whether the human intended one application.
+
+Posting-level diagnostics remain available. Primary Phase 4 metrics add:
+
+- opportunity-level top attention acceptance;
+- opportunity-level APPLY recall;
+- application-intent precision/recall where a judgment exists;
+- preferred-variant agreement;
+- market-status error rate, with uncertain cases reported separately;
+- cluster false-merge rate;
+- cluster missed-merge rate.
+
+An opportunity with several postings contributes once to opportunity and
+application-intent metrics. It still contributes every member to lifecycle,
+market-status, normalization, and clustering diagnostics.
+
+## 14. Retrospective Replay
+
+The first Phase 4 evaluation replays the frozen 30-case Live Decision
+Validation v1 under a new experiment identity.
+
+Rules:
+
+- recorded judgments, batch membership, and official v1 metrics remain
+  immutable;
+- `gpt-5.6-luna`, reasoning `low`, `phase3-semantic-v1`, six weights, and
+  historical benchmark remain frozen;
+- existing semantic-v1 assessments are reused when semantic identity is
+  unchanged;
+- the replay must make zero external semantic calls for unchanged inputs;
+- new results are explicitly labeled retrospective/post-hoc and cannot replace
+  the official v1 report;
+- known Kiwi and WPP variants are collapsed only in cluster-level metrics;
+- posting-level results remain visible;
+- market, clustering, preferred-variant, preference, and seniority policies are
+  versioned and frozen before the replay;
+- policy changes after viewing results require a new replay identity.
+
+The replay asks:
+
+> Did Phase 4 routing, clustering, and preferences materially improve precision
+> while preserving every human-accepted opportunity in the attention
+> shortlist?
+
+## 15. Prospective Validation
+
+After the retrospective gate passes:
+
+1. create a new immutable validation batch;
+2. sample `OpportunityCluster` records rather than raw postings;
+3. freeze cluster membership and preferred variant in the batch manifest;
+4. freeze candidate profile, market policy, decision preference, taxonomy,
+   scoring, semantic contract, model, reasoning, and code identities;
+5. record human attention decision separately from actual intended
+   application;
+6. preserve posting-level member evidence and disagreement categories;
+7. evaluate once under the predeclared policy;
+8. do not tune and evaluate against the same prospective batch.
+
+The batch size, stratification, and stopping rule must be declared before any
+judgments. A later tuning pass requires another batch.
+
+## 16. Phase 4 Success Criteria
+
+These gates are directional because the baseline contains only 30 reviewed
+postings and known duplicate variants.
+
+### Retrospective gate
+
+The frozen v1 replay passes only if:
+
+1. opportunity-level recall of human `APPLY` intent in the attention shortlist
+   remains 100%; an `UNCERTAIN` opportunity may be retained as `REVIEW` and
+   still count as recalled attention, but not as a system `APPLY`;
+2. opportunity-level top attention acceptance reaches at least 60%, a material
+   improvement over the 35% posting-level baseline;
+3. opportunity-level ranking agreement reaches at least 60%, while the
+   official 40% posting-level baseline remains unchanged;
+4. every explicit labeled foreign/authorization/language incompatibility in
+   the regression set is absent from the normal shortlist;
+5. Cork incomplete multi-location and Belgium/remote unresolved access remain
+   `UNCERTAIN` rather than being falsely rejected;
+6. the known Kiwi and WPP variants form the expected two clusters;
+7. false merges are zero across the labeled negative clustering cases;
+8. preferred variant selects the Prague/Czech Kiwi variant;
+9. decision-only changes cause zero semantic calls and reuse the original
+   semantic content fingerprints;
+10. Phase 2 lifecycle, member histories, assessments, and v1 judgments are not
+    mutated.
+
+### Prospective gate
+
+A new frozen cluster-level batch passes directionally if:
+
+1. opportunity-level human APPLY recall in the attention shortlist is 100%;
+2. top attention acceptance is at least 55% and at least 15 percentage points
+   above the comparable v1 baseline;
+3. ranking agreement is at least 60% and at least 15 percentage points above
+   the comparable v1 baseline;
+4. no opportunity with explicit incompatible market evidence reaches the
+   normal shortlist;
+5. at least 90% of human-adjudicated market statuses agree, with `UNCERTAIN`
+   reported separately rather than forced correct/incorrect;
+6. cluster false merges are zero in the reviewed sample;
+7. preferred-variant agreement is at least 80% where the human expresses a
+   preference;
+8. cache-reuse, latency, and external-call counts match the frozen experiment
+   budget.
+
+Any lost human-accepted opportunity is a stop-and-diagnose event even when an
+aggregate precision target passes. Missed high-confidence clusters may reduce
+convenience but are safer than false merges and should be reported rather than
+forced.
+
+## 17. Cache, Persistence, and Lifecycle
+
+The first Phase 4 experiment requires no SQLite schema migration.
+
+Authoritative inputs in Git are:
+
+- versioned candidate market-access policy;
+- versioned candidate decision preferences;
+- reusable taxonomy/normalization configuration;
+- versioned deterministic policy configuration.
+
+Existing SQLite authority remains:
+
+- `JobInstance` identity and lifecycle;
+- job observations and content fingerprints;
+- Phase 3 semantic assessments and opportunity assessments.
+
+The retrospective experiment persists a new immutable manifest containing:
+
+- source batch and judgment identities;
+- Git/worktree and database identity;
+- candidate full, semantic, market-policy, and decision-preference
+  fingerprints;
+- normalization, market, cluster, preferred-variant, seniority, preference,
+  scoring, semantic-contract, model, and reasoning versions;
+- per-posting market assessment;
+- cluster membership/evidence/fingerprint;
+- preferred-variant result;
+- reused semantic-assessment IDs/content fingerprints;
+- base and decision-adjusted scores;
+- preference effects, caps, recommendations, rankings, and metrics.
+
+Prospective batch manifests freeze the same Phase 4 evidence. Human judgments
+remain append-only under the existing evidence policy.
+
+Invalidation rules:
+
+- new job material content invalidates that member's semantic cache under the
+  existing Phase 3 rule and invalidates any cluster fingerprint using it;
+- market-policy or market-normalization change recomputes market assessment
+  and preferred variant, but not semantic assessment;
+- clustering-rule or member-evidence change recomputes clusters and preferred
+  variants, but not member lifecycle or semantic assessment;
+- decision-preference/effect-policy change recomputes effects, decision score,
+  recommendation, and ranking, but not semantic assessment;
+- scoring-weight-only change follows the existing Phase 3 cache rule, although
+  weights are frozen for this experiment;
+- member closure changes current cluster membership/availability while each
+  member's lifecycle remains independent;
+- cluster disappearance is a derived consequence of having no active members,
+  not a source closure event.
+
+If Phase 4 is later promoted into repeated normal operation and historical
+cluster/decision queries prove necessary, a separate accepted decision may add
+minimal tables. The experiment must not pre-emptively introduce generalized
+cluster persistence or migration machinery.
+
+## 18. Required Synthetic and Regression Tests
+
+### Market status
+
+- Prague onsite -> `IN_SCOPE`;
+- explicit foreign onsite -> `OUT_OF_SCOPE`;
+- confirmed Czech-compatible remote -> `IN_SCOPE`;
+- remote restricted to a foreign country -> `OUT_OF_SCOPE`;
+- remote employment eligibility unknown -> `UNCERTAIN`;
+- incomplete multi-location -> `UNCERTAIN` unless an independent explicit
+  restriction proves incompatibility;
+- explicit incompatible authorization -> `OUT_OF_SCOPE`;
+- missing authorization evidence -> `UNCERTAIN` only when authorization is
+  material, never inferred incompatible;
+- Japanese required plus candidate `NONE` -> `OUT_OF_SCOPE`;
+- Slovak requirement plus confirmed comprehension -> not rejected.
+
+### Clustering and preferred variant
+
+- known Kiwi variants -> one cluster and Prague/Czech preferred;
+- known WPP variants -> one cluster;
+- same title with materially different responsibilities -> no merge;
+- cross-employer matches -> no merge;
+- ambiguous evidence -> no merge;
+- closing one member leaves other member lifecycles and the active cluster
+  intact;
+- all members out of scope -> no normal-shortlist cluster.
+
+### Preferences
+
+- omitted preference -> neutral;
+- soft aversion lowers decision priority but does not hard reject;
+- strong AI/learning attraction can outweigh soft industry aversion;
+- unknown subject evidence produces no effect;
+- decision-preference-only change produces zero semantic calls;
+- every reusable concept resolves through taxonomy;
+- no employer/candidate-specific Python branch is present.
+
+### Seniority and recommendation
+
+- explicit junior/graduate evidence plus enabled guard -> at most
+  `LOW_PRIORITY`;
+- ambiguous seniority -> no cap;
+- market `UNCERTAIN` -> at most `REVIEW`;
+- missing semantic dimension -> `REVIEW`;
+- simultaneous caps apply the most restrictive result;
+- semantic output cannot bypass deterministic precedence.
+
+### Lifecycle and cache
+
+- `OUT_OF_SCOPE` job remains `ACTIVE` while source inventory proves presence;
+- market-policy change leaves `JobInstance` and Phase 2 events unchanged;
+- preference-only change reuses semantic assessment/content fingerprint;
+- cluster change does not rewrite member semantic assessments;
+- member closure remains complete-inventory driven;
+- retrospective replay cannot write the official v1 batch, report, or
+  judgments.
+
+The full Phase 1–3 offline suite remains required.
+
+## 19. Implementation Slices
+
+Implement Phase 4 in bounded, reviewable slices:
+
+1. **Candidate market-access representation** — extend the generic profile
+   loader, version/fingerprint market policy separately, add the confirmed
+   initial policy, and preserve the exact semantic-v1 projection.
+2. **Market evaluator** — implement evidence normalization and pure
+   `CurrentCandidateMarketStatus` evaluation with historical/synthetic
+   regressions; do not yet alter normal shortlist orchestration.
+3. **Market routing and cap** — connect status at the Phase 2/Phase 3 boundary,
+   exclude `OUT_OF_SCOPE`, cap `UNCERTAIN` at `REVIEW`, and prove lifecycle/cache
+   isolation.
+4. **High-confidence clustering** — implement deterministic employer-scoped
+   clustering and immutable diagnostic output, initially without fuzzy
+   matching or database migration.
+5. **Preferred variant** — apply candidate market status and deterministic
+   evidence tie-breaks so the shortlist emits one member per cluster.
+6. **Decision preferences** — add separately fingerprinted preference data,
+   taxonomy additions, structured matching/effects, and a predeclared bounded
+   effect policy while preserving the Phase 3 base score.
+7. **Seniority guard** — add explicit-evidence detection and the
+   candidate-configured `LOW_PRIORITY` cap.
+8. **Retrospective replay** — freeze a new experiment manifest, reuse existing
+   semantic assessments, make zero external semantic calls, and evaluate the
+   predeclared gates without modifying v1.
+9. **Architecture audit** — verify Phase 1–3 contracts, cache identity,
+   lifecycle, evidence provenance, and configuration-only candidate policy.
+10. **Prospective validation** — create and judge a new immutable cluster-level
+    batch under the frozen Phase 4 policy.
+11. **Semantic-v2 decision** — consider a new semantic contract only if
+    residual semantic errors after the prospective gate justify a bounded
+    experiment.
+
+Each slice requires its own offline tests and must preserve a working default
+suite. Slices 1–2 may be developed together only if runtime shortlist behavior
+remains untouched; the market-routing promotion remains a separate review
+boundary.
+
+## 20. Phase 4 Non-Goals
+
+Phase 4 does not implement:
+
+- fuzzy or probabilistic entity resolution;
+- merging or rewriting `JobInstance` identities;
+- global geography or employment-law expertise;
+- quantified relocation economics;
+- a general preference-learning engine;
+- silent profile mutation from judgments;
+- semantic prompt/model/weight tuning;
+- Learning Intelligence;
+- alerts, scheduling, UI, CV tailoring, or application automation;
+- authority to submit an application.
+
+## 21. Guiding Principle
+
+Phase 4 succeeds by preventing known practical mismatches, presenting each
+high-confidence human opportunity once, and honoring declared tradeable
+preferences while preserving evidence, recall, lifecycle correctness, and
+semantic reuse.
