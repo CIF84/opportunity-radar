@@ -1,0 +1,113 @@
+schema_version: 1
+experiments:
+  - experiment_id: EXP-INGESTION-001
+    type: ARCHITECTURE_VALIDATION
+    hypothesis: A small set of reusable source adapters can normalize live vacancies across representative employers without employer-specific Python branches.
+    status: COMPLETED
+    completed_at: "2026-08-20"
+    baseline: 50-company fingerprinted feasibility dataset and no validated ingestion implementation.
+    intervention: Implement and live-test reusable adapter families plus declarative generic extraction.
+    inputs: [research/target_companies.csv, config/companies.yaml]
+    artifacts: [docs/ingestion_feasibility_report.md, output/summary.json, output/run_results.json, output/jobs.json]
+    metrics: {expanded_employer_success_rate: 0.944, validated_family_dataset_coverage: 0.74, research_bespoke_rate: 0.14}
+    result: Reusable ingestion architecture passed; browser automation was unnecessary for the validated families.
+    decision: GO for the ingestion architecture, not for product features.
+    limitations: Live source behavior can change; dataset coverage is not proof every future tenant is identical.
+    related_decisions: [DR-001]
+    commit_or_worktree_state: "801cb7e (validated reusable ingestion architecture)"
+
+  - experiment_id: EXP-STATE-001
+    type: ARCHITECTURE_VALIDATION
+    hypothesis: Repeated complete inventories can produce reliable lifecycle state without false closure under failed or incomplete observations.
+    status: COMPLETED
+    completed_at: "2026-08-24"
+    baseline: Stateless normalized Phase 1 output.
+    intervention: Add SQLite observations, lifecycle inference, deterministic fingerprints, events, and employer transactions.
+    inputs: [SPEC.md, tests/test_state.py]
+    artifacts: [docs/state_change_architecture_report.md, output/phase2_sample.sqlite3, output/state_change_report_run1.txt, output/state_change_report.txt]
+    metrics: {offline_tests_at_gate: 29, repeated_live_sources: 5, second_run_false_events: 0}
+    result: Lifecycle and change architecture passed the offline and bounded repeated-live gate.
+    decision: GO for Phase 2 state architecture.
+    limitations: The historical report describes schema v1; the current operational schema is v3 after later compatible extensions.
+    related_decisions: [DR-002, DR-003, DR-004]
+    commit_or_worktree_state: "b10a671 (validated persistent state and change detection)"
+
+  - experiment_id: EXP-PHASE3-001
+    type: ARCHITECTURE_VALIDATION
+    hypothesis: Candidate-portable, explainable relevance assessment can be validated offline before choosing an external semantic provider.
+    status: COMPLETED
+    completed_at: "2026-08-25"
+    baseline: Active job state without candidate interpretation.
+    intervention: Add candidate/taxonomy loading, eligibility, neutral features, rank-only triage, semantic contract, fake assessor, deterministic composite, persistence, and benchmark harness.
+    inputs: [config/candidate.yaml, config/candidate_portability_test.yaml, config/taxonomy.yaml, benchmarks/phase3_benchmark.yaml]
+    artifacts: [docs/phase3_architecture_report.md, output/phase3_benchmark.json, output/phase3_portability.json]
+    metrics: {benchmark_cases: 7, eligibility_agreement: 1.0, apply_triage_recall: 1.0, rank_assertion_pass_rate: 0.714}
+    result: Phase 3 boundaries, portability, persistence, and cache behavior passed; the fake assessor was not adequate semantic evidence.
+    decision: CONDITIONAL GO pending an external semantic ROI experiment.
+    limitations: This report is historical; its stated next gate was completed by EXP-SEMANTIC-ROI-001.
+    related_decisions: [DR-007, DR-008, DR-009, DR-010, DR-011]
+    commit_or_worktree_state: "7b75c69 (implemented Phase 3 architecture)"
+
+  - experiment_id: EXP-SEMANTIC-ROI-001
+    type: MODEL_EXPERIMENT
+    hypothesis: A bounded provider-independent semantic model can improve attention recall over deterministic triage at acceptable personal-scale cost.
+    status: COMPLETED
+    completed_at: "2026-08-26"
+    baseline: Deterministic pre-semantic benchmark result.
+    intervention: Compare gpt-5.6-luna and gpt-5.6-terra across two repetitions of seven frozen cases.
+    inputs: [config/semantic_experiment.yaml, benchmarks/phase3_benchmark.yaml, config/candidate.yaml, config/taxonomy.yaml]
+    artifacts: [output/semantic_roi_experiment.json, docs/semantic_roi_report.md]
+    metrics: {external_calls: 28, luna_apply_recall: 1.0, luna_cost_usd: 0.03442428, terra_cost_usd: 0.3208398}
+    result: Luna recovered benchmark APPLY recall at low cost; Terra showed no measured advantage in this sample.
+    decision: SEMANTIC_SELECTIVE directionally; validate Luna on live opportunities before promotion.
+    limitations: Seven cases are directional; concept-list stability was weak and the result artifact contains one stale pre-run limitation string.
+    related_decisions: [DR-009, DR-011]
+    commit_or_worktree_state: "fe03f72 ancestry; result artifact produced after the Phase 3 implementation commit"
+
+  - experiment_id: EXP-SCOPE-001
+    type: OPERATIONAL_EXPERIMENT
+    hypothesis: Listing-level geography can reduce detail workload while complete unfiltered identities continue to drive lifecycle.
+    status: COMPLETED
+    completed_at: "2026-08-26"
+    baseline: Detail retrieval for all listed references.
+    intervention: Measure and then integrate conservative retrieval-scope selection with no title filtering.
+    inputs: [config/market_scope.yaml, config/companies.yaml]
+    artifacts: [output/scope_measurement/helper-contract-18-employer-measurement.json, output/scope-state-18-diagnostic-report.txt, output/scope-state-18-diagnostic.sqlite3]
+    metrics: {integrated_sources_successful: 18, integrated_sources_total: 18, integrated_inventory: 16122, selected_for_detail: 4015, sampled_details_successful: 90}
+    result: Integrated scope selection passed while preserving complete inventory and isolated source semantics.
+    decision: Retrieval-scope integration validated; stop optimizing geography/helper queries for now.
+    limitations: Earlier first/corrected/source-contract measurement files are historical diagnostic predecessors and remain immutable.
+    related_decisions: [DR-005]
+    commit_or_worktree_state: "6c2f93e plus subsequent validated diagnostic artifacts"
+
+  - experiment_id: EXP-DETAIL-REUSE-001
+    type: OPERATIONAL_EXPERIMENT
+    hypothesis: Stored successful detail can be reused on unchanged listings without changing lifecycle or semantic content identity.
+    status: COMPLETED
+    completed_at: "2026-08-26"
+    baseline: Every selected reference was fetched on every state run.
+    intervention: Persist listing/detail refresh evidence and fetch only on missing, changed, or periodic-refresh-due details.
+    inputs: [tests/test_state.py, config/companies.yaml]
+    artifacts: [output/detail-reuse-run-1.txt, output/detail-reuse-run-2.txt, output/detail-reuse-diagnostic.sqlite3]
+    metrics: {diagnostic_jobs: 2, first_run_fetches: 2, second_run_fetches: 0, second_run_reuses: 2, second_run_events: 0}
+    result: Two-run diagnostic and offline cases demonstrated conservative reuse with stable content fingerprints.
+    decision: Persisted detail reuse validated; concurrency remains deferred.
+    limitations: Small bounded live diagnostic; periodic refresh remains deliberately conservative.
+    related_decisions: [DR-006]
+    commit_or_worktree_state: "6c2f93e (scope-aware state refresh and persisted detail reuse)"
+
+  - experiment_id: EXP-LIVE-VALIDATION-001
+    type: LIVE_DECISION_VALIDATION
+    hypothesis: Luna semantic assessments plus deterministic scoring produce a high-recall, sufficiently precise attention shortlist for the current candidate.
+    status: COMPLETED
+    completed_at: "2026-09-04"
+    baseline: Frozen Phase 3 semantic-v1 architecture and current candidate profile.
+    intervention: Assess the active pool, freeze a stratified 30-job batch, and append human judgments using a controlled disagreement taxonomy.
+    inputs: [output/opportunity_radar.sqlite3, config/candidate.yaml, config/taxonomy.yaml, config/semantic_experiment.yaml]
+    artifacts: [output/live_validation/runs/live-20260826T185850Z-304562b8.json, output/live_validation/batch-20260826T210045Z-6492b09a/batch.json, output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md, data/live_validation/judgments.jsonl]
+    metrics: {reviewed: 30, sample_size: 30, strict_apply_recall: 1.0, shortlist_apply_recall: 1.0, top_attention_acceptance: 0.35, ranking_agreement: 0.40, deterministic_eligibility_issues: 11, unrepresented_preferences: 7, semantic_interpretation_errors: 2}
+    result: Recall passed, but precision/agreement failed. Routing, posting-level identity, and preference representation dominate the failure pattern; the semantic hypothesis remains viable.
+    decision: Directional NO_GO. Freeze Luna/low/semantic-v1 and test upstream Phase 4 corrections before semantic tuning.
+    limitations: Stratified sample is not an unbiased market estimate; raw judgments are private local evidence pending repository privacy/backup policy.
+    related_decisions: [DR-012, DR-013, DR-014, DR-015]
+    commit_or_worktree_state: "fe03f72 plus uncommitted final judgments, report, and judgment identity-resolution fix"

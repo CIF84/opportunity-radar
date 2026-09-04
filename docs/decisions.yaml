@@ -1,0 +1,225 @@
+schema_version: 1
+decisions:
+  - decision_id: DR-001
+    title: Separate vacancy discovery from detail retrieval
+    status: ACCEPTED
+    decided_at: "2026-08-20"
+    context: ATS sources expose lightweight inventories separately from details.
+    decision: Use list_jobs(company_config) and fetch_job(job_reference) as the adapter boundary.
+    evidence: [SPEC.md, docs/ingestion_feasibility_report.md]
+    alternatives_rejected: [One adapter call returning all normalized details]
+    assumptions: [Listing identity inventories are cheaper and often more complete than detail retrieval]
+    consequences: [Incremental detail retrieval and complete lifecycle inventories remain possible]
+    supersedes: []
+    related_experiments: [EXP-INGESTION-001]
+    affected_contracts: [JobSourceAdapter, JobReference, NormalizedJob]
+
+  - decision_id: DR-002
+    title: Closure requires a successful complete identity inventory
+    status: ACCEPTED
+    decided_at: "2026-08-24"
+    context: Failed or incomplete sources must not create false vacancy closures.
+    decision: Infer absence/closure only from status SUCCESS with inventory_complete true.
+    evidence: [SPEC.md, docs/state_change_architecture_report.md]
+    alternatives_rejected: [Close jobs after any empty response, close jobs from successfully fetched details only]
+    assumptions: [A complete JobReference inventory proves presence independently of detail success]
+    consequences: [Detail failures and sampling cannot close present jobs]
+    supersedes: []
+    related_experiments: [EXP-STATE-001]
+    affected_contracts: [SourceOutcome, SourceObservation, lifecycle inference]
+
+  - decision_id: DR-003
+    title: Use exact company-scoped vacancy identity
+    status: ACCEPTED
+    decided_at: "2026-08-24"
+    context: Phase 2 requires deterministic identity without probabilistic merging.
+    decision: Prefer company_id plus external_job_id; otherwise use company_id plus canonical_url.
+    evidence: [SPEC.md, docs/state_change_architecture_report.md]
+    alternatives_rejected: [Global URL identity, probabilistic duplicate matching]
+    assumptions: [False splits are safer than false merges in this phase]
+    consequences: [Similar postings remain independent JobInstance records]
+    supersedes: []
+    related_experiments: [EXP-STATE-001]
+    affected_contracts: [JobInstance identity]
+
+  - decision_id: DR-004
+    title: Do not migrate URL-only identity when an external ID appears
+    status: ACCEPTED
+    decided_at: "2026-08-24"
+    context: Automatic reconciliation could merge distinct vacancies.
+    decision: Preserve URL-only and later external-ID identities as separate instances.
+    evidence: [SPEC.md, docs/state_change_architecture_report.md]
+    alternatives_rejected: [Automatic identity migration]
+    assumptions: [Avoiding false merge is more important than avoiding false split]
+    consequences: [Probabilistic reconciliation remains deferred]
+    supersedes: []
+    related_experiments: [EXP-STATE-001]
+    affected_contracts: [JobInstance identity]
+
+  - decision_id: DR-005
+    title: Retrieval scope does not affect lifecycle presence
+    status: ACCEPTED
+    decided_at: "2026-08-26"
+    context: Global sources make full detail retrieval expensive.
+    decision: Apply geography scope only to detail selection; retain the complete inventory for lifecycle inference.
+    evidence: [output/scope_measurement/helper-contract-18-employer-measurement.json, output/scope-state-18-diagnostic-report.txt]
+    alternatives_rejected: [Use a filtered source inventory as lifecycle truth, treat skipped details as failures]
+    assumptions: [Listing evidence can conservatively reduce details without proving candidate eligibility]
+    consequences: [Unknown geography is retained and skipped jobs do not falsely close]
+    supersedes: []
+    related_experiments: [EXP-SCOPE-001]
+    affected_contracts: [DetailSelection, SourceOutcome, lifecycle inference]
+
+  - decision_id: DR-006
+    title: Reuse persisted details conservatively
+    status: ACCEPTED
+    decided_at: "2026-08-26"
+    context: Re-fetching every selected detail on every run is operationally wasteful.
+    decision: Fetch on missing detail, listing/source update change, or periodic refresh; otherwise reuse the current content fingerprint.
+    evidence: [output/detail-reuse-run-1.txt, output/detail-reuse-run-2.txt]
+    alternatives_rejected: [Always fetch, assume unchanged listing facts prove content unchanged forever]
+    assumptions: [Sources without trustworthy change markers require periodic refresh]
+    consequences: [Semantic cache remains reusable and lifecycle stays inventory-driven]
+    supersedes: []
+    related_experiments: [EXP-DETAIL-REUSE-001]
+    affected_contracts: [JobInstance detail reuse evidence, state refresh]
+
+  - decision_id: DR-007
+    title: Candidate-specific information is configuration
+    status: ACCEPTED
+    decided_at: "2026-08-25"
+    context: Relevance architecture must work for a different candidate without Python branches.
+    decision: Keep candidate facts, capabilities, preferences, constraints, goals, and weights in a versioned CandidateProfile.
+    evidence: [SPEC.md, docs/phase3_architecture_report.md, config/candidate_portability_test.yaml]
+    alternatives_rejected: [Candidate-specific scoring branches]
+    assumptions: [Multiple profile-generation methods can compile to one schema]
+    consequences: [Adapters and market state remain candidate-independent]
+    supersedes: []
+    related_experiments: [EXP-PHASE3-001]
+    affected_contracts: [CandidateProfile, SemanticCandidateInput]
+
+  - decision_id: DR-008
+    title: Omitted capability is UNKNOWN, not NONE
+    status: ACCEPTED
+    decided_at: "2026-08-25"
+    context: Missing candidate evidence must not become a confirmed deficiency.
+    decision: Treat omission as UNKNOWN and reserve NONE for an explicit assessed absence.
+    evidence: [SPEC.md, config/candidate.yaml, tests/test_phase3.py]
+    alternatives_rejected: [Default omitted capabilities to NONE]
+    assumptions: [Candidate profiles are incomplete observations]
+    consequences: [UNKNOWN cannot automatically create a gap or ineligibility]
+    supersedes: []
+    related_experiments: [EXP-PHASE3-001]
+    affected_contracts: [CandidateProfile, eligibility, semantic assessment]
+
+  - decision_id: DR-009
+    title: Use six core semantic dimensions
+    status: ACCEPTED
+    decided_at: "2026-08-25"
+    context: Phase 3 exploratory dimensions overlapped or implied unsupported precision.
+    decision: Use functional alignment, experience leverage, learning/growth value, strategic alignment, seniority alignment, and application competitiveness.
+    evidence: [SPEC.md, docs/phase3_architecture_report.md]
+    alternatives_rejected: [Conversion probability, mandatory employer/compensation/lifestyle dimensions]
+    assumptions: [Application competitiveness is qualitative alignment, not hire probability]
+    consequences: [Unsupported supplemental dimensions remain nullable/deferred]
+    supersedes: []
+    related_experiments: [EXP-PHASE3-001, EXP-SEMANTIC-ROI-001]
+    affected_contracts: [phase3-semantic-v1, CORE_DIMENSIONS]
+
+  - decision_id: DR-010
+    title: Composite and recommendation remain deterministic
+    status: ACCEPTED
+    decided_at: "2026-08-25"
+    context: Semantic interpretation must not own the final system decision.
+    decision: Calculate the weighted composite and recommendation in deterministic code; require all six dimensions for a normal composite.
+    evidence: [SPEC.md, tests/test_phase3.py]
+    alternatives_rejected: [LLM-produced composite or recommendation, confidence-weighted arithmetic]
+    assumptions: [Weights are candidate scoring configuration]
+    consequences: [Weight changes are reproducible and do not require semantic reassessment]
+    supersedes: []
+    related_experiments: [EXP-PHASE3-001]
+    affected_contracts: [OpportunityAssessment, phase3-scoring-v1]
+
+  - decision_id: DR-011
+    title: Reuse semantics by semantic identity, not scoring weights
+    status: ACCEPTED
+    decided_at: "2026-08-25"
+    context: Semantic calls are costly and independent of deterministic arithmetic.
+    decision: Reuse an assessment for equivalent job content, semantic candidate profile, contract, and assessor identity; weight-only changes recalculate decisions.
+    evidence: [SPEC.md, docs/phase3_architecture_report.md, tests/test_phase3.py]
+    alternatives_rejected: [Invalidate semantics for weight-only changes]
+    assumptions: [All semantic inputs have stable fingerprints/versions]
+    consequences: [Existing cache records are historical evidence and are not overwritten]
+    supersedes: []
+    related_experiments: [EXP-PHASE3-001, EXP-SEMANTIC-ROI-001]
+    affected_contracts: [semantic cache, candidate fingerprints]
+
+  - decision_id: DR-012
+    title: Freeze Luna low and semantic-v1 during Phase 4 diagnosis
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: Live validation found routing/preferences dominate semantic errors.
+    decision: Keep gpt-5.6-luna, reasoning low, phase3-semantic-v1, and current weights unchanged until upstream corrections are tested.
+    evidence: [output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md, docs/STATUS.md]
+    alternatives_rejected: [Tune the model or prompt immediately after the NO_GO verdict]
+    assumptions: [Two semantic-error judgments do not explain the dominant failure classes]
+    consequences: [Retrospective Phase 4 replay should reuse existing semantic assessments]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [phase3-semantic-v1, phase3-scoring-v1]
+
+  - decision_id: DR-013
+    title: Active JobInstance does not imply current-candidate suitability
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: Explicitly foreign active vacancies reached candidate ranking.
+    decision: Preserve market lifecycle independently and test a separate candidate-market status before ranking.
+    evidence: [output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md, docs/STATUS.md]
+    alternatives_rejected: [Close or delete jobs that are unsuitable for the current candidate]
+    assumptions: [Candidate suitability changes independently of source presence]
+    consequences: [Planned CurrentCandidateMarketStatus must not affect lifecycle]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [Phase 2/Phase 3 boundary]
+
+  - decision_id: DR-014
+    title: JobInstance, Opportunity, and Application intent are distinct
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: Kiwi and WPP location variants represented fewer human opportunities than postings.
+    decision: Keep source JobInstances independent and test a higher-level deterministic OpportunityCluster and preferred variant.
+    evidence: [output/live_validation/batch-20260826T210045Z-6492b09a/batch.json, data/live_validation/judgments.jsonl]
+    alternatives_rejected: [Merge underlying JobInstances, count every variant as a separate intended application]
+    assumptions: [High-confidence employer-scoped evidence can identify some variants]
+    consequences: [Lifecycle stays per posting; validation may count opportunity/application intent separately]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [planned OpportunityCluster]
+
+  - decision_id: DR-015
+    title: Apply Phase 4 corrections upstream before semantic revision
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: Deterministic routing and preferences explain most live-validation disagreement.
+    decision: Test candidate-market status, high-confidence clustering, and preference-aware policy before considering semantic-v2.
+    evidence: [docs/STATUS.md, output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md]
+    alternatives_rejected: [Prompt tuning first, weight tuning first]
+    assumptions: [Existing cached semantics remain useful when semantic inputs are unchanged]
+    consequences: [Require retrospective replay then a new prospective batch]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [Phase 4 experiment order]
+
+  - decision_id: DR-016
+    title: Recommendation does not grant external-action authority
+    status: ACCEPTED
+    decided_at: "2026-09-04"
+    context: Future agents may eventually generate or submit application material.
+    decision: Keep external action behind explicit per-action human authorization regardless of recommendation.
+    evidence: [docs/ARCHITECTURE.md, docs/OPERATING_MODEL.md]
+    alternatives_rejected: [Treat APPLY as authorization to submit]
+    assumptions: [Recommendation and action have different risk and authority boundaries]
+    consequences: [Application automation remains absent and separately governed]
+    supersedes: []
+    related_experiments: []
+    affected_contracts: [agent authority, future action log]

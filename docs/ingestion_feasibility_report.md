@@ -1,5 +1,8 @@
 # Opportunity Radar — Technical Ingestion Feasibility Report
 
+> Historical gate report. It remains evidence for the Phase 1 decision; use
+> `docs/STATUS.md` for current project state and next work.
+
 Run date: 2026-08-20  
 Scope: ingestion feasibility only
 Recommendation: **GO for the ingestion architecture; not authorization to build the product**

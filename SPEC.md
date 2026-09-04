@@ -1,5 +1,12 @@
 # Opportunity Radar
-## Technical Feasibility Spike — Specification v0.1
+## Cumulative Normative Specification — Phases 1–3
+
+This file preserves the successive Phase 1–3 specifications. Explicit later
+"Architecture Decisions After Review" sections supersede conflicting earlier
+exploratory text within the same phase. Current implemented structure is
+described in `docs/ARCHITECTURE.md`; current phase, frozen items, failures, and
+next gate are in `docs/STATUS.md`. Phase 4 concepts are not implemented or
+normative here yet.
 
 ## 1. Purpose
 

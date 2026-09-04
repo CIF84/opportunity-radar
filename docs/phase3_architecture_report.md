@@ -1,5 +1,9 @@
 # Phase 3 Relevance Architecture Report
 
+> Historical gate report. Its external-semantic next step was completed by the
+> semantic ROI and Live Decision Validation experiments. Use `docs/STATUS.md`
+> for current direction.
+
 ## Scope and result
 
 Phase 3 is implemented as a candidate-specific interpretation layer after the

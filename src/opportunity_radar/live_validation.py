@@ -465,10 +465,46 @@ def current_judgments(records: list[dict[str, Any]], batch_id: str | None = None
     return {(item["validation_batch_id"], item["job_instance_id"]): item for item in relevant if item["judgment_id"] not in superseded}
 
 
+def resolve_batch_job(
+    batch: dict[str, Any], job_or_review_id: str | None = None, *,
+    review_number: int | None = None, job_instance_id: int | None = None,
+) -> dict[str, Any]:
+    """Resolve an explicit identity, or reject ambiguous legacy positional IDs."""
+    modes = sum(value is not None for value in (job_or_review_id, review_number, job_instance_id))
+    if modes != 1:
+        raise ValueError("specify exactly one of positional id, --review-number, or --job-instance-id")
+    jobs = batch["selected_jobs"]
+    if review_number is not None:
+        matches = [item for item in jobs if item["review_number"] == review_number]
+        label = f"review number {review_number}"
+    elif job_instance_id is not None:
+        matches = [item for item in jobs if item["job_instance_id"] == job_instance_id]
+        label = f"job instance id {job_instance_id}"
+    else:
+        matches = [
+            item for item in jobs
+            if str(item["review_number"]) == str(job_or_review_id)
+            or str(item["job_instance_id"]) == str(job_or_review_id)
+        ]
+        unique = {item["job_instance_id"]: item for item in matches}
+        matches = list(unique.values())
+        label = f"legacy positional id {job_or_review_id}"
+        if len(matches) > 1:
+            raise ValueError(
+                f"ambiguous {label}; use --review-number or --job-instance-id"
+            )
+    if not matches:
+        raise ValueError(f"job not found in batch for {label}")
+    if len(matches) != 1:
+        raise ValueError(f"{label} is not unique in batch")
+    return matches[0]
+
+
 def append_judgment(
-    batch: dict[str, Any], judgments_path: str | Path, job_or_review_id: str, decision: str,
+    batch: dict[str, Any], judgments_path: str | Path, job_or_review_id: str | None, decision: str,
     ranking_agreement: bool, expected_tier: str | None = None, note: str | None = None,
     categories: list[str] | None = None, supersedes: str | None = None,
+    *, review_number: int | None = None, job_instance_id: int | None = None,
 ) -> dict[str, Any]:
     decision = decision.upper(); categories = categories or []
     if decision not in HUMAN_DECISIONS: raise ValueError(f"invalid decision: {decision}")
@@ -476,8 +512,10 @@ def append_judgment(
     unknown = set(categories) - DISAGREEMENT_CATEGORIES
     if unknown: raise ValueError(f"invalid disagreement categories: {sorted(unknown)}")
     if ranking_agreement and (expected_tier or categories): raise ValueError("agreement cannot include expected tier or disagreement categories")
-    selected = next((item for item in batch["selected_jobs"] if str(item["review_number"]) == str(job_or_review_id) or str(item["job_instance_id"]) == str(job_or_review_id)), None)
-    if not selected: raise ValueError(f"job/review id not found in batch: {job_or_review_id}")
+    selected = resolve_batch_job(
+        batch, job_or_review_id, review_number=review_number,
+        job_instance_id=job_instance_id,
+    )
     records = load_judgments(judgments_path); current = current_judgments(records, batch["validation_batch_id"])
     existing = current.get((batch["validation_batch_id"], selected["job_instance_id"]))
     if existing and not supersedes: raise ValueError(f"current judgment exists; supersede {existing['judgment_id']}")
@@ -591,7 +629,7 @@ def main() -> int:
     sub.add_parser("preflight")
     assess = sub.add_parser("assess"); assess.add_argument("--run-id")
     prepare = sub.add_parser("prepare"); prepare.add_argument("--batch-id"); prepare.add_argument("--seed"); prepare.add_argument("--usage-run")
-    record = sub.add_parser("record"); record.add_argument("batch_id"); record.add_argument("job_or_review_id"); record.add_argument("decision", choices=sorted(HUMAN_DECISIONS)); agreement = record.add_mutually_exclusive_group(required=True); agreement.add_argument("--agree", action="store_true"); agreement.add_argument("--disagree", action="store_true"); record.add_argument("--expected-tier", choices=sorted(TIERS)); record.add_argument("--category", action="append", default=[], choices=sorted(DISAGREEMENT_CATEGORIES)); record.add_argument("--note"); record.add_argument("--supersedes")
+    record = sub.add_parser("record"); record.add_argument("batch_id"); record.add_argument("record_values", nargs="+", metavar="ID/DECISION"); identity = record.add_mutually_exclusive_group(); identity.add_argument("--review-number", type=int); identity.add_argument("--job-instance-id", type=int); agreement = record.add_mutually_exclusive_group(required=True); agreement.add_argument("--agree", action="store_true"); agreement.add_argument("--disagree", action="store_true"); record.add_argument("--expected-tier", choices=sorted(TIERS)); record.add_argument("--category", action="append", default=[], choices=sorted(DISAGREEMENT_CATEGORIES)); record.add_argument("--note"); record.add_argument("--supersedes")
     report = sub.add_parser("report"); report.add_argument("batch_id")
     args = parser.parse_args()
     common = (args.database, args.companies, args.candidate, args.taxonomy, args.semantic_config, args.roi_results)
@@ -603,7 +641,21 @@ def main() -> int:
         value = prepare_batch(args.database, args.output_root, args.candidate, args.taxonomy, args.semantic_config, args.companies, args.roi_results, args.batch_id, args.seed, args.usage_run); print(json.dumps({"validation_batch_id": value["validation_batch_id"], "batch_path": value["batch_path"], "review_path": value["review_path"]}, indent=2)); return 0
     batch = load_batch(args.output_root, args.batch_id)
     if args.command == "record":
-        value = append_judgment(batch, args.judgments, args.job_or_review_id, args.decision, args.agree, args.expected_tier, args.note, args.category, args.supersedes); print(json.dumps(value, ensure_ascii=False, indent=2)); return 0
+        explicit = args.review_number is not None or args.job_instance_id is not None
+        expected_values = 1 if explicit else 2
+        if len(args.record_values) != expected_values:
+            parser.error(
+                "record requires DECISION with an explicit identity, or positional ID DECISION"
+            )
+        job_or_review_id = None if explicit else args.record_values[0]
+        decision = args.record_values[-1].upper()
+        if decision not in HUMAN_DECISIONS:
+            parser.error(f"invalid decision: {decision}")
+        value = append_judgment(
+            batch, args.judgments, job_or_review_id, decision, args.agree,
+            args.expected_tier, args.note, args.category, args.supersedes,
+            review_number=args.review_number, job_instance_id=args.job_instance_id,
+        ); print(json.dumps(value, ensure_ascii=False, indent=2)); return 0
     metrics, path = generate_report(batch, args.judgments, args.output_root); print(json.dumps({"report": str(path), "verdict": metrics["verdict"], "reviewed": metrics["reviewed"]}, indent=2)); return 0
 
 

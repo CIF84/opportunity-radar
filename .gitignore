@@ -3,3 +3,10 @@
 __pycache__/
 .pytest_cache/
 *.egg-info/
+
+# Personal local validation evidence. Aggregate/redacted reports may be tracked;
+# raw notes require an explicit repository-privacy and backup decision.
+data/live_validation/judgments.jsonl
+
+# Replaceable local health evidence.
+output/test_receipt.json

@@ -1,5 +1,9 @@
 # Opportunity Radar — Phase 2 State & Change Detection Report
 
+> Historical gate report. It describes the schema and evidence at the Phase 2
+> gate; the current compatible SQLite schema is version 3. Use `docs/STATUS.md`
+> for current project state.
+
 Run date: 2026-08-24
 
 Scope: persistent state and deterministic change detection only

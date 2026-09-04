@@ -1,5 +1,9 @@
 # Phase 3 Semantic ROI Experiment
 
+> Historical experiment report. Its proposed Live Decision Validation next
+> gate is complete. Use `docs/STATUS.md` and `experiments/registry.yaml` for the
+> current verdict and follow-up.
+
 ## Completed result
 
 The bounded experiment completed 28 external calls: two repetitions across

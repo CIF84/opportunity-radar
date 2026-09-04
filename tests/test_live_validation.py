@@ -16,6 +16,7 @@ from opportunity_radar.live_validation import (
     generate_report,
     load_judgments,
     prepare_batch,
+    resolve_batch_job,
     run_luna_assessment,
     select_validation_sample,
 )
@@ -234,6 +235,30 @@ def test_judgments_are_append_only_validated_and_superseded(tmp_path):
     records = load_judgments(path)
     assert len(records) == 2
     assert current_judgments(records, "b1")[("b1", 10)]["judgment_id"] == second["judgment_id"]
+
+
+def test_legacy_identity_collision_is_rejected_and_explicit_identity_is_exact(tmp_path):
+    jobs = [
+        {"review_number": 6, "job_instance_id": 15, "job_observation_id": 60,
+         "content_fingerprint": "six", "opportunity_assessment_id": 600},
+        {"review_number": 15, "job_instance_id": 104, "job_observation_id": 150,
+         "content_fingerprint": "fifteen", "opportunity_assessment_id": 1500},
+    ]
+    batch = {
+        "validation_batch_id": "collision", "selected_jobs": jobs,
+        "candidate": {"profile_id": "candidate", "version": 1, "scoring_preference_fingerprint": "weights"},
+        "semantic": {"assessor_id": "external-structured", "model": "model", "contract_version": "v1"},
+    }
+    with pytest.raises(ValueError, match="ambiguous legacy positional id 15"):
+        resolve_batch_job(batch, "15")
+    assert resolve_batch_job(batch, review_number=15)["job_instance_id"] == 104
+    assert resolve_batch_job(batch, job_instance_id=15)["review_number"] == 6
+
+    judgment = append_judgment(
+        batch, tmp_path / "judgments.jsonl", None, "DONT_APPLY", False,
+        categories=["UNREPRESENTED_HUMAN_PREFERENCE"], review_number=15,
+    )
+    assert judgment["job_instance_id"] == 104
 
 
 def test_metrics_and_report_use_only_reviewed_jobs_without_external_call(tmp_path, monkeypatch):
