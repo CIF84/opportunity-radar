@@ -3,6 +3,29 @@
 This is the authoritative repository handoff. It records current direction and
 constraints; operational counts are derived by `opportunity-radar-status`.
 
+## Current approved work packet
+
+```text
+specs/phase4/SPEC-002-market-routing-integration.md
+```
+
+Status: `APPROVED_FOR_IMPLEMENTATION`.
+
+Implementation agents should follow this pointer rather than infer work from
+filename recency. Before starting an approved packet, verify the local working
+tree is clean and synchronize with `origin/main` when safe. If unexplained local
+changes, divergence, or conflicts exist, stop and report them rather than
+overwriting or improvising.
+
+The development authority boundary is deliberately simple:
+
+- agents may inspect, analyze, implement, and validate an approved work packet;
+- initial implementation remains uncommitted while awaiting human/ChatGPT review;
+- after explicit approval, the implementation agent may commit and push the
+  approved working tree itself;
+- humans approve decisions and promotion boundaries rather than performing Git
+  plumbing manually.
+
 ## Mission
 
 Monitor relevant public employer vacancies, maintain trustworthy lifecycle
