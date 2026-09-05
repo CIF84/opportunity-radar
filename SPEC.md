@@ -3591,7 +3591,8 @@ clustering with candidate-dependent preferred-variant selection.
 `OUT_OF_SCOPE` routing and the `UNCERTAIN` recommendation cap are active in
 that boundary. Slice 6 implements the separately fingerprinted, taxonomy-backed
 decision-preference state and bounded deterministic effect policy. Retrospective
-validation of those effects remains pending.
+validation of those effects remains pending. Slice 7 implements the explicit-
+evidence, candidate-configurable junior/graduate terminal cap.
 
 ## 2. Scope and Invariants
 
@@ -4061,6 +4062,11 @@ The output preserves matched source text, source field, rule version, candidate
 policy evidence, and whether a cap was applied. DBG Cork is the historical
 regression case.
 
+The implemented pure evaluator lives in `seniority_guard.py`; its reusable,
+versioned evidence patterns live in `config/seniority_guard_rules.yaml`. The
+existing `market_access_policy.seniority_guard` configuration is consumed
+without duplicating candidate policy or changing any Phase 3 fingerprint.
+
 ## 12. Deterministic Recommendation Composition
 
 Terminal policy composition occurs outside the semantic model in this order:
@@ -4355,7 +4361,7 @@ Implement Phase 4 in bounded, reviewable slices:
 6. **Decision preferences — implemented** — add separately fingerprinted preference data,
    taxonomy additions, structured matching/effects, and a predeclared bounded
    effect policy while preserving the Phase 3 base score.
-7. **Seniority guard** — add explicit-evidence detection and the
+7. **Seniority guard — implemented** — add explicit-evidence detection and the
    candidate-configured `LOW_PRIORITY` cap.
 8. **Retrospective replay** — freeze a new experiment manifest, reuse existing
    semantic assessments, make zero external semantic calls, and evaluate the

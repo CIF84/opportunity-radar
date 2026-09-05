@@ -278,7 +278,7 @@ decisions:
     consequences: [Missing or ambiguous seniority evidence cannot activate the cap]
     supersedes: []
     related_experiments: [EXP-LIVE-VALIDATION-001]
-    affected_contracts: [planned SeniorityGuard, Recommendation]
+    affected_contracts: [SeniorityGuardAssessment, Recommendation]
 
   - decision_id: DR-021
     title: Keep candidate aversions soft and tradeable

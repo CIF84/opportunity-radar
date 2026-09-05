@@ -9,7 +9,7 @@ constraints; operational counts are derived by `opportunity-radar-status`.
 specs/phase4/SPEC-005-seniority-guard.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_AWAITING_APPROVAL`.
 
 Implementation agents should follow this pointer rather than infer work from
 filename recency. Before starting an approved packet, verify the local working
@@ -39,10 +39,10 @@ have passed bounded validation. The first Live Decision Validation is complete.
 Phase 4 market-access representation, current-candidate market assessment,
 routing, high-confidence opportunity clustering, preferred-variant selection,
 and the versioned decision-preference effect layer are implemented and committed.
-The remaining deterministic correction before retrospective replay is the
-candidate-configurable junior/graduate seniority guard in the current approved
-work packet. No retrospective Phase 4 replay, autonomous preference learning,
-semantic-v2, or external-action behavior is implemented yet.
+The candidate-configurable junior/graduate seniority guard is implemented in the
+current worktree and awaits approval. No retrospective Phase 4 replay,
+autonomous preference learning, semantic-v2, or external-action behavior is
+implemented yet.
 
 ## Last validated state
 
@@ -77,8 +77,9 @@ policy in `OPERATING_MODEL.md`.
 - Candidate preference is expected to change over time. Future interaction
   evidence may support preference hypotheses, but must not silently mutate
   authoritative preference state.
-- An explicit junior/graduate role still needs a deterministic candidate-level
-  recommendation cap before the retrospective Phase 4 replay is frozen.
+- Explicit junior/graduate evidence now activates a deterministic,
+  candidate-configured `LOW_PRIORITY` recommendation cap without changing
+  semantic interpretation or eligibility.
 - Retrieval scope is a detail-cost policy. It is not candidate eligibility.
 
 ## Architecture direction
@@ -96,9 +97,9 @@ complete inventory
   -> deterministic composite / shortlist
 ```
 
-All stages through preference-aware decision effects and the existing Phase 3
-semantic/base-decision contracts are implemented. The seniority guard is the
-current bounded implementation slice; retrospective replay remains separate.
+All stages through the seniority guard and the existing Phase 3 semantic/base
+decision contracts are implemented. Retrospective replay remains a separate
+experiment.
 
 ## Confirmed Phase 4 candidate policy
 
@@ -191,7 +192,7 @@ The next gate is not “tune Luna.”
 
 ## Next intended experiments
 
-1. Implement and validate the bounded seniority guard in `SPEC-005`.
+1. Approve and commit the bounded seniority guard in `SPEC-005`.
 2. Retrospectively replay the immutable batch using existing semantic
    assessments wherever semantic inputs are unchanged.
 3. Run a new prospective validation batch.
@@ -224,8 +225,8 @@ Repository inspection on 2026-09-04 found:
   postings, including the four Kiwi Inventory variants with Prague preferred,
   and kept the all-out-of-scope WPP Growth Consulting cluster out of the
   shortlist;
-- latest committed preference implementation validated with 171 passing offline
-  tests and 18 live tests deselected;
+- current seniority-guard worktree validates with 193 passing offline tests and
+  18 live tests deselected;
 - two intentionally retained interrupted historical `RUNNING` rows.
 
 These counts are time-bound observations, not hand-maintained runtime truth.

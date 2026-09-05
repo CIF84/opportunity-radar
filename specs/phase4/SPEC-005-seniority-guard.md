@@ -2,7 +2,7 @@
 
 ## Status
 
-`APPROVED_FOR_IMPLEMENTATION`
+`IMPLEMENTED_AWAITING_APPROVAL`
 
 ## Purpose
 
@@ -298,3 +298,23 @@ K. recommended SPEC-006 retrospective replay packet
 L. recommended commit message
 
 Do not commit or push until explicit approval.
+
+## Implementation result
+
+Implemented in the current worktree as a pure deterministic guard with
+declarative, versioned explicit-evidence rules. The existing primary candidate
+policy enables `JUNIOR` and `GRADUATE`; the portability profile's empty list
+disables the same generic evaluator. The guard runs after preference adjustment
+and market/eligibility routing, preserves the score, and applies the most
+restrictive `LOW_PRIORITY` terminal cap without creating ineligibility.
+
+The immutable Live Validation v1 evidence is sufficient to adjudicate review
+25: its preserved title is `Junior Project Manager`, so the guard activates,
+while the preserved incomplete Cork multi-location evidence remains market
+`UNCERTAIN`. No semantic output is used to activate the cap. The implementation
+adds structured evidence, reason, policy/rules/input fingerprints, and before/
+after recommendation fields to newly generated batch diagnostics. SQLite
+remains schema version 3; no live or semantic calls and no retrospective replay
+were performed. The full offline suite passed with 193 tests and 18 live tests
+deselected; `git diff --check` passed. Promotion remains a separate human
+decision.

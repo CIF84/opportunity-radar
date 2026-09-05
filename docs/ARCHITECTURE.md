@@ -132,11 +132,13 @@ Responsibility: deterministically combine eligible semantic dimensions into a
 reproducible composite, recommendation, and ranking.
 
 - Main modules: `phase3_pipeline.py`, `market_routing.py`,
-  `opportunity_clustering.py`, `decision_preferences.py`, `scoring.py`;
+  `opportunity_clustering.py`, `decision_preferences.py`,
+  `seniority_guard.py`, `scoring.py`;
   operational ranking in `live_validation.py`.
 - Inputs: candidate-market status, eligibility, dimension scores, candidate
   scoring weights, versioned decision preferences, preference matching/effect
-  policy, and recommendation configuration.
+  policy, explicit seniority evidence/rules, candidate seniority-guard policy,
+  and recommendation configuration.
 - Outputs: `OpportunityAssessment`, preserved base composite, structured
   preference effects, decision-adjusted score, recommendation, and rank/tier.
 - Nature: deterministic.
@@ -165,6 +167,10 @@ Invariants:
   policy, clipped to ±1.0, and never creates hard eligibility or market status.
 - Preference-only or effect-policy-only changes recompute derived decision
   output without changing semantic identity, cluster membership, or lifecycle.
+- The seniority guard uses only explicit title/detail evidence and versioned
+  candidate policy. It runs after market and preference composition, caps an
+  otherwise less restrictive recommendation at `LOW_PRIORITY`, and never
+  changes score/tier, eligibility, market status, cluster identity, or lifecycle.
 - A recommendation is a decision-support output, not authorization to act.
 
 ## HUMAN VALIDATE

@@ -1,0 +1,26 @@
+rule_id: phase4-explicit-seniority
+version: 1
+
+# Patterns must identify the vacancy itself as explicitly down-level. Generic
+# titles such as analyst/associate and years/salary evidence are intentionally
+# absent.
+levels:
+  JUNIOR:
+    title_patterns:
+      - "\\bjunior\\b"
+      - "\\bentry[- ]level\\b"
+    description_patterns:
+      - "\\b(?:junior|entry[- ]level) (?:role|position|opportunity)\\b"
+      - "\\b(?:this|the) (?:role|position) is (?:a |an )?(?:junior|entry[- ]level)\\b"
+    structured_values:
+      - junior
+      - entry_level
+  GRADUATE:
+    title_patterns:
+      - "\\bgraduate\\b"
+    description_patterns:
+      - "\\bgraduate (?:role|position|opportunity|programme|program)\\b"
+      - "\\brecent graduates? (?:are )?(?:welcome|encouraged|invited)\\b"
+    structured_values:
+      - graduate
+      - recent_graduate

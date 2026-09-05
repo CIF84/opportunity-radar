@@ -38,12 +38,18 @@ from opportunity_radar.opportunity_clustering import (
     cluster_opportunities,
     select_preferred_variant,
 )
-from opportunity_radar.phase3_config import load_candidate_profile, load_taxonomy
+from opportunity_radar.phase3_config import digest, load_candidate_profile, load_taxonomy
 from opportunity_radar.phase3_models import EligibilityStatus, Recommendation, SemanticJobInput
 from opportunity_radar.phase3_repository import Phase3Repository
 from opportunity_radar.roi_experiment import load_experiment_config
 from opportunity_radar.scoring import derive_recommendation, rank_tier
 from opportunity_radar.semantic import SEMANTIC_CONTRACT_VERSION
+from opportunity_radar.seniority_guard import (
+    DEFAULT_SENIORITY_RULES_PATH,
+    apply_seniority_guard,
+    evaluate_seniority_guard,
+    load_seniority_guard_rules,
+)
 from opportunity_radar.state_repository import StateRepository
 
 
@@ -384,12 +390,14 @@ def _clustered_assessed_pool(
     taxonomy=None,
     preference_effect_policy_path: str | Path = DEFAULT_EFFECT_POLICY_PATH,
     preference_matching_rules_path: str | Path = DEFAULT_MATCHING_RULES_PATH,
+    seniority_rules_path: str | Path = DEFAULT_SENIORITY_RULES_PATH,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     taxonomy = taxonomy or load_taxonomy("config/taxonomy.yaml")
     preference_policy = load_preference_effect_policy(preference_effect_policy_path)
     preference_rules = load_preference_matching_rules(
         taxonomy, preference_matching_rules_path,
     )
+    seniority_rules = load_seniority_guard_rules(seniority_rules_path)
     with _readonly_connection(database) as connection:
         active_rows = _active_rows(connection)
         assessment_rows = connection.execute(
@@ -514,17 +522,20 @@ def _clustered_assessed_pool(
             "candidate_route_in_normal_shortlist": route_included,
             "included_in_normal_shortlist": included,
             "preference_assessment": None,
+            "seniority_guard": None,
+            "seniority_guard_decision": None,
         }
         if not included or preferred is None:
             diagnostics.append(diagnostic)
             continue
+        decision_job = SemanticJobInput(
+            preferred["company_name"], preferred["title"],
+            preferred["description"] or "", tuple(preferred["locations"]),
+            preferred["work_mode"], preferred["employment_type"],
+            preferred["department"],
+        )
         preference_assessment = assess_decision_preferences(
-            SemanticJobInput(
-                preferred["company_name"], preferred["title"],
-                preferred["description"] or "", tuple(preferred["locations"]),
-                preferred["work_mode"], preferred["employment_type"],
-                preferred["department"],
-            ),
+            decision_job,
             preferred["semantic"],
             profile,
             preferred["score"],
@@ -539,7 +550,15 @@ def _clustered_assessed_pool(
             EligibilityStatus(preferred["eligibility"]),
             recommendation_before_market,
         )
+        seniority_guard = evaluate_seniority_guard(
+            decision_job, profile, seniority_rules,
+        )
+        seniority_decision = apply_seniority_guard(
+            adjusted_routing.recommendation, seniority_guard,
+        )
         diagnostic["preference_assessment"] = preference_assessment.payload()
+        diagnostic["seniority_guard"] = seniority_guard.payload()
+        diagnostic["seniority_guard_decision"] = seniority_decision.payload()
         diagnostics.append(diagnostic)
         row = {
             key: value for key, value in preferred.items()
@@ -553,13 +572,19 @@ def _clustered_assessed_pool(
             "score": preference_assessment.decision_adjusted_score,
             "tier": rank_tier(preference_assessment.decision_adjusted_score),
             "recommendation": (
-                adjusted_routing.recommendation.value
-                if adjusted_routing.recommendation else None
+                seniority_decision.recommendation.value
+                if seniority_decision.recommendation else None
             ),
             "recommendation_before_preference": preferred["recommendation"],
             "recommendation_before_market_policy": recommendation_before_market.value,
             "market_routing": adjusted_routing.payload(),
             "preference_assessment": preference_assessment.payload(),
+            "recommendation_before_seniority_guard": (
+                adjusted_routing.recommendation.value
+                if adjusted_routing.recommendation else None
+            ),
+            "seniority_guard": seniority_guard.payload(),
+            "seniority_guard_decision": seniority_decision.payload(),
             "cluster_id": cluster.cluster_id,
             "cluster_fingerprint": cluster.cluster_fingerprint,
             "canonical_role_identity": cluster.canonical_role_identity,
@@ -646,11 +671,24 @@ def render_review(batch: dict[str, Any]) -> str:
                     f"({score_change}; {effects})",
                     "",
                 ]
+            guard = item.get("seniority_guard")
+            guard_lines = []
+            if guard and guard["active"]:
+                evidence = "; ".join(
+                    f"{item['source_field']}: {item['matched_text']}"
+                    for item in guard["evidence"]
+                )
+                guard_lines = [
+                    f"Seniority guard: {guard['reason_code']} → "
+                    f"maximum {guard['terminal_cap']} ({evidence})",
+                    "",
+                ]
             lines.extend([
                 f"### {item['review_number']}. Rank {item['rank']} — {item['company_name']} — {item['title']}", "",
                 f"{location} · {item['work_mode']} · [job source]({item['canonical_url']})", "",
                 f"**RADAR {item['score']:.2f} · {item['tier']} · {item['recommendation']} · market {item.get('market_status', 'NOT_RECORDED')} · eligibility {item['eligibility']}**" if item["score"] is not None else f"**RADAR unavailable · {item['tier']} · {item['recommendation']} · market {item.get('market_status', 'NOT_RECORDED')} · eligibility {item['eligibility']}**", "",
                 *preference_lines,
+                *guard_lines,
                 f"Why: {reason}", "",
                 "Strengths: " + ("; ".join(x["statement"] for x in strengths) if strengths else "None recorded."), "",
                 "Gaps / risks: " + ("; ".join(x["statement"] for x in gaps_risks) if gaps_risks else "None recorded."), "",
@@ -686,6 +724,7 @@ def prepare_batch(
     market_rules_path: str | Path = "config/market_status_rules.yaml",
     preference_effect_policy_path: str | Path = DEFAULT_EFFECT_POLICY_PATH,
     preference_matching_rules_path: str | Path = DEFAULT_MATCHING_RULES_PATH,
+    seniority_rules_path: str | Path = DEFAULT_SENIORITY_RULES_PATH,
 ) -> dict[str, Any]:
     taxonomy = load_taxonomy(taxonomy_path); profile = load_candidate_profile(candidate_path, taxonomy)
     market_rules = load_market_normalization_rules(market_rules_path)
@@ -693,6 +732,7 @@ def prepare_batch(
     pool, cluster_diagnostics = _clustered_assessed_pool(
         database, profile, f"1:{luna.model}", market_rules, taxonomy,
         preference_effect_policy_path, preference_matching_rules_path,
+        seniority_rules_path,
     )
     if not pool:
         raise ValueError("no compatible assessed active jobs; run explicit Luna assessment first")
@@ -733,6 +773,15 @@ def prepare_batch(
             "decision_policy_fingerprint": (
                 pool[0]["preference_assessment"]["decision_policy_fingerprint"]
                 if pool else None
+            ),
+        },
+        "seniority_guard": {
+            "rules_path": str(seniority_rules_path),
+            "rules_fingerprint": load_seniority_guard_rules(
+                seniority_rules_path
+            ).fingerprint,
+            "candidate_policy_fingerprint": digest(
+                profile.market_access_policy.seniority_guard
             ),
         },
         "limitations": "Stratified reviewed sample; aggregate agreement is not an unbiased market estimate.",
@@ -937,6 +986,7 @@ def main() -> int:
     parser.add_argument("--market-rules", default="config/market_status_rules.yaml")
     parser.add_argument("--preference-effect-policy", default=str(DEFAULT_EFFECT_POLICY_PATH))
     parser.add_argument("--preference-matching-rules", default=str(DEFAULT_MATCHING_RULES_PATH))
+    parser.add_argument("--seniority-rules", default=str(DEFAULT_SENIORITY_RULES_PATH))
     parser.add_argument("--roi-results", default="output/semantic_roi_experiment.json")
     parser.add_argument("--output-root", default="output/live_validation")
     parser.add_argument("--judgments", default="data/live_validation/judgments.jsonl")
@@ -956,7 +1006,7 @@ def main() -> int:
     if args.command == "assess":
         value = run_luna_assessment(args.database, args.output_root, args.companies, args.candidate, args.taxonomy, args.semantic_config, args.roi_results, args.run_id, args.market_rules); print(json.dumps({"validation_run_id": value["validation_run_id"], "summary": value["summary"], "manifest_path": value["manifest_path"]}, indent=2)); return 0 if not value["summary"]["failures"] else 1
     if args.command == "prepare":
-        value = prepare_batch(args.database, args.output_root, args.candidate, args.taxonomy, args.semantic_config, args.companies, args.roi_results, args.batch_id, args.seed, args.usage_run, args.market_rules, args.preference_effect_policy, args.preference_matching_rules); print(json.dumps({"validation_batch_id": value["validation_batch_id"], "batch_path": value["batch_path"], "review_path": value["review_path"]}, indent=2)); return 0
+        value = prepare_batch(args.database, args.output_root, args.candidate, args.taxonomy, args.semantic_config, args.companies, args.roi_results, args.batch_id, args.seed, args.usage_run, args.market_rules, args.preference_effect_policy, args.preference_matching_rules, args.seniority_rules); print(json.dumps({"validation_batch_id": value["validation_batch_id"], "batch_path": value["batch_path"], "review_path": value["review_path"]}, indent=2)); return 0
     batch = load_batch(args.output_root, args.batch_id)
     if args.command == "record":
         explicit = args.review_number is not None or args.job_instance_id is not None
