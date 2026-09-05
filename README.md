@@ -142,6 +142,18 @@ Detailed replay JSON and reports remain private/local and are Git-ignored. Each
 run also writes an `aggregate_summary.json` containing the bounded sanitized
 evidence that may be tracked.
 
+Prospective Phase 4 protocol validation and read-only diagnostic preview:
+
+```bash
+.venv/bin/opportunity-radar-phase4-prospective validate-protocol
+.venv/bin/opportunity-radar-phase4-prospective preview
+```
+
+This command currently implements preparation only. It makes no live-source or
+semantic-model calls and does not create the future prospective batch.
+Detailed preview and blind-review artifacts remain private/local; only the
+sanitized aggregate receipt may be tracked.
+
 Project health, derived read-only from repository evidence:
 
 ```bash

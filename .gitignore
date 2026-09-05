@@ -15,5 +15,12 @@ output/phase4_replay/**/*
 !output/phase4_replay/**/
 !output/phase4_replay/**/aggregate_summary.json
 
+# Prospective validation previews and future batches contain candidate-derived
+# per-opportunity evidence and private human-review material. Only sanitized
+# aggregate receipts are repository-safe.
+output/phase4_prospective/**/*
+!output/phase4_prospective/**/
+!output/phase4_prospective/**/aggregate_summary.json
+
 # Replaceable local health evidence.
 output/test_receipt.json

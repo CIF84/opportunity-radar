@@ -1,0 +1,60 @@
+schema_version: 1
+protocol_version: phase4-prospective-validation-v1
+experiment_id: EXP-PHASE4-PROSPECTIVE-001
+experiment_type: PROSPECTIVE_CLUSTER_VALIDATION
+candidate_path: config/candidate.yaml
+taxonomy_path: config/taxonomy.yaml
+semantic_config_path: config/semantic_experiment.yaml
+market_rules_path: config/market_status_rules.yaml
+preference_effect_policy_path: config/preference_effect_policy.yaml
+preference_matching_rules_path: config/preference_matching_rules.yaml
+seniority_rules_path: config/seniority_guard_rules.yaml
+historical_batch_path: output/live_validation/batch-20260826T210045Z-6492b09a/batch.json
+roi_results_path: output/semantic_roi_experiment.json
+
+# This seed and every selection rule are frozen before prospective judgments.
+sampling:
+  seed: phase4-prospective-v1-20260905
+  target: 40
+  reserve_per_stratum: 5
+  normal_employer_cap: 4
+  market_control_additional_employer_cap: 1
+  strata:
+    TOP_ATTENTION: 15
+    REVIEW_BOUNDARY: 10
+    LOW_PRIORITY_CONTROL: 10
+    MARKET_CONTROL: 5
+  fallback_order:
+    TOP_ATTENTION: [SYSTEM_ATTENTION, NORMAL_REMAINDER]
+    REVIEW_BOUNDARY: [TERMINAL_REVIEW, SYSTEM_ATTENTION, NORMAL_REMAINDER]
+    LOW_PRIORITY_CONTROL: [TERMINAL_LOW_PRIORITY, NORMAL_REMAINDER]
+    MARKET_CONTROL: [OUT_OF_SCOPE_WITH_BASE_FIT, OUT_OF_SCOPE_REMAINDER]
+
+human_labels:
+  attention: ["YES", "NO"]
+  application_intent: [APPLY, DONT_APPLY, NEED_MORE_INFO]
+  market_status_human: [IN_SCOPE, UNCERTAIN, OUT_OF_SCOPE]
+  preferred_variant_agreement: [AGREE, DISAGREE, NOT_APPLICABLE]
+  cluster_correctness: [CORRECT, FALSE_MERGE, NOT_APPLICABLE]
+
+metrics:
+  normal_strata: [TOP_ATTENTION, REVIEW_BOUNDARY, LOW_PRIORITY_CONTROL]
+  system_attention_recommendations: [APPLY, REVIEW]
+  gates:
+    human_apply_attention_recall_minimum: 1.0
+    top_attention_acceptance_minimum: 0.60
+    ranking_agreement_minimum: 0.60
+    terminal_apply_acceptance_minimum: 0.60
+    market_status_exact_agreement_minimum: 0.90
+    preferred_variant_agreement_minimum: 0.80
+    confirmed_false_merge_maximum: 0
+
+stopping:
+  completed_cluster_judgments: 40
+  early_stopping: false
+  unavailable_item_is_ranking_disagreement: false
+  replacement_policy: FROZEN_RESERVE_SAME_STRATUM_ONLY
+
+privacy:
+  detailed_artifacts: PRIVATE_LOCAL
+  aggregate_summary: REPOSITORY_SAFE

@@ -201,6 +201,8 @@ Current classification:
 | `data/live_validation/judgments.jsonl` | CANONICAL_EVIDENCE, private | Exclude from Git pending explicit privacy/backup decision |
 | `output/phase4_replay/*/replay.json`, `report.md` | CANONICAL_EVIDENCE / DERIVED_REPORT, private | Retain locally and exclude from Git; preserve hashes in the sanitized receipt |
 | `output/phase4_replay/*/aggregate_summary.json` | EXPERIMENT RESULT, sanitized | Track only aggregate metrics, gates, fingerprints, provenance hashes, limitations, and conclusions |
+| `output/phase4_prospective/*/preview.json`, `blind_review.md` | DIAGNOSTIC / future CANONICAL_EVIDENCE, private | Retain locally and exclude from Git because they contain candidate-derived per-opportunity evidence and human-review material |
+| `output/phase4_prospective/*/aggregate_summary.json` | EXPERIMENT RESULT, sanitized | Track only population/sample counts, frozen identities, cache/cost preflight, provenance hashes, limitations, and conclusions; it is not a prospective verdict |
 | `output/opportunity_radar.sqlite3` | LOCAL_STATE | Private backup; do not publish by default |
 | `output/*sample*.sqlite3`, `*diagnostic*.sqlite3` | DIAGNOSTIC | Historical currently; future generated copies should be ignored |
 | `output/scope_measurement/*.json` | CANONICAL_EVIDENCE or SUPERSEDED | Registry identifies the final evidence and historical predecessors |

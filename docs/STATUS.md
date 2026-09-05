@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-008-prospective-validation-design.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_AWAITING_APPROVAL`.
 
 Implementation agents must follow this pointer rather than infer work from file
 recency. Before starting, verify the local working tree is clean and synchronize
@@ -48,8 +48,11 @@ Phases 1–3 are implemented. Phase 4 has committed implementations for:
 - bounded Texas/California market-composition correction and residual diagnostics.
 
 The original Live Decision Validation and subsequent retrospective experiments
-remain immutable historical evidence. The current gate is a new prospective
-validation design, not further retrospective tuning.
+remain immutable historical evidence. SPEC-008 now implements the prospective
+validation preparation layer: a frozen protocol, deterministic cluster sampler,
+historical-overlap exclusion, employer caps, semantic cache/cost preflight,
+private blind-review preview, and predeclared metric/stopping functions. It has
+not created a prospective batch or collected new judgments.
 
 ## Historical validation baseline
 
@@ -172,9 +175,9 @@ Do not change:
 
 ## Current gate
 
-> Predeclare and implement the preparation layer for a new prospective,
-> opportunity-cluster-sampled Phase 4 validation before any new human judgments
-> or semantic calls are made.
+> Review and approve the frozen prospective protocol and preparation evidence,
+> then commit it before any fresh prospective batch, semantic calls, or human
+> judgments are authorized.
 
 The prospective protocol must separate attention from application intent, sample
 40 opportunity clusters across top, boundary, low-control, and market-control
@@ -183,14 +186,16 @@ report semantic cache misses/cost before any paid execution is authorized.
 
 ## Next intended steps
 
-1. Implement and review SPEC-008 prospective validation design/preparation.
+1. Review and approve SPEC-008 prospective validation preparation.
 2. Freeze/commit the protocol before creating the actual prospective batch.
-3. Review the expected semantic-call and cost budget; explicitly authorize or
+3. Perform a fresh state refresh under a separately approved operational packet.
+4. Re-run prospective preflight against that fresh state and review the expected
+   semantic-call and cost budget; explicitly authorize or
    reject paid execution.
-4. Create the fresh prospective batch and collect 40 cluster-level judgments
+5. Create the fresh prospective batch and collect 40 cluster-level judgments
    without early stopping.
-5. Evaluate the predeclared gates.
-6. Only then decide whether preference-policy revision or
+6. Evaluate the predeclared gates.
+7. Only then decide whether preference-policy revision or
    `phase3-semantic-v2` is justified.
 
 ## Known open decisions
@@ -204,6 +209,18 @@ report semantic cache misses/cost before any paid execution is authorized.
   review evidence.
 - Bounded semantic-call authority available to future agents.
 
+## SPEC-008 diagnostic preview
+
+The read-only preview `phase4-prospective-preview-20260905-v4` used the existing
+operational snapshot and is explicitly **not** the prospective batch. It found
+394 active detailed clusters, excluded 26 clusters overlapping the 30 reviewed
+historical postings, filled the frozen 15/10/10/5 strata with no employer-cap
+relaxation, and froze five reserves per stratum. All 40 selected previews and
+20 reserves were compatible semantic-cache hits, so this snapshot projected
+zero semantic calls and zero cost. A fresh post-commit state may change that
+preflight and requires a new approval. Only the sanitized aggregate receipt is
+repository-safe; detailed items and the blind review remain private/local.
+
 ## Operational health snapshot
 
 Last recorded repository evidence includes:
@@ -216,7 +233,9 @@ Last recorded repository evidence includes:
   `OUT_OF_SCOPE`, with all 309 semantically processable jobs cache-compatible;
 - clustering replay: 394 clusters from 406 assessed postings and a 315-cluster
   normal shortlist;
-- SPEC-007 validated with 216 offline tests and 18 live tests deselected.
+- SPEC-007 validated with 216 offline tests and 18 live tests deselected;
+- SPEC-008 preparation validated with 232 offline tests and 18 live tests
+  deselected, with no live-source or semantic-model calls.
 
 These are time-bound observations, not hand-maintained runtime truth.
 

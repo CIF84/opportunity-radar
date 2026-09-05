@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "artifact_type": "DIAGNOSTIC_PREVIEW_NOT_PROSPECTIVE_BATCH",
+  "is_prospective_batch": false,
+  "preview_id": "phase4-prospective-preview-20260905-v4",
+  "experiment_id": "EXP-PHASE4-PROSPECTIVE-001",
+  "protocol_version": "phase4-prospective-validation-v1",
+  "created_at": "2026-09-05T12:46:29.968839+00:00",
+  "warning": "Read-only diagnostic preview from pre-existing state. It is not the future prospective batch.",
+  "human_judgments_present": false,
+  "batch_creation_authorized": false,
+  "sampling_ready_after_cache_preflight": true,
+  "external_calls_made": 0,
+  "population": {
+    "active_job_count": 431,
+    "active_usable_detail_count": 406,
+    "unassessable_detail_count": 25,
+    "cluster_count": 394,
+    "normal_candidate_count": 303,
+    "market_status_counts": {
+      "UNCERTAIN": 247,
+      "OUT_OF_SCOPE": 91,
+      "IN_SCOPE": 56
+    },
+    "cache_status_counts": {
+      "COMPATIBLE_SEMANTIC_CACHE_HIT": 394
+    },
+    "latest_ingestion_run": {
+      "run_id": "0a4af82b-0e40-4e20-8cef-0528ce4fa1d2",
+      "started_at": "2026-08-26T18:49:59.909761+00:00",
+      "completed_at": "2026-08-26T18:56:12.513510+00:00",
+      "status": "PARTIAL"
+    },
+    "source_failures_or_incomplete": [
+      {
+        "company_id": "allegro",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "cisco",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "csob",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "deutsche_boerse_group",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "ey",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "johnson_johnson",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "pure_storage",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "red_hat",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "sap",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "schneider_electric",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "siemens",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "wpp",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      },
+      {
+        "company_id": "wrike",
+        "status": "SUCCESS",
+        "inventory_complete": true,
+        "details_complete": false,
+        "error_type": null,
+        "error_message": null
+      }
+    ]
+  },
+  "historical_exclusion": {
+    "excluded_cluster_count": 26,
+    "overlapping_member_count": 30
+  },
+  "sample": {
+    "target": 40,
+    "selected_count": 40,
+    "stratum_counts": {
+      "TOP_ATTENTION": 15,
+      "REVIEW_BOUNDARY": 10,
+      "LOW_PRIORITY_CONTROL": 10,
+      "MARKET_CONTROL": 5
+    },
+    "shortfalls": {},
+    "reserve_counts": {
+      "TOP_ATTENTION": 5,
+      "REVIEW_BOUNDARY": 5,
+      "LOW_PRIORITY_CONTROL": 5,
+      "MARKET_CONTROL": 5
+    },
+    "employer_counts_normal": {
+      "cisco": 1,
+      "csob": 2,
+      "deutsche_boerse_group": 4,
+      "ey": 4,
+      "gooddata": 2,
+      "johnson_johnson": 1,
+      "kiwi_com": 2,
+      "pure_storage": 4,
+      "red_hat": 1,
+      "roche": 1,
+      "sap": 4,
+      "schneider_electric": 1,
+      "siemens": 1,
+      "wpp": 3,
+      "wrike": 4
+    },
+    "employer_counts_market_controls": {
+      "johnson_johnson": 1,
+      "pure_storage": 1,
+      "red_hat": 1,
+      "wpp": 1,
+      "wrike": 1
+    },
+    "cap_relaxations": []
+  },
+  "semantic_preflight": {
+    "selected_sample": {
+      "compatible_cache_hits": 40,
+      "semantic_cache_misses": 0,
+      "semantically_unassessable": 0,
+      "semantic_assessment_required_misses": 0,
+      "non_routed_cache_misses": 0,
+      "expected_external_calls": 0,
+      "estimated_cost_per_cache_miss_usd": 0.0026493,
+      "estimated_external_cost_usd": 0.0,
+      "external_calls_made": 0
+    },
+    "frozen_reserves": {
+      "compatible_cache_hits": 20,
+      "semantic_cache_misses": 0,
+      "semantically_unassessable": 0,
+      "semantic_assessment_required_misses": 0,
+      "non_routed_cache_misses": 0,
+      "expected_external_calls": 0,
+      "estimated_cost_per_cache_miss_usd": 0.0026493,
+      "estimated_external_cost_usd": 0.0,
+      "external_calls_made": 0
+    },
+    "full_current_population": {
+      "compatible_cache_hits": 394,
+      "semantic_cache_misses": 0,
+      "semantically_unassessable": 0,
+      "semantic_assessment_required_misses": 0,
+      "non_routed_cache_misses": 0,
+      "expected_external_calls": 0,
+      "estimated_cost_per_cache_miss_usd": 0.0026493,
+      "estimated_external_cost_usd": 0.0,
+      "external_calls_made": 0
+    }
+  },
+  "frozen_configuration": {
+    "protocol": "8998e4dacf9b5cf0475d24f0a835a5df6d93e96ae9ad80dc509c92b34ad831d2",
+    "candidate_full_profile": "67c459aa1cc9c9901aa1cf5e764e08b7e3905ac09ef80aefc5696af1dfb5746e",
+    "candidate_semantic_profile": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "candidate_scoring_preferences": "9237433984fb06f964248b199a08a6bd3ed9ddf0a0f0b341c13a0cb278db0e8a",
+    "candidate_market_access_policy": "86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb",
+    "candidate_decision_preferences": "e0146d4d87ce44810f6cd7f2c8a1125d313d18087666829b92fd100b2671c6a4",
+    "taxonomy": "1e34aa4f1d7cc24e8d0a12b0b810cacc059b7163f1ba39d7a447942057791593",
+    "market_status_rules": "fcc154634d721e28c18c1769fb8cd52184f66abe395327d1299aedbc8ff79701",
+    "preference_effect_policy": "15bf79d1a87067973b740f324ea500a95ed386c9a58abed3fbafa106a1b8d3c2",
+    "preference_matching_rules": "ea20c4b3200faf87dcf966257c9b4180ae7022b7fa48a4700299e4d6adccd9b7",
+    "seniority_guard_rules": "5a1bff11fe5ea70f0a7216c6422976bd06dcab9e745b85c5b654c05c0b45f388",
+    "clustering_method_version": "phase4-high-confidence-cluster-v1",
+    "preferred_variant_policy_version": "phase4-preferred-variant-v1",
+    "semantic_contract_version": "phase3-semantic-v1",
+    "semantic_assessor_id": "external-structured",
+    "semantic_assessor_version": "1:gpt-5.6-luna",
+    "semantic_model": "gpt-5.6-luna",
+    "reasoning_effort": "low"
+  },
+  "provenance": {
+    "git": {
+      "commit": "dd28569cf49a9b88093268d53369d4881c61766d",
+      "dirty": true,
+      "worktree_status_fingerprint": "8506f2645ee8a79aa2f775e81b7ad98d7e07c113b0768b82023d599e989caac3"
+    },
+    "database_path": "output/opportunity_radar.sqlite3",
+    "database_sha256": "66dba4e39fcc33c9817c40e828eadf5f02bc6237e2fb55d47f627128b6f2152d",
+    "historical_batch_path": "output/live_validation/batch-20260826T210045Z-6492b09a/batch.json",
+    "historical_batch_sha256": "52606ccbd026842096962b73a4f111b2205725595907262febf3e298c01d1fc0",
+    "protocol_path": "experiments/phase4_prospective_validation_v1.yaml",
+    "protocol_sha256": "91af6d1960afe7b2000665c2b55d56cb3eca171a95af3e8eb87a0367060f3f92",
+    "private_preview_sha256": "1b325234942028732db8139458b03816efda5484e7b4ab5c54441a10ab9821ff",
+    "private_blind_review_sha256": "6c0902146b62b0ad8660dbb006ecb8c50cf848d6b86ecc93a2fd48dff48b245a"
+  },
+  "limitations": [
+    "The preview uses existing local state and is not the fresh prospective batch.",
+    "No human judgments were collected and no prospective verdict was computed.",
+    "Detailed candidate-derived opportunity evidence remains private/local."
+  ]
+}
