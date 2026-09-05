@@ -218,7 +218,12 @@ def test_prepare_writes_immutable_manifest_and_report_without_model_call(tmp_pat
     batch = prepare_batch(database, output, candidate_path=candidate_path, batch_id="fixed", seed="seed")
     assert (output / "fixed" / "batch.json").exists()
     assert (output / "fixed" / "review.md").exists()
-    assert isinstance(json.loads((output / "fixed" / "batch.json").read_text())["sampling"]["strata"], dict)
+    saved = json.loads((output / "fixed" / "batch.json").read_text())
+    assert isinstance(saved["sampling"]["strata"], dict)
+    assert saved["clustering"]["clustering_method_version"] == "phase4-high-confidence-cluster-v1"
+    assert saved["clustering"]["preferred_variant_policy_version"] == "phase4-preferred-variant-v1"
+    assert saved["clustering"]["normal_shortlist_cluster_count"] == batch["ranked_pool_size"]
+    assert saved["clustering"]["clusters"]
     with pytest.raises(FileExistsError):
         prepare_batch(database, output, candidate_path=candidate_path, batch_id="fixed", seed="seed")
     assert len({item["job_instance_id"] for item in batch["selected_jobs"]}) == len(batch["selected_jobs"])

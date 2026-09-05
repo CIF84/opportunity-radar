@@ -130,8 +130,9 @@ Invariants:
 Responsibility: deterministically combine eligible semantic dimensions into a
 reproducible composite, recommendation, and ranking.
 
-- Main modules: `phase3_pipeline.py`, `market_routing.py`, `scoring.py`;
-  operational ranking in `live_validation.py`.
+- Main modules: `phase3_pipeline.py`, `market_routing.py`,
+  `opportunity_clustering.py`, `scoring.py`; operational ranking in
+  `live_validation.py`.
 - Inputs: candidate-market status, eligibility, dimension scores, candidate
   scoring weights, and recommendation configuration.
 - Outputs: `OpportunityAssessment`, composite score, recommendation, rank/tier.
@@ -148,6 +149,13 @@ Invariants:
   identity.
 - `OUT_OF_SCOPE` is omitted from the normal shortlist; `UNCERTAIN` may not end
   above `REVIEW`; neither rule alters the underlying Phase 3 composite.
+- `OpportunityCluster` membership is deterministic, candidate-independent,
+  employer-scoped, and requires exact title plus exact bounded core-role
+  evidence and an observable variant-field difference; title alone never
+  merges postings.
+- Preferred-variant selection is candidate-dependent and deterministic. It
+  operates only on active, hard-viable members and emits one representative
+  per normal-shortlist cluster without averaging or rewriting member semantics.
 - A recommendation is a decision-support output, not authorization to act.
 
 ## HUMAN VALIDATE
@@ -187,6 +195,10 @@ authority.
 - `SemanticAssessment`: candidate interpretation of material job content.
 - `OpportunityAssessment`: deterministic decision derived from semantic output
   and scoring configuration.
+- `OpportunityCluster`: derived high-confidence grouping over independent
+  source postings; it is not a lifecycle identity.
+- `PreferredVariantSelection`: candidate-dependent current representative of a
+  cluster; it does not alter cluster membership.
 - Human judgment: validation evidence about a frozen assessment.
 
 The first live validation demonstrated that posting identity, human opportunity
@@ -204,14 +216,14 @@ The post-validation architecture audit identified four Phase 4 concepts:
    `UNCERTAIN`, or `OUT_OF_SCOPE` after detailed active state and its routing
    and recommendation-cap integration are implemented. It does not change
    lifecycle state.
-2. `OpportunityCluster`: a high-confidence employer-scoped grouping above
-   independent `JobInstance` records.
-3. Preferred variant: candidate-dependent choice of one cluster member for
-   attention/application while variant lifecycles remain independent.
+2. `OpportunityCluster`: the high-confidence employer-scoped grouping above
+   independent `JobInstance` records is implemented as a pure derived layer.
+3. Preferred variant: deterministic candidate-dependent selection of one active
+   hard-viable cluster member is implemented in the normal ranked pool.
 4. Preference-aware decision layer: versioned candidate decision preferences
    applied without silently changing cached semantic interpretation.
 
-Items 2–4 remain planned and are not implemented. The candidate's Prague
+Item 4 remains planned and is not implemented. The candidate's Prague
 onsite/hybrid boundary, Czech-compatible remote policy,
 exceptional-relocation posture, language/work-access facts, `UNCERTAIN` cap,
 and junior-role guard are now represented in the generic CandidateProfile
@@ -219,6 +231,11 @@ schema and configuration. Their market behavioral evaluation, routing, and
 uncertainty cap are implemented without persistence.
 Soft preference trade-offs remain accepted policy but are deferred to the
 decision-preference slice. Phase 4 of `SPEC.md` defines the boundaries.
+
+Clusters and preferred selections are computed from persisted member evidence
+and recorded in new immutable validation manifests. They add no SQLite tables,
+do not emit lifecycle events, and are excluded from member semantic-cache
+identity.
 
 The planned responsibility split is:
 

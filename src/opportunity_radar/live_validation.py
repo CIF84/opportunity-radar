@@ -24,6 +24,13 @@ from opportunity_radar.market_status import (
     evaluate_current_candidate_market,
     load_market_normalization_rules,
 )
+from opportunity_radar.opportunity_clustering import (
+    CLUSTERING_METHOD_VERSION,
+    PREFERRED_VARIANT_POLICY_VERSION,
+    ClusterMemberEvidence,
+    cluster_opportunities,
+    select_preferred_variant,
+)
 from opportunity_radar.phase3_config import load_candidate_profile, load_taxonomy
 from opportunity_radar.phase3_models import EligibilityStatus, Recommendation, SemanticJobInput
 from opportunity_radar.phase3_repository import Phase3Repository
@@ -356,56 +363,170 @@ def _assessed_pool(
     assessor_version: str,
     market_rules,
 ) -> list[dict[str, Any]]:
+    pool, _ = _clustered_assessed_pool(
+        database, profile, assessor_version, market_rules,
+    )
+    return pool
+
+
+def _clustered_assessed_pool(
+    database: str | Path,
+    profile,
+    assessor_version: str,
+    market_rules,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     with _readonly_connection(database) as connection:
-        rows = connection.execute(
+        active_rows = _active_rows(connection)
+        assessment_rows = connection.execute(
             """SELECT ji.job_instance_id,ji.company_id,ji.canonical_url,ji.latest_observation_id,
                       jo.fingerprint,jo.normalized_snapshot,jo.run_id,
-                      oa.opportunity_assessment_id,oa.composite_score,oa.recommendation,oa.eligibility_json,
+                      oa.opportunity_assessment_id,oa.composite_score,oa.recommendation,
                       sa.semantic_assessment_id,sa.assessment_json
                FROM job_instances ji JOIN job_observations jo ON jo.job_observation_id=ji.latest_observation_id
                JOIN opportunity_assessments oa ON oa.job_instance_id=ji.job_instance_id AND oa.job_observation_id=jo.job_observation_id
                JOIN candidate_profiles cp ON cp.candidate_profile_row_id=oa.candidate_profile_row_id
                JOIN semantic_assessments sa ON sa.semantic_assessment_id=oa.semantic_assessment_id
-               WHERE ji.lifecycle_state='ACTIVE' AND cp.full_profile_fingerprint=?
+               WHERE ji.lifecycle_state='ACTIVE' AND cp.semantic_profile_fingerprint=?
                  AND oa.scoring_preference_fingerprint=? AND sa.content_fingerprint=jo.fingerprint
                  AND sa.semantic_contract_version=? AND sa.assessor_id=? AND sa.assessor_version=?
                ORDER BY oa.opportunity_assessment_id DESC""",
-            (profile.full_profile_fingerprint, profile.scoring_preference_fingerprint,
+            (profile.semantic_profile_fingerprint, profile.scoring_preference_fingerprint,
              SEMANTIC_CONTRACT_VERSION, ASSESSOR_ID, assessor_version),
         ).fetchall()
-    seen = set(); pool = []
-    for raw in rows:
-        if raw["job_instance_id"] in seen:
+    assessments: dict[int, dict[str, Any]] = {}
+    for raw in assessment_rows:
+        if raw["job_instance_id"] in assessments:
             continue
-        seen.add(raw["job_instance_id"])
-        snapshot = json.loads(raw["normalized_snapshot"])
-        eligibility = json.loads(raw["eligibility_json"])["status"]
+        assessments[raw["job_instance_id"]] = dict(raw)
+    postings = []
+    for raw in active_rows:
+        if not _usable(raw):
+            continue
+        snapshot = raw["snapshot"]
         job = _semantic_job(snapshot)
+        eligibility = evaluate_eligibility(job, profile).status.value
         market = evaluate_current_candidate_market(job, profile, market_rules)
+        assessed = assessments.get(raw["job_instance_id"])
+        recommendation = (
+            Recommendation(assessed["recommendation"]) if assessed else None
+        )
         routing = compose_market_routing(
             market.status,
             EligibilityStatus(eligibility),
-            Recommendation(raw["recommendation"]),
+            recommendation,
         )
-        if not routing.include_in_normal_shortlist:
-            continue
-        semantic = json.loads(raw["assessment_json"])
-        pool.append({
+        semantic = json.loads(assessed["assessment_json"]) if assessed else None
+        postings.append({
             "job_instance_id": raw["job_instance_id"], "job_observation_id": raw["latest_observation_id"],
-            "content_fingerprint": raw["fingerprint"], "opportunity_assessment_id": raw["opportunity_assessment_id"],
-            "semantic_assessment_id": raw["semantic_assessment_id"], "company_id": raw["company_id"],
+            "content_fingerprint": raw["fingerprint"],
+            "opportunity_assessment_id": assessed["opportunity_assessment_id"] if assessed else None,
+            "semantic_assessment_id": assessed["semantic_assessment_id"] if assessed else None,
+            "company_id": raw["company_id"],
             "company_name": snapshot["company_name"], "title": snapshot["title"], "locations": snapshot.get("locations", []),
             "work_mode": snapshot.get("work_mode", "unspecified"), "canonical_url": raw["canonical_url"],
-            "score": raw["composite_score"], "tier": rank_tier(raw["composite_score"]),
-            "recommendation": routing.recommendation.value,
-            "recommendation_before_market_policy": raw["recommendation"],
+            "score": assessed["composite_score"] if assessed else None,
+            "tier": rank_tier(assessed["composite_score"]) if assessed else None,
+            "recommendation": routing.recommendation.value if routing.recommendation else None,
+            "recommendation_before_market_policy": assessed["recommendation"] if assessed else None,
             "market_status": market.status.value,
             "market_assessment": market.payload(),
             "market_routing": routing.payload(),
             "eligibility": eligibility,
             "source_run_id": raw["run_id"], "semantic": semantic,
+            "description": snapshot.get("description"),
+            "employment_type": snapshot.get("employment_type"),
+            "department": snapshot.get("department"),
+            "source_evidence_at": snapshot.get("retrieved_at"),
+            "include_in_normal_shortlist": routing.include_in_normal_shortlist,
+            "semantic_assessment_available": assessed is not None,
+            "_market_object": market,
         })
-    return sorted(pool, key=lambda item: (-(item["score"] if item["score"] is not None else -1), item["job_instance_id"]))
+    members = {
+        item["job_instance_id"]: ClusterMemberEvidence(
+            job_instance_id=item["job_instance_id"],
+            company_id=item["company_id"],
+            title=item["title"],
+            description=item["description"],
+            canonical_url=item["canonical_url"],
+            content_fingerprint=item["content_fingerprint"],
+            locations=tuple(item["locations"]),
+            work_mode=item["work_mode"],
+            employment_type=item["employment_type"],
+            department=item["department"],
+            lifecycle_state="ACTIVE",
+            detail_complete=True,
+            source_evidence_at=item["source_evidence_at"],
+        )
+        for item in postings
+    }
+    posting_by_id = {item["job_instance_id"]: item for item in postings}
+    market_by_id = {
+        item["job_instance_id"]: item["_market_object"] for item in postings
+    }
+    eligibility_by_id = {
+        item["job_instance_id"]: EligibilityStatus(item["eligibility"])
+        for item in postings
+    }
+    pool: list[dict[str, Any]] = []
+    diagnostics: list[dict[str, Any]] = []
+    for cluster in cluster_opportunities(members.values()):
+        selection = select_preferred_variant(
+            cluster, members, market_by_id, eligibility_by_id, profile,
+        )
+        preferred_id = selection.preferred_variant_job_instance_id
+        preferred = posting_by_id.get(preferred_id) if preferred_id is not None else None
+        route_included = bool(preferred and preferred["include_in_normal_shortlist"])
+        included = bool(
+            route_included and preferred and preferred["semantic_assessment_available"]
+        )
+        member_summaries = [
+            {
+                "job_instance_id": member_id,
+                "job_observation_id": posting_by_id[member_id]["job_observation_id"],
+                "content_fingerprint": posting_by_id[member_id]["content_fingerprint"],
+                "market_status": posting_by_id[member_id]["market_status"],
+                "eligibility": posting_by_id[member_id]["eligibility"],
+                "semantic_assessment_id": posting_by_id[member_id]["semantic_assessment_id"],
+                "opportunity_assessment_id": posting_by_id[member_id]["opportunity_assessment_id"],
+                "semantic_assessment_available": posting_by_id[member_id]["semantic_assessment_available"],
+            }
+            for member_id in cluster.member_job_instance_ids
+        ]
+        diagnostic = {
+            **cluster.payload(),
+            "preferred_variant": selection.payload(),
+            "members": member_summaries,
+            "candidate_route_in_normal_shortlist": route_included,
+            "included_in_normal_shortlist": included,
+        }
+        diagnostics.append(diagnostic)
+        if not included or preferred is None:
+            continue
+        row = {
+            key: value for key, value in preferred.items()
+            if key not in {
+                "description", "source_evidence_at", "include_in_normal_shortlist",
+                "semantic_assessment_available", "_market_object",
+            }
+        }
+        row.update({
+            "cluster_id": cluster.cluster_id,
+            "cluster_fingerprint": cluster.cluster_fingerprint,
+            "canonical_role_identity": cluster.canonical_role_identity,
+            "clustering_method": cluster.clustering_method,
+            "clustering_method_version": cluster.clustering_method_version,
+            "clustering_evidence": [asdict(item) for item in cluster.clustering_evidence],
+            "member_job_instance_ids": list(cluster.member_job_instance_ids),
+            "member_count": len(cluster.member_job_instance_ids),
+            "preferred_variant": selection.payload(),
+            "cluster_members": member_summaries,
+        })
+        pool.append(row)
+    pool.sort(key=lambda item: (
+        -(item["score"] if item["score"] is not None else -1), item["cluster_id"],
+    ))
+    diagnostics.sort(key=lambda item: item["cluster_id"])
+    return pool, diagnostics
 
 
 def select_validation_sample(pool: list[dict[str, Any]], seed: str, target: int = 30) -> list[dict[str, Any]]:
@@ -423,14 +544,15 @@ def select_validation_sample(pool: list[dict[str, Any]], seed: str, target: int 
     top_n = n - low_n - marginal_n
     chosen: list[dict[str, Any]] = []
     low = ranked[-low_n:] if low_n else []
-    low_ids = {item["job_instance_id"] for item in low}
-    remaining = [item for item in ranked if item["job_instance_id"] not in low_ids]
+    identity = lambda item: item.get("cluster_id", f"job:{item['job_instance_id']}")
+    low_ids = {identity(item) for item in low}
+    remaining = [item for item in ranked if identity(item) not in low_ids]
     top = remaining[:top_n]
-    top_ids = {item["job_instance_id"] for item in top}
-    candidates = [item for item in remaining if item["job_instance_id"] not in top_ids]
+    top_ids = {identity(item) for item in top}
+    candidates = [item for item in remaining if identity(item) not in top_ids]
     candidates.sort(key=lambda item: (
         -(item["score"] if item["score"] is not None else -1),
-        hashlib.sha256(f"{seed}:{item['job_instance_id']}".encode()).hexdigest(),
+        hashlib.sha256(f"{seed}:{identity(item)}".encode()).hexdigest(),
     ))
     marginal = candidates[:marginal_n]
     for stratum, items in (("TOP_RANKED", top), ("MARGINAL_BELOW_CUTOFF", marginal), ("LOW_CONTROL", low)):
@@ -496,7 +618,9 @@ def prepare_batch(
     taxonomy = load_taxonomy(taxonomy_path); profile = load_candidate_profile(candidate_path, taxonomy)
     market_rules = load_market_normalization_rules(market_rules_path)
     experiment = load_experiment_config(semantic_config_path); luna = experiment.models[LUNA_TIER]
-    pool = _assessed_pool(database, profile, f"1:{luna.model}", market_rules)
+    pool, cluster_diagnostics = _clustered_assessed_pool(
+        database, profile, f"1:{luna.model}", market_rules,
+    )
     if not pool:
         raise ValueError("no compatible assessed active jobs; run explicit Luna assessment first")
     batch_id = batch_id or f"batch-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
@@ -514,6 +638,22 @@ def prepare_batch(
         "semantic": {"model": luna.model, "reasoning_effort": luna.reasoning_effort, "assessor_id": ASSESSOR_ID, "assessor_version": f"1:{luna.model}", "contract_version": SEMANTIC_CONTRACT_VERSION},
         "preflight_snapshot": preflight, "usage_run": usage,
         "sampling": {"target": 30, "strata": dict(Counter(item["stratum"] for item in selected))},
+        "clustering": {
+            "clustering_method_version": CLUSTERING_METHOD_VERSION,
+            "preferred_variant_policy_version": PREFERRED_VARIANT_POLICY_VERSION,
+            "detailed_active_posting_count": sum(len(item["member_job_instance_ids"]) for item in cluster_diagnostics),
+            "assessed_posting_count": sum(
+                sum(bool(member["semantic_assessment_available"]) for member in item["members"])
+                for item in cluster_diagnostics
+            ),
+            "opportunity_cluster_count": len(cluster_diagnostics),
+            "normal_shortlist_cluster_count": len(pool),
+            "collapsed_posting_count": sum(
+                max(0, len(item["member_job_instance_ids"]) - 1)
+                for item in cluster_diagnostics
+            ),
+            "clusters": cluster_diagnostics,
+        },
         "limitations": "Stratified reviewed sample; aggregate agreement is not an unbiased market estimate.",
     }
     directory = Path(output_root) / batch_id

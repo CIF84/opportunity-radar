@@ -8,7 +8,11 @@ from pathlib import Path
 import pytest
 import yaml
 
-from opportunity_radar.live_validation import _assessed_pool, build_preflight
+from opportunity_radar.live_validation import (
+    _assessed_pool,
+    _clustered_assessed_pool,
+    build_preflight,
+)
 from opportunity_radar.market_routing import (
     MarketRoutingReason,
     assess_routed_opportunity,
@@ -86,6 +90,29 @@ def normalized_job(external_id: str, *, foreign: bool) -> NormalizedJob:
         WorkMode.HYBRID, f"https://example.test/{external_id}",
         "Lead product analytics and AI strategy with senior stakeholders.",
         None, None, "Full time", "Product", "fixture", AT,
+    )
+
+
+def variant_job(
+    external_id: str,
+    location: JobLocation,
+    *,
+    title: str = "Senior Business Analyst - Inventory",
+    description_tail: str,
+) -> NormalizedJob:
+    core = (
+        "The inventory analytics team owns pricing and supply decisions. "
+        "You will identify opportunities, define metrics, design experiments, "
+        "partner with product and engineering, communicate recommendations to "
+        "senior stakeholders, and lead implementation through measurable results. "
+        "Requirements include advanced analytics, commercial judgment, SQL, and "
+        "cross-functional delivery in a complex marketplace. "
+    )
+    return NormalizedJob(
+        "acme", "Acme", external_id, title, [location], WorkMode.HYBRID,
+        f"https://example.test/jobs/{external_id}",
+        core + "We offer you " + description_tail,
+        None, None, "Full time", "Analytics", "fixture", AT,
     )
 
 
@@ -288,6 +315,35 @@ def test_policy_only_reroute_reuses_semantics_and_preserves_content_fingerprint(
     assert rerouted_candidate.scoring_preference_fingerprint == PROFILE.scoring_preference_fingerprint
 
 
+def test_clustered_pool_reuses_prior_opportunity_across_market_only_profile_change(tmp_path):
+    state, rows = seed_state(tmp_path, normalized_job("market-only", foreign=False))
+    raw = yaml.safe_load((ROOT / "config/candidate.yaml").read_text(encoding="utf-8"))
+    raw["profile"]["version"] += 1
+    raw["market_access_policy"]["onsite_hybrid"]["outside_accepted_locations"] = "UNCERTAIN"
+    changed_path = tmp_path / "market-only-profile.yaml"
+    changed_path.write_text(yaml.safe_dump(raw, sort_keys=False), encoding="utf-8")
+    changed = load_candidate_profile(changed_path, TAXONOMY)
+    job_id, observation_id, fingerprint, job = rows[0]
+    assessor = HighAssessor()
+    assess_opportunity(
+        job, changed, TAXONOMY, assessor, repository=Phase3Repository(state),
+        job_instance_id=job_id, job_observation_id=observation_id,
+        content_fingerprint=fingerprint,
+    )
+    before = [dict(row) for row in state.rows("semantic_assessments")]
+
+    pool, _ = _clustered_assessed_pool(
+        state.path, PROFILE, assessor.assessor_version, RULES,
+    )
+
+    assert len(pool) == 1
+    assert pool[0]["job_instance_id"] == job_id
+    assert [dict(row) for row in state.rows("semantic_assessments")] == before
+    assert changed.semantic_profile_fingerprint == PROFILE.semantic_profile_fingerprint
+    assert changed.scoring_preference_fingerprint == PROFILE.scoring_preference_fingerprint
+    assert changed.full_profile_fingerprint != PROFILE.full_profile_fingerprint
+
+
 def test_live_validation_regression_routing_uses_frozen_slice2_evidence():
     raw = json.loads(
         (ROOT / "tests/fixtures/phase4/market_status_cases.json").read_text(encoding="utf-8")
@@ -314,3 +370,128 @@ def test_live_validation_regression_routing_uses_frozen_slice2_evidence():
         assert included[case_id].include_in_normal_shortlist is True
         assert included[case_id].recommendation is Recommendation.REVIEW
         assert included[case_id].cap_applied is True
+
+
+def test_clustered_pool_collapses_variants_and_reuses_member_semantics(tmp_path):
+    jobs = (
+        variant_job("bratislava", JobLocation("Bratislava, Slovakia", "Bratislava", None, "Slovakia"), description_tail="a Bratislava office and local benefits."),
+        variant_job("brno", JobLocation("Brno, Czechia", "Brno", None, "Czechia"), description_tail="a Brno office and local benefits."),
+        variant_job("barcelona", JobLocation("Barcelona, Spain", "Barcelona", None, "Spain"), description_tail="a Barcelona office and local benefits."),
+        variant_job("prague", JobLocation("Prague, Czechia", "Prague", None, "Czechia"), description_tail="a Prague office and local benefits."),
+    )
+    state, rows = seed_state(tmp_path, *jobs)
+    assessor = HighAssessor()
+    repository = Phase3Repository(state)
+    for job_id, observation_id, fingerprint, job in rows:
+        assess_opportunity(
+            job, PROFILE, TAXONOMY, assessor, repository=repository,
+            job_instance_id=job_id, job_observation_id=observation_id,
+            content_fingerprint=fingerprint,
+        )
+    before_semantics = [dict(row) for row in state.rows("semantic_assessments")]
+    before_events = [dict(row) for row in state.rows("events")]
+
+    pool, diagnostics = _clustered_assessed_pool(
+        state.path, PROFILE, assessor.assessor_version, RULES,
+    )
+
+    assert len(pool) == 1
+    assert pool[0]["member_count"] == 4
+    assert pool[0]["title"] == "Senior Business Analyst - Inventory"
+    assert pool[0]["locations"][0]["city"] == "Prague"
+    assert pool[0]["preferred_variant"]["preferred_variant_job_instance_id"] == pool[0]["job_instance_id"]
+    assert len(diagnostics) == 1
+    assert diagnostics[0]["included_in_normal_shortlist"] is True
+    assert [dict(row) for row in state.rows("semantic_assessments")] == before_semantics
+    assert [dict(row) for row in state.rows("events")] == before_events
+    assert {row["lifecycle_state"] for row in state.rows("job_instances")} == {"ACTIVE"}
+    assert SCHEMA_VERSION == 3
+
+
+def test_all_out_of_scope_cluster_is_diagnostic_only(tmp_path):
+    core_tail = "local compensation and office benefits."
+    jobs = (
+        variant_job("new-york", JobLocation("New York, United States", "New York", None, "United States"), title="Consultant - Growth Consulting, WPP Open", description_tail=core_tail),
+        variant_job("chicago", JobLocation("Chicago, United States", "Chicago", None, "United States"), title="Consultant - Growth Consulting, WPP Open", description_tail=core_tail),
+    )
+    state, _ = seed_state(tmp_path, *jobs)
+    assessor = HighAssessor()
+
+    pool, diagnostics = _clustered_assessed_pool(
+        state.path, PROFILE, assessor.assessor_version, RULES,
+    )
+
+    assert pool == []
+    assert len(diagnostics) == 1
+    assert diagnostics[0]["member_job_instance_ids"] == (1, 2)
+    assert diagnostics[0]["included_in_normal_shortlist"] is False
+    assert all(
+        member["semantic_assessment_available"] is False
+        for member in diagnostics[0]["members"]
+    )
+    assert assessor.calls == 0
+
+
+def test_unassessed_preferred_member_is_not_replaced_or_assessed_implicitly(tmp_path):
+    jobs = (
+        variant_job("remote", JobLocation("Remote", None, None, None), description_tail="a remote arrangement."),
+        variant_job("prague", JobLocation("Prague, Czechia", "Prague", None, "Czechia"), description_tail="a Prague office."),
+    )
+    state, rows = seed_state(tmp_path, *jobs)
+    assessor = HighAssessor()
+    remote = rows[0]
+    assess_opportunity(
+        remote[3], PROFILE, TAXONOMY, assessor, repository=Phase3Repository(state),
+        job_instance_id=remote[0], job_observation_id=remote[1],
+        content_fingerprint=remote[2],
+    )
+    calls_before_pool = assessor.calls
+
+    pool, diagnostics = _clustered_assessed_pool(
+        state.path, PROFILE, assessor.assessor_version, RULES,
+    )
+
+    assert pool == []
+    assert diagnostics[0]["preferred_variant"]["preferred_variant_job_instance_id"] == 2
+    assert diagnostics[0]["candidate_route_in_normal_shortlist"] is True
+    assert diagnostics[0]["included_in_normal_shortlist"] is False
+    assert assessor.calls == calls_before_pool
+
+
+def test_member_closure_stays_independent_and_active_sibling_remains_actionable(tmp_path):
+    jobs = (
+        variant_job("brno", JobLocation("Brno, Czechia", "Brno", None, "Czechia"), description_tail="a Brno office."),
+        variant_job("prague", JobLocation("Prague, Czechia", "Prague", None, "Czechia"), description_tail="a Prague office."),
+    )
+    state, rows = seed_state(tmp_path, *jobs)
+    assessor = HighAssessor()
+    for job_id, observation_id, fingerprint, job in rows:
+        assess_opportunity(
+            job, PROFILE, TAXONOMY, assessor, repository=Phase3Repository(state),
+            job_instance_id=job_id, job_observation_id=observation_id,
+            content_fingerprint=fingerprint,
+        )
+    prague_reference = JobReference(
+        jobs[1].company_id, jobs[1].external_job_id, jobs[1].canonical_url,
+    )
+    state.create_run("run-2", AT.isoformat())
+    state.apply_outcome("run-2", SourceOutcome(
+        "acme", "Acme", "fixture", "SUCCESS", AT, [prague_reference], [],
+        True, False, 1,
+    ))
+    state.finish_run("run-2", AT.isoformat(), "COMPLETED")
+    events_before = [dict(row) for row in state.rows("events")]
+
+    pool, diagnostics = _clustered_assessed_pool(
+        state.path, PROFILE, assessor.assessor_version, RULES,
+    )
+
+    lifecycles = {
+        row["external_job_id"]: row["lifecycle_state"]
+        for row in state.rows("job_instances")
+    }
+    assert lifecycles == {"brno": "CLOSED", "prague": "ACTIVE"}
+    assert len(pool) == 1
+    assert pool[0]["member_job_instance_ids"] == [2]
+    assert diagnostics[0]["clustering_method"] == "SINGLETON"
+    assert [dict(row) for row in state.rows("events")] == events_before

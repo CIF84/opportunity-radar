@@ -1,12 +1,12 @@
 # Opportunity Radar
-## Cumulative Normative Specification — Phases 1–3
+## Cumulative Normative Specification — Phases 1–4
 
 This file preserves the successive Phase 1–3 specifications. Explicit later
 "Architecture Decisions After Review" sections supersede conflicting earlier
 exploratory text within the same phase. Current implemented structure is
 described in `docs/ARCHITECTURE.md`; current phase, frozen items, failures, and
-next gate are in `docs/STATUS.md`. Phase 4 concepts are not implemented or
-normative here yet.
+next gate are in `docs/STATUS.md`. Phase 4 is normative; its implementation
+markers distinguish completed slices from planned behavior.
 
 ## 1. Purpose
 
@@ -3583,12 +3583,13 @@ dominant upstream failures before any change to `gpt-5.6-luna`, reasoning
 `low`, `phase3-semantic-v1`, the six scoring weights, or the historical
 benchmark.
 
-Phase 4 is initially an experiment. Slices 1–3 implement the generic,
-versioned candidate market-access representation and fingerprint plus a pure,
+Phase 4 is initially an experiment. Slices 1–5 implement the generic,
+versioned candidate market-access representation and fingerprint; a pure,
 post-detail current-candidate market evaluator and its deterministic
-candidate-ranking boundary. `OUT_OF_SCOPE` routing and the `UNCERTAIN`
-recommendation cap are active in that boundary. No clustering or preference
-effect described below exists yet.
+candidate-ranking boundary; and high-confidence employer-scoped opportunity
+clustering with candidate-dependent preferred-variant selection.
+`OUT_OF_SCOPE` routing and the `UNCERTAIN` recommendation cap are active in
+that boundary. No decision-preference effect described below exists yet.
 
 ## 2. Scope and Invariants
 
@@ -4340,16 +4341,16 @@ Implement Phase 4 in bounded, reviewable slices:
    profile loader validates and fingerprints market policy separately, both
    candidate profiles use the same schema, and the exact semantic-v1
    projection is preserved. This slice adds no market behavior.
-2. **Market evaluator** — implement evidence normalization and pure
+2. **Market evaluator — implemented** — evidence normalization and pure
    `CurrentCandidateMarketStatus` evaluation with historical/synthetic
    regressions; do not yet alter normal shortlist orchestration.
-3. **Market routing and cap** — connect status at the Phase 2/Phase 3 boundary,
+3. **Market routing and cap — implemented** — connect status at the Phase 2/Phase 3 boundary,
    exclude `OUT_OF_SCOPE`, cap `UNCERTAIN` at `REVIEW`, and prove lifecycle/cache
    isolation.
-4. **High-confidence clustering** — implement deterministic employer-scoped
+4. **High-confidence clustering — implemented** — deterministic employer-scoped
    clustering and immutable diagnostic output, initially without fuzzy
    matching or database migration.
-5. **Preferred variant** — apply candidate market status and deterministic
+5. **Preferred variant — implemented** — candidate market status and deterministic
    evidence tie-breaks so the shortlist emits one member per cluster.
 6. **Decision preferences** — add separately fingerprinted preference data,
    taxonomy additions, structured matching/effects, and a predeclared bounded

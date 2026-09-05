@@ -2,7 +2,7 @@
 
 ## Status
 
-`APPROVED_FOR_IMPLEMENTATION`
+`IMPLEMENTED_AWAITING_APPROVAL`
 
 ## Purpose
 
@@ -370,3 +370,22 @@ L. recommended next work packet
 M. recommended commit message
 
 Do not commit or push until explicit approval.
+
+## Implementation result
+
+Implemented in the current worktree with no SQLite migration and no external
+semantic calls. The clustering rule requires same employer, exact normalized
+title, exact bounded core-description signature, compatible explicit role
+metadata, and an observable location/work-arrangement or localized-copy
+variant. Preferred selection applies current market status, explicit candidate
+policy compatibility, evidence/detail currentness, and a stable identity
+tie-break. New immutable validation batches record cluster/member/preferred
+evidence; historical v1 artifacts remain unchanged.
+
+Repository-only replay over the 406 compatible assessed active postings found
+394 clusters and 315 normal-shortlist clusters. The four preserved Kiwi
+Inventory postings form one cluster with the Prague member preferred; the two
+WPP Growth Consulting postings form one all-`OUT_OF_SCOPE` cluster and remain
+absent from the normal shortlist. Validation completed with 163 offline tests
+passing and 18 live tests deselected; `git diff --check` passed. Promotion
+remains a separate human decision.

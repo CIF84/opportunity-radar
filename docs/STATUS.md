@@ -9,7 +9,7 @@ constraints; operational counts are derived by `opportunity-radar-status`.
 specs/phase4/SPEC-003-opportunity-clustering-preferred-variant.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_AWAITING_APPROVAL`.
 
 Implementation agents should follow this pointer rather than infer work from
 filename recency. Before starting an approved packet, verify the local working
@@ -41,7 +41,10 @@ a validated, versioned, independently fingerprinted market-access policy; a
 pure post-detail evaluator produces structured `IN_SCOPE`, `UNCERTAIN`, or
 `OUT_OF_SCOPE` assessments; and candidate-ranking/Live Validation exclude
 `OUT_OF_SCOPE` jobs before semantic calls while capping `UNCERTAIN`
-recommendations at `REVIEW`. No clustering, preference behavior, or other later
+recommendations at `REVIEW`. Slices 4–5 are implemented in the current worktree:
+deterministic high-confidence employer-scoped clusters preserve independent
+posting identities, and the normal ranked pool uses one candidate-dependent
+preferred active variant per cluster. No preference behavior or other later
 Phase 4 product behavior is implemented yet.
 
 ## Last validated state
@@ -91,9 +94,9 @@ complete inventory
   -> deterministic composite / shortlist
 ```
 
-The first three stages, candidate-market assessment/routing, and Phase 3
-assessment/decision contracts exist. Clustering, preferred-variant, and
-preference-policy stages are planned only.
+The first three stages, candidate-market assessment/routing, high-confidence
+clustering/preferred-variant selection, and Phase 3 assessment/decision
+contracts exist. The preference-policy stage is planned only.
 
 ## Confirmed Phase 4 candidate policy
 
@@ -157,14 +160,11 @@ The next gate is not “tune Luna.”
 
 ## Next intended experiments
 
-1. Demonstrate high-confidence employer-scoped opportunity clustering and
-   deterministic preferred-variant selection without merging `JobInstance`
-   records.
-2. Add a versioned preference-aware decision policy without one-off dislikes.
-3. Retrospectively replay the immutable batch using existing semantic
+1. Add a versioned preference-aware decision policy without one-off dislikes.
+2. Retrospectively replay the immutable batch using existing semantic
    assessments wherever semantic inputs are unchanged.
-4. Run a new prospective validation batch.
-5. Only then decide whether `phase3-semantic-v2` is justified.
+3. Run a new prospective validation batch.
+4. Only then decide whether `phase3-semantic-v2` is justified.
 
 ## Known blockers and open decisions
 
@@ -193,6 +193,10 @@ Repository inspection on 2026-09-04 found:
 - latest routing preflight over 406 usable detailed active jobs produced 56
   `IN_SCOPE`, 265 `UNCERTAIN`, and 85 `OUT_OF_SCOPE`; all 321 semantically
   processable jobs were compatible cache hits, requiring zero external calls;
+- repository-only cluster replay over the same 406 assessed postings produced
+  394 clusters and a 315-cluster normal shortlist; it collapsed the four Kiwi
+  Inventory variants with Prague preferred and kept the WPP Growth Consulting
+  cluster out of the shortlist;
 - two intentionally retained interrupted historical `RUNNING` rows;
 - offline tests passing; see the optional test receipt/status output for the
   exact most recent command and count.
