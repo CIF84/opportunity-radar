@@ -15,9 +15,17 @@ from typing import Any
 from opportunity_radar.config import load_companies
 from opportunity_radar.eligibility import evaluate_eligibility
 from opportunity_radar.experimental_semantic import ExperimentalSemanticAssessor, OpenAIResponsesTransport
+from opportunity_radar.market_routing import (
+    assess_routed_opportunity,
+    compose_market_routing,
+)
+from opportunity_radar.market_status import (
+    CurrentCandidateMarketStatus,
+    evaluate_current_candidate_market,
+    load_market_normalization_rules,
+)
 from opportunity_radar.phase3_config import load_candidate_profile, load_taxonomy
-from opportunity_radar.phase3_models import SemanticJobInput
-from opportunity_radar.phase3_pipeline import assess_opportunity
+from opportunity_radar.phase3_models import EligibilityStatus, Recommendation, SemanticJobInput
 from opportunity_radar.phase3_repository import Phase3Repository
 from opportunity_radar.roi_experiment import load_experiment_config
 from opportunity_radar.scoring import rank_tier
@@ -130,10 +138,12 @@ def build_preflight(
     taxonomy_path: str | Path = "config/taxonomy.yaml",
     semantic_config_path: str | Path = "config/semantic_experiment.yaml",
     roi_results_path: str | Path = "output/semantic_roi_experiment.json",
+    market_rules_path: str | Path = "config/market_status_rules.yaml",
 ) -> dict[str, Any]:
     configs = load_companies(companies_path)
     taxonomy = load_taxonomy(taxonomy_path)
     profile = load_candidate_profile(candidate_path, taxonomy)
+    market_rules = load_market_normalization_rules(market_rules_path)
     experiment = load_experiment_config(semantic_config_path)
     luna = experiment.models[LUNA_TIER]
     assessor_version = f"1:{luna.model}"
@@ -142,7 +152,10 @@ def build_preflight(
         active = _active_rows(connection)
         assessable, missing = [], []
         counts = Counter()
+        market_counts = Counter()
         hits = misses = 0
+        out_of_scope_existing_hits = 0
+        semantic_processing_count = 0
         for row in active:
             if not _usable(row):
                 missing.append({"job_instance_id": row["job_instance_id"], "company_id": row["company_id"], "classification": "UNASSESSABLE_DETAIL_MISSING"})
@@ -150,10 +163,31 @@ def build_preflight(
             job = _semantic_job(row["snapshot"])
             eligibility = evaluate_eligibility(job, profile).status.value
             counts[eligibility] += 1
-            hit = eligibility in {"ELIGIBLE", "UNCERTAIN"} and _cache_hit(connection, row, profile, assessor_version)
-            if eligibility in {"ELIGIBLE", "UNCERTAIN"}:
+            market = evaluate_current_candidate_market(job, profile, market_rules)
+            market_counts[market.status.value] += 1
+            routing = compose_market_routing(
+                market.status, EligibilityStatus(eligibility),
+            )
+            existing_hit = _cache_hit(connection, row, profile, assessor_version)
+            hit = routing.eligible_for_semantic_processing and existing_hit
+            if routing.eligible_for_semantic_processing:
+                semantic_processing_count += 1
                 hits += int(hit); misses += int(not hit)
-            assessable.append({"job_instance_id": row["job_instance_id"], "job_observation_id": row["latest_observation_id"], "content_fingerprint": row["fingerprint"], "company_id": row["company_id"], "eligibility": eligibility, "compatible_luna_cache_hit": hit})
+            elif market.status is CurrentCandidateMarketStatus.OUT_OF_SCOPE:
+                out_of_scope_existing_hits += int(existing_hit)
+            assessable.append({
+                "job_instance_id": row["job_instance_id"],
+                "job_observation_id": row["latest_observation_id"],
+                "content_fingerprint": row["fingerprint"],
+                "company_id": row["company_id"],
+                "eligibility": eligibility,
+                "market_status": market.status.value,
+                "market_assessment": market.payload(),
+                "routing": routing.payload(),
+                "eligible_for_semantic_processing": routing.eligible_for_semantic_processing,
+                "compatible_luna_cache_hit": hit,
+                "existing_semantic_cache_hit": existing_hit,
+            })
         latest_run = connection.execute("SELECT * FROM ingestion_runs ORDER BY started_at DESC LIMIT 1").fetchone()
         sources = []
         event_counts: dict[str, int] = {}
@@ -177,16 +211,22 @@ def build_preflight(
         "unassessable_detail_missing_count": len(missing),
         "unassessable_detail_missing": missing,
         "eligibility": {key: counts.get(key, 0) for key in ("ELIGIBLE", "UNCERTAIN", "INELIGIBLE")},
+        "market_status": {
+            key: market_counts.get(key, 0)
+            for key in ("IN_SCOPE", "UNCERTAIN", "OUT_OF_SCOPE")
+        },
+        "jobs_eligible_for_semantic_processing": semantic_processing_count,
         "compatible_luna_cache_hits": hits,
+        "out_of_scope_existing_cache_hits": out_of_scope_existing_hits,
         "luna_cache_misses": misses,
         "expected_external_calls": misses,
         "estimated_semantic_cost_usd": round(misses * cost["estimated_cost_per_cache_miss_usd"], 6),
         "cost_assumption": cost,
-        "candidate": {"profile_id": profile.profile_id, "version": profile.version, "semantic_profile_fingerprint": profile.semantic_profile_fingerprint, "scoring_preference_fingerprint": profile.scoring_preference_fingerprint},
+        "candidate": {"profile_id": profile.profile_id, "version": profile.version, "semantic_profile_fingerprint": profile.semantic_profile_fingerprint, "scoring_preference_fingerprint": profile.scoring_preference_fingerprint, "market_access_policy_fingerprint": profile.market_access_policy_fingerprint},
         "semantic": {"model": luna.model, "reasoning_effort": luna.reasoning_effort, "contract_version": SEMANTIC_CONTRACT_VERSION, "assessor_id": ASSESSOR_ID, "assessor_version": assessor_version},
         "latest_run_event_counts": event_counts,
         "assessable_jobs": assessable,
-        "note": "Review sample size is independent of semantic call count; all eligible/uncertain cache misses are assessed before sampling.",
+        "note": "OUT_OF_SCOPE jobs are excluded before semantic calls; other hard-eligible/uncertain cache misses are assessed before sampling.",
     }
 
 
@@ -222,10 +262,15 @@ def run_luna_assessment(
     semantic_config_path: str | Path = "config/semantic_experiment.yaml",
     roi_results_path: str | Path = "output/semantic_roi_experiment.json",
     run_id: str | None = None,
+    market_rules_path: str | Path = "config/market_status_rules.yaml",
 ) -> dict[str, Any]:
-    preflight = build_preflight(database, companies_path, candidate_path, taxonomy_path, semantic_config_path, roi_results_path)
+    preflight = build_preflight(
+        database, companies_path, candidate_path, taxonomy_path,
+        semantic_config_path, roi_results_path, market_rules_path,
+    )
     taxonomy = load_taxonomy(taxonomy_path)
     profile = load_candidate_profile(candidate_path, taxonomy)
+    market_rules = load_market_normalization_rules(market_rules_path)
     experiment = load_experiment_config(semantic_config_path)
     luna = experiment.models[LUNA_TIER]
     transport = OpenAIResponsesTransport(experiment.endpoint, experiment.api_key_env, experiment.connect_timeout, experiment.read_timeout)
@@ -236,24 +281,34 @@ def run_luna_assessment(
     records = []
     with state.connect() as connection:
         rows = {row["job_instance_id"]: row for row in _active_rows(connection)}
-    eligible = [item for item in preflight["assessable_jobs"] if item["eligibility"] in {"ELIGIBLE", "UNCERTAIN"}]
+    eligible = [
+        item for item in preflight["assessable_jobs"]
+        if item["eligible_for_semantic_processing"]
+    ]
     for index, item in enumerate(eligible, 1):
         row = rows[item["job_instance_id"]]
         before = len(assessor.calls)
         print(f"[{index}/{len(eligible)}] START job_instance_id={row['job_instance_id']} company={row['company_id']} cache={'hit' if item['compatible_luna_cache_hit'] else 'miss'}", flush=True)
         try:
-            result = assess_opportunity(
+            routed = assess_routed_opportunity(
                 _semantic_job(row["snapshot"]), profile, taxonomy, assessor,
+                market_rules,
                 repository=phase3, job_instance_id=row["job_instance_id"],
                 job_observation_id=row["latest_observation_id"], content_fingerprint=row["fingerprint"],
             )
+            result = routed.opportunity
+            if result is None:
+                raise AssertionError("semantic-processing route returned no opportunity assessment")
             usage = assessor.calls[-1] if len(assessor.calls) > before else None
             with state.connect() as connection:
                 ids = _current_assessment(connection, row, profile, assessor.assessor_version)
             record = {
                 "job_instance_id": row["job_instance_id"], "job_observation_id": row["latest_observation_id"],
                 "content_fingerprint": row["fingerprint"], "company_id": row["company_id"],
-                "eligibility": item["eligibility"], "cache_hit": result.semantic_reused,
+                "eligibility": item["eligibility"], "market_status": routed.market.status.value,
+                "market_assessment": routed.market.payload(), "routing": routed.routing.payload(),
+                "recommendation": result.recommendation.value,
+                "cache_hit": result.semantic_reused,
                 "semantic_assessment_id": ids["semantic_assessment_id"],
                 "opportunity_assessment_id": ids["opportunity_assessment_id"],
                 "model": luna.model, "usage": asdict(usage) if usage else None, "error": None,
@@ -264,7 +319,9 @@ def run_luna_assessment(
             record = {
                 "job_instance_id": row["job_instance_id"], "job_observation_id": row["latest_observation_id"],
                 "content_fingerprint": row["fingerprint"], "company_id": row["company_id"],
-                "eligibility": item["eligibility"], "cache_hit": False,
+                "eligibility": item["eligibility"], "market_status": item["market_status"],
+                "market_assessment": item["market_assessment"], "routing": item["routing"],
+                "recommendation": None, "cache_hit": False,
                 "semantic_assessment_id": None, "opportunity_assessment_id": None,
                 "model": luna.model, "usage": asdict(usage) if usage else None,
                 "error": f"{type(exc).__name__}: {exc}",
@@ -293,7 +350,12 @@ def run_luna_assessment(
     return manifest
 
 
-def _assessed_pool(database: str | Path, profile, assessor_version: str) -> list[dict[str, Any]]:
+def _assessed_pool(
+    database: str | Path,
+    profile,
+    assessor_version: str,
+    market_rules,
+) -> list[dict[str, Any]]:
     with _readonly_connection(database) as connection:
         rows = connection.execute(
             """SELECT ji.job_instance_id,ji.company_id,ji.canonical_url,ji.latest_observation_id,
@@ -318,7 +380,14 @@ def _assessed_pool(database: str | Path, profile, assessor_version: str) -> list
         seen.add(raw["job_instance_id"])
         snapshot = json.loads(raw["normalized_snapshot"])
         eligibility = json.loads(raw["eligibility_json"])["status"]
-        if eligibility not in {"ELIGIBLE", "UNCERTAIN"}:
+        job = _semantic_job(snapshot)
+        market = evaluate_current_candidate_market(job, profile, market_rules)
+        routing = compose_market_routing(
+            market.status,
+            EligibilityStatus(eligibility),
+            Recommendation(raw["recommendation"]),
+        )
+        if not routing.include_in_normal_shortlist:
             continue
         semantic = json.loads(raw["assessment_json"])
         pool.append({
@@ -328,7 +397,12 @@ def _assessed_pool(database: str | Path, profile, assessor_version: str) -> list
             "company_name": snapshot["company_name"], "title": snapshot["title"], "locations": snapshot.get("locations", []),
             "work_mode": snapshot.get("work_mode", "unspecified"), "canonical_url": raw["canonical_url"],
             "score": raw["composite_score"], "tier": rank_tier(raw["composite_score"]),
-            "recommendation": raw["recommendation"], "eligibility": eligibility,
+            "recommendation": routing.recommendation.value,
+            "recommendation_before_market_policy": raw["recommendation"],
+            "market_status": market.status.value,
+            "market_assessment": market.payload(),
+            "market_routing": routing.payload(),
+            "eligibility": eligibility,
             "source_run_id": raw["run_id"], "semantic": semantic,
         })
     return sorted(pool, key=lambda item: (-(item["score"] if item["score"] is not None else -1), item["job_instance_id"]))
@@ -384,7 +458,7 @@ def render_review(batch: dict[str, Any]) -> str:
             lines.extend([
                 f"### {item['review_number']}. Rank {item['rank']} — {item['company_name']} — {item['title']}", "",
                 f"{location} · {item['work_mode']} · [job source]({item['canonical_url']})", "",
-                f"**RADAR {item['score']:.2f} · {item['tier']} · {item['recommendation']} · eligibility {item['eligibility']}**" if item["score"] is not None else f"**RADAR unavailable · {item['tier']} · {item['recommendation']} · eligibility {item['eligibility']}**", "",
+                f"**RADAR {item['score']:.2f} · {item['tier']} · {item['recommendation']} · market {item.get('market_status', 'NOT_RECORDED')} · eligibility {item['eligibility']}**" if item["score"] is not None else f"**RADAR unavailable · {item['tier']} · {item['recommendation']} · market {item.get('market_status', 'NOT_RECORDED')} · eligibility {item['eligibility']}**", "",
                 f"Why: {reason}", "",
                 "Strengths: " + ("; ".join(x["statement"] for x in strengths) if strengths else "None recorded."), "",
                 "Gaps / risks: " + ("; ".join(x["statement"] for x in gaps_risks) if gaps_risks else "None recorded."), "",
@@ -393,6 +467,16 @@ def render_review(batch: dict[str, Any]) -> str:
     uncertain = [job for job in batch["selected_jobs"] if job["eligibility"] == "UNCERTAIN"]
     if uncertain:
         lines.extend(["## UNCERTAIN ELIGIBILITY", "", "Review numbers: " + ", ".join(str(job["review_number"]) for job in uncertain), ""])
+    market_uncertain = [
+        job for job in batch["selected_jobs"] if job.get("market_status") == "UNCERTAIN"
+    ]
+    if market_uncertain:
+        lines.extend([
+            "## UNCERTAIN MARKET ACCESS", "",
+            "Review numbers: " + ", ".join(
+                str(job["review_number"]) for job in market_uncertain
+            ), "",
+        ])
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -407,21 +491,26 @@ def prepare_batch(
     batch_id: str | None = None,
     seed: str | None = None,
     usage_run_path: str | Path | None = None,
+    market_rules_path: str | Path = "config/market_status_rules.yaml",
 ) -> dict[str, Any]:
     taxonomy = load_taxonomy(taxonomy_path); profile = load_candidate_profile(candidate_path, taxonomy)
+    market_rules = load_market_normalization_rules(market_rules_path)
     experiment = load_experiment_config(semantic_config_path); luna = experiment.models[LUNA_TIER]
-    pool = _assessed_pool(database, profile, f"1:{luna.model}")
+    pool = _assessed_pool(database, profile, f"1:{luna.model}", market_rules)
     if not pool:
         raise ValueError("no compatible assessed active jobs; run explicit Luna assessment first")
     batch_id = batch_id or f"batch-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
     seed = seed or batch_id
     selected = select_validation_sample(pool, seed)
-    preflight = build_preflight(database, companies_path, candidate_path, taxonomy_path, semantic_config_path, roi_results_path)
+    preflight = build_preflight(
+        database, companies_path, candidate_path, taxonomy_path,
+        semantic_config_path, roi_results_path, market_rules_path,
+    )
     usage = json.loads(Path(usage_run_path).read_text()) if usage_run_path else None
     batch = {
         "validation_batch_id": batch_id, "created_at": utc_now(), "sample_seed": seed,
         "ranked_pool_size": len(pool), "selected_jobs": selected,
-        "candidate": {"profile_id": profile.profile_id, "version": profile.version, "full_profile_fingerprint": profile.full_profile_fingerprint, "semantic_profile_fingerprint": profile.semantic_profile_fingerprint, "scoring_preference_fingerprint": profile.scoring_preference_fingerprint},
+        "candidate": {"profile_id": profile.profile_id, "version": profile.version, "full_profile_fingerprint": profile.full_profile_fingerprint, "semantic_profile_fingerprint": profile.semantic_profile_fingerprint, "scoring_preference_fingerprint": profile.scoring_preference_fingerprint, "market_access_policy_fingerprint": profile.market_access_policy_fingerprint},
         "semantic": {"model": luna.model, "reasoning_effort": luna.reasoning_effort, "assessor_id": ASSESSOR_ID, "assessor_version": f"1:{luna.model}", "contract_version": SEMANTIC_CONTRACT_VERSION},
         "preflight_snapshot": preflight, "usage_run": usage,
         "sampling": {"target": 30, "strata": dict(Counter(item["stratum"] for item in selected))},
@@ -581,7 +670,7 @@ def calculate_metrics(batch: dict[str, Any], judgment_records: list[dict[str, An
         "below_cutoff": {"reviewed": len(below), "human_apply_count": len(below_applies), "human_apply_false_negative_count": len(false_negatives), "human_apply_false_negative_rate": len(false_negatives) / len(below_applies) if below_applies else None, "missed_attention_count": len(missed_attention)},
         "by_tier": {tier: {"count": value["count"], "apply_rate": value["APPLY"] / value["count"], "attention_acceptance": value["ATTENTION"] / value["count"]} for tier, value in by_tier.items()},
         "semantic_operation": usage,
-        "market_operation": {"active_jobs": source["active_jobs"], "detail_missing_jobs": source["unassessable_detail_missing_count"], **source["eligibility"], "latest_run_event_counts": source["latest_run_event_counts"], "source_failures_or_incomplete": source["source_failures_or_incomplete"]},
+        "market_operation": {"active_jobs": source["active_jobs"], "detail_missing_jobs": source["unassessable_detail_missing_count"], **source["eligibility"], "candidate_market_status": source.get("market_status"), "jobs_eligible_for_semantic_processing": source.get("jobs_eligible_for_semantic_processing"), "latest_run_event_counts": source["latest_run_event_counts"], "source_failures_or_incomplete": source["source_failures_or_incomplete"]},
         "disagreements": {key: dict(value) for key, value in disagreements.items()},
         "verdict": verdict, "verdict_note": "Experimental directional gate, not a production SLA.",
     }
@@ -608,7 +697,9 @@ def generate_report(batch: dict[str, Any], judgments_path: str | Path, output_ro
 def _print_preflight(value: dict[str, Any]) -> None:
     display = {key: value[key] for key in (
         "configured_employers", "active_jobs", "active_jobs_with_usable_semantic_details",
-        "unassessable_detail_missing_count", "eligibility", "compatible_luna_cache_hits",
+        "unassessable_detail_missing_count", "market_status", "eligibility",
+        "jobs_eligible_for_semantic_processing", "compatible_luna_cache_hits",
+        "out_of_scope_existing_cache_hits",
         "luna_cache_misses", "expected_external_calls", "estimated_semantic_cost_usd",
         "source_failures_or_incomplete", "candidate", "semantic", "note",
     )}
@@ -622,6 +713,7 @@ def main() -> int:
     parser.add_argument("--candidate", default="config/candidate.yaml")
     parser.add_argument("--taxonomy", default="config/taxonomy.yaml")
     parser.add_argument("--semantic-config", default="config/semantic_experiment.yaml")
+    parser.add_argument("--market-rules", default="config/market_status_rules.yaml")
     parser.add_argument("--roi-results", default="output/semantic_roi_experiment.json")
     parser.add_argument("--output-root", default="output/live_validation")
     parser.add_argument("--judgments", default="data/live_validation/judgments.jsonl")
@@ -632,13 +724,16 @@ def main() -> int:
     record = sub.add_parser("record"); record.add_argument("batch_id"); record.add_argument("record_values", nargs="+", metavar="ID/DECISION"); identity = record.add_mutually_exclusive_group(); identity.add_argument("--review-number", type=int); identity.add_argument("--job-instance-id", type=int); agreement = record.add_mutually_exclusive_group(required=True); agreement.add_argument("--agree", action="store_true"); agreement.add_argument("--disagree", action="store_true"); record.add_argument("--expected-tier", choices=sorted(TIERS)); record.add_argument("--category", action="append", default=[], choices=sorted(DISAGREEMENT_CATEGORIES)); record.add_argument("--note"); record.add_argument("--supersedes")
     report = sub.add_parser("report"); report.add_argument("batch_id")
     args = parser.parse_args()
-    common = (args.database, args.companies, args.candidate, args.taxonomy, args.semantic_config, args.roi_results)
+    common = (
+        args.database, args.companies, args.candidate, args.taxonomy,
+        args.semantic_config, args.roi_results, args.market_rules,
+    )
     if args.command == "preflight":
         value = build_preflight(*common); _print_preflight(value); return 0
     if args.command == "assess":
-        value = run_luna_assessment(args.database, args.output_root, args.companies, args.candidate, args.taxonomy, args.semantic_config, args.roi_results, args.run_id); print(json.dumps({"validation_run_id": value["validation_run_id"], "summary": value["summary"], "manifest_path": value["manifest_path"]}, indent=2)); return 0 if not value["summary"]["failures"] else 1
+        value = run_luna_assessment(args.database, args.output_root, args.companies, args.candidate, args.taxonomy, args.semantic_config, args.roi_results, args.run_id, args.market_rules); print(json.dumps({"validation_run_id": value["validation_run_id"], "summary": value["summary"], "manifest_path": value["manifest_path"]}, indent=2)); return 0 if not value["summary"]["failures"] else 1
     if args.command == "prepare":
-        value = prepare_batch(args.database, args.output_root, args.candidate, args.taxonomy, args.semantic_config, args.companies, args.roi_results, args.batch_id, args.seed, args.usage_run); print(json.dumps({"validation_batch_id": value["validation_batch_id"], "batch_path": value["batch_path"], "review_path": value["review_path"]}, indent=2)); return 0
+        value = prepare_batch(args.database, args.output_root, args.candidate, args.taxonomy, args.semantic_config, args.companies, args.roi_results, args.batch_id, args.seed, args.usage_run, args.market_rules); print(json.dumps({"validation_batch_id": value["validation_batch_id"], "batch_path": value["batch_path"], "review_path": value["review_path"]}, indent=2)); return 0
     batch = load_batch(args.output_root, args.batch_id)
     if args.command == "record":
         explicit = args.review_number is not None or args.job_instance_id is not None

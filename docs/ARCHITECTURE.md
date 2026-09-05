@@ -96,7 +96,8 @@ conservative eligibility, neutral features, and a provider-independent semantic
 assessment contract.
 
 - Main modules: `phase3_config.py`, `phase3_models.py`, `market_status.py`,
-  `eligibility.py`, `features.py`, `semantic.py`, `experimental_semantic.py`.
+  `market_routing.py`, `eligibility.py`, `features.py`, `semantic.py`,
+  `experimental_semantic.py`.
 - Inputs: `SemanticJobInput`, candidate profile, market-normalization rules,
   taxonomy, deterministic features, and semantic assessor.
 - Outputs: structured candidate-market assessment, eligibility evidence, and
@@ -118,18 +119,21 @@ Invariants:
 - `CandidateProfile` version 2 validates a separately fingerprinted
   `market_access_policy`; that policy is excluded from semantic-v1 inputs.
 - `market_status.py` provides a pure post-detail candidate-market evaluator
-  using declarative bounded normalization. Its structured assessment is not
-  yet consumed by routing, ranking, or persistence.
+  using declarative bounded normalization.
+- `market_routing.py` is the shared candidate-ranking boundary. It excludes
+  `OUT_OF_SCOPE` jobs before semantic processing and preserves `UNCERTAIN` jobs
+  while applying a deterministic terminal `REVIEW` cap. It does not persist
+  market status or mutate lifecycle.
 
 ## DECIDE
 
 Responsibility: deterministically combine eligible semantic dimensions into a
 reproducible composite, recommendation, and ranking.
 
-- Main modules: `phase3_pipeline.py`, `scoring.py`; operational ranking in
-  `live_validation.py`.
-- Inputs: eligibility, dimension scores, candidate scoring weights, and
-  recommendation configuration.
+- Main modules: `phase3_pipeline.py`, `market_routing.py`, `scoring.py`;
+  operational ranking in `live_validation.py`.
+- Inputs: candidate-market status, eligibility, dimension scores, candidate
+  scoring weights, and recommendation configuration.
 - Outputs: `OpportunityAssessment`, composite score, recommendation, rank/tier.
 - Nature: deterministic.
 - Persistence: opportunity assessments are separate from `JobInstance` and
@@ -142,6 +146,8 @@ Invariants:
 - Missing dimensions produce `REVIEW`, not an invented score.
 - Composite weights and recommendation thresholds do not define semantic cache
   identity.
+- `OUT_OF_SCOPE` is omitted from the normal shortlist; `UNCERTAIN` may not end
+  above `REVIEW`; neither rule alters the underlying Phase 3 composite.
 - A recommendation is a decision-support output, not authorization to act.
 
 ## HUMAN VALIDATE
@@ -195,9 +201,9 @@ JobInstance != Opportunity != Application intent
 The post-validation architecture audit identified four Phase 4 concepts:
 
 1. `CurrentCandidateMarketStatus`: the pure evaluator for `IN_SCOPE`,
-   `UNCERTAIN`, or `OUT_OF_SCOPE` after detailed active state is implemented.
-   Its routing and recommendation-policy integration are not implemented. It
-   does not change lifecycle state.
+   `UNCERTAIN`, or `OUT_OF_SCOPE` after detailed active state and its routing
+   and recommendation-cap integration are implemented. It does not change
+   lifecycle state.
 2. `OpportunityCluster`: a high-confidence employer-scoped grouping above
    independent `JobInstance` records.
 3. Preferred variant: candidate-dependent choice of one cluster member for
@@ -209,8 +215,8 @@ Items 2–4 remain planned and are not implemented. The candidate's Prague
 onsite/hybrid boundary, Czech-compatible remote policy,
 exceptional-relocation posture, language/work-access facts, `UNCERTAIN` cap,
 and junior-role guard are now represented in the generic CandidateProfile
-schema and configuration. Their pure behavioral evaluation is implemented;
-downstream routing and recommendation composition remain unimplemented.
+schema and configuration. Their market behavioral evaluation, routing, and
+uncertainty cap are implemented without persistence.
 Soft preference trade-offs remain accepted policy but are deferred to the
 decision-preference slice. Phase 4 of `SPEC.md` defines the boundaries.
 

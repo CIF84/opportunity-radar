@@ -128,7 +128,12 @@ def test_preflight_is_read_only_and_classifies_cache_and_missing_detail(tmp_path
     assert result["unassessable_detail_missing_count"] == 1
     assert result["unassessable_detail_missing"][0]["classification"] == "UNASSESSABLE_DETAIL_MISSING"
     assert result["eligibility"] == {"ELIGIBLE": 3, "UNCERTAIN": 0, "INELIGIBLE": 1}
+    assert result["market_status"] == {
+        "IN_SCOPE": 3, "UNCERTAIN": 0, "OUT_OF_SCOPE": 1,
+    }
+    assert result["jobs_eligible_for_semantic_processing"] == 3
     assert result["compatible_luna_cache_hits"] == 1
+    assert result["out_of_scope_existing_cache_hits"] == 0
     assert result["luna_cache_misses"] == 2
     assert result["expected_external_calls"] == 2
     assert database.stat().st_mtime_ns == before
@@ -145,6 +150,10 @@ def test_uncertain_is_counted_as_assessable_and_ineligible_is_not_a_cache_miss(t
     result = _preflight(database, candidate_path)
     assert result["eligibility"]["UNCERTAIN"] == 1
     assert result["eligibility"]["INELIGIBLE"] == 1
+    assert result["market_status"] == {
+        "IN_SCOPE": 0, "UNCERTAIN": 1, "OUT_OF_SCOPE": 1,
+    }
+    assert result["jobs_eligible_for_semantic_processing"] == 1
     assert result["luna_cache_misses"] == 1
 
 
@@ -176,6 +185,9 @@ def test_explicit_assessment_processes_uncertain_but_not_ineligible(tmp_path, mo
     assert result["summary"]["jobs_processed"] == 1
     assert result["summary"]["external_calls"] == 1
     assert result["jobs"][0]["eligibility"] == "UNCERTAIN"
+    assert result["jobs"][0]["market_status"] == "UNCERTAIN"
+    assert result["jobs"][0]["recommendation"] == "REVIEW"
+    assert result["jobs"][0]["routing"]["cap_applied"] is False
     assert transport.calls == 1
     assert len(state.rows("semantic_assessments")) == 1
 
