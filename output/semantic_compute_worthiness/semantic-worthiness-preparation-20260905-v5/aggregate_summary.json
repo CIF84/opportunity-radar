@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "artifact_type": "REPOSITORY_SAFE_SEMANTIC_WORTHINESS_PREPARATION",
+  "preparation_id": "semantic-worthiness-preparation-20260905-v5",
+  "experiment_id": "EXP-SEMANTIC-WORTHINESS-001",
+  "protocol_version": "semantic-compute-worthiness-v1",
+  "created_at": "2026-09-05T19:34:27.892793+00:00",
+  "status": "PREPARED_AWAITING_HUMAN_REVIEW",
+  "sample": {
+    "target": 60,
+    "selected_count": 60,
+    "selected_stratum_counts": {
+      "SEMANTIC_DEFER": 20,
+      "SEMANTIC_OPTIONAL": 20,
+      "SEMANTIC_PRIORITY": 20
+    },
+    "reserve_counts": {
+      "SEMANTIC_DEFER": 5,
+      "SEMANTIC_OPTIONAL": 5,
+      "SEMANTIC_PRIORITY": 5
+    },
+    "defer_shortfall": 0,
+    "employer_count": 17,
+    "employer_distribution": {
+      "cisco": 9,
+      "csob": 4,
+      "deutsche_boerse_group": 3,
+      "ey": 5,
+      "gooddata": 3,
+      "honeywell": 1,
+      "johnson_johnson": 4,
+      "kiwi_com": 3,
+      "pfizer": 1,
+      "pure_storage": 3,
+      "red_hat": 3,
+      "roche": 4,
+      "sap": 3,
+      "schneider_electric": 4,
+      "siemens": 3,
+      "wpp": 4,
+      "wrike": 3
+    },
+    "employer_cap_requested": 5,
+    "employer_cap_effective": 9,
+    "cap_relaxations": [
+      {
+        "from_cap": 5,
+        "to_cap": 6,
+        "maximum_fill_at_prior_cap": 56
+      },
+      {
+        "from_cap": 6,
+        "to_cap": 7,
+        "maximum_fill_at_prior_cap": 57
+      },
+      {
+        "from_cap": 7,
+        "to_cap": 8,
+        "maximum_fill_at_prior_cap": 58
+      },
+      {
+        "from_cap": 8,
+        "to_cap": 9,
+        "maximum_fill_at_prior_cap": 59
+      }
+    ],
+    "selection_fingerprint": "397c9f50a39ab84379f330b1363580b8d33ca6fd7d6f742b4738fe0eb83f47d8",
+    "market_status_distribution": {
+      "IN_SCOPE": 10,
+      "UNCERTAIN": 50
+    },
+    "evidence_coverage": {
+      "title": {
+        "available": 60,
+        "total": 60,
+        "coverage": 1.0
+      },
+      "description_excerpt": {
+        "available": 60,
+        "total": 60,
+        "coverage": 1.0
+      },
+      "location": {
+        "available": 59,
+        "total": 60,
+        "coverage": 0.983333
+      },
+      "work_mode": {
+        "available": 15,
+        "total": 60,
+        "coverage": 0.25
+      },
+      "employment_type": {
+        "available": 24,
+        "total": 60,
+        "coverage": 0.4
+      },
+      "department": {
+        "available": 23,
+        "total": 60,
+        "coverage": 0.383333
+      },
+      "source_link": {
+        "available": 60,
+        "total": 60,
+        "coverage": 1.0
+      },
+      "market_status": {
+        "available": 60,
+        "total": 60,
+        "coverage": 1.0
+      }
+    }
+  },
+  "population": {
+    "routed_clusters": 3315,
+    "triage_distribution": {
+      "SEMANTIC_DEFER": 27,
+      "SEMANTIC_OPTIONAL": 2776,
+      "SEMANTIC_PRIORITY": 512
+    },
+    "projected_cache_misses_by_stratum": {
+      "SEMANTIC_DEFER": 23,
+      "SEMANTIC_OPTIONAL": 2597,
+      "SEMANTIC_PRIORITY": 489
+    },
+    "estimated_cost_per_cache_miss_usd": 0.0026493
+  },
+  "historical_exclusion": {
+    "excluded_cluster_count": 18,
+    "overlapping_member_count": 19
+  },
+  "configuration": {
+    "audit_fingerprint": "6d667bc7506048bf47a6534b1e15ee5b0cd637be07958898c0a9b57ed1a4cc24",
+    "prospective_protocol_fingerprint": "8998e4dacf9b5cf0475d24f0a835a5df6d93e96ae9ad80dc509c92b34ad831d2",
+    "candidate_full_profile_fingerprint": "67c459aa1cc9c9901aa1cf5e764e08b7e3905ac09ef80aefc5696af1dfb5746e",
+    "candidate_semantic_profile_fingerprint": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "market_policy_fingerprint": "86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb",
+    "decision_preference_fingerprint": "e0146d4d87ce44810f6cd7f2c8a1125d313d18087666829b92fd100b2671c6a4",
+    "worthiness_protocol_fingerprint": "3d460e1d87e1ba98b55cf9877dd7b6c8feb3356654ea419c03c8cfbfa62b2cab",
+    "allocation_config_fingerprint": "6d667bc7506048bf47a6534b1e15ee5b0cd637be07958898c0a9b57ed1a4cc24"
+  },
+  "provenance": {
+    "git": {
+      "commit": "49dfd6831c066b1e2836ea8576c63c7970fbceb1",
+      "dirty": true,
+      "worktree_status_fingerprint": "44204aae6c72936f19cdd071a3bc6a77e1711ee2ca6c1f29ce0f31efa9a8e31f"
+    },
+    "database_sha256": "54f82d4b7ec765b565b7d3ecab06117d32eec4fbcc77f4b23206e6b079987e14",
+    "allocation_source_experiment_id": "EXP-SEMANTIC-ALLOCATION-001",
+    "private_manifest_sha256": "0d4962855832cec9431f2348643f46103c30c6fc5d826c24e8d502c4989e8746",
+    "private_blind_review_sha256": "4db6fc44280201b5fbf32ce909fe5cd66201fce2648fd5b0087ce93792159f5a"
+  },
+  "integrity": {
+    "database_unchanged": true,
+    "external_semantic_calls": 0,
+    "live_source_calls": 0,
+    "prospective_batches_created": 0,
+    "human_judgments_created": 0,
+    "blind_review_hides_triage": true,
+    "selection_is_cache_blind": true
+  },
+  "privacy": {
+    "private_manifest": "PRIVATE_LOCAL",
+    "blind_review": "PRIVATE_LOCAL",
+    "human_judgments": "PRIVATE_LOCAL_APPEND_ONLY",
+    "aggregate_summary": "REPOSITORY_SAFE"
+  },
+  "limitations": [
+    "This is a bounded exploratory learning sample, not product validation.",
+    "The triage contract remains unpromoted and is hidden during initial review.",
+    "Sample selection ignores semantic cache state and semantic outputs.",
+    "No compute-worthiness labels or conclusions exist before human review."
+  ]
+}

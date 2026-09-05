@@ -1,0 +1,60 @@
+schema_version: 1
+protocol_version: semantic-compute-worthiness-v1
+experiment_id: EXP-SEMANTIC-WORTHINESS-001
+experiment_type: SEMANTIC_COMPUTE_WORTHINESS_HUMAN_VALIDATION
+allocation_config_path: experiments/semantic_compute_allocation_v1.yaml
+
+sampling:
+  seed: semantic-compute-worthiness-v1-20260905
+  target: 60
+  employer_cap: 5
+  reserve_per_stratum: 5
+  stratum_order:
+    - SEMANTIC_DEFER
+    - SEMANTIC_PRIORITY
+    - SEMANTIC_OPTIONAL
+  strata:
+    SEMANTIC_PRIORITY: 20
+    SEMANTIC_OPTIONAL: 20
+    SEMANTIC_DEFER: 20
+  defer_shortfall_reallocation: SEMANTIC_OPTIONAL
+
+blind_review:
+  description_excerpt_characters: 1800
+
+human_labels:
+  primary:
+    - WORTH_DEEP_ASSESSMENT
+    - NOT_WORTH_DEEP_ASSESSMENT
+    - NEED_MORE_INFO
+  optional_reasons:
+    - PLAUSIBLE_TARGET_ROLE
+    - HIGH_UPSIDE_OR_LEARNING
+    - AMBIGUOUS_ROLE_REQUIRES_INTERPRETATION
+    - OBVIOUS_FUNCTIONAL_MISMATCH
+    - OBVIOUS_SENIORITY_MISMATCH
+    - OBVIOUS_DOMAIN_MISMATCH
+    - MARKET_ACCESS_ALREADY_DECISIVE
+    - INSUFFICIENT_EVIDENCE
+    - OTHER
+
+metrics:
+  gates:
+    defer_not_worth_safety_minimum: 0.90
+    defer_worth_maximum: 2
+    priority_worth_precision_minimum: 0.60
+    need_more_info_maximum: 0.20
+    catastrophic_employer_blind_spot:
+      minimum_adjudicated_defer: 2
+      worth_count_minimum: 2
+      worth_rate_minimum: 1.0
+
+privacy:
+  detailed_artifacts: PRIVATE_LOCAL
+  human_judgments: PRIVATE_LOCAL_APPEND_ONLY
+  aggregate_summary: REPOSITORY_SAFE
+
+outputs:
+  root: output/semantic_compute_worthiness
+  judgments: data/semantic_compute_worthiness/judgments.jsonl
+  replacements: data/semantic_compute_worthiness/replacements.jsonl

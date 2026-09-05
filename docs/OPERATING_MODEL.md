@@ -166,6 +166,9 @@ reinterpretation.
 - `data/live_validation/judgments.jsonl` is the local append-only judgment
   authority. It requires a separately chosen durable private backup before the
   local workspace can be treated as replaceable.
+- `data/semantic_compute_worthiness/*.jsonl` is private append-only experiment
+  evidence. Compute-worthiness labels are not application decisions and may not
+  silently update the candidate profile, preferences, or runtime policy.
 - Aggregate validation metrics and redacted reports may be repository evidence
   when they do not disclose raw personal notes.
 - SQLite databases may contain public job content, candidate snapshots, and
@@ -203,6 +206,9 @@ Current classification:
 | `output/phase4_replay/*/aggregate_summary.json` | EXPERIMENT RESULT, sanitized | Track only aggregate metrics, gates, fingerprints, provenance hashes, limitations, and conclusions |
 | `output/phase4_prospective/*/preview.json`, `blind_review.md` | DIAGNOSTIC / future CANONICAL_EVIDENCE, private | Retain locally and exclude from Git because they contain candidate-derived per-opportunity evidence and human-review material |
 | `output/phase4_prospective/*/aggregate_summary.json` | EXPERIMENT RESULT, sanitized | Track only population/sample counts, frozen identities, cache/cost preflight, provenance hashes, limitations, and conclusions; it is not a prospective verdict |
+| `output/semantic_compute_worthiness/*/manifest.json`, `blind_review.md`, `report.md` | CANONICAL_EVIDENCE / DERIVED_REPORT, private | Retain locally and exclude from Git; these contain per-opportunity candidate-derived evidence and human-review material |
+| `data/semantic_compute_worthiness/*.jsonl` | CANONICAL_EVIDENCE, private | Append-only labels/replacements; exclude from Git and back up privately |
+| `output/semantic_compute_worthiness/*/aggregate_*.json` | EXPERIMENT RESULT, sanitized | Track only aggregate counts, metrics/gates, fingerprints, artifact hashes, limitations, and conclusions |
 | `output/opportunity_radar.sqlite3` | LOCAL_STATE | Private backup; do not publish by default |
 | `output/*sample*.sqlite3`, `*diagnostic*.sqlite3` | DIAGNOSTIC | Historical currently; future generated copies should be ignored |
 | `output/scope_measurement/*.json` | CANONICAL_EVIDENCE or SUPERSEDED | Registry identifies the final evidence and historical predecessors |

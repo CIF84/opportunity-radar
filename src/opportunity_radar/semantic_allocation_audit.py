@@ -468,21 +468,20 @@ def _recomposition_audit(database: str | Path, population: list[dict[str, Any]],
     }
 
 
-def run_semantic_allocation_audit(
+def build_presemantic_audit_population(
     config_path: str | Path = DEFAULT_CONFIG,
     database: str | Path = "output/opportunity_radar.sqlite3",
-    output_root: str | Path | None = None,
-    *,
-    run_id: str | None = None,
-    write_artifact: bool = True,
 ) -> dict[str, Any]:
+    """Build the frozen triage population without judgments or semantic payloads."""
     config = load_allocation_audit_config(config_path)
     protocol = load_prospective_protocol(config.raw["prospective_protocol_path"])
     taxonomy = load_taxonomy(protocol.raw["taxonomy_path"])
     profile = load_candidate_profile(protocol.raw["candidate_path"], taxonomy)
     market_rules = load_market_normalization_rules(protocol.raw["market_rules_path"])
     preference_policy = load_preference_effect_policy(protocol.raw["preference_effect_policy_path"])
-    preference_rules = load_preference_matching_rules(taxonomy, protocol.raw["preference_matching_rules_path"])
+    preference_rules = load_preference_matching_rules(
+        taxonomy, protocol.raw["preference_matching_rules_path"],
+    )
     seniority_rules = load_seniority_guard_rules(protocol.raw["seniority_rules_path"])
     context = {
         "profile": profile, "market_rules": market_rules,
@@ -494,8 +493,6 @@ def run_semantic_allocation_audit(
         "preference_policy": preference_policy, "preference_rules": preference_rules,
         "seniority_rules": seniority_rules,
     }
-    database_hash_before = _sha256(database)
-    prospective_hash_before = _sha256(config.raw["prospective_protocol_path"])
     population, population_metadata = build_current_cluster_population(database, protocol)
     reviewed = historical_reviewed_job_ids(protocol.raw["historical_batch_path"])
     population, historical_exclusion = mark_historical_overlap(population, reviewed)
@@ -522,7 +519,37 @@ def run_semantic_allocation_audit(
             "date_posted": snapshot.get("date_posted"),
             "presemantic_triage": triage.payload(),
         })
-    routed = [item for item in audit_rows if item["normal_candidate"]]
+    return {
+        "config": config,
+        "protocol": protocol,
+        "context": context,
+        "population_metadata": population_metadata,
+        "historical_exclusion": historical_exclusion,
+        "audit_rows": audit_rows,
+        "routed_population": [row for row in audit_rows if row["normal_candidate"]],
+    }
+
+
+def run_semantic_allocation_audit(
+    config_path: str | Path = DEFAULT_CONFIG,
+    database: str | Path = "output/opportunity_radar.sqlite3",
+    output_root: str | Path | None = None,
+    *,
+    run_id: str | None = None,
+    write_artifact: bool = True,
+) -> dict[str, Any]:
+    database_hash_before = _sha256(database)
+    frozen_config = load_allocation_audit_config(config_path)
+    prospective_hash_before = _sha256(frozen_config.raw["prospective_protocol_path"])
+    bundle = build_presemantic_audit_population(config_path, database)
+    config = bundle["config"]
+    protocol = bundle["protocol"]
+    context = bundle["context"]
+    profile = context["profile"]
+    population_metadata = bundle["population_metadata"]
+    historical_exclusion = bundle["historical_exclusion"]
+    audit_rows = bundle["audit_rows"]
+    routed = bundle["routed_population"]
     historical = _historical_units(config, context)
     cost = observed_luna_cost(protocol.raw["roi_results_path"])
     funnels = _funnel_metrics(

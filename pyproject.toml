@@ -24,6 +24,7 @@ opportunity-radar-phase4-replay = "opportunity_radar.phase4_replay:main"
 opportunity-radar-phase4-residuals = "opportunity_radar.phase4_residual_diagnostics:main"
 opportunity-radar-phase4-prospective = "opportunity_radar.prospective_validation:main"
 opportunity-radar-semantic-allocation-audit = "opportunity_radar.semantic_allocation_audit:main"
+opportunity-radar-semantic-worthiness = "opportunity_radar.semantic_worthiness_validation:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-012-semantic-compute-worthiness-human-validation.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is clean and
@@ -48,10 +48,10 @@ found to require semantic assessment before unbiased sampling. SPEC-011 then
 audited whether cheap deterministic evidence could solve that allocation problem.
 It could not do so safely enough to promote a runtime policy.
 
-The current packet prepares a new, bounded human experiment: label whether deep
-semantic reasoning is **worth spending** on 60 cache-blind opportunity clusters.
-It does not call Luna and does not modify the frozen SPEC-008 prospective
-protocol.
+The current packet has prepared a new, bounded human experiment: label whether
+deep semantic reasoning is **worth spending** on 60 cache-blind opportunity
+clusters. It made no Luna call and did not modify the frozen SPEC-008
+prospective protocol. Human review has not started.
 
 ## SPEC-011 audit result
 
@@ -105,6 +105,32 @@ scale/cost.
 
 These labels are experiment evidence, not APPLY/DONT_APPLY judgments and not
 automatic preference updates.
+
+## SPEC-012 preparation result
+
+Preparation `semantic-worthiness-preparation-20260905-v5` froze:
+
+- 60 selected OpportunityClusters: 20 `SEMANTIC_PRIORITY`, 20
+  `SEMANTIC_OPTIONAL`, and 20 `SEMANTIC_DEFER`;
+- five same-stratum reserves for each stratum;
+- 17 represented employers;
+- 18 historically reviewed clusters excluded (19 posting members);
+- deterministic mixed review order and selection fingerprint
+  `397c9f50a39ab84379f330b1363580b8d33ca6fd7d6f742b4738fe0eb83f47d8`;
+- 10 `IN_SCOPE` and 50 `UNCERTAIN` selected market assessments;
+- complete title, description-excerpt, source-link, and market-status evidence
+  for all 60 selected items, with location evidence available for 59.
+
+The global five-item employer cap could not fill the small, concentrated DEFER
+stratum after all under-cap employers were exhausted. A joint feasibility check
+proved 9 is the smallest cap capable of filling all quotas; deterministic
+balanced allocation then retained 17 employers. All four relaxation steps are
+preserved in the sanitized receipt. This is an explicit sample limitation, not
+hidden rebalancing.
+
+The private manifest and blind-review packet are Git-ignored. The repository-safe
+aggregate receipt preserves counts, fingerprints, provenance hashes, limitations,
+and zero-call/read-only evidence. No compute-worthiness judgment exists yet.
 
 ## Fresh operational state from SPEC-009
 
@@ -199,9 +225,9 @@ No semantic calls or live source calls are authorized.
 
 ## Current gate
 
-> Prepare and then human-label a cache-blind, employer-balanced 60-opportunity
-> sample to test whether `SEMANTIC_PRIORITY / OPTIONAL / DEFER` predicts where
-> deep semantic reasoning is worth spending.
+> Review and commit the frozen cache-blind 60-opportunity preparation, then
+> human-label it to test whether `SEMANTIC_PRIORITY / OPTIONAL / DEFER` predicts
+> where deep semantic reasoning is worth spending.
 
 Preparation itself must be reviewed and committed before human labels are
 collected.
@@ -218,9 +244,9 @@ Passing these gates is necessary but not sufficient for runtime promotion.
 
 ## Next intended steps
 
-1. Execute SPEC-012 preparation with zero external calls.
-2. Review sample construction/privacy and commit the frozen human-labeling
-   protocol before collecting labels.
+1. Review sample construction, the DEFER-driven employer-cap relaxations, and
+   the public/private evidence boundary.
+2. Commit the frozen human-labeling protocol only after explicit approval.
 3. Human reviews all 60 items without seeing triage/cache/semantic score.
 4. Evaluate compute-worthiness gates and counterfactual economics.
 5. Decide whether to:

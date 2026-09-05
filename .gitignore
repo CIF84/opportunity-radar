@@ -28,5 +28,14 @@ output/semantic_compute_allocation/**/*
 !output/semantic_compute_allocation/**/
 !output/semantic_compute_allocation/**/aggregate_summary.json
 
+# Semantic compute-worthiness samples expose candidate-derived opportunity
+# evidence and private human labels. Only deliberately sanitized aggregate
+# receipts may enter Git.
+data/semantic_compute_worthiness/*.jsonl
+output/semantic_compute_worthiness/**/*
+!output/semantic_compute_worthiness/**/
+!output/semantic_compute_worthiness/**/aggregate_summary.json
+!output/semantic_compute_worthiness/**/aggregate_result.json
+
 # Replaceable local health evidence.
 output/test_receipt.json
