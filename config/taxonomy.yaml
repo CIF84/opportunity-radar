@@ -70,6 +70,8 @@ concepts:
     - fintech
     - fintech_domain
     - healthcare
+    - legacy_agency_sector
+    - orthopaedics
     - pricing
     - technology
     - technology_domain
@@ -86,19 +88,24 @@ concepts:
     - bachelors_degree
 
   ROLE_CHARACTERISTIC:
+    - advisory_without_implementation_ownership
     - ai_enabled_work
     - ai_interest
     - autonomy
     - continuous_learning
     - cross_functional_work
+    - customer_service_operations
     - decision_intelligence
     - hands_on_engineering
+    - implementation_ownership
     - people_management_scope
     - quota_sales_responsibility
     - research
     - software_engineering_intensity
+    - social_influencer_operations
     - strategy
     - technical_depth
+    - transformation_execution
 
   STRATEGIC_GOAL:
     - ai_enabled_career

@@ -60,6 +60,38 @@ class MarketAccessPolicy:
 
 
 @dataclass(frozen=True)
+class DecisionPreference:
+    concept_id: str
+    source_type: str
+    stance: str
+    rationale: str | None = None
+
+    def payload(self) -> dict[str, Any]:
+        value = {
+            "concept_id": self.concept_id,
+            "source_type": self.source_type,
+            "stance": self.stance,
+        }
+        if self.rationale is not None:
+            value["rationale"] = self.rationale
+        return value
+
+
+@dataclass(frozen=True)
+class DecisionPreferences:
+    schema_version: int
+    preference_version: int
+    entries: tuple[DecisionPreference, ...]
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "schema_version": self.schema_version,
+            "preference_version": self.preference_version,
+            "entries": [item.payload() for item in self.entries],
+        }
+
+
+@dataclass(frozen=True)
 class CandidateProfile:
     profile_id: str
     version: int
@@ -69,6 +101,7 @@ class CandidateProfile:
     experience: dict[str, Any]
     preferences: dict[str, Any]
     market_access_policy: MarketAccessPolicy
+    decision_preferences: DecisionPreferences
     hard_constraints: dict[str, Any]
     strategic_goals: tuple[dict[str, Any], ...]
     scoring_weights: dict[str, float]
@@ -76,6 +109,7 @@ class CandidateProfile:
     semantic_profile_fingerprint: str
     scoring_preference_fingerprint: str
     market_access_policy_fingerprint: str
+    decision_preference_fingerprint: str
 
     def capability(self, concept_id: str) -> dict[str, Any] | None:
         """None means UNKNOWN; an explicit record may have level NONE."""

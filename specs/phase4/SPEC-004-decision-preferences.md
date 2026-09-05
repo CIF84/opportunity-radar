@@ -2,7 +2,7 @@
 
 ## Status
 
-`APPROVED_FOR_IMPLEMENTATION`
+`IMPLEMENTED_AWAITING_APPROVAL`
 
 ## Purpose
 
@@ -559,3 +559,23 @@ M. recommended retrospective-replay packet
 N. recommended commit message
 
 Do not commit or push until explicit approval.
+
+## Implementation result
+
+Implemented in the current worktree without a SQLite migration, retrospective
+batch replay, live source calls, or external semantic calls. Both candidate
+profiles now use one versioned decision-preference schema. Matching rules and
+the frozen numeric effect policy are separate declarative configurations.
+Preference assessment preserves the Phase 3 base composite, emits structured
+matched evidence and bounded effect arithmetic, and adjusts ranking and
+recommendation only after preferred-variant selection. Market and hard-
+eligibility policy precedence remains authoritative.
+
+Preference-only changes preserve the exact semantic-v1 and scoring-preference
+fingerprints, reuse existing semantic assessments, and leave cluster identity,
+member lifecycle, and SQLite schema version 3 unchanged. Focused regression
+tests cover WPP AI/agency trade-offs, advisory versus implementation ownership,
+narrow orthopaedics aversion, customer-service versus business operations,
+neutral omissions, clipping, and synonym non-duplication. Retrospective Live
+Validation replay remains the next experiment and must use an immutable new
+artifact rather than modifying v1 evidence.

@@ -13,6 +13,13 @@ from pathlib import Path
 from typing import Any
 
 from opportunity_radar.config import load_companies
+from opportunity_radar.decision_preferences import (
+    DEFAULT_EFFECT_POLICY_PATH,
+    DEFAULT_MATCHING_RULES_PATH,
+    assess_decision_preferences,
+    load_preference_effect_policy,
+    load_preference_matching_rules,
+)
 from opportunity_radar.eligibility import evaluate_eligibility
 from opportunity_radar.experimental_semantic import ExperimentalSemanticAssessor, OpenAIResponsesTransport
 from opportunity_radar.market_routing import (
@@ -35,7 +42,7 @@ from opportunity_radar.phase3_config import load_candidate_profile, load_taxonom
 from opportunity_radar.phase3_models import EligibilityStatus, Recommendation, SemanticJobInput
 from opportunity_radar.phase3_repository import Phase3Repository
 from opportunity_radar.roi_experiment import load_experiment_config
-from opportunity_radar.scoring import rank_tier
+from opportunity_radar.scoring import derive_recommendation, rank_tier
 from opportunity_radar.semantic import SEMANTIC_CONTRACT_VERSION
 from opportunity_radar.state_repository import StateRepository
 
@@ -229,7 +236,7 @@ def build_preflight(
         "expected_external_calls": misses,
         "estimated_semantic_cost_usd": round(misses * cost["estimated_cost_per_cache_miss_usd"], 6),
         "cost_assumption": cost,
-        "candidate": {"profile_id": profile.profile_id, "version": profile.version, "semantic_profile_fingerprint": profile.semantic_profile_fingerprint, "scoring_preference_fingerprint": profile.scoring_preference_fingerprint, "market_access_policy_fingerprint": profile.market_access_policy_fingerprint},
+        "candidate": {"profile_id": profile.profile_id, "version": profile.version, "semantic_profile_fingerprint": profile.semantic_profile_fingerprint, "scoring_preference_fingerprint": profile.scoring_preference_fingerprint, "market_access_policy_fingerprint": profile.market_access_policy_fingerprint, "decision_preference_fingerprint": profile.decision_preference_fingerprint},
         "semantic": {"model": luna.model, "reasoning_effort": luna.reasoning_effort, "contract_version": SEMANTIC_CONTRACT_VERSION, "assessor_id": ASSESSOR_ID, "assessor_version": assessor_version},
         "latest_run_event_counts": event_counts,
         "assessable_jobs": assessable,
@@ -374,7 +381,15 @@ def _clustered_assessed_pool(
     profile,
     assessor_version: str,
     market_rules,
+    taxonomy=None,
+    preference_effect_policy_path: str | Path = DEFAULT_EFFECT_POLICY_PATH,
+    preference_matching_rules_path: str | Path = DEFAULT_MATCHING_RULES_PATH,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    taxonomy = taxonomy or load_taxonomy("config/taxonomy.yaml")
+    preference_policy = load_preference_effect_policy(preference_effect_policy_path)
+    preference_rules = load_preference_matching_rules(
+        taxonomy, preference_matching_rules_path,
+    )
     with _readonly_connection(database) as connection:
         active_rows = _active_rows(connection)
         assessment_rows = connection.execute(
@@ -498,10 +513,34 @@ def _clustered_assessed_pool(
             "members": member_summaries,
             "candidate_route_in_normal_shortlist": route_included,
             "included_in_normal_shortlist": included,
+            "preference_assessment": None,
         }
-        diagnostics.append(diagnostic)
         if not included or preferred is None:
+            diagnostics.append(diagnostic)
             continue
+        preference_assessment = assess_decision_preferences(
+            SemanticJobInput(
+                preferred["company_name"], preferred["title"],
+                preferred["description"] or "", tuple(preferred["locations"]),
+                preferred["work_mode"], preferred["employment_type"],
+                preferred["department"],
+            ),
+            preferred["semantic"],
+            profile,
+            preferred["score"],
+            preference_policy,
+            preference_rules,
+        )
+        recommendation_before_market = derive_recommendation(
+            preferred["eligibility"], preference_assessment.decision_adjusted_score,
+        )
+        adjusted_routing = compose_market_routing(
+            preferred["_market_object"].status,
+            EligibilityStatus(preferred["eligibility"]),
+            recommendation_before_market,
+        )
+        diagnostic["preference_assessment"] = preference_assessment.payload()
+        diagnostics.append(diagnostic)
         row = {
             key: value for key, value in preferred.items()
             if key not in {
@@ -510,6 +549,17 @@ def _clustered_assessed_pool(
             }
         }
         row.update({
+            "base_composite_score": preferred["score"],
+            "score": preference_assessment.decision_adjusted_score,
+            "tier": rank_tier(preference_assessment.decision_adjusted_score),
+            "recommendation": (
+                adjusted_routing.recommendation.value
+                if adjusted_routing.recommendation else None
+            ),
+            "recommendation_before_preference": preferred["recommendation"],
+            "recommendation_before_market_policy": recommendation_before_market.value,
+            "market_routing": adjusted_routing.payload(),
+            "preference_assessment": preference_assessment.payload(),
             "cluster_id": cluster.cluster_id,
             "cluster_fingerprint": cluster.cluster_fingerprint,
             "canonical_role_identity": cluster.canonical_role_identity,
@@ -577,10 +627,30 @@ def render_review(batch: dict[str, Any]) -> str:
             strengths = sorted(semantic.get("strengths", []), key=lambda x: _importance_order(x.get("importance", "")))[:3]
             gaps_risks = sorted(semantic.get("gaps", []) + semantic.get("risks", []), key=lambda x: _importance_order(x.get("importance", "")))[:3]
             location = "; ".join(loc.get("raw", "") for loc in item["locations"] if loc.get("raw")) or "Unspecified"
+            preference = item.get("preference_assessment")
+            preference_lines: list[str] = []
+            if preference:
+                effects = "; ".join(
+                    f"{effect['concept_id']} {effect['numeric_effect']:+.1f}"
+                    for effect in preference["matched_effects"]
+                ) or "no matched preference"
+                base = preference["base_composite_score"]
+                adjusted = preference["decision_adjusted_score"]
+                score_change = (
+                    f"base {base:.2f} → decision {adjusted:.2f}"
+                    if base is not None and adjusted is not None
+                    else "base/decision score unavailable"
+                )
+                preference_lines = [
+                    f"Preference effect: {preference['bounded_total_effect']:+.1f} "
+                    f"({score_change}; {effects})",
+                    "",
+                ]
             lines.extend([
                 f"### {item['review_number']}. Rank {item['rank']} — {item['company_name']} — {item['title']}", "",
                 f"{location} · {item['work_mode']} · [job source]({item['canonical_url']})", "",
                 f"**RADAR {item['score']:.2f} · {item['tier']} · {item['recommendation']} · market {item.get('market_status', 'NOT_RECORDED')} · eligibility {item['eligibility']}**" if item["score"] is not None else f"**RADAR unavailable · {item['tier']} · {item['recommendation']} · market {item.get('market_status', 'NOT_RECORDED')} · eligibility {item['eligibility']}**", "",
+                *preference_lines,
                 f"Why: {reason}", "",
                 "Strengths: " + ("; ".join(x["statement"] for x in strengths) if strengths else "None recorded."), "",
                 "Gaps / risks: " + ("; ".join(x["statement"] for x in gaps_risks) if gaps_risks else "None recorded."), "",
@@ -614,12 +684,15 @@ def prepare_batch(
     seed: str | None = None,
     usage_run_path: str | Path | None = None,
     market_rules_path: str | Path = "config/market_status_rules.yaml",
+    preference_effect_policy_path: str | Path = DEFAULT_EFFECT_POLICY_PATH,
+    preference_matching_rules_path: str | Path = DEFAULT_MATCHING_RULES_PATH,
 ) -> dict[str, Any]:
     taxonomy = load_taxonomy(taxonomy_path); profile = load_candidate_profile(candidate_path, taxonomy)
     market_rules = load_market_normalization_rules(market_rules_path)
     experiment = load_experiment_config(semantic_config_path); luna = experiment.models[LUNA_TIER]
     pool, cluster_diagnostics = _clustered_assessed_pool(
-        database, profile, f"1:{luna.model}", market_rules,
+        database, profile, f"1:{luna.model}", market_rules, taxonomy,
+        preference_effect_policy_path, preference_matching_rules_path,
     )
     if not pool:
         raise ValueError("no compatible assessed active jobs; run explicit Luna assessment first")
@@ -634,7 +707,7 @@ def prepare_batch(
     batch = {
         "validation_batch_id": batch_id, "created_at": utc_now(), "sample_seed": seed,
         "ranked_pool_size": len(pool), "selected_jobs": selected,
-        "candidate": {"profile_id": profile.profile_id, "version": profile.version, "full_profile_fingerprint": profile.full_profile_fingerprint, "semantic_profile_fingerprint": profile.semantic_profile_fingerprint, "scoring_preference_fingerprint": profile.scoring_preference_fingerprint, "market_access_policy_fingerprint": profile.market_access_policy_fingerprint},
+        "candidate": {"profile_id": profile.profile_id, "version": profile.version, "full_profile_fingerprint": profile.full_profile_fingerprint, "semantic_profile_fingerprint": profile.semantic_profile_fingerprint, "scoring_preference_fingerprint": profile.scoring_preference_fingerprint, "market_access_policy_fingerprint": profile.market_access_policy_fingerprint, "decision_preference_fingerprint": profile.decision_preference_fingerprint},
         "semantic": {"model": luna.model, "reasoning_effort": luna.reasoning_effort, "assessor_id": ASSESSOR_ID, "assessor_version": f"1:{luna.model}", "contract_version": SEMANTIC_CONTRACT_VERSION},
         "preflight_snapshot": preflight, "usage_run": usage,
         "sampling": {"target": 30, "strata": dict(Counter(item["stratum"] for item in selected))},
@@ -653,6 +726,14 @@ def prepare_batch(
                 for item in cluster_diagnostics
             ),
             "clusters": cluster_diagnostics,
+        },
+        "decision_preferences": {
+            "effect_policy_path": str(preference_effect_policy_path),
+            "matching_rules_path": str(preference_matching_rules_path),
+            "decision_policy_fingerprint": (
+                pool[0]["preference_assessment"]["decision_policy_fingerprint"]
+                if pool else None
+            ),
         },
         "limitations": "Stratified reviewed sample; aggregate agreement is not an unbiased market estimate.",
     }
@@ -854,6 +935,8 @@ def main() -> int:
     parser.add_argument("--taxonomy", default="config/taxonomy.yaml")
     parser.add_argument("--semantic-config", default="config/semantic_experiment.yaml")
     parser.add_argument("--market-rules", default="config/market_status_rules.yaml")
+    parser.add_argument("--preference-effect-policy", default=str(DEFAULT_EFFECT_POLICY_PATH))
+    parser.add_argument("--preference-matching-rules", default=str(DEFAULT_MATCHING_RULES_PATH))
     parser.add_argument("--roi-results", default="output/semantic_roi_experiment.json")
     parser.add_argument("--output-root", default="output/live_validation")
     parser.add_argument("--judgments", default="data/live_validation/judgments.jsonl")
@@ -873,7 +956,7 @@ def main() -> int:
     if args.command == "assess":
         value = run_luna_assessment(args.database, args.output_root, args.companies, args.candidate, args.taxonomy, args.semantic_config, args.roi_results, args.run_id, args.market_rules); print(json.dumps({"validation_run_id": value["validation_run_id"], "summary": value["summary"], "manifest_path": value["manifest_path"]}, indent=2)); return 0 if not value["summary"]["failures"] else 1
     if args.command == "prepare":
-        value = prepare_batch(args.database, args.output_root, args.candidate, args.taxonomy, args.semantic_config, args.companies, args.roi_results, args.batch_id, args.seed, args.usage_run, args.market_rules); print(json.dumps({"validation_batch_id": value["validation_batch_id"], "batch_path": value["batch_path"], "review_path": value["review_path"]}, indent=2)); return 0
+        value = prepare_batch(args.database, args.output_root, args.candidate, args.taxonomy, args.semantic_config, args.companies, args.roi_results, args.batch_id, args.seed, args.usage_run, args.market_rules, args.preference_effect_policy, args.preference_matching_rules); print(json.dumps({"validation_batch_id": value["validation_batch_id"], "batch_path": value["batch_path"], "review_path": value["review_path"]}, indent=2)); return 0
     batch = load_batch(args.output_root, args.batch_id)
     if args.command == "record":
         explicit = args.review_number is not None or args.job_instance_id is not None

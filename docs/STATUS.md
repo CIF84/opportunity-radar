@@ -9,7 +9,7 @@ constraints; operational counts are derived by `opportunity-radar-status`.
 specs/phase4/SPEC-004-decision-preferences.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_AWAITING_APPROVAL`.
 
 Implementation agents should follow this pointer rather than infer work from
 filename recency. Before starting an approved packet, verify the local working
@@ -37,10 +37,9 @@ Phases 1–3 are implemented. Scope-aware ingestion and persisted detail reuse
 have passed bounded validation. The first Live Decision Validation is complete.
 
 Phase 4 market-access representation, current-candidate market assessment,
-routing, high-confidence opportunity clustering, and preferred-variant selection
-are implemented and committed. The next approved slice introduces a versioned,
-time-varying decision-preference layer and a bounded deterministic ranking effect
-policy. No retrospective Phase 4 replay, autonomous preference learning,
+routing, high-confidence opportunity clustering, preferred-variant selection,
+and the versioned decision-preference effect layer are implemented. The latest
+slice is awaiting approval and is not yet committed. No retrospective Phase 4 replay, autonomous preference learning,
 semantic-v2, or external-action behavior is implemented yet.
 
 ## Last validated state
@@ -71,8 +70,9 @@ policy in `OPERATING_MODEL.md`.
   clustering now collapses the known Kiwi Inventory variants and WPP Growth
   Consulting variants while preserving independent JobInstances.
 - Candidate preferences around execution authority, functional/domain
-  attraction, employer/industry conviction, learning upside, and seniority are
-  not yet represented strongly enough.
+  attraction, employer/industry conviction, and learning upside now have a
+  versioned, taxonomy-backed, soft-effect representation. Retrospective evidence
+  has not yet validated its ranking impact.
 - Candidate preference is expected to change over time. Future interaction
   evidence may support preference hypotheses, but must not silently mutate
   authoritative preference state.
@@ -92,9 +92,9 @@ complete inventory
   -> deterministic composite / shortlist
 ```
 
-All stages through clustering/preferred-variant selection and the existing
-Phase 3 semantic/base-decision contracts are implemented. The preference-aware
-decision stage is the current approved work.
+All stages through preference-aware decision effects and the existing Phase 3
+semantic/base-decision contracts are implemented. Seniority-guard behavior and
+retrospective replay remain later, separate work.
 
 ## Confirmed Phase 4 candidate policy
 
@@ -128,9 +128,9 @@ The runtime representation and validation contract are specified in Phase 4
 of `SPEC.md`. Declarative, deliberately bounded normalization used by the pure
 evaluator lives in `config/market_status_rules.yaml`.
 
-`config/candidate.yaml` is profile version 2. Its `market_access_policy` is the
-Phase 4 authority for market-access facts and policies while remaining excluded
-from semantic-v1 inputs.
+`config/candidate.yaml` is profile version 3. Its `market_access_policy` and
+`decision_preferences` are independent Phase 4 decision inputs and remain
+excluded from semantic-v1 inputs.
 
 ## Confirmed preference-direction policy
 
@@ -187,8 +187,7 @@ The next gate is not “tune Luna.”
 
 ## Next intended experiments
 
-1. Implement and freeze the versioned preference-aware decision policy in
-   `SPEC-004`.
+1. Approve and commit the bounded `SPEC-004` implementation.
 2. Retrospectively replay the immutable batch using existing semantic
    assessments wherever semantic inputs are unchanged.
 3. Run a new prospective validation batch.
@@ -225,7 +224,7 @@ Repository inspection on 2026-09-04 found:
   and kept the all-out-of-scope WPP Growth Consulting cluster out of the
   shortlist;
 - two intentionally retained interrupted historical `RUNNING` rows;
-- latest committed offline validation: 163 passed, 18 live tests deselected.
+- current worktree offline validation: 171 passed, 18 live tests deselected.
 
 These counts are time-bound observations, not hand-maintained runtime truth.
 

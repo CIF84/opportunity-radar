@@ -116,8 +116,9 @@ Invariants:
 - Semantic models do not own identity, lifecycle, persistence, hard
   eligibility, composite arithmetic, recommendation, or action authority.
 - Job descriptions are evidence and untrusted input, never model instructions.
-- `CandidateProfile` version 2 validates a separately fingerprinted
-  `market_access_policy`; that policy is excluded from semantic-v1 inputs.
+- `CandidateProfile` version 3 validates separately fingerprinted
+  `market_access_policy` and `decision_preferences`; both are excluded from
+  semantic-v1 inputs.
 - `market_status.py` provides a pure post-detail candidate-market evaluator
   using declarative bounded normalization.
 - `market_routing.py` is the shared candidate-ranking boundary. It excludes
@@ -131,11 +132,13 @@ Responsibility: deterministically combine eligible semantic dimensions into a
 reproducible composite, recommendation, and ranking.
 
 - Main modules: `phase3_pipeline.py`, `market_routing.py`,
-  `opportunity_clustering.py`, `scoring.py`; operational ranking in
-  `live_validation.py`.
+  `opportunity_clustering.py`, `decision_preferences.py`, `scoring.py`;
+  operational ranking in `live_validation.py`.
 - Inputs: candidate-market status, eligibility, dimension scores, candidate
-  scoring weights, and recommendation configuration.
-- Outputs: `OpportunityAssessment`, composite score, recommendation, rank/tier.
+  scoring weights, versioned decision preferences, preference matching/effect
+  policy, and recommendation configuration.
+- Outputs: `OpportunityAssessment`, preserved base composite, structured
+  preference effects, decision-adjusted score, recommendation, and rank/tier.
 - Nature: deterministic.
 - Persistence: opportunity assessments are separate from `JobInstance` and
   semantic assessments.
@@ -156,6 +159,12 @@ Invariants:
 - Preferred-variant selection is candidate-dependent and deterministic. It
   operates only on active, hard-viable members and emits one representative
   per normal-shortlist cluster without averaging or rewriting member semantics.
+- Decision preferences are versioned candidate configuration, matched through
+  taxonomy-backed declarative rules, and applied once per concept after
+  preferred selection. The numeric effect mapping is a separately fingerprinted
+  policy, clipped to ±1.0, and never creates hard eligibility or market status.
+- Preference-only or effect-policy-only changes recompute derived decision
+  output without changing semantic identity, cluster membership, or lifecycle.
 - A recommendation is a decision-support output, not authorization to act.
 
 ## HUMAN VALIDATE
@@ -221,16 +230,17 @@ The post-validation architecture audit identified four Phase 4 concepts:
 3. Preferred variant: deterministic candidate-dependent selection of one active
    hard-viable cluster member is implemented in the normal ranked pool.
 4. Preference-aware decision layer: versioned candidate decision preferences
-   applied without silently changing cached semantic interpretation.
+   and bounded deterministic effects are implemented without changing cached
+   semantic interpretation.
 
-Item 4 remains planned and is not implemented. The candidate's Prague
+All four audited concepts are now implemented. The candidate's Prague
 onsite/hybrid boundary, Czech-compatible remote policy,
 exceptional-relocation posture, language/work-access facts, `UNCERTAIN` cap,
 and junior-role guard are now represented in the generic CandidateProfile
 schema and configuration. Their market behavioral evaluation, routing, and
 uncertainty cap are implemented without persistence.
-Soft preference trade-offs remain accepted policy but are deferred to the
-decision-preference slice. Phase 4 of `SPEC.md` defines the boundaries.
+Soft preference trade-offs use the separately fingerprinted configuration and
+effect policy defined by `SPEC-004`. Retrospective validation remains pending.
 
 Clusters and preferred selections are computed from persisted member evidence
 and recorded in new immutable validation manifests. They add no SQLite tables,

@@ -1,6 +1,6 @@
 profile:
   profile_id: portability_test_engineer
-  version: 2
+  version: 3
   created_at: "2026-09-04"
 
 # Frozen phase3-semantic-v1 facts. Phase 4 market-access authority is the
@@ -139,6 +139,26 @@ market_access_policy:
   seniority_guard:
     explicit_levels: []
     terminal_recommendation_cap: LOW_PRIORITY
+
+decision_preferences:
+  schema_version: 1
+  preference_version: 1
+  entries:
+    - concept_id: hands_on_engineering
+      source_type: PREFERENCE
+      stance: STRONG_POSITIVE
+    - concept_id: technical_depth
+      source_type: PREFERENCE
+      stance: STRONG_POSITIVE
+    - concept_id: research
+      source_type: PREFERENCE
+      stance: POSITIVE
+    - concept_id: ai_enabled_work
+      source_type: PREFERENCE
+      stance: POSITIVE
+    - concept_id: business_operations
+      source_type: PREFERENCE
+      stance: NEGATIVE
 
 hard_constraints:
   mandatory_location_exclusions: []

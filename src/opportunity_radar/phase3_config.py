@@ -9,7 +9,13 @@ from typing import Any
 
 import yaml
 
-from opportunity_radar.phase3_models import CORE_DIMENSIONS, CandidateProfile, MarketAccessPolicy
+from opportunity_radar.phase3_models import (
+    CORE_DIMENSIONS,
+    CandidateProfile,
+    DecisionPreference,
+    DecisionPreferences,
+    MarketAccessPolicy,
+)
 
 
 class Phase3ConfigurationError(ValueError):
@@ -34,6 +40,8 @@ WORKING_TIME_REGIONS = {
     "ASIA_PACIFIC_COMPATIBLE", "GLOBAL_FLEXIBLE",
 }
 SENIORITY_GUARD_LEVELS = {"JUNIOR", "GRADUATE"}
+DECISION_PREFERENCE_STANCES = {"STRONG_POSITIVE", "POSITIVE", "NEUTRAL", "NEGATIVE"}
+DECISION_PREFERENCE_SOURCE_TYPES = {"PREFERENCE", "CONVICTION"}
 
 
 def stable_json(value: Any) -> str:
@@ -260,17 +268,77 @@ def _validate_market_access_policy(raw: Any) -> MarketAccessPolicy:
     )
 
 
+def _validate_decision_preferences(raw: Any, taxonomy: Taxonomy) -> DecisionPreferences:
+    preferences = _mapping(raw, "decision_preferences")
+    _exact_keys(
+        preferences,
+        {"schema_version", "preference_version", "entries"},
+        "decision_preferences",
+    )
+    for field in ("schema_version", "preference_version"):
+        value = preferences[field]
+        if not isinstance(value, int) or isinstance(value, bool) or value < 1:
+            raise Phase3ConfigurationError(
+                f"decision_preferences.{field} must be a positive integer"
+            )
+    entries = preferences["entries"]
+    if not isinstance(entries, list):
+        raise Phase3ConfigurationError("decision_preferences.entries must be a list")
+    result: list[DecisionPreference] = []
+    seen: set[str] = set()
+    for index, value in enumerate(entries):
+        item = _mapping(value, f"decision_preferences.entries[{index}]")
+        if not {"concept_id", "source_type", "stance"} <= set(item) <= {
+            "concept_id", "source_type", "stance", "rationale",
+        }:
+            raise Phase3ConfigurationError(
+                "decision preference requires concept_id/source_type/stance and permits rationale"
+            )
+        concept_id = item["concept_id"]
+        taxonomy.require(concept_id, "decision preference concept")
+        if concept_id in seen:
+            raise Phase3ConfigurationError(
+                f"duplicate decision preference concept: {concept_id}"
+            )
+        seen.add(concept_id)
+        if item["source_type"] not in DECISION_PREFERENCE_SOURCE_TYPES:
+            raise Phase3ConfigurationError(
+                f"invalid decision preference source type: {item['source_type']}"
+            )
+        if item["stance"] not in DECISION_PREFERENCE_STANCES:
+            raise Phase3ConfigurationError(
+                f"invalid decision preference stance: {item['stance']}"
+            )
+        rationale = item.get("rationale")
+        if rationale is not None and (
+            not isinstance(rationale, str) or not rationale.strip()
+        ):
+            raise Phase3ConfigurationError("decision preference rationale must be non-empty")
+        result.append(DecisionPreference(
+            concept_id=concept_id,
+            source_type=item["source_type"],
+            stance=item["stance"],
+            rationale=rationale,
+        ))
+    return DecisionPreferences(
+        schema_version=preferences["schema_version"],
+        preference_version=preferences["preference_version"],
+        entries=tuple(result),
+    )
+
+
 def load_candidate_profile(path: str | Path, taxonomy: Taxonomy) -> CandidateProfile:
     raw = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
     required = {
         "profile", "facts", "capabilities", "experience", "preferences",
-        "market_access_policy", "hard_constraints", "strategic_goals",
+        "market_access_policy", "decision_preferences", "hard_constraints", "strategic_goals",
         "scoring_preferences",
     }
     if not isinstance(raw, dict) or set(raw) != required:
         raise Phase3ConfigurationError("candidate profile has an invalid top-level schema")
     _validate_references(raw, taxonomy)
     market_access = _validate_market_access_policy(raw["market_access_policy"])
+    decision_preferences = _validate_decision_preferences(raw["decision_preferences"], taxonomy)
     weights = raw["scoring_preferences"].get("dimensions", {})
     if set(weights) != set(CORE_DIMENSIONS):
         raise Phase3ConfigurationError("scoring weights must define exactly the six core dimensions")
@@ -291,6 +359,7 @@ def load_candidate_profile(path: str | Path, taxonomy: Taxonomy) -> CandidatePro
         experience=raw["experience"],
         preferences=raw["preferences"],
         market_access_policy=market_access,
+        decision_preferences=decision_preferences,
         hard_constraints=raw["hard_constraints"],
         strategic_goals=tuple(raw["strategic_goals"]),
         scoring_weights={key: float(value) for key, value in weights.items()},
@@ -298,4 +367,5 @@ def load_candidate_profile(path: str | Path, taxonomy: Taxonomy) -> CandidatePro
         semantic_profile_fingerprint=digest(semantic),
         scoring_preference_fingerprint=digest(raw["scoring_preferences"]),
         market_access_policy_fingerprint=digest(raw["market_access_policy"]),
+        decision_preference_fingerprint=digest(raw["decision_preferences"]),
     )

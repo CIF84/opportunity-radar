@@ -158,6 +158,7 @@ def test_status_is_read_only_and_detects_complete_latest_validation(tmp_path):
     assert status["database"]["source_health"]["total"] == 2
     assert status["candidate"]["config_database_fingerprint_match"] is True
     assert status["candidate"]["market_access_policy_fingerprint"] == profile.market_access_policy_fingerprint
+    assert status["candidate"]["decision_preference_fingerprint"] == profile.decision_preference_fingerprint
     assert status["latest_validation"] == {
         "experiment_id": "EXP-TEST", "batch_id": "batch-test", "reviewed": 2,
         "sample_size": 2, "verdict": "NO_GO",

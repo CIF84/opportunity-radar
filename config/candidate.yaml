@@ -1,6 +1,6 @@
 profile:
   profile_id: roman_christov
-  version: 2
+  version: 3
   created_at: "2026-09-04"
 
 # Frozen phase3-semantic-v1 facts. Phase 4 market-access authority is the
@@ -260,7 +260,7 @@ preferences:
     b2c_over_b2b:
       importance: MEDIUM
 
-# Phase 4 Slice 1 representation only; no market evaluator/routing is active.
+# Candidate-dependent market policy; evaluated after detailed active state.
 market_access_policy:
   policy_version: 1
 
@@ -317,6 +317,44 @@ market_access_policy:
       - JUNIOR
       - GRADUATE
     terminal_recommendation_cap: LOW_PRIORITY
+
+decision_preferences:
+  schema_version: 1
+  preference_version: 1
+  entries:
+    - concept_id: ai_enabled_work
+      source_type: PREFERENCE
+      stance: STRONG_POSITIVE
+    - concept_id: transformation_execution
+      source_type: PREFERENCE
+      stance: STRONG_POSITIVE
+    - concept_id: implementation_ownership
+      source_type: PREFERENCE
+      stance: STRONG_POSITIVE
+    - concept_id: business_operations
+      source_type: PREFERENCE
+      stance: POSITIVE
+    - concept_id: product_development
+      source_type: PREFERENCE
+      stance: POSITIVE
+    - concept_id: continuous_learning
+      source_type: PREFERENCE
+      stance: POSITIVE
+    - concept_id: customer_service_operations
+      source_type: PREFERENCE
+      stance: NEGATIVE
+    - concept_id: advisory_without_implementation_ownership
+      source_type: PREFERENCE
+      stance: NEGATIVE
+    - concept_id: orthopaedics
+      source_type: PREFERENCE
+      stance: NEGATIVE
+    - concept_id: legacy_agency_sector
+      source_type: CONVICTION
+      stance: NEGATIVE
+    - concept_id: social_influencer_operations
+      source_type: PREFERENCE
+      stance: NEGATIVE
 
 hard_constraints:
   mandatory_location_exclusions: []

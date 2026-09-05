@@ -292,4 +292,18 @@ decisions:
     consequences: [Decision preferences need a fingerprint independent of semantic-profile identity]
     supersedes: []
     related_experiments: [EXP-LIVE-VALIDATION-001]
-    affected_contracts: [planned DecisionPreferences, planned decision-preference fingerprint]
+    affected_contracts: [DecisionPreferences, decision-preference fingerprint]
+
+  - decision_id: DR-022
+    title: Separate versioned preference state from bounded effect policy
+    status: ACCEPTED
+    decided_at: "2026-09-05"
+    context: Live validation found recurring soft preference disagreements, while positive AI and execution evidence could outweigh a negative sector conviction.
+    decision: Represent current candidate preference state with STRONG_POSITIVE, POSITIVE, NEUTRAL, and NEGATIVE stances and explicit PREFERENCE or CONVICTION provenance. Apply a separately versioned deterministic mapping of +0.4, +0.2, 0.0, and -0.3, clipped in aggregate to [-1.0, +1.0] on the 0-10 decision score. Preserve the Phase 3 base composite and require explicit promotion for preference changes.
+    evidence: [specs/phase4/SPEC-004-decision-preferences.md, output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md]
+    alternatives_rejected: [Put preferences into semantic-v1, tune Phase 3 weights, use hard employer/domain vetoes, learn preferences automatically from one judgment]
+    assumptions: [The initial numeric mapping is a frozen experiment policy rather than psychological truth]
+    consequences: [Preference and effect-policy changes recompute derived decision output while reusing semantic assessments]
+    supersedes: []
+    related_experiments: [EXP-LIVE-VALIDATION-001]
+    affected_contracts: [DecisionPreferences, PreferenceEffectPolicy, decision-preference fingerprint]

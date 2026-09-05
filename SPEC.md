@@ -3589,7 +3589,9 @@ post-detail current-candidate market evaluator and its deterministic
 candidate-ranking boundary; and high-confidence employer-scoped opportunity
 clustering with candidate-dependent preferred-variant selection.
 `OUT_OF_SCOPE` routing and the `UNCERTAIN` recommendation cap are active in
-that boundary. No decision-preference effect described below exists yet.
+that boundary. Slice 6 implements the separately fingerprinted, taxonomy-backed
+decision-preference state and bounded deterministic effect policy. Retrospective
+validation of those effects remains pending.
 
 ## 2. Scope and Invariants
 
@@ -3656,8 +3658,9 @@ projection must remain byte-for-byte equivalent for retrospective replay; a
 future decision to send any new field to a semantic model requires a new
 semantic contract and fingerprint.
 
-`config/candidate.yaml` is now a validated version-2 profile with a versioned
-`market_access_policy`. Existing Phase 3 `facts` are intentionally unchanged
+`config/candidate.yaml` is now a validated version-3 profile with versioned
+`market_access_policy` and `decision_preferences`. Existing Phase 3 `facts` and
+semantic projection are intentionally unchanged
 so the semantic-v1 projection and fingerprint remain identical to version 1.
 The new market policy is the Phase 4 authority for market-access decisions and
 is consumed by the Slice 2 evaluator and Slice 3 routing boundary.
@@ -3970,17 +3973,14 @@ The schema must support reusable preference subjects including:
 - strategic optionality;
 - seniority floor (implemented by the separate guard).
 
-Conceptual entry:
+Implemented entry:
 
 ```text
 DecisionPreference
-  preference_id
-  subject_kind
-  concept_id or scoped_subject_id
-  stance: ATTRACT | AVOID
-  importance: LOW | MEDIUM | HIGH | VERY_HIGH
-  hard_constraint: false
-  rationale
+  concept_id
+  source_type: PREFERENCE | CONVICTION
+  stance: STRONG_POSITIVE | POSITIVE | NEUTRAL | NEGATIVE
+  optional rationale
 ```
 
 Reusable concepts must resolve through the shared taxonomy. Employer/product
@@ -4352,7 +4352,7 @@ Implement Phase 4 in bounded, reviewable slices:
    matching or database migration.
 5. **Preferred variant — implemented** — candidate market status and deterministic
    evidence tie-breaks so the shortlist emits one member per cluster.
-6. **Decision preferences** — add separately fingerprinted preference data,
+6. **Decision preferences — implemented** — add separately fingerprinted preference data,
    taxonomy additions, structured matching/effects, and a predeclared bounded
    effect policy while preserving the Phase 3 base score.
 7. **Seniority guard** — add explicit-evidence detection and the

@@ -35,6 +35,7 @@ class Phase3Repository:
             "profile": {"profile_id": profile.profile_id, "version": profile.version, "created_at": profile.created_at},
             **profile.semantic_payload(),
             "market_access_policy": profile.market_access_policy.payload(),
+            "decision_preferences": profile.decision_preferences.payload(),
             "hard_constraints": profile.hard_constraints,
             "scoring_preferences": {"dimensions": profile.scoring_weights},
         }

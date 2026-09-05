@@ -1,0 +1,13 @@
+policy_id: phase4-preference-effects
+version: 1
+stance_to_effect:
+  STRONG_POSITIVE: 0.4
+  POSITIVE: 0.2
+  NEUTRAL: 0.0
+  NEGATIVE: -0.3
+aggregate_bounds:
+  minimum: -1.0
+  maximum: 1.0
+score_bounds:
+  minimum: 0.0
+  maximum: 10.0

@@ -1,0 +1,39 @@
+matching_rule_id: phase4-preference-matching
+version: 1
+
+# These patterns identify neutral job evidence. Candidate stance and numeric
+# effect live in separate configuration and are never encoded here.
+concepts:
+  ai_enabled_work:
+    match_any: ["\\b(?:artificial intelligence|machine learning|AI|automation)\\b"]
+  transformation_execution:
+    match_any: ["\\b(?:digital |business |operating model )?transformation\\b"]
+  implementation_ownership:
+    match_any:
+      - "\\b(?:own|lead|drive) (?:the )?(?:implementation|execution|delivery)\\b"
+      - "\\bend[- ]to[- ]end (?:ownership|delivery)\\b"
+  business_operations:
+    match_any: ["\\b(?:business|commercial) operations\\b"]
+  product_development:
+    match_any: ["\\bproduct (?:development|strategy|management)\\b"]
+  continuous_learning:
+    match_any: ["\\b(?:continuous learning|learning opportunity|professional development)\\b"]
+  customer_service_operations:
+    match_any: ["\\b(?:customer service|customer support) operations\\b"]
+  advisory_without_implementation_ownership:
+    match_any: ["\\b(?:advisory|consulting|consultant)\\b"]
+    exclude_any:
+      - "\\b(?:own|lead|drive) (?:the )?(?:implementation|execution|delivery)\\b"
+      - "\\bend[- ]to[- ]end (?:ownership|delivery)\\b"
+  orthopaedics:
+    match_any: ["\\borthop(?:ae|e)d(?:ic|ics|ics')\\b"]
+  legacy_agency_sector:
+    match_any: ["\\b(?:advertising|media|creative) agenc(?:y|ies)\\b"]
+  social_influencer_operations:
+    match_any: ["\\b(?:social influencer|influencer marketing|creator operations)\\b"]
+  hands_on_engineering:
+    match_any: ["\\bhands?[- ]on (?:software |ML |machine learning )?engineering\\b"]
+  technical_depth:
+    match_any: ["\\b(?:deep technical|technical depth|systems architecture)\\b"]
+  research:
+    match_any: ["\\b(?:research|publication|scientific method)\\b"]
