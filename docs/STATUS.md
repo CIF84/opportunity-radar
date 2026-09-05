@@ -6,10 +6,10 @@ constraints; operational counts are derived by `opportunity-radar-status`.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-003-opportunity-clustering-preferred-variant.md
+specs/phase4/SPEC-004-decision-preferences.md
 ```
 
-Status: `IMPLEMENTED_AWAITING_APPROVAL`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation agents should follow this pointer rather than infer work from
 filename recency. Before starting an approved packet, verify the local working
@@ -36,16 +36,12 @@ state, and explain which active opportunities deserve a candidate's attention.
 Phases 1–3 are implemented. Scope-aware ingestion and persisted detail reuse
 have passed bounded validation. The first Live Decision Validation is complete.
 
-Phase 4 Slices 1–3 are implemented and committed: both candidate profiles carry
-a validated, versioned, independently fingerprinted market-access policy; a
-pure post-detail evaluator produces structured `IN_SCOPE`, `UNCERTAIN`, or
-`OUT_OF_SCOPE` assessments; and candidate-ranking/Live Validation exclude
-`OUT_OF_SCOPE` jobs before semantic calls while capping `UNCERTAIN`
-recommendations at `REVIEW`. Slices 4–5 are implemented in the current worktree:
-deterministic high-confidence employer-scoped clusters preserve independent
-posting identities, and the normal ranked pool uses one candidate-dependent
-preferred active variant per cluster. No preference behavior or other later
-Phase 4 product behavior is implemented yet.
+Phase 4 market-access representation, current-candidate market assessment,
+routing, high-confidence opportunity clustering, and preferred-variant selection
+are implemented and committed. The next approved slice introduces a versioned,
+time-varying decision-preference layer and a bounded deterministic ranking effect
+policy. No retrospective Phase 4 replay, autonomous preference learning,
+semantic-v2, or external-action behavior is implemented yet.
 
 ## Last validated state
 
@@ -69,15 +65,17 @@ policy in `OPERATING_MODEL.md`.
 
 - The semantic hypothesis remains viable: only two reviewed disagreements were
   classified as semantic interpretation errors.
-- The principal failure was inappropriate vacancies reaching ranking because
-  current-candidate market suitability was not enforced at the ranking boundary;
-  Slice 3 now provides that deterministic boundary without changing semantic-v1.
-- One human opportunity can have multiple source postings. Four Kiwi Inventory
-  variants represented one intended application; two WPP Growth Consulting
-  variants represented one apparent opportunity.
+- Deterministic candidate-market routing now removes explicit incompatible
+  opportunities without changing semantic-v1 or lifecycle state.
+- One human opportunity can have multiple source postings. High-confidence
+  clustering now collapses the known Kiwi Inventory variants and WPP Growth
+  Consulting variants while preserving independent JobInstances.
 - Candidate preferences around execution authority, functional/domain
   attraction, employer/industry conviction, learning upside, and seniority are
-  not represented strongly enough.
+  not yet represented strongly enough.
+- Candidate preference is expected to change over time. Future interaction
+  evidence may support preference hypotheses, but must not silently mutate
+  authoritative preference state.
 - Retrieval scope is a detail-cost policy. It is not candidate eligibility.
 
 ## Architecture direction
@@ -94,9 +92,9 @@ complete inventory
   -> deterministic composite / shortlist
 ```
 
-The first three stages, candidate-market assessment/routing, high-confidence
-clustering/preferred-variant selection, and Phase 3 assessment/decision
-contracts exist. The preference-policy stage is planned only.
+All stages through clustering/preferred-variant selection and the existing
+Phase 3 semantic/base-decision contracts are implemented. The preference-aware
+decision stage is the current approved work.
 
 ## Confirmed Phase 4 candidate policy
 
@@ -131,10 +129,38 @@ of `SPEC.md`. Declarative, deliberately bounded normalization used by the pure
 evaluator lives in `config/market_status_rules.yaml`.
 
 `config/candidate.yaml` is profile version 2. Its `market_access_policy` is the
-Phase 4 authority for these facts and policies. The older `facts` fields remain
-unchanged solely to preserve the exact `phase3-semantic-v1` input projection and
-semantic cache identity. The policy is consumed by the evaluator and runtime
-candidate-routing boundary while remaining excluded from semantic-v1 inputs.
+Phase 4 authority for market-access facts and policies while remaining excluded
+from semantic-v1 inputs.
+
+## Confirmed preference-direction policy
+
+The candidate has accepted an ordinal preference spectrum for ranking:
+
+```text
+STRONG_POSITIVE
+POSITIVE
+NEUTRAL
+NEGATIVE
+```
+
+Preferences primarily modify ranking rather than act as binary eligibility.
+They are time-varying/versioned decision policy, not immutable personality
+facts. Preference state and the numeric preference-effect policy are separate.
+
+The current approved experiment will freeze this initial deterministic mapping
+before retrospective replay:
+
+```text
+STRONG_POSITIVE -> +0.4
+POSITIVE        -> +0.2
+NEUTRAL         ->  0.0
+NEGATIVE        -> -0.3
+aggregate cap   -> [-1.0, +1.0]
+```
+
+This mapping is an experimental ranking policy, not a claim about stable human
+psychology. Future interactions may provide evidence for preference changes,
+but evidence cannot silently promote a new authoritative preference version.
 
 ## Frozen items
 
@@ -143,12 +169,13 @@ Until the current gate is evaluated, do not change casually:
 - model: `gpt-5.6-luna`;
 - reasoning effort: `low`;
 - semantic contract: `phase3-semantic-v1`;
-- scoring weights;
+- Phase 3 scoring weights;
 - frozen historical benchmark and fixtures;
 - recorded human judgments and batch membership;
 - Phase 1 adapter discovery/detail contracts;
 - Phase 2 lifecycle, completeness, and exact-identity semantics;
-- existing semantic cache records.
+- existing semantic cache records;
+- initial preference-effect mapping during the upcoming retrospective replay.
 
 The next gate is not “tune Luna.”
 
@@ -160,7 +187,8 @@ The next gate is not “tune Luna.”
 
 ## Next intended experiments
 
-1. Add a versioned preference-aware decision policy without one-off dislikes.
+1. Implement and freeze the versioned preference-aware decision policy in
+   `SPEC-004`.
 2. Retrospectively replay the immutable batch using existing semantic
    assessments wherever semantic inputs are unchanged.
 3. Run a new prospective validation batch.
@@ -168,10 +196,8 @@ The next gate is not “tune Luna.”
 
 ## Known blockers and open decisions
 
-- Decide whether manual opportunity-cluster overrides are allowed after the
-  deterministic clustering experiment establishes whether they are needed.
-- Predeclare the initial bounded numeric/ordinal effect mapping for soft
-  decision preferences before retrospective replay.
+- Decide whether manual opportunity-cluster overrides are needed only after the
+  deterministic clustering results are adjudicated further.
 - Choose the prospective Phase 4 batch size and stopping rule.
 - Confirm repository privacy before tracking raw candidate judgment notes.
 - Choose a durable private backup/retention policy for operational SQLite and
@@ -194,21 +220,22 @@ Repository inspection on 2026-09-04 found:
   `IN_SCOPE`, 265 `UNCERTAIN`, and 85 `OUT_OF_SCOPE`; all 321 semantically
   processable jobs were compatible cache hits, requiring zero external calls;
 - repository-only cluster replay over the same 406 assessed postings produced
-  394 clusters and a 315-cluster normal shortlist; it collapsed the four Kiwi
-  Inventory variants with Prague preferred and kept the WPP Growth Consulting
-  cluster out of the shortlist;
+  394 clusters and a 315-cluster normal shortlist; it collapsed 12 duplicate
+  postings, including the four Kiwi Inventory variants with Prague preferred,
+  and kept the all-out-of-scope WPP Growth Consulting cluster out of the
+  shortlist;
 - two intentionally retained interrupted historical `RUNNING` rows;
-- offline tests passing; see the optional test receipt/status output for the
-  exact most recent command and count.
+- latest committed offline validation: 163 passed, 18 live tests deselected.
 
 These counts are time-bound observations, not hand-maintained runtime truth.
 
 ## Explicitly do not change yet
 
-- Do not tune the semantic prompt, model, reasoning effort, or weights.
+- Do not tune the semantic prompt, model, reasoning effort, or Phase 3 weights.
 - Do not rewrite Phase 1 adapters or Phase 2 lifecycle logic.
 - Do not merge `JobInstance` records to solve opportunity identity.
 - Do not invalidate or overwrite existing assessments/judgments.
-- Do not add fuzzy clustering, probabilistic deduplication, Learning
-  Intelligence, UI, alerts, scheduling, or application automation.
+- Do not broaden clustering into fuzzy/probabilistic matching yet.
+- Do not add autonomous preference learning, Learning Intelligence, UI, alerts,
+  scheduling, or application automation.
 - Do not infer authority to apply from an `APPLY` recommendation.
