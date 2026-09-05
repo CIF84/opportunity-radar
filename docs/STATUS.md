@@ -7,10 +7,10 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-009-fresh-state-refresh-prospective-preflight.md
+specs/phase4/SPEC-010-prospective-sampling-cache-fix.md
 ```
 
-Status: `APPROVED_FOR_EXECUTION`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is clean and
@@ -50,9 +50,13 @@ Phases 1–3 are implemented. Phase 4 has committed implementations for:
 - frozen prospective validation protocol and deterministic preparation/preflight
   tooling.
 
-The prospective protocol is committed at `e69d1fc`. No prospective batch or new
-prospective judgments exist yet. The current packet authorizes a fresh normal
-18-employer state refresh plus a zero-semantic-call prospective preflight only.
+SPEC-009 completed a fresh normal 18-employer operational refresh with all
+sources successful and complete, then stopped at the prospective semantic-budget
+boundary. The refresh itself is valid. It exposed a preparation defect: current
+rank-based sampling filters to compatible semantic-cache hits, so the nominal
+40+20 zero-call sample is cache-biased and cannot be used as a prospective cost
+or validation sample. SPEC-010 corrects only that preparation layer and the
+mutable-operational-state-coupled replay test before any semantic spend.
 
 ## Historical validation baseline
 
@@ -75,14 +79,14 @@ SPEC-006 froze and replayed the 30 cases with zero semantic calls. It produced
 acceptance, 80.77% opportunity-level ranking agreement, 66.67% terminal APPLY
 acceptance, and 100% preferred-variant agreement for adjudicated variants.
 
-SPEC-007 then fixed one bounded evaluator-composition defect: explicit
-incompatible Texas/California geography is respected even when work mode is
-unspecified. The corrected replay changed exactly one reviewed market
-status/decision, moved the explicit-market gate to PASS, and left recall,
-top-attention acceptance, and ranking agreement unchanged. Reviews 10 and 18
-remain semantic-v1 controls; reviews 13 and 17 remain preference/conviction
-residuals without a justified generic matcher correction; review 23 remains
-appropriately uncertain market access.
+SPEC-007 fixed one bounded evaluator-composition defect: explicit incompatible
+Texas/California geography is respected even when work mode is unspecified. The
+corrected replay changed exactly one reviewed market status/decision, moved the
+explicit-market gate to PASS, and left recall, top-attention acceptance, and
+ranking agreement unchanged. Reviews 10 and 18 remain semantic-v1 controls;
+reviews 13 and 17 remain preference/conviction residuals without a justified
+generic matcher correction; review 23 remains appropriately uncertain market
+access.
 
 Detailed replay evidence remains private/local; repository evidence is sanitized
 aggregate/provenance only.
@@ -104,7 +108,7 @@ SPEC-008 froze the prospective design before any new human outcomes:
 - no early stopping;
 - unavailable items use same-stratum frozen reserves.
 
-Predeclared gates:
+Predeclared gates remain:
 
 - human APPLY attention recall: 100%;
 - top-attention acceptance: >=60%;
@@ -114,11 +118,62 @@ Predeclared gates:
 - preferred-variant agreement: >=80%;
 - confirmed false merges: 0.
 
-The old-snapshot diagnostic preview filled all 40 selections and 20 reserves
-with zero employer-cap relaxations and projected 40/40 + 20/20 compatible
-semantic cache hits. That preview is not prospective evidence. The current
-packet refreshes market state and recomputes this preflight before any semantic
-budget is authorized.
+The old-snapshot SPEC-008 preview was not prospective evidence. SPEC-009 now
+provides the fresh operational state needed for the real preflight.
+
+## SPEC-009 fresh operational state
+
+Fresh refresh run `07c036f3-c512-4469-ada6-fe57bf9d337b`:
+
+- status `COMPLETED`;
+- 18/18 configured sources `SUCCESS` and complete;
+- inventory 16,490;
+- selected details 3,949;
+- intentional skips 12,541;
+- details fetched 3,949;
+- detail failures 0;
+- network detail requests 3,064;
+- reused details 0 because previous successful details were older than the
+  configured 168-hour refresh interval;
+- resulting state: 3,977 ACTIVE, 120 CLOSED;
+- 3,935 ACTIVE jobs with usable semantic title/description;
+- semantic assessments remained 406 because semantic calls were not authorized.
+
+The refresh inferred 3,665 newly discovered jobs, 119 newly closed jobs, and 23
+materially changed jobs. Lifecycle inference was valid because all source
+inventories were complete.
+
+Fresh clustering/preflight population:
+
+- 3,870 active OpportunityClusters;
+- 3,326 normal candidate clusters before historical exclusion;
+- 3,315 normal candidates after exclusion;
+- market distribution 144 `IN_SCOPE`, 3,182 `UNCERTAIN`, 544 `OUT_OF_SCOPE`;
+- compatible semantic cache hits 264;
+- cache misses 3,606;
+- full current routed semantic workload diagnostic 3,110 calls, estimated
+  approximately $8.24, but full-population spending is not authorized or needed
+  for the prospective experiment.
+
+## Current prospective blocker
+
+The frozen sampler mechanically returned 40 selected + 20 reserves with all 60
+as cache hits, but this was caused by preparation filtering cache misses out of
+the rank-based eligible population. Roughly 3,109 post-historical-exclusion
+normal-route misses were silently absent from rank-based selection. Cache
+availability therefore became a selection predicate.
+
+In addition, 21/40 nominal selected items lacked a current recomputed
+recommendation/tier even though their semantic-v1 payload remained compatible.
+Current deterministic Phase 4 decisions need to be recomposed from current
+observations/policies plus reusable semantic payloads rather than relying on
+stale persisted decision fields.
+
+SPEC-010 must fix these issues without changing the frozen sampling protocol or
+making semantic calls. If semantic rank is mathematically required to assign a
+cache miss to a frozen stratum and the protocol cannot support unbiased
+selection without amendment, implementation must stop with `PROTOCOL CONFLICT —
+HUMAN DECISION REQUIRED` rather than silently altering SPEC-008.
 
 ## Architecture direction
 
@@ -135,8 +190,8 @@ complete inventory
   -> deterministic composite / shortlist
 ```
 
-These stages are implemented. The next product-level validation is prospective
-and cluster-sampled.
+These stages are implemented. Prospective preparation must distinguish semantic
+cache/execution state from sampling eligibility.
 
 ## Confirmed candidate policy
 
@@ -168,7 +223,7 @@ Preferences are time-varying decision state, not immutable personality facts.
 Future interaction evidence may support hypotheses but must not silently mutate
 authoritative preference state.
 
-## Frozen items during SPEC-009
+## Frozen items during SPEC-010
 
 Do not change:
 
@@ -187,25 +242,24 @@ Do not change:
 - historical judgments/batch membership;
 - Phase 1 adapter contracts;
 - Phase 2 lifecycle/exact-identity semantics;
-- existing semantic cache records.
+- existing semantic cache payloads.
 
-SPEC-009 authorizes public employer source retrieval and normal state mutation
-through the committed state runner. It does not authorize semantic calls,
-prospective batch creation, or judgments.
+SPEC-010 authorizes no live-source refresh and no semantic-model calls. It may
+use the refreshed local SQLite state from SPEC-009 for zero-call preflight.
 
 ## Current gate
 
-> Refresh the complete 18-employer operational state, rerun the frozen
-> prospective preflight, and stop with an exact semantic-call/cost budget for
-> explicit human authorization.
+> Produce an unbiased zero-call prospective preflight in which semantic cache
+> status is budget evidence rather than a sampling predicate, then stop with the
+> exact selected and reserve semantic-call/cost budget for explicit approval.
 
 ## Next intended steps
 
-1. Execute SPEC-009 fresh state refresh and prospective preflight.
-2. Review source completeness and the fresh selected/reserve sample composition.
-3. Explicitly approve or reject the reported semantic call count and estimated
-   cost.
-4. Only after approval assess required cache misses and create the immutable
+1. Execute SPEC-010 preparation correction and zero-call fresh preflight.
+2. If the frozen protocol is compatible, review the exact selected semantic-call
+   count/cost plus reserve contingency.
+3. Explicitly approve or reject semantic execution.
+4. Only after approval assess selected cache misses and create the immutable
    prospective batch.
 5. Collect all 40 cluster-level judgments without early stopping.
 6. Evaluate the predeclared gates.
@@ -214,7 +268,9 @@ prospective batch creation, or judgments.
 
 ## Known open decisions
 
-- Semantic-call/cost budget for prospective execution, pending fresh preflight.
+- Exact semantic-call/cost budget for prospective execution, pending SPEC-010.
+- Any protocol amendment only if SPEC-010 proves semantic rank makes cache-miss
+  sampling impossible under the frozen design.
 - Whether manual opportunity-cluster overrides are needed after prospective
   cluster adjudication.
 - Durable private backup/retention for SQLite, raw judgments, and detailed
@@ -223,22 +279,22 @@ prospective batch creation, or judgments.
 
 ## Operational health snapshot
 
-Last committed/preparation evidence before the fresh refresh includes:
+Current local operational evidence after SPEC-009:
 
 - SQLite schema version 3;
-- 431 active and 1 closed persisted job instances at the prior snapshot;
-- 406 Luna/low/semantic-v1 assessments at that snapshot;
-- broad routing diagnostic after SPEC-007: 56 `IN_SCOPE`, 253 `UNCERTAIN`, 97
-  `OUT_OF_SCOPE`, with all 309 semantically processable jobs cache-compatible;
-- clustering replay: 394 clusters from 406 assessed postings and a 315-cluster
-  normal shortlist;
-- SPEC-008 old-snapshot preview: 394 active detailed clusters, 26 historical
-  overlap exclusions, 40/40 selected and 20/20 reserves filled, zero employer
-  cap relaxations, zero projected semantic calls/cost;
-- SPEC-008 preparation validated with 232 offline tests and 18 live tests
-  deselected.
+- 3,977 ACTIVE and 120 CLOSED jobs;
+- 3,935 ACTIVE jobs with usable semantic detail;
+- 406 persisted semantic-v1 assessments;
+- 3,870 active clusters;
+- 264 compatible cache hits and 3,606 misses across the fresh population;
+- zero semantic calls during SPEC-009;
+- zero prospective batch/judgments created.
 
-These are time-bound observations, not hand-maintained runtime truth.
+The full offline suite after the refresh reported 231 passed, one failed, and 18
+live tests deselected. The one failure is a retrospective residual-diagnostic
+test coupled to the old mutable operational population of 406 assessable ACTIVE
+jobs. SPEC-010 must move that expectation to frozen fixture/evidence without
+weakening the original bounded/read-only/zero-call assertion.
 
 ## Explicitly do not build/tune yet
 
