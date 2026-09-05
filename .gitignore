@@ -22,5 +22,11 @@ output/phase4_prospective/**/*
 !output/phase4_prospective/**/
 !output/phase4_prospective/**/aggregate_summary.json
 
+# Semantic compute-allocation audits contain private job identities and frozen
+# human-outcome traces. Only sanitized aggregate receipts are repository-safe.
+output/semantic_compute_allocation/**/*
+!output/semantic_compute_allocation/**/
+!output/semantic_compute_allocation/**/aggregate_summary.json
+
 # Replaceable local health evidence.
 output/test_receipt.json

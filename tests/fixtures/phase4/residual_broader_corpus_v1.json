@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "evidence_class": "FROZEN_SANITIZED_AGGREGATE",
+  "experiment_id": "EXP-PHASE4-RESIDUAL-001",
+  "broader_corpus_impact": {
+    "assessable_active_jobs": 406,
+    "market_status_distribution_before": {
+      "IN_SCOPE": 56,
+      "OUT_OF_SCOPE": 85,
+      "UNCERTAIN": 265
+    },
+    "market_status_distribution_after": {
+      "IN_SCOPE": 56,
+      "OUT_OF_SCOPE": 97,
+      "UNCERTAIN": 253
+    },
+    "market_status_changes": 12,
+    "external_calls": 0
+  }
+}

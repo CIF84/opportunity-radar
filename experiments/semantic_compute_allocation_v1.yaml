@@ -1,0 +1,48 @@
+schema_version: 1
+experiment_id: EXP-SEMANTIC-ALLOCATION-001
+experiment_type: PRE_SEMANTIC_COMPUTE_ALLOCATION_AUDIT
+prospective_protocol_path: experiments/phase4_prospective_validation_v1.yaml
+replay_config_path: experiments/phase4_replay_v1.yaml
+
+# Broad, employer-independent title evidence only. These are audit hypotheses,
+# not promoted runtime exclusions or additions to the semantic taxonomy.
+obvious_role_families:
+  hands_on_software_engineering:
+    - "\\b(?:software|backend|frontend|full[- ]stack|devops|site reliability|platform) engineer(?:ing)?\\b"
+    - "\\b(?:software|application) developer\\b"
+  warehouse_material_handling:
+    - "\\b(?:warehouse|material handler|forklift|picker|packer)\\b"
+  clinical_medical_specialist:
+    - "\\b(?:physician|surgeon|registered nurse|clinical specialist|medical doctor)\\b"
+  legal_specialist:
+    - "\\b(?:attorney|lawyer|legal counsel|paralegal)\\b"
+  accounting_control_specialist:
+    - "\\b(?:financial controller|accountant|tax specialist|tax manager|payroll specialist)\\b"
+
+# Existing taxonomy concepts whose cheap lexical evidence protects an
+# opportunity from obvious-role-family deferral.
+positive_protection_concepts:
+  - ai_enabled_work
+  - business_analytics
+  - business_operations
+  - commercial_strategy
+  - decision_support
+  - implementation_ownership
+  - pricing_strategy
+  - product_development
+  - strategy
+  - transformation
+  - transformation_execution
+
+uncertainty:
+  sparse_description_characters: 300
+
+exploration:
+  seed: semantic-allocation-audit-v1
+  optional_sample_rate: 0.10
+  defer_sample_rate: 0.10
+
+outputs:
+  root: output/semantic_compute_allocation
+  detailed: PRIVATE_LOCAL
+  aggregate: REPOSITORY_SAFE

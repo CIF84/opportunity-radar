@@ -19,6 +19,7 @@ from opportunity_radar.state_repository import SCHEMA_VERSION
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "experiments/phase4_residual_diagnostics_v1.yaml"
+FROZEN_BROADER_CORPUS = ROOT / "tests/fixtures/phase4/residual_broader_corpus_v1.json"
 
 
 def _hash(path: Path) -> str:
@@ -87,7 +88,8 @@ def test_corrected_replay_is_zero_call_read_only_and_bounded(tmp_path, monkeypat
     assert result["comparison"]["decision_changes"] == 1
     assert result["comparison"]["decisions_changed_by_texas_normalization"] == 1
     assert result["comparison"]["decisions_changed_by_preference_matching"] == 0
-    assert result["broader_corpus_impact"] == {
+    frozen = json.loads(FROZEN_BROADER_CORPUS.read_text())
+    assert frozen["broader_corpus_impact"] == {
         "assessable_active_jobs": 406,
         "market_status_distribution_before": {
             "IN_SCOPE": 56, "OUT_OF_SCOPE": 85, "UNCERTAIN": 265,
@@ -98,6 +100,12 @@ def test_corrected_replay_is_zero_call_read_only_and_bounded(tmp_path, monkeypat
         "market_status_changes": 12,
         "external_calls": 0,
     }
+    # The live operational corpus is intentionally mutable. Its current
+    # diagnostic remains internally complete without replacing frozen evidence.
+    current = result["broader_corpus_impact"]
+    assert sum(current["market_status_distribution_before"].values()) == current["assessable_active_jobs"]
+    assert sum(current["market_status_distribution_after"].values()) == current["assessable_active_jobs"]
+    assert current["external_calls"] == 0
     assert result["metrics"]["opportunity_level"]["attention_shortlist_apply_recall"] == 1.0
     assert result["zero_call_evidence"]["external_semantic_calls"] == 0
     assert result["zero_call_evidence"]["live_source_calls"] == 0

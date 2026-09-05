@@ -1,0 +1,348 @@
+{
+  "schema_version": 1,
+  "run_id": "semantic-allocation-audit-20260905-v3",
+  "experiment_id": "EXP-SEMANTIC-ALLOCATION-001",
+  "experiment_type": "PRE_SEMANTIC_COMPUTE_ALLOCATION_AUDIT",
+  "created_at": "2026-09-05T18:22:22.257024+00:00",
+  "baseline": {
+    "active_clusters": 3870,
+    "post_historical_routed_clusters": 3315,
+    "historical_exclusion": {
+      "excluded_cluster_count": 18,
+      "overlapping_member_count": 19
+    },
+    "cache_status_counts_diagnostic_only": {
+      "COMPATIBLE_SEMANTIC_CACHE_HIT": 206,
+      "SEMANTIC_CACHE_MISS": 3109
+    }
+  },
+  "evidence_coverage": {
+    "title": {
+      "available": 3315,
+      "total": 3315,
+      "coverage": 1.0
+    },
+    "employer": {
+      "available": 3315,
+      "total": 3315,
+      "coverage": 1.0
+    },
+    "raw_location": {
+      "available": 3308,
+      "total": 3315,
+      "coverage": 0.997888
+    },
+    "structured_geography": {
+      "available": 159,
+      "total": 3315,
+      "coverage": 0.047964
+    },
+    "work_mode": {
+      "available": 229,
+      "total": 3315,
+      "coverage": 0.06908
+    },
+    "employment_type": {
+      "available": 525,
+      "total": 3315,
+      "coverage": 0.158371
+    },
+    "department": {
+      "available": 344,
+      "total": 3315,
+      "coverage": 0.103771
+    },
+    "normalized_description": {
+      "available": 3315,
+      "total": 3315,
+      "coverage": 1.0
+    },
+    "source_updated_at": {
+      "available": 0,
+      "total": 3315,
+      "coverage": 0.0
+    },
+    "date_posted": {
+      "available": 867,
+      "total": 3315,
+      "coverage": 0.261538
+    },
+    "deterministic_features": {
+      "available": 3162,
+      "total": 3315,
+      "coverage": 0.953846
+    },
+    "lexical_preference_evidence": {
+      "available": 2696,
+      "total": 3315,
+      "coverage": 0.813273
+    },
+    "positive_protection_evidence": {
+      "available": 2822,
+      "total": 3315,
+      "coverage": 0.851282
+    },
+    "positive_title_evidence": {
+      "available": 489,
+      "total": 3315,
+      "coverage": 0.147511
+    },
+    "positive_description_only_evidence": {
+      "available": 2760,
+      "total": 3315,
+      "coverage": 0.832579
+    },
+    "explicit_role_family": {
+      "available": 148,
+      "total": 3315,
+      "coverage": 0.044646
+    },
+    "explicit_junior_graduate": {
+      "available": 45,
+      "total": 3315,
+      "coverage": 0.013575
+    },
+    "deterministic_market_status": {
+      "available": 3315,
+      "total": 3315,
+      "coverage": 1.0
+    },
+    "hard_eligibility": {
+      "available": 3315,
+      "total": 3315,
+      "coverage": 1.0
+    },
+    "multi_member_cluster": {
+      "available": 28,
+      "total": 3315,
+      "coverage": 0.008446
+    }
+  },
+  "evidence_inventory": {
+    "title": "DETAIL_NORMALIZED",
+    "employer": "DETAIL_NORMALIZED",
+    "location": "DETAIL_NORMALIZED",
+    "work_mode": "DETAIL_NORMALIZED",
+    "employment_type": "DETAIL_NORMALIZED",
+    "department": "DETAIL_NORMALIZED",
+    "description": "DETAIL_NORMALIZED",
+    "date_posted": "DETAIL_NORMALIZED",
+    "source_updated_at": "DETAIL_NORMALIZED",
+    "market_status": "DETERMINISTIC_DERIVED",
+    "hard_eligibility": "DETERMINISTIC_DERIVED",
+    "junior_graduate_evidence": "DETERMINISTIC_DERIVED",
+    "lexical_taxonomy_concepts": "DETERMINISTIC_DERIVED",
+    "opportunity_cluster": "DETERMINISTIC_DERIVED",
+    "candidate_market_policy": "CANDIDATE_CONFIGURATION",
+    "candidate_preferences": "CANDIDATE_CONFIGURATION",
+    "semantic_cache_status": "HISTORICAL_CACHE_ONLY",
+    "semantic_dimensions": "SEMANTIC_ONLY",
+    "composite_score": "SEMANTIC_ONLY",
+    "recommendation": "SEMANTIC_ONLY"
+  },
+  "triage_distribution": {
+    "SEMANTIC_DEFER": 27,
+    "SEMANTIC_OPTIONAL": 2776,
+    "SEMANTIC_PRIORITY": 512
+  },
+  "funnels": {
+    "F0_CURRENT_ROUTED": {
+      "starting_population": 3315,
+      "retained_count": 3315,
+      "deferred_count": 0,
+      "reduction_fraction": 0.0,
+      "historical_apply_retained": 5,
+      "historical_apply_total": 5,
+      "historical_apply_recall": 1.0,
+      "historical_dont_apply_retained": 10,
+      "historical_dont_apply_total": 21,
+      "cache_hits_diagnostic_only": 206,
+      "projected_luna_calls": 3109,
+      "projected_cost_usd": 8.2366737,
+      "market_status_distribution": {
+        "IN_SCOPE": 141,
+        "UNCERTAIN": 3174
+      },
+      "employer_count": 17,
+      "largest_employer_count": 1904,
+      "largest_employer_fraction": 0.574359
+    },
+    "F1_DETERMINISTIC_COMPATIBLE": {
+      "starting_population": 3315,
+      "retained_count": 3315,
+      "deferred_count": 0,
+      "reduction_fraction": 0.0,
+      "historical_apply_retained": 5,
+      "historical_apply_total": 5,
+      "historical_apply_recall": 1.0,
+      "historical_dont_apply_retained": 10,
+      "historical_dont_apply_total": 21,
+      "cache_hits_diagnostic_only": 206,
+      "projected_luna_calls": 3109,
+      "projected_cost_usd": 8.2366737,
+      "market_status_distribution": {
+        "IN_SCOPE": 141,
+        "UNCERTAIN": 3174
+      },
+      "employer_count": 17,
+      "largest_employer_count": 1904,
+      "largest_employer_fraction": 0.574359
+    },
+    "F2_CONSERVATIVE_ROLE_DEFER": {
+      "starting_population": 3315,
+      "retained_count": 3288,
+      "deferred_count": 27,
+      "reduction_fraction": 0.008145,
+      "historical_apply_retained": 5,
+      "historical_apply_total": 5,
+      "historical_apply_recall": 1.0,
+      "historical_dont_apply_retained": 10,
+      "historical_dont_apply_total": 21,
+      "cache_hits_diagnostic_only": 202,
+      "projected_luna_calls": 3086,
+      "projected_cost_usd": 8.1757398,
+      "market_status_distribution": {
+        "IN_SCOPE": 141,
+        "UNCERTAIN": 3147
+      },
+      "employer_count": 17,
+      "largest_employer_count": 1899,
+      "largest_employer_fraction": 0.577555
+    },
+    "F3_TITLE_PRIORITY_ONLY_SCENARIO": {
+      "starting_population": 3315,
+      "retained_count": 512,
+      "deferred_count": 2803,
+      "reduction_fraction": 0.845551,
+      "historical_apply_retained": 3,
+      "historical_apply_total": 5,
+      "historical_apply_recall": 0.6,
+      "historical_dont_apply_retained": 2,
+      "historical_dont_apply_total": 21,
+      "cache_hits_diagnostic_only": 23,
+      "projected_luna_calls": 489,
+      "projected_cost_usd": 1.2955077,
+      "market_status_distribution": {
+        "IN_SCOPE": 15,
+        "UNCERTAIN": 497
+      },
+      "employer_count": 15,
+      "largest_employer_count": 383,
+      "largest_employer_fraction": 0.748047
+    },
+    "F4_ANY_LEXICAL_POSITIVE_SCENARIO": {
+      "starting_population": 3315,
+      "retained_count": 2845,
+      "deferred_count": 470,
+      "reduction_fraction": 0.14178,
+      "historical_apply_retained": 4,
+      "historical_apply_total": 5,
+      "historical_apply_recall": 0.8,
+      "historical_dont_apply_retained": 7,
+      "historical_dont_apply_total": 21,
+      "cache_hits_diagnostic_only": 144,
+      "projected_luna_calls": 2701,
+      "projected_cost_usd": 7.1557593,
+      "market_status_distribution": {
+        "IN_SCOPE": 127,
+        "UNCERTAIN": 2718
+      },
+      "employer_count": 16,
+      "largest_employer_count": 1683,
+      "largest_employer_fraction": 0.591564
+    },
+    "F5_PRIORITY_WITH_EXPLORATION": {
+      "starting_population": 3315,
+      "retained_count": 797,
+      "deferred_count": 2518,
+      "reduction_fraction": 0.759578,
+      "historical_apply_retained": 3,
+      "historical_apply_total": 5,
+      "historical_apply_recall": 0.6,
+      "historical_dont_apply_retained": 2,
+      "historical_dont_apply_total": 21,
+      "cache_hits_diagnostic_only": 43,
+      "projected_luna_calls": 754,
+      "projected_cost_usd": 1.9975722,
+      "market_status_distribution": {
+        "IN_SCOPE": 30,
+        "UNCERTAIN": 767
+      },
+      "employer_count": 15,
+      "largest_employer_count": 531,
+      "largest_employer_fraction": 0.666248
+    }
+  },
+  "target_scenarios": {
+    "1000": {
+      "historical_recall_safe_scenario_found": false,
+      "qualifying_scenarios": []
+    },
+    "500": {
+      "historical_recall_safe_scenario_found": false,
+      "qualifying_scenarios": []
+    },
+    "250": {
+      "historical_recall_safe_scenario_found": false,
+      "qualifying_scenarios": []
+    },
+    "100": {
+      "historical_recall_safe_scenario_found": false,
+      "qualifying_scenarios": []
+    }
+  },
+  "recomposition": {
+    "compatible_cache_hits_audited": 247,
+    "successfully_recomposed": 247,
+    "semantic_identity_preserved": true,
+    "semantic_payload_unchanged": true,
+    "external_calls": 0,
+    "persistence_writes": 0
+  },
+  "model_cost": {
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "low",
+    "semantic_contract": "phase3-semantic-v1",
+    "estimated_cost_per_miss_usd": 0.0026493
+  },
+  "configuration": {
+    "audit_fingerprint": "6d667bc7506048bf47a6534b1e15ee5b0cd637be07958898c0a9b57ed1a4cc24",
+    "prospective_protocol_fingerprint": "8998e4dacf9b5cf0475d24f0a835a5df6d93e96ae9ad80dc509c92b34ad831d2",
+    "candidate_full_profile_fingerprint": "67c459aa1cc9c9901aa1cf5e764e08b7e3905ac09ef80aefc5696af1dfb5746e",
+    "candidate_semantic_profile_fingerprint": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "market_policy_fingerprint": "86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb",
+    "decision_preference_fingerprint": "e0146d4d87ce44810f6cd7f2c8a1125d313d18087666829b92fd100b2671c6a4"
+  },
+  "integrity": {
+    "database_sha256_before": "54f82d4b7ec765b565b7d3ecab06117d32eec4fbcc77f4b23206e6b079987e14",
+    "database_sha256_after": "54f82d4b7ec765b565b7d3ecab06117d32eec4fbcc77f4b23206e6b079987e14",
+    "database_unchanged": true,
+    "prospective_protocol_sha256_before": "91af6d1960afe7b2000665c2b55d56cb3eca171a95af3e8eb87a0367060f3f92",
+    "prospective_protocol_sha256_after": "91af6d1960afe7b2000665c2b55d56cb3eca171a95af3e8eb87a0367060f3f92",
+    "prospective_protocol_unchanged": true,
+    "external_semantic_calls": 0,
+    "live_source_calls": 0,
+    "prospective_batches_created": 0,
+    "judgments_created": 0
+  },
+  "privacy": {
+    "detailed_artifact": "PRIVATE_LOCAL",
+    "detailed_sha256": "035e2dcda80433c5e71044a339a79b5c406c775a052da9624364b92da305b5d8",
+    "aggregate_artifact": "REPOSITORY_SAFE"
+  },
+  "limitations": [
+    "Historical judgments are a small biased safety corpus, not training data.",
+    "No compute-allocation policy is promoted by this audit.",
+    "Priority-only and exploration scenarios change the scientific population and require a separately frozen prospective protocol.",
+    "Cache status is reported only as execution-budget evidence and is not an input to triage."
+  ],
+  "conclusions": [
+    "The current deterministic route is already conservative, so deterministic incompatibility removes no additional routed clusters.",
+    "Conservative obvious-role-family deferral preserves all five historical human-APPLY opportunity units but reduces projected calls by less than one percent.",
+    "Title-positive prioritization reaches a sub-500-call scenario but retains only three of five historical human-APPLY opportunity units.",
+    "Description-level positive language is too common to provide useful reduction and still misses one historical human-APPLY opportunity.",
+    "No audited interpretable funnel reaches 1000, 500, 250, or 100 calls while preserving all historical human-APPLY opportunities.",
+    "A bounded cache-blind human compute-worthiness labeling experiment is warranted before promoting a protocol-v2 allocation funnel."
+  ],
+  "recommendation": "FURTHER_BOUNDED_EXPERIMENT_BEFORE_PROTOCOL_V2_OR_FULL_COMPLETION"
+}

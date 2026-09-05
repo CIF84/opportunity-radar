@@ -158,3 +158,19 @@ experiments:
     limitations: The preview uses an existing pre-protocol operational snapshot and is not prospective evidence; detailed per-opportunity artifacts remain private/local; current zero-call projection may change after a fresh state refresh.
     related_decisions: [DR-012, DR-013, DR-014, DR-015, DR-016, DR-019, DR-021, DR-023]
     commit_or_worktree_state: "dd28569 plus uncommitted SPEC-008 implementation; exact preview state is preserved in aggregate provenance"
+
+  - experiment_id: EXP-SEMANTIC-ALLOCATION-001
+    type: PRE_SEMANTIC_COMPUTE_ALLOCATION_AUDIT
+    hypothesis: Simple cache-blind deterministic evidence can reduce the 3,109 routed semantic misses by roughly 80–95% while preserving all known human-APPLY opportunity units.
+    status: COMPLETED_AWAITING_REVIEW
+    completed_at: "2026-09-05"
+    baseline: Fresh SPEC-009 state with 3,315 routed post-historical clusters, 206 compatible cache hits, and 3,109 semantic misses.
+    intervention: Compare current routing, conservative obvious-role deferral, title-positive priority, description-assisted lexical priority, and deterministic exploration using only pre-semantic evidence.
+    inputs: [specs/phase4/SPEC-011-semantic-compute-allocation-audit.md, experiments/semantic_compute_allocation_v1.yaml, experiments/phase4_prospective_validation_v1.yaml, experiments/phase4_replay_v1.yaml, output/opportunity_radar.sqlite3]
+    artifacts: [output/semantic_compute_allocation/semantic-allocation-audit-20260905-v3/aggregate_summary.json]
+    metrics: {routed_clusters: 3315, baseline_projected_calls: 3109, conservative_calls: 3086, conservative_historical_apply_recall: 1.0, title_priority_calls: 489, title_priority_historical_apply_recall: 0.60, description_positive_calls: 2701, description_positive_historical_apply_recall: 0.80, external_calls: 0}
+    result: The only audited 100%-historical-recall-safe reduction removed 27 clusters. More aggressive title/description funnels reduced calls but lost known APPLY opportunities; no 1000/500/250/100-call target was defensibly reached.
+    decision: Do not promote compute triage. Prefer a bounded cache-blind human compute-worthiness labeling experiment before protocol v2; full v1 completion remains an explicit alternative.
+    limitations: Five historical APPLY opportunity units are necessary but insufficient safety evidence; role patterns are audit hypotheses, not runtime exclusions; detailed identities and false negatives remain private local evidence.
+    related_decisions: [DR-012, DR-013, DR-016, DR-021, DR-023]
+    commit_or_worktree_state: "cda4508 plus uncommitted SPEC-011 audit implementation; exact operational and configuration hashes are preserved in the aggregate receipt"
