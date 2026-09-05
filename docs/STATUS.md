@@ -1,31 +1,32 @@
 # Opportunity Radar — Current Status
 
-This is the authoritative repository handoff. It records current direction and
-constraints; operational counts are derived by `opportunity-radar-status`.
+This is the authoritative repository handoff. Operational counts are derived by
+`opportunity-radar-status`; this file records current direction, frozen policy,
+and the next approved work packet.
 
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-006-frozen-retrospective-replay.md
+specs/phase4/SPEC-007-residual-diagnostics-market-normalization.md
 ```
 
-Status: implemented and replayed locally; experiment promotion is pending human
-review. The approved specification remains the immutable work-packet contract.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
-Implementation agents should follow this pointer rather than infer work from
-filename recency. Before starting an approved packet, verify the local working
-tree is clean and synchronize with `origin/main` when safe. If unexplained local
-changes, divergence, or conflicts exist, stop and report them rather than
-overwriting or improvising.
+Implementation agents must follow this pointer rather than infer work from file
+recency. Before starting, verify the local working tree is clean and synchronize
+with `origin/main` when safe. If unexplained changes, divergence, or conflicts
+exist, stop and report them rather than overwriting or improvising.
 
-The development authority boundary is deliberately simple:
+The development authority boundary remains:
 
 - agents may inspect, analyze, implement, and validate an approved work packet;
-- initial implementation remains uncommitted while awaiting human/ChatGPT review;
-- after explicit approval, the implementation agent may commit and push the
-  approved working tree itself;
-- humans approve decisions and promotion boundaries rather than performing Git
-  plumbing manually.
+- implementation remains uncommitted while awaiting human/ChatGPT review;
+- after explicit approval, the implementation agent may commit and push;
+- humans approve decisions and promotion boundaries rather than perform Git
+  plumbing manually;
+- repository-safe aggregate evidence may be tracked, while detailed candidate-
+  and human-judgment-derived evidence remains private/local unless explicitly
+  authorized for disclosure.
 
 ## Mission
 
@@ -34,55 +35,71 @@ state, and explain which active opportunities deserve a candidate's attention.
 
 ## Current phase
 
-Phases 1–3 are implemented. Scope-aware ingestion and persisted detail reuse
-have passed bounded validation. The first Live Decision Validation is complete.
+Phases 1–3 are implemented. Phase 4 now has committed implementations for:
 
-Phase 4 market-access representation, current-candidate market assessment,
-routing, high-confidence opportunity clustering, preferred-variant selection,
-the versioned decision-preference effect layer, and the candidate-configurable
-junior/graduate seniority guard are implemented and committed. The frozen
-retrospective replay of the original 30-case batch has now run offline; its
-promotion decision is pending human review.
-No autonomous preference learning, semantic-v2, or external-action behavior is
-implemented.
+- versioned candidate market-access policy;
+- post-detail `CurrentCandidateMarketStatus`;
+- candidate-market routing and `UNCERTAIN -> REVIEW` cap;
+- high-confidence employer-scoped opportunity clustering;
+- candidate-dependent preferred variant;
+- versioned taxonomy-backed decision preferences and bounded effects;
+- explicit junior/graduate seniority guard;
+- frozen offline retrospective replay tooling and sanitized experiment evidence.
 
-## Last validated state
+The original Live Decision Validation remains historical evidence and is not
+rewritten by Phase 4.
+
+## Historical validation baseline
 
 Live Decision Validation batch `batch-20260826T210045Z-6492b09a`:
 
 - reviewed: 30/30;
-- directional verdict: `NO_GO`;
+- verdict: `NO_GO`;
 - strict APPLY recall: 100%;
 - shortlist APPLY recall: 100%;
-- top attention acceptance: 35%;
-- ranking agreement: 40%;
-- disagreements: deterministic eligibility 11, unrepresented preference 7,
-  semantic interpretation 2, benchmark/taxonomy 1, scoring/calibration 1.
+- top-attention acceptance: 35%;
+- ranking agreement: 40%.
 
-Canonical aggregate evidence is
-`output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md`.
-The immutable batch is beside it. Raw judgments remain local under the data
-policy in `OPERATING_MODEL.md`.
+Canonical aggregate evidence remains under
+`output/live_validation/batch-20260826T210045Z-6492b09a/`.
 
-## What we learned
+## Frozen Phase 4 retrospective result
 
-- The semantic hypothesis remains viable: only two reviewed disagreements were
-  classified as semantic interpretation errors.
-- Deterministic candidate-market routing now removes explicit incompatible
-  opportunities without changing semantic-v1 or lifecycle state.
-- One human opportunity can have multiple source postings. High-confidence
-  clustering now collapses the known Kiwi Inventory variants and WPP Growth
-  Consulting variants while preserving independent JobInstances.
-- Candidate preferences around execution authority, functional/domain
-  attraction, employer/industry conviction, and learning upside now have a
-  versioned, taxonomy-backed, bounded soft-effect representation.
-- Candidate preference is expected to change over time. Future interaction
-  evidence may support preference hypotheses, but must not silently mutate
-  authoritative preference state.
-- Explicit junior/graduate evidence activates a deterministic,
-  candidate-configured `LOW_PRIORITY` recommendation cap without changing
-  semantic interpretation or eligibility.
-- Retrieval scope is a detail-cost policy. It is not candidate eligibility.
+The committed SPEC-006 replay:
+
+- accounted for all 30 postings;
+- reused all 30 compatible semantic-v1 assessments;
+- made zero semantic calls and zero live-source calls;
+- collapsed 30 postings to 26 opportunity units;
+- preserved 100% human-APPLY attention recall;
+- produced 50% opportunity-level top-attention acceptance;
+- produced 80.77% opportunity-level ranking agreement;
+- produced 66.67% terminal APPLY acceptance;
+- achieved 100% preferred-variant agreement for adjudicated variants;
+- left five residual opportunity-level disagreements.
+
+The 60% retrospective top-attention gate failed. The explicit-market gate also
+failed because review 27, a Texas vacancy, remained `UNCERTAIN`; eight other
+labeled foreign mismatches became `OUT_OF_SCOPE`.
+
+Detailed replay rows and human-readable per-opportunity reports are private
+local evidence and excluded from Git. The repository contains only sanitized
+aggregate evidence, hashes, fingerprints, limitations, and conclusions.
+
+## Residual cases to diagnose
+
+Current work focuses on:
+
+- review 27 — Texas market normalization defect;
+- review 13 — advisory/execution preference residual;
+- review 17 — orthopaedics preference residual;
+- review 23 — Klaxoon market uncertainty + preference residual;
+- review 10 — GoodData semantic-v1 control residual;
+- review 18 — EY FP&A semantic-v1 control residual.
+
+The goal is to distinguish deterministic normalization, generic matching,
+appropriate uncertainty, unrepresented preference/conviction, and genuine
+semantic-v1 residuals without tuning frozen policy.
 
 ## Architecture direction
 
@@ -99,49 +116,28 @@ complete inventory
   -> deterministic composite / shortlist
 ```
 
-All stages through the seniority guard and the existing Phase 3 semantic/base
-decision contracts are implemented. The current work packet evaluates them
-retrospectively against frozen human evidence.
+These stages are implemented. The next product-level validation must be a new
+prospective batch, not another relabeling of the frozen 30-case benchmark.
 
-## Confirmed Phase 4 candidate policy
+## Confirmed candidate policy
 
-The candidate has explicitly confirmed the following policy. It is durable
-Phase 4 configuration consumed by the market evaluator and deterministic
-routing/recommendation-cap boundary:
+- Normal onsite/hybrid work: Prague only.
+- Remote work: acceptable from Czechia when Czech-based employment/engagement
+  and reasonably European-compatible hours are confirmed.
+- Missing remote employment access: `UNCERTAIN`.
+- Explicit incompatible foreign restriction: `OUT_OF_SCOPE`.
+- Relocation: exceptional, not normal shortlist policy.
+- Czech work access: confirmed; foreign authorization must not be inferred.
+- Czech and English: work-capable; Slovak comprehension supported; French not
+  currently work-capable; Japanese `NONE`.
+- Candidate-market `UNCERTAIN`: maximum recommendation `REVIEW`.
+- Explicit junior/graduate evidence: candidate-configurable maximum
+  `LOW_PRIORITY`.
+- Domain/function/employer/product aversions are soft and tradeable.
 
-- Normal onsite/hybrid work is acceptable in Prague, Czechia. Other Czech
-  cities and foreign locations are not automatically acceptable.
-- Remote work is acceptable while resident in Czechia when Czech-based
-  employment/engagement is confirmed and working hours are reasonably
-  European-compatible. Missing practical eligibility evidence is uncertain;
-  an explicitly foreign-restricted arrangement is out of scope.
-- Relocation is exceptional rather than part of the normal shortlist. It may
-  be explored later only as an explicit override for exceptional upside.
-- Czech work access is confirmed. Foreign work authorization must not be
-  inferred, and the system must not purport to decide international employment
-  or tax law.
-- Czech and English are work-capable; Slovak comprehension must not itself
-  disqualify a role; French is not currently work-capable; Japanese is `NONE`.
-- Candidate-market `UNCERTAIN` can produce at most `REVIEW`.
-- Explicit junior/graduate roles are capped at `LOW_PRIORITY` when the
-  candidate-configured seniority guard applies; they are not universally
-  ineligible.
-- Domain, function, employer, and product aversions remain soft and tradeable.
-  Strong AI, automation, transformation, learning, or strategic upside may
-  outweigh them.
+## Frozen preference policy
 
-The accepted decisions and rationale are recorded in `docs/decisions.yaml`.
-The runtime representation and validation contract are specified in Phase 4
-of `SPEC.md`. Declarative, deliberately bounded normalization used by the pure
-evaluator lives in `config/market_status_rules.yaml`.
-
-`config/candidate.yaml` is profile version 3. Its `market_access_policy` and
-`decision_preferences` are independent Phase 4 decision inputs and remain
-excluded from semantic-v1 inputs.
-
-## Confirmed preference-direction policy
-
-The candidate has accepted an ordinal preference spectrum for ranking:
+Ordinal preference state:
 
 ```text
 STRONG_POSITIVE
@@ -150,11 +146,7 @@ NEUTRAL
 NEGATIVE
 ```
 
-Preferences primarily modify ranking rather than act as binary eligibility.
-They are time-varying/versioned decision policy, not immutable personality
-facts. Preference state and the numeric preference-effect policy are separate.
-
-The frozen deterministic mapping for the retrospective replay is:
+Frozen experimental effect mapping:
 
 ```text
 STRONG_POSITIVE -> +0.4
@@ -164,104 +156,78 @@ NEGATIVE        -> -0.3
 aggregate cap   -> [-1.0, +1.0]
 ```
 
-This mapping is an experimental ranking policy, not a claim about stable human
-psychology. Future interactions may provide evidence for preference changes,
-but evidence cannot silently promote a new authoritative preference version.
+Preferences are time-varying decision state, not immutable personality facts.
+Future interaction evidence may support hypotheses but must not silently mutate
+authoritative preference state.
 
 ## Frozen items
 
-During the retrospective replay, do not change:
+During SPEC-007 do not change:
 
-- model: `gpt-5.6-luna`;
-- reasoning effort: `low`;
-- semantic contract: `phase3-semantic-v1`;
+- model `gpt-5.6-luna`;
+- reasoning effort `low`;
+- semantic contract `phase3-semantic-v1`;
 - Phase 3 scoring weights;
-- market-access policy or market-status rules;
-- clustering contract/rules;
-- decision preferences, matching rules, or effect mapping;
-- seniority-guard policy/rules;
-- frozen historical benchmark and fixtures;
-- recorded human judgments and batch membership;
-- Phase 1 adapter discovery/detail contracts;
-- Phase 2 lifecycle, completeness, and exact-identity semantics;
+- candidate preference stances;
+- preference effect mapping;
+- clustering contract;
+- seniority guard policy;
+- historical judgments/batch membership;
+- Phase 1 adapter contracts;
+- Phase 2 lifecycle/exact-identity semantics;
 - existing semantic cache records.
 
-The replay must make zero external semantic calls and zero live-source calls.
+SPEC-007 may implement only a bounded evidence-supported market-normalization
+correction and, if proven, a generic preference-matching correction that maps
+existing job evidence to an already-approved preference concept. It must not add
+new candidate preferences or convictions.
 
 ## Current gate
 
-> Review the frozen Phase 4 retrospective result and decide whether its residual
-> precision failure and Texas normalization gap warrant a bounded correction
-> before designing a new prospective validation batch.
+> Determine whether the remaining non-semantic replay disagreements are caused
+> by bounded deterministic evidence/matching gaps or by genuinely unresolved
+> policy, then decide whether the architecture is ready for a new prospective
+> Phase 4 validation batch with semantic-v1 still frozen.
 
-Replay `phase4-replay-20260905T110537Z-e916fcc9` accounted for all 30 postings
-and reused all 30 semantic assessments with zero external calls. At opportunity
-level it preserved 100% human-APPLY attention recall, improved the diagnostic
-ranking-agreement measure to 80.77%, and selected the human-preferred Kiwi
-variant. Top-attention acceptance reached 50%, below the predeclared 60% gate.
-The explicit-market regression gate also failed because the Texas listing
-remained `UNCERTAIN`; the other eight labeled explicit foreign mismatches were
-`OUT_OF_SCOPE`. These are frozen post-hoc results, not a replacement for the
-official v1 metrics.
+## Next intended steps
 
-Detailed replay rows and the human-readable per-opportunity report are private
-local evidence and must not be committed. Repository memory retains only the
-sanitized aggregate receipt referenced by `experiments/registry.yaml`, plus
-cryptographic hashes proving the private evidence provenance.
+1. Execute SPEC-007 and rerun a clearly labeled corrected retrospective offline.
+2. Review residual classification without retuning the result.
+3. If ready, predeclare a prospective validation design and stopping rule.
+4. Run a new prospective validation batch.
+5. Only then decide whether `phase3-semantic-v2` is justified.
 
-## Next intended experiments
+## Known open decisions
 
-1. Review residual disagreements and gate results without retuning the replay.
-2. Decide whether to run a bounded market-normalization correction experiment
-   for the Texas case.
-3. Decide the design and size of a new prospective validation batch.
-4. Only after prospective evidence decide whether `phase3-semantic-v2` is
-   justified.
+- Whether manual opportunity-cluster overrides are needed.
+- Prospective Phase 4 batch size and stopping rule.
+- Durable private backup/retention for SQLite, raw judgments, and detailed replay
+  evidence.
+- Bounded semantic-call authority available to future agents.
 
-## Known blockers and open decisions
+## Operational health snapshot
 
-- Decide whether manual opportunity-cluster overrides are needed only after the
-  deterministic clustering results are adjudicated further.
-- Choose the prospective Phase 4 batch size and stopping rule after reviewing
-  the retrospective result.
-- Choose a durable private backup/retention policy for operational SQLite, raw
-  judgments, and detailed replay evidence. These are explicitly excluded from
-  Git; their sanitized aggregates may be tracked.
-- Define the bounded semantic-call authority available to future agents.
-
-## Last known operational health
-
-Repository inspection on 2026-09-04 found:
+Last recorded repository evidence includes:
 
 - SQLite schema version 3;
-- latest ingestion run `0a4af82b-0e40-4e20-8cef-0528ce4fa1d2`, status
-  `PARTIAL`, with all 18 source observations `SUCCESS`;
-- 431 active and 1 closed persisted job instances;
-- 406 Luna / low / semantic-v1 assessments;
-- latest routing preflight over 406 usable detailed active jobs produced 56
-  `IN_SCOPE`, 265 `UNCERTAIN`, and 85 `OUT_OF_SCOPE`; all 321 semantically
-  processable jobs were compatible cache hits, requiring zero external calls;
-- repository-only cluster replay over the same 406 assessed postings produced
-  394 clusters and a 315-cluster normal shortlist; it collapsed 12 duplicate
-  postings, including the four Kiwi Inventory variants with Prague preferred,
-  and kept the all-out-of-scope WPP Growth Consulting cluster out of the
-  shortlist;
-- current implementation validates with 198 passing offline tests and
-  18 live tests deselected;
-- frozen Phase 4 replay reused 30/30 cached semantic assessments with zero
-  calls; its 50% top-attention acceptance missed the 60% retrospective gate;
-- two intentionally retained interrupted historical `RUNNING` rows.
+- 431 active and 1 closed persisted job instances at the prior operational
+  snapshot;
+- 406 Luna/low/semantic-v1 assessments at that snapshot;
+- latest broad routing preflight: 56 `IN_SCOPE`, 265 `UNCERTAIN`, 85
+  `OUT_OF_SCOPE`, with all 321 semantically processable jobs cache-compatible;
+- clustering replay: 394 clusters from 406 assessed postings and a 315-cluster
+  normal shortlist;
+- SPEC-006 implementation validated with 199 offline tests and 18 live tests
+  deselected before promotion.
 
-These counts are time-bound observations, not hand-maintained runtime truth.
+These are time-bound observations, not hand-maintained runtime truth.
 
-## Explicitly do not change yet
+## Explicitly do not build yet
 
-- Do not tune the semantic prompt, model, reasoning effort, Phase 3 weights, or
-  frozen Phase 4 decision policies during retrospective replay.
-- Do not rewrite Phase 1 adapters or Phase 2 lifecycle logic.
-- Do not merge `JobInstance` records to solve opportunity identity.
-- Do not invalidate or overwrite existing assessments/judgments.
-- Do not broaden clustering into fuzzy/probabilistic matching yet.
-- Do not add autonomous preference learning, Learning Intelligence, UI, alerts,
-  scheduling, or application automation.
-- Do not infer authority to apply from an `APPLY` recommendation.
+- semantic prompt/model/weight tuning;
+- fuzzy/probabilistic clustering;
+- autonomous preference learning;
+- UI/feed/control panel;
+- alerts/scheduling;
+- application automation;
+- external actions inferred from `APPLY`.
