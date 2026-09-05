@@ -6,7 +6,7 @@ constraints; operational counts are derived by `opportunity-radar-status`.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-002-market-routing-integration.md
+specs/phase4/SPEC-003-opportunity-clustering-preferred-variant.md
 ```
 
 Status: `APPROVED_FOR_IMPLEMENTATION`.
@@ -36,14 +36,13 @@ state, and explain which active opportunities deserve a candidate's attention.
 Phases 1–3 are implemented. Scope-aware ingestion and persisted detail reuse
 have passed bounded validation. The first Live Decision Validation is complete.
 
-Phase 4 Slices 1–3 are implemented in the current working tree: both candidate profiles carry a validated,
-versioned, independently fingerprinted market-access policy, and a pure
-post-detail evaluator can produce a structured `IN_SCOPE`, `UNCERTAIN`, or
-`OUT_OF_SCOPE` assessment. Candidate-ranking and Live Validation now exclude
-`OUT_OF_SCOPE` jobs before semantic calls and cap `UNCERTAIN` recommendations
-at `REVIEW`. This implementation remains uncommitted pending promotion review.
-No clustering, preference behavior, or other Phase 4 product behavior is
-implemented.
+Phase 4 Slices 1–3 are implemented and committed: both candidate profiles carry
+a validated, versioned, independently fingerprinted market-access policy; a
+pure post-detail evaluator produces structured `IN_SCOPE`, `UNCERTAIN`, or
+`OUT_OF_SCOPE` assessments; and candidate-ranking/Live Validation exclude
+`OUT_OF_SCOPE` jobs before semantic calls while capping `UNCERTAIN`
+recommendations at `REVIEW`. No clustering, preference behavior, or other later
+Phase 4 product behavior is implemented yet.
 
 ## Last validated state
 
@@ -68,7 +67,8 @@ policy in `OPERATING_MODEL.md`.
 - The semantic hypothesis remains viable: only two reviewed disagreements were
   classified as semantic interpretation errors.
 - The principal failure was inappropriate vacancies reaching ranking because
-  current-candidate market suitability is not enforced at the ranking boundary.
+  current-candidate market suitability was not enforced at the ranking boundary;
+  Slice 3 now provides that deterministic boundary without changing semantic-v1.
 - One human opportunity can have multiple source postings. Four Kiwi Inventory
   variants represented one intended application; two WPP Growth Consulting
   variants represented one apparent opportunity.
@@ -127,12 +127,11 @@ The runtime representation and validation contract are specified in Phase 4
 of `SPEC.md`. Declarative, deliberately bounded normalization used by the pure
 evaluator lives in `config/market_status_rules.yaml`.
 
-`config/candidate.yaml` is now profile version 2. Its new
-`market_access_policy` is the Phase 4 authority for these facts and policies.
-The older `facts` fields remain unchanged solely to preserve the exact
-`phase3-semantic-v1` input projection and semantic cache identity. The policy
-is represented and consumed by the evaluator and runtime candidate-routing
-boundary. It remains excluded from semantic-v1 inputs.
+`config/candidate.yaml` is profile version 2. Its `market_access_policy` is the
+Phase 4 authority for these facts and policies. The older `facts` fields remain
+unchanged solely to preserve the exact `phase3-semantic-v1` input projection and
+semantic cache identity. The policy is consumed by the evaluator and runtime
+candidate-routing boundary while remaining excluded from semantic-v1 inputs.
 
 ## Frozen items
 
@@ -158,8 +157,9 @@ The next gate is not “tune Luna.”
 
 ## Next intended experiments
 
-1. Demonstrate high-confidence employer-scoped opportunity clustering without
-   merging `JobInstance` records.
+1. Demonstrate high-confidence employer-scoped opportunity clustering and
+   deterministic preferred-variant selection without merging `JobInstance`
+   records.
 2. Add a versioned preference-aware decision policy without one-off dislikes.
 3. Retrospectively replay the immutable batch using existing semantic
    assessments wherever semantic inputs are unchanged.
@@ -168,7 +168,8 @@ The next gate is not “tune Luna.”
 
 ## Known blockers and open decisions
 
-- Decide whether manual opportunity-cluster overrides are allowed.
+- Decide whether manual opportunity-cluster overrides are allowed after the
+  deterministic clustering experiment establishes whether they are needed.
 - Predeclare the initial bounded numeric/ordinal effect mapping for soft
   decision preferences before retrospective replay.
 - Choose the prospective Phase 4 batch size and stopping rule.
@@ -187,9 +188,11 @@ Repository inspection on 2026-09-04 found:
 - 431 active and 1 closed persisted job instances;
 - 406 Luna / low / semantic-v1 assessments;
 - operational SQLite contains candidate `roman_christov` version 1; repository
-  configuration is now version 2 with only separately fingerprinted Phase 4
-  market-access additions, so it is intentionally not yet persisted by a
-  normal run;
+  configuration is version 2 with separately fingerprinted Phase 4 market-access
+  additions;
+- latest routing preflight over 406 usable detailed active jobs produced 56
+  `IN_SCOPE`, 265 `UNCERTAIN`, and 85 `OUT_OF_SCOPE`; all 321 semantically
+  processable jobs were compatible cache hits, requiring zero external calls;
 - two intentionally retained interrupted historical `RUNNING` rows;
 - offline tests passing; see the optional test receipt/status output for the
   exact most recent command and count.
