@@ -6,10 +6,10 @@ constraints; operational counts are derived by `opportunity-radar-status`.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-005-seniority-guard.md
+specs/phase4/SPEC-006-frozen-retrospective-replay.md
 ```
 
-Status: `IMPLEMENTED_AWAITING_APPROVAL`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation agents should follow this pointer rather than infer work from
 filename recency. Before starting an approved packet, verify the local working
@@ -38,11 +38,11 @@ have passed bounded validation. The first Live Decision Validation is complete.
 
 Phase 4 market-access representation, current-candidate market assessment,
 routing, high-confidence opportunity clustering, preferred-variant selection,
-and the versioned decision-preference effect layer are implemented and committed.
-The candidate-configurable junior/graduate seniority guard is implemented in the
-current worktree and awaits approval. No retrospective Phase 4 replay,
-autonomous preference learning, semantic-v2, or external-action behavior is
-implemented yet.
+the versioned decision-preference effect layer, and the candidate-configurable
+junior/graduate seniority guard are implemented and committed. The current
+approved work is a frozen retrospective replay of the original 30-case batch.
+No autonomous preference learning, semantic-v2, or external-action behavior is
+implemented.
 
 ## Last validated state
 
@@ -77,7 +77,7 @@ policy in `OPERATING_MODEL.md`.
 - Candidate preference is expected to change over time. Future interaction
   evidence may support preference hypotheses, but must not silently mutate
   authoritative preference state.
-- Explicit junior/graduate evidence now activates a deterministic,
+- Explicit junior/graduate evidence activates a deterministic,
   candidate-configured `LOW_PRIORITY` recommendation cap without changing
   semantic interpretation or eligibility.
 - Retrieval scope is a detail-cost policy. It is not candidate eligibility.
@@ -98,8 +98,8 @@ complete inventory
 ```
 
 All stages through the seniority guard and the existing Phase 3 semantic/base
-decision contracts are implemented. Retrospective replay remains a separate
-experiment.
+decision contracts are implemented. The current work packet evaluates them
+retrospectively against frozen human evidence.
 
 ## Confirmed Phase 4 candidate policy
 
@@ -152,8 +152,7 @@ Preferences primarily modify ranking rather than act as binary eligibility.
 They are time-varying/versioned decision policy, not immutable personality
 facts. Preference state and the numeric preference-effect policy are separate.
 
-The currently frozen deterministic mapping for the upcoming retrospective replay
-is:
+The frozen deterministic mapping for the retrospective replay is:
 
 ```text
 STRONG_POSITIVE -> +0.4
@@ -169,40 +168,45 @@ but evidence cannot silently promote a new authoritative preference version.
 
 ## Frozen items
 
-Until the current gate is evaluated, do not change casually:
+During the retrospective replay, do not change:
 
 - model: `gpt-5.6-luna`;
 - reasoning effort: `low`;
 - semantic contract: `phase3-semantic-v1`;
 - Phase 3 scoring weights;
+- market-access policy or market-status rules;
+- clustering contract/rules;
+- decision preferences, matching rules, or effect mapping;
+- seniority-guard policy/rules;
 - frozen historical benchmark and fixtures;
 - recorded human judgments and batch membership;
 - Phase 1 adapter discovery/detail contracts;
 - Phase 2 lifecycle, completeness, and exact-identity semantics;
-- existing semantic cache records;
-- initial preference-effect mapping during the upcoming retrospective replay.
+- existing semantic cache records.
 
-The next gate is not “tune Luna.”
+The replay must make zero external semantic calls and zero live-source calls.
 
 ## Current gate
 
-> Test whether candidate-market routing, deterministic opportunity clustering,
-> preference representation, and the explicit seniority guard materially improve
-> precision while preserving recall and semantic-cache reuse.
+> Retrospectively measure how much of Live Decision Validation v1's `NO_GO`
+> remains after the frozen Phase 4 deterministic corrections, while preserving
+> human evidence, semantic-v1 assessments, lifecycle state, and zero-call cache
+> reuse.
 
 ## Next intended experiments
 
-1. Approve and commit the bounded seniority guard in `SPEC-005`.
-2. Retrospectively replay the immutable batch using existing semantic
-   assessments wherever semantic inputs are unchanged.
-3. Run a new prospective validation batch.
-4. Only then decide whether `phase3-semantic-v2` is justified.
+1. Execute the frozen Phase 4 retrospective replay in `SPEC-006`.
+2. Review residual disagreements and gate results without retuning the replay.
+3. Decide the design and size of a new prospective validation batch.
+4. Only after prospective evidence decide whether `phase3-semantic-v2` is
+   justified.
 
 ## Known blockers and open decisions
 
 - Decide whether manual opportunity-cluster overrides are needed only after the
   deterministic clustering results are adjudicated further.
-- Choose the prospective Phase 4 batch size and stopping rule.
+- Choose the prospective Phase 4 batch size and stopping rule after reviewing
+  the retrospective result.
 - Confirm repository privacy before tracking raw candidate judgment notes.
 - Choose a durable private backup/retention policy for operational SQLite and
   local judgment evidence.
@@ -225,7 +229,7 @@ Repository inspection on 2026-09-04 found:
   postings, including the four Kiwi Inventory variants with Prague preferred,
   and kept the all-out-of-scope WPP Growth Consulting cluster out of the
   shortlist;
-- current seniority-guard worktree validates with 193 passing offline tests and
+- seniority-guard implementation validates with 193 passing offline tests and
   18 live tests deselected;
 - two intentionally retained interrupted historical `RUNNING` rows.
 
@@ -233,7 +237,8 @@ These counts are time-bound observations, not hand-maintained runtime truth.
 
 ## Explicitly do not change yet
 
-- Do not tune the semantic prompt, model, reasoning effort, or Phase 3 weights.
+- Do not tune the semantic prompt, model, reasoning effort, Phase 3 weights, or
+  frozen Phase 4 decision policies during retrospective replay.
 - Do not rewrite Phase 1 adapters or Phase 2 lifecycle logic.
 - Do not merge `JobInstance` records to solve opportunity identity.
 - Do not invalidate or overwrite existing assessments/judgments.
