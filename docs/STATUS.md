@@ -7,20 +7,21 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-008-prospective-validation-design.md
+specs/phase4/SPEC-009-fresh-state-refresh-prospective-preflight.md
 ```
 
-Status: `IMPLEMENTED_AWAITING_APPROVAL`.
+Status: `APPROVED_FOR_EXECUTION`.
 
-Implementation agents must follow this pointer rather than infer work from file
-recency. Before starting, verify the local working tree is clean and synchronize
-with `origin/main` when safe. If unexplained changes, divergence, or conflicts
-exist, stop and report them rather than overwriting or improvising.
+Implementation/operations agents must follow this pointer rather than infer work
+from file recency. Before starting, verify the local working tree is clean and
+synchronize with `origin/main` when safe. If unexplained changes, divergence, or
+conflicts exist, stop and report them rather than overwriting or improvising.
 
 The development authority boundary remains:
 
-- agents may inspect, analyze, implement, and validate an approved work packet;
-- implementation remains uncommitted while awaiting human/ChatGPT review;
+- agents may inspect, analyze, implement, validate, and perform explicitly
+  approved bounded internal operations;
+- implementation changes remain uncommitted while awaiting human/ChatGPT review;
 - after explicit approval, the implementation agent may commit and push;
 - humans approve decisions and promotion boundaries rather than perform Git
   plumbing manually;
@@ -45,14 +46,13 @@ Phases 1–3 are implemented. Phase 4 has committed implementations for:
 - versioned taxonomy-backed decision preferences and bounded effects;
 - explicit junior/graduate seniority guard;
 - frozen offline retrospective replay tooling and sanitized experiment evidence;
-- bounded Texas/California market-composition correction and residual diagnostics.
+- bounded Texas/California market-composition correction and residual diagnostics;
+- frozen prospective validation protocol and deterministic preparation/preflight
+  tooling.
 
-The original Live Decision Validation and subsequent retrospective experiments
-remain immutable historical evidence. SPEC-008 now implements the prospective
-validation preparation layer: a frozen protocol, deterministic cluster sampler,
-historical-overlap exclusion, employer caps, semantic cache/cost preflight,
-private blind-review preview, and predeclared metric/stopping functions. It has
-not created a prospective batch or collected new judgments.
+The prospective protocol is committed at `e69d1fc`. No prospective batch or new
+prospective judgments exist yet. The current packet authorizes a fresh normal
+18-employer state refresh plus a zero-semantic-call prospective preflight only.
 
 ## Historical validation baseline
 
@@ -68,43 +68,57 @@ Live Decision Validation batch `batch-20260826T210045Z-6492b09a`:
 Canonical aggregate evidence remains under
 `output/live_validation/batch-20260826T210045Z-6492b09a/`.
 
-## Frozen Phase 4 retrospective result
+## Phase 4 retrospective evidence
 
-SPEC-006:
+SPEC-006 froze and replayed the 30 cases with zero semantic calls. It produced
+100% human-APPLY attention recall, 50% opportunity-level top-attention
+acceptance, 80.77% opportunity-level ranking agreement, 66.67% terminal APPLY
+acceptance, and 100% preferred-variant agreement for adjudicated variants.
 
-- 30/30 postings accounted for;
-- 30/30 compatible semantic-v1 assessments reused;
-- zero semantic calls and zero live-source calls;
-- 30 postings collapsed to 26 opportunity units;
-- 100% human-APPLY attention recall;
-- 50% opportunity-level top-attention acceptance;
-- 80.77% opportunity-level ranking agreement;
-- 66.67% terminal APPLY acceptance;
-- 100% preferred-variant agreement for adjudicated variants.
+SPEC-007 then fixed one bounded evaluator-composition defect: explicit
+incompatible Texas/California geography is respected even when work mode is
+unspecified. The corrected replay changed exactly one reviewed market
+status/decision, moved the explicit-market gate to PASS, and left recall,
+top-attention acceptance, and ranking agreement unchanged. Reviews 10 and 18
+remain semantic-v1 controls; reviews 13 and 17 remain preference/conviction
+residuals without a justified generic matcher correction; review 23 remains
+appropriately uncertain market access.
 
-The predeclared 60% top-attention gate failed. Detailed replay evidence remains
-private/local; only sanitized aggregate evidence and provenance are tracked.
+Detailed replay evidence remains private/local; repository evidence is sanitized
+aggregate/provenance only.
 
-## Corrected residual diagnostic
+## Prospective validation protocol
 
-SPEC-007 corrected the Texas case through a bounded evaluator-composition fix:
-explicit incompatible geography is now respected even when work mode is
-unspecified. The corrected replay preserved 100% APPLY attention recall, 50%
-top-attention acceptance, and 80.77% ranking agreement while changing exactly
-one reviewed market status/decision. The explicit-market gate moved from FAIL
-to PASS.
+SPEC-008 froze the prospective design before any new human outcomes:
 
-Residual diagnosis after that correction:
+- 40 OpportunityClusters;
+- strata: 15 top attention / 10 decision boundary / 10 low controls / 5 market
+  controls;
+- five frozen reserves per stratum;
+- maximum four normal items per employer;
+- maximum one market control per employer;
+- deterministic seed, fallback order, blind review order, and reserve policy;
+- historical reviewed-member overlap excluded;
+- no human labels influence selection;
+- `NEED_MORE_INFO` remains distinct;
+- no early stopping;
+- unavailable items use same-stratum frozen reserves.
 
-- review 27 — fixed deterministic normalization;
-- reviews 13 and 17 — unrepresented preference/conviction or frozen effect
-  calibration; no generic matcher correction justified;
-- review 23 — correctly uncertain market access, with separate product
-  conviction not represented;
-- reviews 10 and 18 — semantic-v1 residual controls.
+Predeclared gates:
 
-No frozen preference effect or semantic-v1 behavior was tuned to improve the
-retrospective result.
+- human APPLY attention recall: 100%;
+- top-attention acceptance: >=60%;
+- ranking agreement: >=60%;
+- terminal APPLY acceptance: >=60%;
+- market-status agreement: >=90%;
+- preferred-variant agreement: >=80%;
+- confirmed false merges: 0.
+
+The old-snapshot diagnostic preview filled all 40 selections and 20 reserves
+with zero employer-cap relaxations and projected 40/40 + 20/20 compatible
+semantic cache hits. That preview is not prospective evidence. The current
+packet refreshes market state and recomputes this preflight before any semantic
+budget is authorized.
 
 ## Architecture direction
 
@@ -154,7 +168,7 @@ Preferences are time-varying decision state, not immutable personality facts.
 Future interaction evidence may support hypotheses but must not silently mutate
 authoritative preference state.
 
-## Frozen items for prospective validation design
+## Frozen items during SPEC-009
 
 Do not change:
 
@@ -168,78 +182,65 @@ Do not change:
 - clustering contract;
 - seniority guard policy;
 - recommendation thresholds;
+- SPEC-008 prospective protocol, seed, strata, reserves, employer caps, gates,
+  and stopping rules;
 - historical judgments/batch membership;
 - Phase 1 adapter contracts;
 - Phase 2 lifecycle/exact-identity semantics;
 - existing semantic cache records.
 
+SPEC-009 authorizes public employer source retrieval and normal state mutation
+through the committed state runner. It does not authorize semantic calls,
+prospective batch creation, or judgments.
+
 ## Current gate
 
-> Review and approve the frozen prospective protocol and preparation evidence,
-> then commit it before any fresh prospective batch, semantic calls, or human
-> judgments are authorized.
-
-The prospective protocol must separate attention from application intent, sample
-40 opportunity clusters across top, boundary, low-control, and market-control
-strata, constrain employer concentration, freeze reserve/stopping rules, and
-report semantic cache misses/cost before any paid execution is authorized.
+> Refresh the complete 18-employer operational state, rerun the frozen
+> prospective preflight, and stop with an exact semantic-call/cost budget for
+> explicit human authorization.
 
 ## Next intended steps
 
-1. Review and approve SPEC-008 prospective validation preparation.
-2. Freeze/commit the protocol before creating the actual prospective batch.
-3. Perform a fresh state refresh under a separately approved operational packet.
-4. Re-run prospective preflight against that fresh state and review the expected
-   semantic-call and cost budget; explicitly authorize or
-   reject paid execution.
-5. Create the fresh prospective batch and collect 40 cluster-level judgments
-   without early stopping.
+1. Execute SPEC-009 fresh state refresh and prospective preflight.
+2. Review source completeness and the fresh selected/reserve sample composition.
+3. Explicitly approve or reject the reported semantic call count and estimated
+   cost.
+4. Only after approval assess required cache misses and create the immutable
+   prospective batch.
+5. Collect all 40 cluster-level judgments without early stopping.
 6. Evaluate the predeclared gates.
 7. Only then decide whether preference-policy revision or
    `phase3-semantic-v2` is justified.
 
 ## Known open decisions
 
-- Final approval of the SPEC-008 prepared sampling protocol after seeing only
-  population/preflight diagnostics, not human outcomes.
-- Semantic-call/cost budget for the later prospective execution.
+- Semantic-call/cost budget for prospective execution, pending fresh preflight.
 - Whether manual opportunity-cluster overrides are needed after prospective
   cluster adjudication.
 - Durable private backup/retention for SQLite, raw judgments, and detailed
   review evidence.
 - Bounded semantic-call authority available to future agents.
 
-## SPEC-008 diagnostic preview
-
-The read-only preview `phase4-prospective-preview-20260905-v4` used the existing
-operational snapshot and is explicitly **not** the prospective batch. It found
-394 active detailed clusters, excluded 26 clusters overlapping the 30 reviewed
-historical postings, filled the frozen 15/10/10/5 strata with no employer-cap
-relaxation, and froze five reserves per stratum. All 40 selected previews and
-20 reserves were compatible semantic-cache hits, so this snapshot projected
-zero semantic calls and zero cost. A fresh post-commit state may change that
-preflight and requires a new approval. Only the sanitized aggregate receipt is
-repository-safe; detailed items and the blind review remain private/local.
-
 ## Operational health snapshot
 
-Last recorded repository evidence includes:
+Last committed/preparation evidence before the fresh refresh includes:
 
 - SQLite schema version 3;
-- 431 active and 1 closed persisted job instances at the prior operational
-  snapshot;
+- 431 active and 1 closed persisted job instances at the prior snapshot;
 - 406 Luna/low/semantic-v1 assessments at that snapshot;
 - broad routing diagnostic after SPEC-007: 56 `IN_SCOPE`, 253 `UNCERTAIN`, 97
   `OUT_OF_SCOPE`, with all 309 semantically processable jobs cache-compatible;
 - clustering replay: 394 clusters from 406 assessed postings and a 315-cluster
   normal shortlist;
-- SPEC-007 validated with 216 offline tests and 18 live tests deselected;
+- SPEC-008 old-snapshot preview: 394 active detailed clusters, 26 historical
+  overlap exclusions, 40/40 selected and 20/20 reserves filled, zero employer
+  cap relaxations, zero projected semantic calls/cost;
 - SPEC-008 preparation validated with 232 offline tests and 18 live tests
-  deselected, with no live-source or semantic-model calls.
+  deselected.
 
 These are time-bound observations, not hand-maintained runtime truth.
 
-## Explicitly do not build yet
+## Explicitly do not build/tune yet
 
 - semantic prompt/model/weight tuning;
 - retrospective preference-effect tuning;
