@@ -7,7 +7,7 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-010-prospective-sampling-cache-fix.md
+specs/phase4/SPEC-011-semantic-compute-allocation-audit.md
 ```
 
 Status: `APPROVED_FOR_IMPLEMENTATION`.
@@ -36,162 +36,126 @@ state, and explain which active opportunities deserve a candidate's attention.
 
 ## Current phase
 
-Phases 1–3 are implemented. Phase 4 has committed implementations for:
+Phases 1–3 are implemented. Phase 4 has committed implementations for candidate
+market access/routing, high-confidence opportunity clustering, preferred variant,
+versioned decision preferences, seniority guard, retrospective replay, residual
+market normalization, and the frozen prospective validation protocol.
 
-- versioned candidate market-access policy;
-- post-detail `CurrentCandidateMarketStatus`;
-- candidate-market routing and `UNCERTAIN -> REVIEW` cap;
-- high-confidence employer-scoped opportunity clustering;
-- candidate-dependent preferred variant;
-- versioned taxonomy-backed decision preferences and bounded effects;
-- explicit junior/graduate seniority guard;
-- frozen offline retrospective replay tooling and sanitized experiment evidence;
-- bounded Texas/California market-composition correction and residual diagnostics;
-- frozen prospective validation protocol and deterministic preparation/preflight
-  tooling.
+SPEC-009 then executed the first unrestricted fresh 18-employer state refresh.
+The refreshed operational state is complete and valid, but it exposed a product
+architecture issue before prospective semantic spending: the current fresh
+market contains thousands of routed semantic cache misses, while the frozen
+rank-based sampler cannot rank those misses without first assessing them.
 
-SPEC-009 completed a fresh normal 18-employer operational refresh with all
-sources successful and complete, then stopped at the prospective semantic-budget
-boundary. The refresh itself is valid. It exposed a preparation defect: current
-rank-based sampling filters to compatible semantic-cache hits, so the nominal
-40+20 zero-call sample is cache-biased and cannot be used as a prospective cost
-or validation sample. SPEC-010 corrects only that preparation layer and the
-mutable-operational-state-coupled replay test before any semantic spend.
+SPEC-010 correctly stopped with `PROTOCOL CONFLICT — HUMAN DECISION REQUIRED`
+rather than silently biasing the sample toward cached jobs or changing the
+frozen protocol.
+
+The current approved work is therefore a semantic compute-allocation audit. No
+Luna spend is authorized.
+
+## Fresh operational state from SPEC-009
+
+Run `07c036f3-c512-4469-ada6-fe57bf9d337b`:
+
+- status: `COMPLETED`;
+- 18/18 sources successful and complete;
+- inventory: 16,490;
+- selected for detail: 3,949;
+- intentionally skipped: 12,541;
+- details fetched successfully: 3,949;
+- detail failures: 0;
+- network detail requests: 3,064;
+- active jobs after refresh: 3,977;
+- closed jobs: 120;
+- active jobs with usable semantic detail: 3,935;
+- existing semantic assessments remain 406;
+- 23 previously known jobs materially changed and therefore no longer have a
+  compatible semantic cache for current content.
+
+All previously successful details were older than the 168-hour refresh interval,
+so no selected details were reused during this refresh. JSON-feed and Phenom
+sources retained their zero-network-detail advantage.
+
+## Fresh prospective preflight finding
+
+The fresh state contains:
+
+- 3,870 active opportunity clusters;
+- 3,326 normal candidate clusters before historical exclusion;
+- 3,315 normal candidates after historical exclusion;
+- market distribution: 144 `IN_SCOPE`, 3,182 `UNCERTAIN`, 544 `OUT_OF_SCOPE`;
+- semantic cache: 264 compatible hits, 3,606 misses across the active cluster
+  population;
+- approximately 3,109 routed post-historical-exclusion cache misses relevant to
+  the normal prospective population.
+
+The frozen SPEC-008 sampler mechanically produced 40 selected + 20 reserves and
+reported zero calls only because its rank-based candidate preparation admitted
+semantic cache hits before sampling. This is cache-availability selection bias
+and is not a valid prospective call budget.
+
+Removing the cache-hit filter alone cannot solve the problem because the frozen
+TOP/REVIEW/LOW strata require semantic score/recommendation values that cache
+misses do not yet have. Full protocol-v1 population completion would require
+approximately 3,109 Luna calls at an estimated cost around $8.24.
+
+## Why the full semantic spend is deferred
+
+The ~$8 bootstrap cost is financially modest but exposes a more important
+product question. Opportunity Radar should not assume that every plausible
+vacancy deserves the same expensive reasoning merely so a small attention set
+can be ranked.
+
+The desired architecture is closer to:
+
+```text
+complete market observation
+  -> cheap deterministic scope/triage
+  -> bounded plausible/uncertain opportunity set
+  -> expensive semantic reasoning where decision value justifies it
+  -> ranked human attention
+```
+
+The current packet tests how far pre-semantic evidence can reduce the ~3,109
+routed cache misses without losing known human-APPLY opportunities. It must not
+use cache availability as a relevance feature and must not call an external
+model.
 
 ## Historical validation baseline
 
-Live Decision Validation batch `batch-20260826T210045Z-6492b09a`:
+Live Decision Validation batch `batch-20260826T210045Z-6492b09a` remains
+immutable historical evidence:
 
-- reviewed: 30/30;
-- verdict: `NO_GO`;
-- strict APPLY recall: 100%;
-- shortlist APPLY recall: 100%;
-- top-attention acceptance: 35%;
-- ranking agreement: 40%.
+- 30/30 reviewed;
+- verdict `NO_GO`;
+- strict/shortlist APPLY recall 100%;
+- top-attention acceptance 35%;
+- ranking agreement 40%.
 
-Canonical aggregate evidence remains under
-`output/live_validation/batch-20260826T210045Z-6492b09a/`.
-
-## Phase 4 retrospective evidence
-
-SPEC-006 froze and replayed the 30 cases with zero semantic calls. It produced
-100% human-APPLY attention recall, 50% opportunity-level top-attention
-acceptance, 80.77% opportunity-level ranking agreement, 66.67% terminal APPLY
-acceptance, and 100% preferred-variant agreement for adjudicated variants.
-
-SPEC-007 fixed one bounded evaluator-composition defect: explicit incompatible
-Texas/California geography is respected even when work mode is unspecified. The
-corrected replay changed exactly one reviewed market status/decision, moved the
-explicit-market gate to PASS, and left recall, top-attention acceptance, and
-ranking agreement unchanged. Reviews 10 and 18 remain semantic-v1 controls;
-reviews 13 and 17 remain preference/conviction residuals without a justified
-generic matcher correction; review 23 remains appropriately uncertain market
-access.
-
-Detailed replay evidence remains private/local; repository evidence is sanitized
-aggregate/provenance only.
+Phase 4 retrospective replay with frozen semantic-v1 improved opportunity-level
+ranking agreement to 80.77% and top-attention acceptance to 50% while preserving
+100% APPLY attention recall. SPEC-007 fixed the explicit Texas market defect
+without changing those metrics. Reviews 10 and 18 remain semantic-v1 controls;
+reviews 13/17 are preference/conviction residuals; review 23 remains appropriate
+market uncertainty.
 
 ## Prospective validation protocol
 
-SPEC-008 froze the prospective design before any new human outcomes:
+SPEC-008 v1 remains frozen historical protocol evidence:
 
 - 40 OpportunityClusters;
-- strata: 15 top attention / 10 decision boundary / 10 low controls / 5 market
-  controls;
-- five frozen reserves per stratum;
-- maximum four normal items per employer;
-- maximum one market control per employer;
-- deterministic seed, fallback order, blind review order, and reserve policy;
-- historical reviewed-member overlap excluded;
-- no human labels influence selection;
-- `NEED_MORE_INFO` remains distinct;
-- no early stopping;
-- unavailable items use same-stratum frozen reserves.
+- strata 15 top / 10 boundary / 10 low / 5 market controls;
+- five reserves per stratum;
+- employer caps;
+- deterministic seed/fallback/blind order;
+- historical overlap exclusion;
+- no early stopping.
 
-Predeclared gates remain:
-
-- human APPLY attention recall: 100%;
-- top-attention acceptance: >=60%;
-- ranking agreement: >=60%;
-- terminal APPLY acceptance: >=60%;
-- market-status agreement: >=90%;
-- preferred-variant agreement: >=80%;
-- confirmed false merges: 0.
-
-The old-snapshot SPEC-008 preview was not prospective evidence. SPEC-009 now
-provides the fresh operational state needed for the real preflight.
-
-## SPEC-009 fresh operational state
-
-Fresh refresh run `07c036f3-c512-4469-ada6-fe57bf9d337b`:
-
-- status `COMPLETED`;
-- 18/18 configured sources `SUCCESS` and complete;
-- inventory 16,490;
-- selected details 3,949;
-- intentional skips 12,541;
-- details fetched 3,949;
-- detail failures 0;
-- network detail requests 3,064;
-- reused details 0 because previous successful details were older than the
-  configured 168-hour refresh interval;
-- resulting state: 3,977 ACTIVE, 120 CLOSED;
-- 3,935 ACTIVE jobs with usable semantic title/description;
-- semantic assessments remained 406 because semantic calls were not authorized.
-
-The refresh inferred 3,665 newly discovered jobs, 119 newly closed jobs, and 23
-materially changed jobs. Lifecycle inference was valid because all source
-inventories were complete.
-
-Fresh clustering/preflight population:
-
-- 3,870 active OpportunityClusters;
-- 3,326 normal candidate clusters before historical exclusion;
-- 3,315 normal candidates after exclusion;
-- market distribution 144 `IN_SCOPE`, 3,182 `UNCERTAIN`, 544 `OUT_OF_SCOPE`;
-- compatible semantic cache hits 264;
-- cache misses 3,606;
-- full current routed semantic workload diagnostic 3,110 calls, estimated
-  approximately $8.24, but full-population spending is not authorized or needed
-  for the prospective experiment.
-
-## Current prospective blocker
-
-The frozen sampler mechanically returned 40 selected + 20 reserves with all 60
-as cache hits, but this was caused by preparation filtering cache misses out of
-the rank-based eligible population. Roughly 3,109 post-historical-exclusion
-normal-route misses were silently absent from rank-based selection. Cache
-availability therefore became a selection predicate.
-
-In addition, 21/40 nominal selected items lacked a current recomputed
-recommendation/tier even though their semantic-v1 payload remained compatible.
-Current deterministic Phase 4 decisions need to be recomposed from current
-observations/policies plus reusable semantic payloads rather than relying on
-stale persisted decision fields.
-
-SPEC-010 must fix these issues without changing the frozen sampling protocol or
-making semantic calls. If semantic rank is mathematically required to assign a
-cache miss to a frozen stratum and the protocol cannot support unbiased
-selection without amendment, implementation must stop with `PROTOCOL CONFLICT —
-HUMAN DECISION REQUIRED` rather than silently altering SPEC-008.
-
-## Architecture direction
-
-```text
-complete inventory
-  -> retrieval scope
-  -> detail state
-  -> current-candidate market status
-  -> hard eligibility
-  -> opportunity clustering / preferred variant
-  -> semantic assessment
-  -> preference-aware decision policy
-  -> seniority guard
-  -> deterministic composite / shortlist
-```
-
-These stages are implemented. Prospective preparation must distinguish semantic
-cache/execution state from sampling eligibility.
+Its predeclared gates remain unchanged. The protocol is **not** being silently
+modified during SPEC-011. The audit will recommend whether to pay for full v1
+population completion, create a separately versioned v2 compute-allocation
+protocol, or run another bounded experiment first.
 
 ## Confirmed candidate policy
 
@@ -220,10 +184,8 @@ aggregate cap   -> [-1.0, +1.0]
 ```
 
 Preferences are time-varying decision state, not immutable personality facts.
-Future interaction evidence may support hypotheses but must not silently mutate
-authoritative preference state.
 
-## Frozen items during SPEC-010
+## Frozen items during SPEC-011
 
 Do not change:
 
@@ -237,69 +199,62 @@ Do not change:
 - clustering contract;
 - seniority guard policy;
 - recommendation thresholds;
-- SPEC-008 prospective protocol, seed, strata, reserves, employer caps, gates,
-  and stopping rules;
+- SPEC-008 prospective protocol v1;
 - historical judgments/batch membership;
 - Phase 1 adapter contracts;
 - Phase 2 lifecycle/exact-identity semantics;
-- existing semantic cache payloads.
+- existing semantic cache records.
 
-SPEC-010 authorizes no live-source refresh and no semantic-model calls. It may
-use the refreshed local SQLite state from SPEC-009 for zero-call preflight.
+No semantic calls or live refresh are authorized in SPEC-011.
 
 ## Current gate
 
-> Produce an unbiased zero-call prospective preflight in which semantic cache
-> status is budget evidence rather than a sampling predicate, then stop with the
-> exact selected and reserve semantic-call/cost budget for explicit approval.
+> Determine whether a cheap, interpretable, cache-blind compute-allocation
+> funnel can reduce the current ~3,109 routed semantic misses by roughly 80–95%
+> while preserving all known human-APPLY opportunities, and define the smallest
+> prospective experiment that can test this safely.
+
+Historical APPLY recall is a necessary but insufficient condition because the
+review corpus is small and biased. No compute-allocation policy is promoted from
+this audit alone.
 
 ## Next intended steps
 
-1. Execute SPEC-010 preparation correction and zero-call fresh preflight.
-2. If the frozen protocol is compatible, review the exact selected semantic-call
-   count/cost plus reserve contingency.
-3. Explicitly approve or reject semantic execution.
-4. Only after approval assess selected cache misses and create the immutable
-   prospective batch.
-5. Collect all 40 cluster-level judgments without early stopping.
-6. Evaluate the predeclared gates.
-7. Only then decide whether preference-policy revision or
-   `phase3-semantic-v2` is justified.
+1. Execute SPEC-011 semantic compute-allocation audit with zero external calls.
+2. Review population reduction, historical recall, projected calls/cost, and
+   exploration safeguards.
+3. Decide whether to:
+   - complete semantic population under prospective protocol v1;
+   - freeze a separately versioned cache-blind compute-allocation protocol v2;
+   - or run another bounded experiment first.
+4. Only then authorize semantic spend.
+5. Prospective human validation remains the evidence needed before semantic-v1
+   or preference-policy tuning.
 
 ## Known open decisions
 
-- Exact semantic-call/cost budget for prospective execution, pending SPEC-010.
-- Any protocol amendment only if SPEC-010 proves semantic rank makes cache-miss
-  sampling impossible under the frozen design.
+- Compute-allocation architecture and prospective protocol version after audit.
+- Semantic-call/cost budget after an unbiased bounded frame exists.
 - Whether manual opportunity-cluster overrides are needed after prospective
   cluster adjudication.
 - Durable private backup/retention for SQLite, raw judgments, and detailed
   review evidence.
 - Bounded semantic-call authority available to future agents.
 
-## Operational health snapshot
+## Operational/test note
 
-Current local operational evidence after SPEC-009:
-
-- SQLite schema version 3;
-- 3,977 ACTIVE and 120 CLOSED jobs;
-- 3,935 ACTIVE jobs with usable semantic detail;
-- 406 persisted semantic-v1 assessments;
-- 3,870 active clusters;
-- 264 compatible cache hits and 3,606 misses across the fresh population;
-- zero semantic calls during SPEC-009;
-- zero prospective batch/judgments created.
-
-The full offline suite after the refresh reported 231 passed, one failed, and 18
-live tests deselected. The one failure is a retrospective residual-diagnostic
-test coupled to the old mutable operational population of 406 assessable ACTIVE
-jobs. SPEC-010 must move that expectation to frozen fixture/evidence without
-weakening the original bounded/read-only/zero-call assertion.
+SPEC-009's fresh mutable operational database invalidated one retrospective test
+that hard-coded the old 406-job active population. SPEC-011 must move that
+assertion onto frozen retrospective fixture evidence rather than weakening the
+invariant or mutating current operational state.
 
 ## Explicitly do not build/tune yet
 
 - semantic prompt/model/weight tuning;
 - retrospective preference-effect tuning;
+- cheap secondary LLM routing;
+- embeddings/vector search;
+- learned ranking/ML infrastructure;
 - fuzzy/probabilistic clustering;
 - autonomous preference learning;
 - UI/feed/control panel;
