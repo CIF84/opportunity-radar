@@ -6,10 +6,10 @@ constraints; operational counts are derived by `opportunity-radar-status`.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-004-decision-preferences.md
+specs/phase4/SPEC-005-seniority-guard.md
 ```
 
-Status: `IMPLEMENTED_AWAITING_APPROVAL`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation agents should follow this pointer rather than infer work from
 filename recency. Before starting an approved packet, verify the local working
@@ -38,8 +38,10 @@ have passed bounded validation. The first Live Decision Validation is complete.
 
 Phase 4 market-access representation, current-candidate market assessment,
 routing, high-confidence opportunity clustering, preferred-variant selection,
-and the versioned decision-preference effect layer are implemented. The latest
-slice is awaiting approval and is not yet committed. No retrospective Phase 4 replay, autonomous preference learning,
+and the versioned decision-preference effect layer are implemented and committed.
+The remaining deterministic correction before retrospective replay is the
+candidate-configurable junior/graduate seniority guard in the current approved
+work packet. No retrospective Phase 4 replay, autonomous preference learning,
 semantic-v2, or external-action behavior is implemented yet.
 
 ## Last validated state
@@ -71,11 +73,12 @@ policy in `OPERATING_MODEL.md`.
   Consulting variants while preserving independent JobInstances.
 - Candidate preferences around execution authority, functional/domain
   attraction, employer/industry conviction, and learning upside now have a
-  versioned, taxonomy-backed, soft-effect representation. Retrospective evidence
-  has not yet validated its ranking impact.
+  versioned, taxonomy-backed, bounded soft-effect representation.
 - Candidate preference is expected to change over time. Future interaction
   evidence may support preference hypotheses, but must not silently mutate
   authoritative preference state.
+- An explicit junior/graduate role still needs a deterministic candidate-level
+  recommendation cap before the retrospective Phase 4 replay is frozen.
 - Retrieval scope is a detail-cost policy. It is not candidate eligibility.
 
 ## Architecture direction
@@ -89,12 +92,13 @@ complete inventory
   -> opportunity clustering / preferred variant
   -> semantic assessment
   -> preference-aware decision policy
+  -> seniority guard
   -> deterministic composite / shortlist
 ```
 
 All stages through preference-aware decision effects and the existing Phase 3
-semantic/base-decision contracts are implemented. Seniority-guard behavior and
-retrospective replay remain later, separate work.
+semantic/base-decision contracts are implemented. The seniority guard is the
+current bounded implementation slice; retrospective replay remains separate.
 
 ## Confirmed Phase 4 candidate policy
 
@@ -147,8 +151,8 @@ Preferences primarily modify ranking rather than act as binary eligibility.
 They are time-varying/versioned decision policy, not immutable personality
 facts. Preference state and the numeric preference-effect policy are separate.
 
-The current approved experiment will freeze this initial deterministic mapping
-before retrospective replay:
+The currently frozen deterministic mapping for the upcoming retrospective replay
+is:
 
 ```text
 STRONG_POSITIVE -> +0.4
@@ -182,12 +186,12 @@ The next gate is not “tune Luna.”
 ## Current gate
 
 > Test whether candidate-market routing, deterministic opportunity clustering,
-> and preference representation materially improve precision while preserving
-> recall and semantic-cache reuse.
+> preference representation, and the explicit seniority guard materially improve
+> precision while preserving recall and semantic-cache reuse.
 
 ## Next intended experiments
 
-1. Approve and commit the bounded `SPEC-004` implementation.
+1. Implement and validate the bounded seniority guard in `SPEC-005`.
 2. Retrospectively replay the immutable batch using existing semantic
    assessments wherever semantic inputs are unchanged.
 3. Run a new prospective validation batch.
@@ -212,9 +216,6 @@ Repository inspection on 2026-09-04 found:
   `PARTIAL`, with all 18 source observations `SUCCESS`;
 - 431 active and 1 closed persisted job instances;
 - 406 Luna / low / semantic-v1 assessments;
-- operational SQLite contains candidate `roman_christov` version 1; repository
-  configuration is version 2 with separately fingerprinted Phase 4 market-access
-  additions;
 - latest routing preflight over 406 usable detailed active jobs produced 56
   `IN_SCOPE`, 265 `UNCERTAIN`, and 85 `OUT_OF_SCOPE`; all 321 semantically
   processable jobs were compatible cache hits, requiring zero external calls;
@@ -223,8 +224,9 @@ Repository inspection on 2026-09-04 found:
   postings, including the four Kiwi Inventory variants with Prague preferred,
   and kept the all-out-of-scope WPP Growth Consulting cluster out of the
   shortlist;
-- two intentionally retained interrupted historical `RUNNING` rows;
-- current worktree offline validation: 171 passed, 18 live tests deselected.
+- latest committed preference implementation validated with 171 passing offline
+  tests and 18 live tests deselected;
+- two intentionally retained interrupted historical `RUNNING` rows.
 
 These counts are time-bound observations, not hand-maintained runtime truth.
 
