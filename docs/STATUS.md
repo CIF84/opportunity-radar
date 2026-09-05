@@ -7,10 +7,10 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-011-semantic-compute-allocation-audit.md
+specs/phase4/SPEC-012-semantic-compute-worthiness-human-validation.md
 ```
 
-Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is clean and
@@ -39,51 +39,72 @@ state, and explain which active opportunities deserve a candidate's attention.
 Phases 1–3 are implemented. Phase 4 has committed implementations for candidate
 market access/routing, high-confidence opportunity clustering, preferred variant,
 versioned decision preferences, seniority guard, retrospective replay, residual
-market normalization, and the frozen prospective validation protocol.
+market normalization, frozen prospective validation preparation, and semantic
+compute-allocation audit tooling.
 
-SPEC-009 then executed the first unrestricted fresh 18-employer state refresh.
-The refreshed operational state is complete and valid, but it exposed a product
-architecture issue before prospective semantic spending: the current fresh
-market contains thousands of routed semantic cache misses, while the frozen
-rank-based sampler cannot rank those misses without first assessing them.
+SPEC-009 executed the first unrestricted fresh 18-employer state refresh.
+SPEC-010 correctly stopped when the frozen rank-based prospective protocol was
+found to require semantic assessment before unbiased sampling. SPEC-011 then
+audited whether cheap deterministic evidence could solve that allocation problem.
+It could not do so safely enough to promote a runtime policy.
 
-SPEC-010 correctly stopped with `PROTOCOL CONFLICT — HUMAN DECISION REQUIRED`
-rather than silently biasing the sample toward cached jobs or changing the
-frozen protocol.
-
-SPEC-011 has now been implemented locally as a read-only semantic
-compute-allocation audit. No Luna spend was authorized or used.
+The current packet prepares a new, bounded human experiment: label whether deep
+semantic reasoning is **worth spending** on 60 cache-blind opportunity clusters.
+It does not call Luna and does not modify the frozen SPEC-008 prospective
+protocol.
 
 ## SPEC-011 audit result
 
-Run `semantic-allocation-audit-20260905-v3` evaluated the 3,315 routed,
-post-historical-exclusion clusters against five simple cache-blind allocation
-scenarios and the five frozen human-APPLY opportunity units.
+Run `semantic-allocation-audit-20260905-v3`:
 
-- Baseline: 3,109 projected Luna calls, approximately `$8.2367`.
-- Deterministic routing removes no additional clusters because it is already
-  reflected in the routed baseline.
-- Conservative obvious-role-family deferral retains all 5/5 historical APPLY
-  units but removes only 27 clusters: 3,086 projected calls, `$8.1757`.
-- Title-positive priority reduces the frame to 512 clusters / 489 projected
-  calls, but retains only 3/5 historical APPLY units.
-- Description-assisted positive evidence covers 85.1% of the population, still
-  misses one historical APPLY unit, and leaves 2,701 projected calls.
-- A 10% deterministic exploration scenario around title priority retains only
-  3/5 historical APPLY units in this frozen draw.
-- No audited policy reaches 1,000, 500, 250, or 100 calls while preserving all
-  historical human-APPLY opportunities.
+- routed post-historical-exclusion clusters: 3,315;
+- compatible cache hits: 206;
+- semantic cache misses: 3,109;
+- full semantic completion projection: ~$8.2367;
+- conservative obvious-role-family deferral: 3,086 calls / ~$8.1757 while
+  preserving 5/5 historical human-APPLY units;
+- title-positive priority: 489 calls / ~$1.2955 but only 3/5 historical APPLY
+  units retained;
+- description-assisted lexical positive evidence: 2,701 calls / ~$7.1558 and
+  only 4/5 historical APPLY units retained;
+- title priority plus 10% deterministic exploration: 754 calls / ~$1.9976 and
+  only 3/5 historical APPLY units retained.
 
-The audit therefore does **not** justify promoting a compute-allocation policy
-or silently replacing prospective protocol v1. It supports a further bounded,
-cache-blind human compute-worthiness labeling experiment before protocol v2.
-Full protocol-v1 population completion remains an explicit alternative if the
-human prioritizes immediate prospective validation over allocation learning.
+No audited interpretable policy reached <=1,000, <=500, <=250, or <=100 calls
+while retaining all known historical human-APPLY opportunity units. Therefore
+no compute-allocation policy was promoted.
 
-The audit also recomposed all 247 post-exclusion compatible cached semantic
-payloads into current deterministic Phase 4 decisions without rewriting cache
-evidence or making external calls. The formerly mutable 406-job residual-test
-expectation now lives in a frozen sanitized fixture.
+The unpromoted audit triage distribution was:
+
+```text
+SEMANTIC_PRIORITY  512
+SEMANTIC_OPTIONAL  2,776
+SEMANTIC_DEFER     27
+```
+
+Cache status is not an input to this triage.
+
+SPEC-011 also proved that compatible cached semantic payloads can be recomposed
+against current market/preference/seniority/scoring policy with zero external
+calls and without rewriting semantic evidence.
+
+## Why SPEC-012 exists
+
+The next uncertainty is no longer “can we invent more keywords?” It is whether
+the cheap triage categories correspond to the human judgment that matters for
+compute allocation:
+
+> Would deeper AI reasoning on this opportunity be worth the compute before
+> deciding whether it deserves attention?
+
+SPEC-012 freezes a 60-opportunity human labeling experiment across PRIORITY,
+OPTIONAL, and DEFER. This evidence can tell us whether deterministic triage is
+worth further development, whether a cheap learned/model-based screen is
+justified, or whether full Luna assessment is simpler and safer at current
+scale/cost.
+
+These labels are experiment evidence, not APPLY/DONT_APPLY judgments and not
+automatic preference updates.
 
 ## Fresh operational state from SPEC-009
 
@@ -93,70 +114,17 @@ Run `07c036f3-c512-4469-ada6-fe57bf9d337b`:
 - 18/18 sources successful and complete;
 - inventory: 16,490;
 - selected for detail: 3,949;
-- intentionally skipped: 12,541;
-- details fetched successfully: 3,949;
-- detail failures: 0;
-- network detail requests: 3,064;
 - active jobs after refresh: 3,977;
 - closed jobs: 120;
 - active jobs with usable semantic detail: 3,935;
-- existing semantic assessments remain 406;
-- 23 previously known jobs materially changed and therefore no longer have a
-  compatible semantic cache for current content.
+- existing semantic assessments: 406.
 
-All previously successful details were older than the 168-hour refresh interval,
-so no selected details were reused during this refresh. JSON-feed and Phenom
-sources retained their zero-network-detail advantage.
-
-## Fresh prospective preflight finding
-
-The fresh state contains:
-
-- 3,870 active opportunity clusters;
-- 3,326 normal candidate clusters before historical exclusion;
-- 3,315 normal candidates after historical exclusion;
-- market distribution: 144 `IN_SCOPE`, 3,182 `UNCERTAIN`, 544 `OUT_OF_SCOPE`;
-- semantic cache: 264 compatible hits, 3,606 misses across the active cluster
-  population;
-- approximately 3,109 routed post-historical-exclusion cache misses relevant to
-  the normal prospective population.
-
-The frozen SPEC-008 sampler mechanically produced 40 selected + 20 reserves and
-reported zero calls only because its rank-based candidate preparation admitted
-semantic cache hits before sampling. This is cache-availability selection bias
-and is not a valid prospective call budget.
-
-Removing the cache-hit filter alone cannot solve the problem because the frozen
-TOP/REVIEW/LOW strata require semantic score/recommendation values that cache
-misses do not yet have. Full protocol-v1 population completion would require
-approximately 3,109 Luna calls at an estimated cost around $8.24.
-
-## Why the full semantic spend is deferred
-
-The ~$8 bootstrap cost is financially modest but exposes a more important
-product question. Opportunity Radar should not assume that every plausible
-vacancy deserves the same expensive reasoning merely so a small attention set
-can be ranked.
-
-The desired architecture is closer to:
-
-```text
-complete market observation
-  -> cheap deterministic scope/triage
-  -> bounded plausible/uncertain opportunity set
-  -> expensive semantic reasoning where decision value justifies it
-  -> ranked human attention
-```
-
-The current packet tests how far pre-semantic evidence can reduce the ~3,109
-routed cache misses without losing known human-APPLY opportunities. It must not
-use cache availability as a relevance feature and must not call an external
-model.
+The routed prospective population after historical exclusion contains 3,315
+clusters, of which approximately 3,109 lack compatible semantic-v1 assessment.
 
 ## Historical validation baseline
 
-Live Decision Validation batch `batch-20260826T210045Z-6492b09a` remains
-immutable historical evidence:
+Live Decision Validation v1 remains immutable:
 
 - 30/30 reviewed;
 - verdict `NO_GO`;
@@ -164,16 +132,14 @@ immutable historical evidence:
 - top-attention acceptance 35%;
 - ranking agreement 40%.
 
-Phase 4 retrospective replay with frozen semantic-v1 improved opportunity-level
-ranking agreement to 80.77% and top-attention acceptance to 50% while preserving
-100% APPLY attention recall. SPEC-007 fixed the explicit Texas market defect
-without changing those metrics. Reviews 10 and 18 remain semantic-v1 controls;
-reviews 13/17 are preference/conviction residuals; review 23 remains appropriate
-market uncertainty.
+Phase 4 retrospective replay improved opportunity-level ranking agreement to
+80.77% and top-attention acceptance to 50% while preserving 100% APPLY attention
+recall. The later bounded market correction changed exactly one reviewed market
+decision and moved the explicit-market gate to PASS without tuning semantic-v1.
 
 ## Prospective validation protocol
 
-SPEC-008 v1 remains frozen historical protocol evidence:
+SPEC-008 v1 remains frozen and unchanged:
 
 - 40 OpportunityClusters;
 - strata 15 top / 10 boundary / 10 low / 5 market controls;
@@ -183,10 +149,8 @@ SPEC-008 v1 remains frozen historical protocol evidence:
 - historical overlap exclusion;
 - no early stopping.
 
-Its predeclared gates remain unchanged. The protocol is **not** being silently
-modified during SPEC-011. The audit will recommend whether to pay for full v1
-population completion, create a separately versioned v2 compute-allocation
-protocol, or run another bounded experiment first.
+It remains blocked by the semantic-population/sampling circularity. SPEC-012 is a
+separate experiment and does not silently replace it.
 
 ## Confirmed candidate policy
 
@@ -214,70 +178,72 @@ NEGATIVE        -> -0.3
 aggregate cap   -> [-1.0, +1.0]
 ```
 
-Preferences are time-varying decision state, not immutable personality facts.
-
-## Frozen items during SPEC-011
+## Frozen items during SPEC-012
 
 Do not change:
 
-- model `gpt-5.6-luna`;
-- reasoning effort `low`;
-- semantic contract `phase3-semantic-v1`;
+- Luna / low / `phase3-semantic-v1`;
 - Phase 3 scoring weights;
-- committed market-access policy and market-status rules;
-- candidate preference stances;
-- preference matching/effect mapping;
+- market-access policy and market-status rules;
+- candidate preferences or effect mapping;
 - clustering contract;
-- seniority guard policy;
+- seniority guard;
 - recommendation thresholds;
 - SPEC-008 prospective protocol v1;
+- SPEC-011 triage definition while sampling/labeling;
 - historical judgments/batch membership;
-- Phase 1 adapter contracts;
-- Phase 2 lifecycle/exact-identity semantics;
+- Phase 1/2 contracts;
 - existing semantic cache records.
 
-No semantic calls or live refresh are authorized in SPEC-011.
+No semantic calls or live source calls are authorized.
 
 ## Current gate
 
-> Decide whether to freeze a bounded cache-blind human labeling experiment for
-> semantic compute-worthiness, or explicitly fund full protocol-v1 population
-> completion despite the unresolved long-term allocation architecture.
+> Prepare and then human-label a cache-blind, employer-balanced 60-opportunity
+> sample to test whether `SEMANTIC_PRIORITY / OPTIONAL / DEFER` predicts where
+> deep semantic reasoning is worth spending.
 
-Historical APPLY recall is a necessary but insufficient condition because the
-review corpus is small and biased. No compute-allocation policy is promoted from
-this audit alone.
+Preparation itself must be reviewed and committed before human labels are
+collected.
+
+Directional evidence gates after labeling include:
+
+- DEFER safety >=90% NOT_WORTH among adjudicated DEFER;
+- no more than 2 WORTH items in DEFER;
+- PRIORITY worthiness precision >=60%;
+- NEED_MORE_INFO <=20%;
+- no catastrophic employer-specific blind spot in reviewed evidence.
+
+Passing these gates is necessary but not sufficient for runtime promotion.
 
 ## Next intended steps
 
-1. Review the SPEC-011 aggregate receipt and implementation.
-2. Decide whether to:
-   - complete semantic population under prospective protocol v1;
-   - freeze a bounded cache-blind human compute-worthiness labeling experiment;
-   - or design a separately versioned protocol v2 only after stronger evidence.
-3. Only then authorize semantic spend or a new validation packet.
-4. Prospective human validation remains the evidence needed before semantic-v1
-   or preference-policy tuning.
+1. Execute SPEC-012 preparation with zero external calls.
+2. Review sample construction/privacy and commit the frozen human-labeling
+   protocol before collecting labels.
+3. Human reviews all 60 items without seeing triage/cache/semantic score.
+4. Evaluate compute-worthiness gates and counterfactual economics.
+5. Decide whether to:
+   - test deterministic triage further;
+   - design a cheap learned/model-based screening experiment;
+   - or conclude full semantic assessment is the simpler tradeoff.
+6. Only after that decision revisit SPEC-008 prospective ranking validation.
 
 ## Known open decisions
 
-- Whether to run the recommended bounded human-labeling experiment or fund full
-  v1 semantic completion.
-- Compute-allocation architecture and prospective protocol version after that
-  decision.
-- Semantic-call/cost budget after an unbiased bounded frame exists.
-- Whether manual opportunity-cluster overrides are needed after prospective
-  cluster adjudication.
+- Compute-allocation architecture after the 60-item human experiment.
+- Semantic-call budget after an unbiased allocation policy/frame exists.
+- Whether manual opportunity-cluster overrides are needed after future
+  prospective cluster adjudication.
 - Durable private backup/retention for SQLite, raw judgments, and detailed
   review evidence.
 - Bounded semantic-call authority available to future agents.
 
 ## Operational/test note
 
-The historical 406-job residual-diagnostic expectation is preserved in a
-sanitized frozen test fixture. Current operational-corpus diagnostics continue
-to use the mutable read-only database without treating its size as historical
-truth.
+The historical 406-job residual expectation now lives in frozen sanitized test
+evidence rather than depending on mutable operational database size. Current
+operational diagnostics remain read-only.
 
 ## Explicitly do not build/tune yet
 
