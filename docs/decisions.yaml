@@ -307,3 +307,17 @@ decisions:
     supersedes: []
     related_experiments: [EXP-LIVE-VALIDATION-001]
     affected_contracts: [DecisionPreferences, PreferenceEffectPolicy, decision-preference fingerprint]
+
+  - decision_id: DR-023
+    title: Keep unknown-work-mode geography correction bounded to explicit region evidence
+    status: ACCEPTED
+    decided_at: "2026-09-05"
+    context: SPEC-006 exposed a Texas vacancy that already normalized to the United States but remained uncertain because work mode was unspecified. A broader rule treating every foreign location with unknown work mode as out of scope reduced retrospective human-APPLY recall from 100% to 80%.
+    decision: Recognize only declaratively listed, unambiguous region names as high-confidence country evidence for the unknown-work-mode correction. Treat a complete explicit foreign region location with no remote evidence according to the candidate's outside-location policy; keep other unknown-work-mode foreign evidence conservative until separately validated.
+    evidence: [specs/phase4/SPEC-007-residual-diagnostics-market-normalization.md, output/phase4_replay/phase4-corrected-20260905T113311Z-24695b5f/aggregate_summary.json]
+    alternatives_rejected: [Classify every foreign location with unknown work mode as out of scope, add employer-specific handling, match state-code substrings, build a comprehensive geography engine]
+    assumptions: [Configured region names are unambiguous and matched as whole tokens, remote evidence continues through the existing remote-policy path]
+    consequences: [Texas and California location evidence is reusable across employers, ambiguous regions remain uncertain, future coverage requires explicit evidence and regression validation]
+    supersedes: []
+    related_experiments: [EXP-PHASE4-REPLAY-001, EXP-PHASE4-RESIDUAL-001]
+    affected_contracts: [CurrentCandidateMarketStatus, MarketNormalizationRules]

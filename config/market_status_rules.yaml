@@ -1,4 +1,4 @@
-normalization_version: phase4-market-normalization-v1
+normalization_version: phase4-market-normalization-v2
 
 # Deliberately bounded geography needed by the approved Slice 2 regressions.
 # Short ISO codes are accepted only in structured/positional location slots,
@@ -33,6 +33,13 @@ city_countries:
   Brussels: Belgium
   Barcelona: Spain
   Bratislava: Slovakia
+
+# Deliberately small and limited to unambiguous names needed by observed
+# regressions. Ambiguous names (for example Georgia) stay unresolved without
+# stronger country context.
+region_countries:
+  Texas: United States
+  California: United States
 
 remote_scope_aliases:
   CZECHIA: [Czechia, Czech Republic, "Česká republika"]

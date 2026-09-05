@@ -14,7 +14,7 @@ from opportunity_radar.phase3_config import Phase3ConfigurationError, stable_jso
 from opportunity_radar.phase3_models import CandidateProfile, SemanticJobInput
 
 
-EVALUATOR_VERSION = "phase4-current-candidate-market-v1"
+EVALUATOR_VERSION = "phase4-current-candidate-market-v2"
 
 
 class CurrentCandidateMarketStatus(str, Enum):
@@ -32,6 +32,7 @@ class MarketReasonEffect(str, Enum):
 class MarketReasonCode(str, Enum):
     ACCEPTED_LOCATION_COMPATIBLE = "ACCEPTED_LOCATION_COMPATIBLE"
     FOREIGN_ONSITE_INCOMPATIBLE = "FOREIGN_ONSITE_INCOMPATIBLE"
+    EXPLICIT_FOREIGN_REGION_INCOMPATIBLE = "EXPLICIT_FOREIGN_REGION_INCOMPATIBLE"
     REMOTE_RESIDENCE_CONFIRMED = "REMOTE_RESIDENCE_CONFIRMED"
     REMOTE_COUNTRY_RESTRICTED = "REMOTE_COUNTRY_RESTRICTED"
     REMOTE_ELIGIBILITY_UNKNOWN = "REMOTE_ELIGIBILITY_UNKNOWN"
@@ -94,6 +95,7 @@ class MarketNormalizationRules:
     normalization_version: str
     country_aliases: dict[str, tuple[str, ...]]
     city_countries: dict[str, str]
+    region_countries: dict[str, str]
     remote_scope_aliases: dict[str, tuple[str, ...]]
     incomplete_location_patterns: tuple[str, ...]
     work_mode_patterns: dict[str, tuple[str, ...]]
@@ -139,6 +141,7 @@ def load_market_normalization_rules(path: str | Path) -> MarketNormalizationRule
     raw = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
     required = {
         "normalization_version", "country_aliases", "city_countries",
+        "region_countries",
         "remote_scope_aliases", "incomplete_location_patterns", "work_mode_patterns",
         "remote_compatibility_patterns", "remote_restriction_patterns",
         "authorization_requirement_patterns", "language_requirement_patterns",
@@ -153,6 +156,11 @@ def load_market_normalization_rules(path: str | Path) -> MarketNormalizationRule
         for city, country in raw["city_countries"].items()
     ):
         raise Phase3ConfigurationError("invalid market normalization section: city_countries")
+    if not isinstance(raw["region_countries"], dict) or any(
+        not isinstance(region, str) or not isinstance(country, str)
+        for region, country in raw["region_countries"].items()
+    ):
+        raise Phase3ConfigurationError("invalid market normalization section: region_countries")
     if set(raw["work_mode_patterns"]) != {"onsite", "hybrid", "remote"}:
         raise Phase3ConfigurationError("market work-mode patterns must define onsite, hybrid, remote")
     for section in (
@@ -176,6 +184,7 @@ def load_market_normalization_rules(path: str | Path) -> MarketNormalizationRule
         normalization_version=raw["normalization_version"],
         country_aliases={key: tuple(value) for key, value in raw["country_aliases"].items()},
         city_countries=dict(raw["city_countries"]),
+        region_countries=dict(raw["region_countries"]),
         remote_scope_aliases={key: tuple(value) for key, value in raw["remote_scope_aliases"].items()},
         incomplete_location_patterns=tuple(raw["incomplete_location_patterns"]),
         work_mode_patterns={key: tuple(value) for key, value in raw["work_mode_patterns"].items()},
@@ -206,6 +215,12 @@ def _country_from_value(value: Any, rules: MarketNormalizationRules, *, structur
     for city, country in rules.city_countries.items():
         if _contains(normalized, city):
             return country
+    # Region names are deliberately declarative and bounded. They are matched
+    # as whole tokens, never as state-code-like substrings. Ambiguous region
+    # names are intentionally omitted from configuration.
+    for region, country in rules.region_countries.items():
+        if _contains(normalized, region):
+            return country
     if not structured:
         for part in re.split(r"[,;|/]", raw):
             token = re.sub(r"\+\s*\d+.*$", "", part).strip()
@@ -214,6 +229,17 @@ def _country_from_value(value: Any, rules: MarketNormalizationRules, *, structur
                 if country:
                     return country
     return None
+
+
+def _region_country_from_value(value: Any, rules: MarketNormalizationRules) -> str | None:
+    normalized = _search_text(value)
+    return next(
+        (
+            country for region, country in rules.region_countries.items()
+            if _contains(normalized, region)
+        ),
+        None,
+    )
 
 
 def _city_from_value(value: Any, rules: MarketNormalizationRules) -> str | None:
@@ -314,6 +340,7 @@ def evaluate_current_candidate_market(
     incomplete = bool(incomplete_values)
 
     countries: list[tuple[str, str]] = []
+    explicit_region_evidence_ids: list[str] = []
     for index, location in enumerate(locations):
         raw = location.get("country") or location.get("raw") or location.get("city")
         country = _country_from_value(location.get("country"), rules, structured=True)
@@ -324,6 +351,8 @@ def evaluate_current_candidate_market(
         if country:
             evidence_id = builder.add("location", f"locations[{index}]", raw, country)
             countries.append((country, evidence_id))
+            if _region_country_from_value(location.get("raw"), rules) == country:
+                explicit_region_evidence_ids.append(evidence_id)
 
     accepted_locations = policy.onsite_hybrid["accepted_locations"]
     accepted_matches = [
@@ -461,7 +490,17 @@ def evaluate_current_candidate_market(
             reason(MarketReasonCode.WORKING_HOURS_UNKNOWN, _effect_for_status(policy.remote["working_hours_unspecified"]), (hours_id,), f"remote.working_hours_unspecified={policy.remote['working_hours_unspecified']}")
     else:
         reason(MarketReasonCode.WORK_MODE_UNKNOWN, MarketReasonEffect.SUPPORTS_UNCERTAIN, (mode_id,), "Work mode cannot be established")
-        if not countries:
+        if explicit_region_evidence_ids and not incomplete and not accepted_matches:
+            effect = MarketReasonEffect.SUPPORTS_OUT_OF_SCOPE if policy.onsite_hybrid["outside_accepted_locations"] == "OUT_OF_SCOPE" else MarketReasonEffect.SUPPORTS_UNCERTAIN
+            reason(
+                MarketReasonCode.EXPLICIT_FOREIGN_REGION_INCOMPATIBLE,
+                effect,
+                explicit_region_evidence_ids + [mode_id],
+                "A complete explicit foreign region location has no remote evidence; "
+                f"onsite_hybrid.outside_accepted_locations={policy.onsite_hybrid['outside_accepted_locations']}; "
+                f"relocation.normal_shortlist={policy.relocation['normal_shortlist']}",
+            )
+        elif not countries:
             reason(MarketReasonCode.GEOGRAPHY_UNKNOWN, MarketReasonEffect.SUPPORTS_UNCERTAIN, (mode_id,), "Geography cannot be established")
 
     effects = {item.effect for item in reasons}

@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-007-residual-diagnostics-market-normalization.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_AWAITING_APPROVAL`.
 
 Implementation agents must follow this pointer rather than infer work from file
 recency. Before starting, verify the local working tree is clean and synchronize
@@ -86,16 +86,36 @@ Detailed replay rows and human-readable per-opportunity reports are private
 local evidence and excluded from Git. The repository contains only sanitized
 aggregate evidence, hashes, fingerprints, limitations, and conclusions.
 
+## SPEC-007 corrected retrospective result
+
+Corrected run `phase4-corrected-20260905T113311Z-24695b5f` is a new post-hoc
+diagnostic and does not replace either official v1 or SPEC-006.
+
+- the Texas case changed from `UNCERTAIN` to `OUT_OF_SCOPE`;
+- the frozen explicit-market gate changed from FAIL to PASS;
+- 100% opportunity-level human-APPLY attention recall was preserved;
+- top-attention acceptance remained 50%;
+- ranking agreement remained 80.77%;
+- all 30 semantic-v1 assessments were reused with zero external calls;
+- no preference matcher or preference-effect policy changed;
+- the broad 406-job snapshot changed from 56/265/85 to 56/253/97
+  `IN_SCOPE`/`UNCERTAIN`/`OUT_OF_SCOPE` through 12 explicit Texas/California
+  region cases.
+
+The detailed corrected replay and residual rows remain private/local. The
+tracked aggregate receipt preserves its parent hashes, configuration
+fingerprints, metric deltas, gate transition, limitations, and conclusions.
+
 ## Residual cases to diagnose
 
-Current work focuses on:
+SPEC-007 classified the bounded cases as follows:
 
-- review 27 — Texas market normalization defect;
-- review 13 — advisory/execution preference residual;
-- review 17 — orthopaedics preference residual;
-- review 23 — Klaxoon market uncertainty + preference residual;
-- review 10 — GoodData semantic-v1 control residual;
-- review 18 — EY FP&A semantic-v1 control residual.
+- review 27 — fixed deterministic normalization;
+- reviews 13 and 17 — unrepresented preference/conviction or frozen effect
+  calibration, not a generic matching omission;
+- review 23 — correctly uncertain market access, with separate unrepresented
+  product conviction;
+- reviews 10 and 18 — semantic-v1 residual controls.
 
 The goal is to distinguish deterministic normalization, generic matching,
 appropriate uncertainty, unrepresented preference/conviction, and genuine
@@ -184,18 +204,17 @@ new candidate preferences or convictions.
 
 ## Current gate
 
-> Determine whether the remaining non-semantic replay disagreements are caused
-> by bounded deterministic evidence/matching gaps or by genuinely unresolved
-> policy, then decide whether the architecture is ready for a new prospective
-> Phase 4 validation batch with semantic-v1 still frozen.
+> Design a new prospective, cluster-sampled Phase 4 validation with semantic-v1
+> frozen, predeclared sampling/stopping rules, and separate attention and
+> application-intent judgments.
 
 ## Next intended steps
 
-1. Execute SPEC-007 and rerun a clearly labeled corrected retrospective offline.
-2. Review residual classification without retuning the result.
-3. If ready, predeclare a prospective validation design and stopping rule.
-4. Run a new prospective validation batch.
-5. Only then decide whether `phase3-semantic-v2` is justified.
+1. Review and approve the SPEC-007 implementation and corrected receipt.
+2. Predeclare a prospective validation design and stopping rule.
+3. Run a new prospective validation batch sampled by opportunity cluster.
+4. Only then decide whether preference-policy revision or
+   `phase3-semantic-v2` is justified.
 
 ## Known open decisions
 
@@ -213,12 +232,13 @@ Last recorded repository evidence includes:
 - 431 active and 1 closed persisted job instances at the prior operational
   snapshot;
 - 406 Luna/low/semantic-v1 assessments at that snapshot;
-- latest broad routing preflight: 56 `IN_SCOPE`, 265 `UNCERTAIN`, 85
-  `OUT_OF_SCOPE`, with all 321 semantically processable jobs cache-compatible;
+- latest broad routing diagnostic after SPEC-007: 56 `IN_SCOPE`, 253
+  `UNCERTAIN`, 97 `OUT_OF_SCOPE`, with all 309 semantically processable jobs
+  cache-compatible;
 - clustering replay: 394 clusters from 406 assessed postings and a 315-cluster
   normal shortlist;
-- SPEC-006 implementation validated with 199 offline tests and 18 live tests
-  deselected before promotion.
+- SPEC-007 implementation validated with 216 offline tests and 18 live tests
+  deselected while awaiting promotion.
 
 These are time-bound observations, not hand-maintained runtime truth.
 

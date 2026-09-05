@@ -283,7 +283,11 @@ def _latest_experiment(root: Path, experiments: list[dict[str, Any]]) -> tuple[d
             if not (root / artifact).exists():
                 warnings.append(f"missing_experiment_artifact:{experiment['experiment_id']}:{artifact}")
     completed = [item for item in experiments if item.get("completed_at")]
-    latest = max(completed, key=lambda item: item["completed_at"]) if completed else None
+    # Registry order is the durable tie-break when multiple experiments finish
+    # on the same date; later entries represent later recorded evidence.
+    latest = max(
+        enumerate(completed), key=lambda pair: (pair[1]["completed_at"], pair[0]),
+    )[1] if completed else None
     return latest, warnings
 
 

@@ -127,3 +127,19 @@ experiments:
     limitations: Post-hoc replay of a stratified sample; ranking is among reviewed opportunities; raw judgments, operational SQLite, and detailed replay artifacts remain private local dependencies whose hashes are preserved in the sanitized aggregate; prospective cluster-sampled validation is still required.
     related_decisions: [DR-013, DR-014, DR-015, DR-017, DR-018, DR-019, DR-020, DR-021]
     commit_or_worktree_state: "7991005 pre-amend local commit with a dirty worktree; exact replay execution state is preserved in aggregate_summary.json provenance"
+
+  - experiment_id: EXP-PHASE4-RESIDUAL-001
+    type: POST_HOC_CORRECTED_RETROSPECTIVE
+    hypothesis: A bounded declarative US-region correction removes the known Texas market leak without sacrificing reviewed-sample APPLY recall or changing frozen semantic and preference policy.
+    status: COMPLETED
+    completed_at: "2026-09-05"
+    baseline: SPEC-006 replay phase4-replay-20260905T110537Z-e916fcc9, whose explicit-market gate failed because one Texas vacancy remained uncertain.
+    intervention: Add whole-token declarative Texas/California region normalization and apply explicit complete foreign-region evidence when work mode has no remote evidence; diagnose six frozen residual/control cases without preference tuning.
+    inputs: [experiments/phase4_residual_diagnostics_v1.yaml, experiments/phase4_replay_v1.yaml, config/market_status_rules.yaml]
+    artifacts: [output/phase4_replay/phase4-corrected-20260905T113311Z-24695b5f/aggregate_summary.json]
+    metrics: {frozen_posting_market_changes: 1, frozen_decision_changes: 1, broader_406_job_market_changes: 12, opportunity_apply_recall: 1.0, opportunity_top_attention_acceptance: 0.50, opportunity_ranking_agreement: 0.807692, explicit_market_gate: PASS, cached_semantics_reused: 30, external_calls: 0}
+    result: The Texas defect was deterministic composition, not missing source data. The bounded fix passed the explicit-market gate and preserved recall; no generic preference-matching correction was justified.
+    decision: Ready to design a new prospective cluster-sampled Phase 4 validation with semantic-v1 still frozen. Treat the two preference residuals as future policy/calibration questions, Klaxoon as correctly uncertain, and the two controls as semantic-v1 residuals.
+    limitations: Corrected post-hoc replay of the same stratified sample; top-attention acceptance remains 50%, below the predeclared 60% retrospective gate; detailed rows and human-derived diagnostics remain private/local; prospective validation is required before promotion claims.
+    related_decisions: [DR-015, DR-017, DR-018, DR-019, DR-021, DR-023]
+    commit_or_worktree_state: "b2f9846 with SPEC-007 implementation in a dirty worktree; exact run state is preserved in aggregate_summary.json provenance"

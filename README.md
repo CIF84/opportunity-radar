@@ -131,6 +131,12 @@ judgment log and operational SQLite evidence):
 .venv/bin/opportunity-radar-phase4-replay
 ```
 
+Bounded SPEC-007 residual diagnostics and corrected retrospective:
+
+```bash
+.venv/bin/opportunity-radar-phase4-residuals
+```
+
 Use `--dry-run` to evaluate without writing a new immutable replay directory.
 Detailed replay JSON and reports remain private/local and are Git-ignored. Each
 run also writes an `aggregate_summary.json` containing the bounded sanitized

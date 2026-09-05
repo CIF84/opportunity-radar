@@ -1,0 +1,42 @@
+schema_version: 1
+experiment_id: EXP-PHASE4-RESIDUAL-001
+experiment_type: POST_HOC_CORRECTED_RETROSPECTIVE
+base_replay_config: experiments/phase4_replay_v1.yaml
+parent_aggregate_path: output/phase4_replay/phase4-replay-20260905T110537Z-e916fcc9/aggregate_summary.json
+parent_detailed_replay_path: output/phase4_replay/phase4-replay-20260905T110537Z-e916fcc9/replay.json
+
+# These cases are the bounded controls named by SPEC-007. The config records
+# diagnostic expectations; it does not change candidate policy or scoring.
+diagnostic_cases:
+  - review_number: 10
+    diagnostic_kind: SEMANTIC_CONTROL
+    expected_existing_preference_concepts: []
+    unrepresented_human_factor: null
+    root_layer: SEMANTIC_ASSESSMENT
+  - review_number: 13
+    diagnostic_kind: PREFERENCE_RESIDUAL
+    expected_existing_preference_concepts:
+      - advisory_without_implementation_ownership
+      - implementation_ownership
+    unrepresented_human_factor: implementation_authority_strength
+    root_layer: DECISION_PREFERENCE_POLICY
+  - review_number: 17
+    diagnostic_kind: PREFERENCE_RESIDUAL
+    expected_existing_preference_concepts: [orthopaedics]
+    unrepresented_human_factor: null
+    root_layer: DECISION_PREFERENCE_POLICY
+  - review_number: 18
+    diagnostic_kind: SEMANTIC_CONTROL
+    expected_existing_preference_concepts: []
+    unrepresented_human_factor: null
+    root_layer: SEMANTIC_ASSESSMENT
+  - review_number: 23
+    diagnostic_kind: CONSERVATIVE_MARKET_UNCERTAINTY
+    expected_existing_preference_concepts: [product_development]
+    unrepresented_human_factor: employer_product_conviction
+    root_layer: MARKET_ACCESS_AND_UNREPRESENTED_CONVICTION
+  - review_number: 27
+    diagnostic_kind: NORMALIZATION_CONTROL
+    expected_existing_preference_concepts: []
+    unrepresented_human_factor: null
+    root_layer: MARKET_NORMALIZATION

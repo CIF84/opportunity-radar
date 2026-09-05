@@ -31,7 +31,20 @@ def test_repository_decision_and_experiment_registries_are_valid():
         "EXP-INGESTION-001", "EXP-STATE-001", "EXP-PHASE3-001",
         "EXP-SEMANTIC-ROI-001", "EXP-SCOPE-001", "EXP-DETAIL-REUSE-001",
         "EXP-LIVE-VALIDATION-001",
+        "EXP-PHASE4-RESIDUAL-001",
     }
+
+
+def test_latest_experiment_uses_registry_order_for_same_day(tmp_path):
+    from opportunity_radar.project_status import _latest_experiment
+
+    experiments = [
+        {"experiment_id": "EARLIER", "completed_at": "2026-09-05", "artifacts": []},
+        {"experiment_id": "LATER", "completed_at": "2026-09-05", "artifacts": []},
+    ]
+    latest, warnings = _latest_experiment(tmp_path, experiments)
+    assert latest["experiment_id"] == "LATER"
+    assert warnings == []
 
 
 def _write_control_plane(root: Path, include_judgments: bool = True) -> Path:

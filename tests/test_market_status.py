@@ -247,3 +247,53 @@ def test_country_code_is_positional_not_arbitrary_substring():
     result = assess(value)
     assert result.status is CurrentCandidateMarketStatus.UNCERTAIN
     assert MarketReasonCode.ACCEPTED_LOCATION_COMPATIBLE not in codes(result)
+
+
+def test_explicit_texas_location_is_out_of_scope_without_inventing_work_mode():
+    result = assess(job(
+        location="El Paso, Texas", city=None, country=None,
+        work_mode="unspecified",
+    ))
+    assert result.status is CurrentCandidateMarketStatus.OUT_OF_SCOPE
+    assert MarketReasonCode.WORK_MODE_UNKNOWN in codes(result)
+    assert MarketReasonCode.EXPLICIT_FOREIGN_REGION_INCOMPATIBLE in codes(result)
+    assert any(
+        item.normalized_value == "United States"
+        for item in result.evidence
+        if item.kind == "location"
+    )
+
+
+def test_california_regression_remains_out_of_scope_with_unknown_work_mode():
+    result = assess(job(
+        location="Santa Clara, California", city=None, country=None,
+        work_mode="unspecified",
+    ))
+    assert result.status is CurrentCandidateMarketStatus.OUT_OF_SCOPE
+
+
+@pytest.mark.parametrize("location", ["Textanalysis", "Contextual", "Californication"])
+def test_state_like_substrings_do_not_become_us_geography(location):
+    result = assess(job(
+        location=location, city=None, country=None, work_mode="unspecified",
+    ))
+    assert result.status is CurrentCandidateMarketStatus.UNCERTAIN
+    assert MarketReasonCode.EXPLICIT_FOREIGN_REGION_INCOMPATIBLE not in codes(result)
+
+
+def test_ambiguous_region_name_stays_uncertain_without_country_context():
+    result = assess(job(
+        location="Georgia", city=None, country=None, work_mode="unspecified",
+    ))
+    assert result.status is CurrentCandidateMarketStatus.UNCERTAIN
+
+
+def test_unknown_work_mode_does_not_change_prague_or_remote_semantics():
+    prague = assess(job(work_mode="unspecified"))
+    remote = assess(job(
+        location="Belgium", city="Brussels", country="Belgium",
+        work_mode="remote", description="Remote role.",
+    ))
+    assert prague.status is CurrentCandidateMarketStatus.UNCERTAIN
+    assert remote.status is CurrentCandidateMarketStatus.UNCERTAIN
+    assert MarketReasonCode.EXPLICIT_FOREIGN_REGION_INCOMPATIBLE not in codes(remote)

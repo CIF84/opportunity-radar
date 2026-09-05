@@ -21,6 +21,7 @@ opportunity-radar-live-validation = "opportunity_radar.live_validation:main"
 opportunity-radar-scope-measure = "opportunity_radar.scope_measurement:main"
 opportunity-radar-status = "opportunity_radar.project_status:main"
 opportunity-radar-phase4-replay = "opportunity_radar.phase4_replay:main"
+opportunity-radar-phase4-residuals = "opportunity_radar.phase4_residual_diagnostics:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

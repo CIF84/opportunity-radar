@@ -1,0 +1,341 @@
+{
+  "schema_version": 2,
+  "evidence_class": "SANITIZED_AGGREGATE_EXPERIMENT_RESULT",
+  "experiment_id": "EXP-PHASE4-RESIDUAL-001",
+  "run_id": "phase4-corrected-20260905T113311Z-24695b5f",
+  "created_at": "2026-09-05T11:33:11.756250+00:00",
+  "experiment_type": "POST_HOC_CORRECTED_RETROSPECTIVE",
+  "privacy_boundary": {
+    "git_policy": "Track this aggregate receipt only; detailed replay rows and human-readable detailed report remain private/local and Git-ignored.",
+    "private_artifact_hashes": {
+      "detailed_replay_sha256": "6407d8f61b357c96065dcccf9dc14474e0597048373c020a4c778339d05747b7",
+      "detailed_report_sha256": "d48c011c3d5a5c3e47de69dd6df412ebe9cb3baf0d06556f1cca80b10a684687",
+      "judgments_sha256": "1b7d412a6ffadef4d191ae73dc05bb691ee136ee027c99884cefc73d557f3c2a",
+      "phase2_database_sha256": "66dba4e39fcc33c9817c40e828eadf5f02bc6237e2fb55d47f627128b6f2152d"
+    }
+  },
+  "provenance": {
+    "validation_batch_id": "batch-20260826T210045Z-6492b09a",
+    "git": {
+      "commit": "b2f9846caeb1a815ff999e7b7a2fecd31d4ba1f6",
+      "dirty": true,
+      "status_fingerprint": "075a1aa0f0426ea413184c6fe0edc238c7b73ad773fc6f789d0b9170be24e67e"
+    },
+    "replay_config_fingerprint": "ba74c367b3a69787688caad9eb728246e1d422b010b6034c3bdbe8bd2cb18b24",
+    "official_batch_sha256": "52606ccbd026842096962b73a4f111b2205725595907262febf3e298c01d1fc0",
+    "official_v1_report_sha256": "d1f96ec800183b742c58b1085ce1a5b7101ff9567ef07877c790824abff10fce",
+    "official_review_sha256": "8cb21f0842c2f8e27434e342abe9028bf949dc2c843f32f5165a63b3bc5bd800",
+    "official_v1_evidence_byte_identical_after_replay": true
+  },
+  "frozen_configuration": {
+    "candidate_profile_version": 3,
+    "full_profile_fingerprint": "67c459aa1cc9c9901aa1cf5e764e08b7e3905ac09ef80aefc5696af1dfb5746e",
+    "semantic_profile_fingerprint": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "scoring_preference_fingerprint": "9237433984fb06f964248b199a08a6bd3ed9ddf0a0f0b341c13a0cb278db0e8a",
+    "market_access_policy_fingerprint": "86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb",
+    "decision_preference_fingerprint": "e0146d4d87ce44810f6cd7f2c8a1125d313d18087666829b92fd100b2671c6a4",
+    "market_rules_fingerprint": "fcc154634d721e28c18c1769fb8cd52184f66abe395327d1299aedbc8ff79701",
+    "clustering_method_version": "phase4-high-confidence-cluster-v1",
+    "preferred_variant_policy_version": "phase4-preferred-variant-v1",
+    "cluster_set_fingerprint": "32a9a083a6a5a2bbb6d9b9409dd6a4147655b17894e8484de775046335a46c38",
+    "preference_matching_rules_fingerprint": "ea20c4b3200faf87dcf966257c9b4180ae7022b7fa48a4700299e4d6adccd9b7",
+    "preference_effect_policy_fingerprint": "15bf79d1a87067973b740f324ea500a95ed386c9a58abed3fbafa106a1b8d3c2",
+    "effective_decision_policy_fingerprint": "ddd99bc5b5ed41aec306f0ce0c42b41a98f05c4318cd8612eb49704c1de97205",
+    "seniority_rules_fingerprint": "5a1bff11fe5ea70f0a7216c6422976bd06dcab9e745b85c5b654c05c0b45f388",
+    "seniority_policy_fingerprint": "53c7afc7d950f4713fc9297a3c2190f4b8c3cb8ff326c65ea85dccf97522d5e7",
+    "semantic": {
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "assessor_id": "external-structured",
+      "assessor_version": "1:gpt-5.6-luna",
+      "contract_version": "phase3-semantic-v1"
+    },
+    "sqlite_schema_version": 3
+  },
+  "metrics": {
+    "definitions": {
+      "attention_shortlist": "included in normal shortlist and terminal recommendation APPLY or REVIEW",
+      "top_attention": "attention-shortlist opportunity with decision-adjusted tier TOP or HIGH",
+      "ranking_agreement": "human APPLY: in attention shortlist; human REVIEW: terminal REVIEW; human DONT_APPLY: not top attention",
+      "note": "Opportunity metrics use only resolved human application intent; posting metrics remain diagnostic."
+    },
+    "posting_level": {
+      "accounted_for": 30,
+      "final_recommendation_distribution": {
+        "APPLY": 3,
+        "EXCLUDED": 13,
+        "LOW_PRIORITY": 4,
+        "REVIEW": 10
+      },
+      "original_v1_ranking_agreement": 0.4,
+      "phase4_decision_agreement": 0.8,
+      "excluded_out_of_scope": 13,
+      "capped_uncertain": 10,
+      "preference_affected": 27,
+      "seniority_guard_activated": 1,
+      "cached_semantic_assessments_reused": 30,
+      "unassessable": 0,
+      "external_calls": 0
+    },
+    "opportunity_level": {
+      "opportunities": 26,
+      "resolved_human_intents": 26,
+      "unresolved_human_intents": 0,
+      "human_apply_opportunities": 5,
+      "attention_shortlist_apply_count": 5,
+      "attention_shortlist_apply_recall": 1.0,
+      "top_attention_opportunities": 10,
+      "top_attention_human_apply_count": 5,
+      "top_attention_acceptance": 0.5,
+      "ranking_agreement_count": 21,
+      "ranking_agreement": 0.807692,
+      "terminal_apply_opportunities": 3,
+      "terminal_apply_human_apply_count": 2,
+      "terminal_apply_acceptance": 0.666667,
+      "reviewed_multi_member_clusters": 2,
+      "resolved_multi_member_clusters": 2,
+      "unresolved_multi_member_clusters": 0,
+      "preferred_variant_labeled": 1,
+      "preferred_variant_agreement": 1.0,
+      "known_false_merges": 0
+    }
+  },
+  "gates": [
+    {
+      "gate": "human_apply_opportunity_recall",
+      "status": "PASS",
+      "aggregate_evidence": 1.0
+    },
+    {
+      "gate": "opportunity_top_attention_acceptance",
+      "status": "FAIL",
+      "aggregate_evidence": 0.5
+    },
+    {
+      "gate": "opportunity_ranking_agreement",
+      "status": "PASS",
+      "aggregate_evidence": 0.807692
+    },
+    {
+      "gate": "explicit_incompatible_market_removed",
+      "status": "PASS",
+      "aggregate_evidence": {
+        "expected_cases": 9,
+        "out_of_scope": 9,
+        "uncertain": 0
+      }
+    },
+    {
+      "gate": "dbg_cork_uncertain_and_capped",
+      "status": "PASS",
+      "aggregate_evidence": {
+        "market": "UNCERTAIN",
+        "recommendation": "LOW_PRIORITY"
+      }
+    },
+    {
+      "gate": "klaxoon_remote_access_uncertain",
+      "status": "PASS",
+      "aggregate_evidence": {
+        "market_status": "UNCERTAIN"
+      }
+    },
+    {
+      "gate": "kiwi_cluster_and_preferred_variant",
+      "status": "PASS",
+      "aggregate_evidence": {
+        "cluster_formed": true,
+        "preferred_variant_agreed": true
+      }
+    },
+    {
+      "gate": "wpp_growth_cluster",
+      "status": "PASS",
+      "aggregate_evidence": {
+        "cluster_formed": true
+      }
+    },
+    {
+      "gate": "zero_known_false_merges",
+      "status": "PASS",
+      "aggregate_evidence": {
+        "known_false_merges": 0,
+        "unresolved_multi_member_clusters": 0
+      }
+    },
+    {
+      "gate": "zero_semantic_calls",
+      "status": "PASS",
+      "aggregate_evidence": 0
+    },
+    {
+      "gate": "all_cached_semantics_reused",
+      "status": "PASS",
+      "aggregate_evidence": 30
+    }
+  ],
+  "ablations": [
+    {
+      "stage": "BASELINE_V1",
+      "independent_units": 30,
+      "recommendation_distribution": {
+        "APPLY": 25,
+        "LOW_PRIORITY": 4,
+        "REVIEW": 1
+      }
+    },
+    {
+      "stage": "MARKET_ROUTING",
+      "independent_units": 30,
+      "recommendation_distribution": {
+        "APPLY": 3,
+        "EXCLUDED": 13,
+        "LOW_PRIORITY": 3,
+        "REVIEW": 11
+      },
+      "changed_postings": 23
+    },
+    {
+      "stage": "CLUSTERING",
+      "independent_units": 26,
+      "duplicate_postings_collapsed": 4
+    },
+    {
+      "stage": "DECISION_PREFERENCES",
+      "independent_units": 26,
+      "recommendation_distribution": {
+        "APPLY": 3,
+        "EXCLUDED": 13,
+        "LOW_PRIORITY": 3,
+        "REVIEW": 11
+      },
+      "changed_postings_from_market": 0
+    },
+    {
+      "stage": "SENIORITY_GUARD",
+      "independent_units": 26,
+      "recommendation_distribution": {
+        "APPLY": 3,
+        "EXCLUDED": 13,
+        "LOW_PRIORITY": 4,
+        "REVIEW": 10
+      },
+      "changed_postings_from_preferences": 1
+    }
+  ],
+  "residual_disagreement_aggregate": {
+    "opportunities": 5,
+    "semantic_watch_cases": 2,
+    "category_counts": {
+      "DETERMINISTIC_ELIGIBILITY_ISSUE": 1,
+      "SEMANTIC_INTERPRETATION_ERROR": 2,
+      "UNREPRESENTED_HUMAN_PREFERENCE": 3
+    }
+  },
+  "zero_call_evidence": {
+    "external_semantic_calls": 0,
+    "live_source_calls": 0,
+    "transport_constructed": false,
+    "cache_rows_compatible": 30
+  },
+  "limitations": [
+    "This is a post-hoc replay of a stratified 30-posting sample, not an unbiased market estimate.",
+    "Only accepted Kiwi and WPP duplicate interpretations define shared human application intent; new multi-member clusters remain unresolved.",
+    "Ranking is among reviewed opportunities only and does not replace a prospective cluster-sampled validation.",
+    "Frozen batch-time observations are used; later vacancy closure does not rewrite the original decision evidence."
+  ],
+  "conclusions": [
+    "The bounded Texas correction fixed the known deterministic market-normalization gap without semantic reassessment.",
+    "No generic preference-matching correction was justified; frozen preference policy and matching remained unchanged.",
+    "Klaxoon remains correctly uncertain under the frozen evidence and market-access policy.",
+    "The remaining preference residuals require future policy representation or calibration, while the two control cases remain semantic-v1 residuals.",
+    "This corrected post-hoc result does not replace official v1 or the SPEC-006 replay and requires prospective validation before promotion."
+  ],
+  "parent_replay": {
+    "experiment_id": "EXP-PHASE4-REPLAY-001",
+    "run_id": "phase4-replay-20260905T110537Z-e916fcc9",
+    "aggregate_sha256": "aeeed4e7bfb3a5c7fb2ba17518df27bd20b0666e1ffe5f70a3f42668d19ca624",
+    "detailed_replay_sha256": "c388a358690ee61282ca40bdce84a5e90381dd5890b71b349362c78de87c7ba8"
+  },
+  "residual_diagnostics_config_fingerprint": "6977bb48a761a3bc03436b69961782b660281c20c5bb9a71342faa3637c05260",
+  "comparison": {
+    "market_status_distribution_before": {
+      "IN_SCOPE": 3,
+      "OUT_OF_SCOPE": 12,
+      "UNCERTAIN": 15
+    },
+    "market_status_distribution_after": {
+      "IN_SCOPE": 3,
+      "OUT_OF_SCOPE": 13,
+      "UNCERTAIN": 14
+    },
+    "normal_shortlist_opportunities_before": 16,
+    "normal_shortlist_opportunities_after": 15,
+    "attention_shortlist_apply_recall_before": 1.0,
+    "attention_shortlist_apply_recall_after": 1.0,
+    "top_attention_acceptance_before": 0.5,
+    "top_attention_acceptance_after": 0.5,
+    "ranking_agreement_before": 0.807692,
+    "ranking_agreement_after": 0.807692,
+    "terminal_apply_acceptance_before": 0.666667,
+    "terminal_apply_acceptance_after": 0.666667,
+    "residual_disagreements_before": 5,
+    "residual_disagreements_after": 5,
+    "market_status_changes": 1,
+    "decision_changes": 1,
+    "decisions_changed_by_texas_normalization": 1,
+    "decisions_changed_by_preference_matching": 0,
+    "gate_transitions": {
+      "explicit_incompatible_market_removed": {
+        "before": "FAIL",
+        "after": "PASS"
+      }
+    }
+  },
+  "broader_corpus_impact": {
+    "assessable_active_jobs": 406,
+    "market_status_distribution_before": {
+      "IN_SCOPE": 56,
+      "OUT_OF_SCOPE": 85,
+      "UNCERTAIN": 265
+    },
+    "market_status_distribution_after": {
+      "IN_SCOPE": 56,
+      "OUT_OF_SCOPE": 97,
+      "UNCERTAIN": 253
+    },
+    "market_status_changes": 12,
+    "external_calls": 0
+  },
+  "rule_fingerprint_comparison": {
+    "market_rules": {
+      "before": "7698407cb40b37635362565ba79fc1ec4688fc305c171595ab563e86fff9b456",
+      "after": "fcc154634d721e28c18c1769fb8cd52184f66abe395327d1299aedbc8ff79701",
+      "changed": true
+    },
+    "preference_matching_rules": {
+      "before": "ea20c4b3200faf87dcf966257c9b4180ae7022b7fa48a4700299e4d6adccd9b7",
+      "after": "ea20c4b3200faf87dcf966257c9b4180ae7022b7fa48a4700299e4d6adccd9b7",
+      "changed": false
+    }
+  },
+  "frozen_equivalence": {
+    "semantic": true,
+    "candidate_semantic_profile": true,
+    "scoring_preferences": true,
+    "decision_preferences": true,
+    "preference_effect_policy": true,
+    "clustering_method": true,
+    "seniority_policy": true
+  },
+  "correction_attribution": {
+    "texas_normalization_decision_changes": 1,
+    "preference_matching_decision_changes": 0
+  },
+  "residual_classification_counts": {
+    "CORRECTLY_UNCERTAIN_MARKET_ACCESS": 1,
+    "FIXED_DETERMINISTIC_NORMALIZATION": 1,
+    "SEMANTIC_V1_RESIDUAL": 2,
+    "UNREPRESENTED_PREFERENCE_OR_CONVICTION": 2
+  }
+}
