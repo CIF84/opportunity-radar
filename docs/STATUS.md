@@ -9,7 +9,8 @@ constraints; operational counts are derived by `opportunity-radar-status`.
 specs/phase4/SPEC-006-frozen-retrospective-replay.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: implemented and replayed locally; experiment promotion is pending human
+review. The approved specification remains the immutable work-packet contract.
 
 Implementation agents should follow this pointer rather than infer work from
 filename recency. Before starting an approved packet, verify the local working
@@ -39,8 +40,9 @@ have passed bounded validation. The first Live Decision Validation is complete.
 Phase 4 market-access representation, current-candidate market assessment,
 routing, high-confidence opportunity clustering, preferred-variant selection,
 the versioned decision-preference effect layer, and the candidate-configurable
-junior/graduate seniority guard are implemented and committed. The current
-approved work is a frozen retrospective replay of the original 30-case batch.
+junior/graduate seniority guard are implemented and committed. The frozen
+retrospective replay of the original 30-case batch has now run offline; its
+promotion decision is pending human review.
 No autonomous preference learning, semantic-v2, or external-action behavior is
 implemented.
 
@@ -188,15 +190,30 @@ The replay must make zero external semantic calls and zero live-source calls.
 
 ## Current gate
 
-> Retrospectively measure how much of Live Decision Validation v1's `NO_GO`
-> remains after the frozen Phase 4 deterministic corrections, while preserving
-> human evidence, semantic-v1 assessments, lifecycle state, and zero-call cache
-> reuse.
+> Review the frozen Phase 4 retrospective result and decide whether its residual
+> precision failure and Texas normalization gap warrant a bounded correction
+> before designing a new prospective validation batch.
+
+Replay `phase4-replay-20260905T110537Z-e916fcc9` accounted for all 30 postings
+and reused all 30 semantic assessments with zero external calls. At opportunity
+level it preserved 100% human-APPLY attention recall, improved the diagnostic
+ranking-agreement measure to 80.77%, and selected the human-preferred Kiwi
+variant. Top-attention acceptance reached 50%, below the predeclared 60% gate.
+The explicit-market regression gate also failed because the Texas listing
+remained `UNCERTAIN`; the other eight labeled explicit foreign mismatches were
+`OUT_OF_SCOPE`. These are frozen post-hoc results, not a replacement for the
+official v1 metrics.
+
+Detailed replay rows and the human-readable per-opportunity report are private
+local evidence and must not be committed. Repository memory retains only the
+sanitized aggregate receipt referenced by `experiments/registry.yaml`, plus
+cryptographic hashes proving the private evidence provenance.
 
 ## Next intended experiments
 
-1. Execute the frozen Phase 4 retrospective replay in `SPEC-006`.
-2. Review residual disagreements and gate results without retuning the replay.
+1. Review residual disagreements and gate results without retuning the replay.
+2. Decide whether to run a bounded market-normalization correction experiment
+   for the Texas case.
 3. Decide the design and size of a new prospective validation batch.
 4. Only after prospective evidence decide whether `phase3-semantic-v2` is
    justified.
@@ -207,9 +224,9 @@ The replay must make zero external semantic calls and zero live-source calls.
   deterministic clustering results are adjudicated further.
 - Choose the prospective Phase 4 batch size and stopping rule after reviewing
   the retrospective result.
-- Confirm repository privacy before tracking raw candidate judgment notes.
-- Choose a durable private backup/retention policy for operational SQLite and
-  local judgment evidence.
+- Choose a durable private backup/retention policy for operational SQLite, raw
+  judgments, and detailed replay evidence. These are explicitly excluded from
+  Git; their sanitized aggregates may be tracked.
 - Define the bounded semantic-call authority available to future agents.
 
 ## Last known operational health
@@ -229,8 +246,10 @@ Repository inspection on 2026-09-04 found:
   postings, including the four Kiwi Inventory variants with Prague preferred,
   and kept the all-out-of-scope WPP Growth Consulting cluster out of the
   shortlist;
-- seniority-guard implementation validates with 193 passing offline tests and
+- current implementation validates with 198 passing offline tests and
   18 live tests deselected;
+- frozen Phase 4 replay reused 30/30 cached semantic assessments with zero
+  calls; its 50% top-attention acceptance missed the 60% retrospective gate;
 - two intentionally retained interrupted historical `RUNNING` rows.
 
 These counts are time-bound observations, not hand-maintained runtime truth.

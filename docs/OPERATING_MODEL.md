@@ -158,8 +158,11 @@ reinterpretation.
 - `config/candidate.yaml` and candidate profiles contain personal information.
 - Semantic assessments and human judgments are derived profiling data even
   when job listings are public.
-- Repository public/private status is not currently established as a durable
-  policy. Until it is, raw judgment notes remain local and excluded from Git.
+- Git is not an approved storage boundary for detailed candidate-specific or
+  human-judgment-derived replay evidence. Raw judgments, per-posting replay
+  rows, opportunity-level interpretations, and detailed replay reports remain
+  local and excluded from Git. Only deliberately sanitized aggregate receipts
+  may be tracked.
 - `data/live_validation/judgments.jsonl` is the local append-only judgment
   authority. It requires a separately chosen durable private backup before the
   local workspace can be treated as replaceable.
@@ -196,6 +199,8 @@ Current classification:
 | `output/live_validation/*/batch.json` | CANONICAL_EVIDENCE | Track frozen reviewed batch when privacy-safe |
 | final aggregate `validation_report.md` | DERIVED_REPORT | Track as gate evidence |
 | `data/live_validation/judgments.jsonl` | CANONICAL_EVIDENCE, private | Exclude from Git pending explicit privacy/backup decision |
+| `output/phase4_replay/*/replay.json`, `report.md` | CANONICAL_EVIDENCE / DERIVED_REPORT, private | Retain locally and exclude from Git; preserve hashes in the sanitized receipt |
+| `output/phase4_replay/*/aggregate_summary.json` | EXPERIMENT RESULT, sanitized | Track only aggregate metrics, gates, fingerprints, provenance hashes, limitations, and conclusions |
 | `output/opportunity_radar.sqlite3` | LOCAL_STATE | Private backup; do not publish by default |
 | `output/*sample*.sqlite3`, `*diagnostic*.sqlite3` | DIAGNOSTIC | Historical currently; future generated copies should be ignored |
 | `output/scope_measurement/*.json` | CANONICAL_EVIDENCE or SUPERSEDED | Registry identifies the final evidence and historical predecessors |

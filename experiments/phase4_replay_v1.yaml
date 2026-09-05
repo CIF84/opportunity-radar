@@ -1,0 +1,33 @@
+schema_version: 1
+experiment_id: EXP-PHASE4-REPLAY-001
+baseline:
+  validation_batch_id: batch-20260826T210045Z-6492b09a
+  batch_path: output/live_validation/batch-20260826T210045Z-6492b09a/batch.json
+  report_path: output/live_validation/batch-20260826T210045Z-6492b09a/validation_report.md
+  review_path: output/live_validation/batch-20260826T210045Z-6492b09a/review.md
+  judgments_path: data/live_validation/judgments.jsonl
+  database_path: output/opportunity_radar.sqlite3
+human_opportunities:
+  - label: kiwi_inventory
+    review_numbers: [3, 4, 5, 9]
+    human_decision: APPLY
+    preferred_review_number: 9
+  - label: wpp_growth_consulting
+    review_numbers: [11, 12]
+    human_decision: DONT_APPLY
+    preferred_review_number: null
+regression_expectations:
+  explicit_out_of_scope_review_numbers: [1, 6, 8, 11, 12, 19, 22, 24, 27]
+  uncertain_review_numbers: [23, 25]
+  junior_capped_review_number: 25
+gates:
+  opportunity_apply_recall_minimum: 1.0
+  opportunity_top_attention_acceptance_minimum: 0.60
+  opportunity_ranking_agreement_minimum: 0.60
+metric_policy:
+  attention_recommendations: [APPLY, REVIEW]
+  top_attention_tiers: [TOP, HIGH]
+  ranking_agreement:
+    APPLY: IN_ATTENTION_SHORTLIST
+    REVIEW: TERMINAL_REVIEW
+    DONT_APPLY: NOT_TOP_ATTENTION

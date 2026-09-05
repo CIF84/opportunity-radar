@@ -124,6 +124,18 @@ Explicit judgment identities are preferred:
 The legacy positional identifier is retained for compatibility but fails when
 an integer could refer to different review and job-instance identities.
 
+Frozen Phase 4 retrospective replay (offline; requires its configured local
+judgment log and operational SQLite evidence):
+
+```bash
+.venv/bin/opportunity-radar-phase4-replay
+```
+
+Use `--dry-run` to evaluate without writing a new immutable replay directory.
+Detailed replay JSON and reports remain private/local and are Git-ignored. Each
+run also writes an `aggregate_summary.json` containing the bounded sanitized
+evidence that may be tracked.
+
 Project health, derived read-only from repository evidence:
 
 ```bash
@@ -143,6 +155,9 @@ Project health, derived read-only from repository evidence:
   private backup policy are explicitly decided.
 - The aggregate final validation report is repository evidence and contains no
   raw judgment notes.
+- Phase 4 replay detail remains local under
+  `output/phase4_replay/<run_id>/`; only its sanitized
+  `aggregate_summary.json` is eligible for Git.
 
 Generated outputs are not automatically authoritative. Consult
 [docs/OPERATING_MODEL.md](docs/OPERATING_MODEL.md) for evidence classes and

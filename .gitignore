@@ -8,5 +8,12 @@ __pycache__/
 # raw notes require an explicit repository-privacy and backup decision.
 data/live_validation/judgments.jsonl
 
+# Phase 4 replays contain candidate-specific decisions, per-job interpretation,
+# and human-judgment-derived evidence. Keep every detailed replay artifact local;
+# only the explicitly sanitized aggregate receipt may enter Git.
+output/phase4_replay/**/*
+!output/phase4_replay/**/
+!output/phase4_replay/**/aggregate_summary.json
+
 # Replaceable local health evidence.
 output/test_receipt.json

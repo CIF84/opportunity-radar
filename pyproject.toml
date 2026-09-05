@@ -20,6 +20,7 @@ opportunity-radar-semantic-roi = "opportunity_radar.roi_experiment:main"
 opportunity-radar-live-validation = "opportunity_radar.live_validation:main"
 opportunity-radar-scope-measure = "opportunity_radar.scope_measurement:main"
 opportunity-radar-status = "opportunity_radar.project_status:main"
+opportunity-radar-phase4-replay = "opportunity_radar.phase4_replay:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -111,3 +111,19 @@ experiments:
     limitations: Stratified sample is not an unbiased market estimate; raw judgments are private local evidence pending repository privacy/backup policy.
     related_decisions: [DR-012, DR-013, DR-014, DR-015, DR-017, DR-018, DR-019, DR-020, DR-021]
     commit_or_worktree_state: "fd4c579 (control-plane commit preserving the final report and judgment identity-resolution fix; raw judgment evidence remains local by policy)"
+
+  - experiment_id: EXP-PHASE4-REPLAY-001
+    type: RETROSPECTIVE_POST_HOC_REPLAY
+    hypothesis: Frozen Phase 4 market routing, high-confidence clustering, decision preferences, and the seniority guard materially improve shortlist precision while preserving all reviewed human-APPLY opportunities and reusing semantic-v1.
+    status: COMPLETED
+    completed_at: "2026-09-05"
+    baseline: Immutable 30-posting Live Decision Validation v1 batch with directional NO_GO, 35% top-attention acceptance, 40% ranking agreement, and 100% reviewed-sample APPLY recall.
+    intervention: Replay the exact batch observations and cached semantic-v1 assessments through the committed Phase 4 deterministic layers without policy changes or external calls.
+    inputs: [experiments/phase4_replay_v1.yaml, output/live_validation/batch-20260826T210045Z-6492b09a/batch.json, data/live_validation/judgments.jsonl, output/opportunity_radar.sqlite3]
+    artifacts: [output/phase4_replay/phase4-replay-20260905T110537Z-e916fcc9/aggregate_summary.json]
+    metrics: {posting_reviews: 30, opportunity_units: 26, opportunity_apply_recall: 1.0, opportunity_top_attention_acceptance: 0.50, opportunity_ranking_agreement: 0.807692, preferred_variant_agreement: 1.0, cached_semantics_reused: 30, external_calls: 0}
+    result: Recall and ranking-agreement gates passed, known Kiwi/WPP clusters and preferred variant passed, but top-attention acceptance reached only 50% and Texas remained UNCERTAIN rather than the expected OUT_OF_SCOPE.
+    decision: Promotion decision pending human review; do not tune the frozen intervention from this retrospective result.
+    limitations: Post-hoc replay of a stratified sample; ranking is among reviewed opportunities; raw judgments, operational SQLite, and detailed replay artifacts remain private local dependencies whose hashes are preserved in the sanitized aggregate; prospective cluster-sampled validation is still required.
+    related_decisions: [DR-013, DR-014, DR-015, DR-017, DR-018, DR-019, DR-020, DR-021]
+    commit_or_worktree_state: "7991005 pre-amend local commit with a dirty worktree; exact replay execution state is preserved in aggregate_summary.json provenance"
