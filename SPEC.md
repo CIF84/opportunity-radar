@@ -3583,10 +3583,11 @@ dominant upstream failures before any change to `gpt-5.6-luna`, reasoning
 `low`, `phase3-semantic-v1`, the six scoring weights, or the historical
 benchmark.
 
-Phase 4 is initially an experiment. Slice 1 implements only the generic,
-versioned candidate market-access representation and fingerprint. No market
-evaluation, routing, clustering, preference effect, or recommendation behavior
-described below exists yet.
+Phase 4 is initially an experiment. Slices 1–2 implement the generic,
+versioned candidate market-access representation and fingerprint plus a pure,
+post-detail current-candidate market evaluator. No market-routing integration,
+clustering, preference effect, or recommendation behavior described below
+exists yet.
 
 ## 2. Scope and Invariants
 
@@ -3656,8 +3657,8 @@ semantic contract and fingerprint.
 `config/candidate.yaml` is now a validated version-2 profile with a versioned
 `market_access_policy`. Existing Phase 3 `facts` are intentionally unchanged
 so the semantic-v1 projection and fingerprint remain identical to version 1.
-The new market policy is the Phase 4 authority for market-access decisions,
-but no evaluator or routing behavior consumes it until later slices.
+The new market policy is the Phase 4 authority for market-access decisions and
+is consumed by the pure Slice 2 evaluator. No routing behavior consumes it yet.
 
 The minimum policy representation must support:
 

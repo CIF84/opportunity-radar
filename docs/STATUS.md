@@ -13,10 +13,12 @@ state, and explain which active opportunities deserve a candidate's attention.
 Phases 1–3 are implemented. Scope-aware ingestion and persisted detail reuse
 have passed bounded validation. The first Live Decision Validation is complete.
 
-Phase 4 Slice 1 is implemented: both candidate profiles now carry a validated,
-versioned, independently fingerprinted market-access policy. No market-status
-evaluation, routing, recommendation cap, clustering, preference behavior, or
-other Phase 4 product behavior is implemented.
+Phase 4 Slices 1–2 are implemented: both candidate profiles carry a validated,
+versioned, independently fingerprinted market-access policy, and a pure
+post-detail evaluator can produce a structured `IN_SCOPE`, `UNCERTAIN`, or
+`OUT_OF_SCOPE` assessment. The evaluator is not integrated into routing or
+ranking. No recommendation cap, clustering, preference behavior, or other
+Phase 4 product behavior is implemented.
 
 ## Last validated state
 
@@ -65,14 +67,15 @@ complete inventory
 ```
 
 The first three stages and Phase 3 assessment/decision contracts exist. The
-candidate market-access representation exists, but candidate-market
-evaluation/routing, clustering, preferred-variant, and preference-policy
-stages are planned only.
+candidate market-access representation and pure assessment function exist,
+but candidate-market routing, clustering, preferred-variant, and
+preference-policy stages are planned only.
 
 ## Confirmed Phase 4 candidate policy
 
 The candidate has explicitly confirmed the following policy. It is durable
-design input for Phase 4, not implemented behavior:
+Phase 4 configuration consumed by the pure market evaluator; its effects on
+routing and recommendation remain unimplemented:
 
 - Normal onsite/hybrid work is acceptable in Prague, Czechia. Other Czech
   cities and foreign locations are not automatically acceptable.
@@ -97,13 +100,15 @@ design input for Phase 4, not implemented behavior:
 
 The accepted decisions and rationale are recorded in `docs/decisions.yaml`.
 The runtime representation and validation contract are specified in Phase 4
-of `SPEC.md`.
+of `SPEC.md`. Declarative, deliberately bounded normalization used by the pure
+evaluator lives in `config/market_status_rules.yaml`.
 
 `config/candidate.yaml` is now profile version 2. Its new
 `market_access_policy` is the Phase 4 authority for these facts and policies.
 The older `facts` fields remain unchanged solely to preserve the exact
 `phase3-semantic-v1` input projection and semantic cache identity. The policy
-is represented and validated but is not yet consumed by runtime routing.
+is represented and consumed by the pure evaluator, but is not yet consumed by
+runtime routing.
 
 ## Frozen items
 
@@ -129,8 +134,9 @@ The next gate is not “tune Luna.”
 
 ## Next intended experiments
 
-1. Implement the pure current-candidate market-status evaluator and prove it
-   against synthetic and historical regression evidence.
+1. Integrate current-candidate market status at the Phase 3 candidate-routing
+   boundary, including the `UNCERTAIN` recommendation cap, without changing
+   lifecycle or semantic-cache identity.
 2. Demonstrate high-confidence employer-scoped opportunity clustering without
    merging `JobInstance` records.
 3. Add a versioned preference-aware decision policy without one-off dislikes.

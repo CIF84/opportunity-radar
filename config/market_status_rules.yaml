@@ -1,0 +1,86 @@
+normalization_version: phase4-market-normalization-v1
+
+# Deliberately bounded geography needed by the approved Slice 2 regressions.
+# Short ISO codes are accepted only in structured/positional location slots,
+# never as arbitrary text substrings.
+country_aliases:
+  Czechia: [Czechia, Czech Republic, "Česká republika", CZ, CZE]
+  United States: [United States, United States of America, USA, US, "U.S."]
+  Ireland: [Ireland, IE, IRL]
+  Belgium: [Belgium, BE, BEL]
+  France: [France, FR, FRA]
+  Japan: [Japan, JP, JPN]
+  Mexico: [Mexico, MX, MEX]
+  Germany: [Germany, Deutschland, DE, DEU]
+  Slovakia: [Slovakia, Slovak Republic, SK, SVK]
+  Spain: [Spain, ES, ESP]
+
+city_countries:
+  Prague: Czechia
+  Praha: Czechia
+  Brno: Czechia
+  Santa Clara: United States
+  Chicago: United States
+  New York: United States
+  Raritan: United States
+  Cincinnati: United States
+  El Paso: United States
+  Tokyo: Japan
+  Mexico City: Mexico
+  Düsseldorf: Germany
+  Dusseldorf: Germany
+  Cork: Ireland
+  Brussels: Belgium
+  Barcelona: Spain
+  Bratislava: Slovakia
+
+remote_scope_aliases:
+  CZECHIA: [Czechia, Czech Republic, "Česká republika"]
+  EUROPE: [Europe, European]
+  EUROPEAN_UNION: [European Union, EU]
+  EUROPEAN_ECONOMIC_AREA: [European Economic Area, EEA]
+  GLOBAL: [Global, Worldwide, Anywhere]
+
+incomplete_location_patterns:
+  - "\\+\\s*\\d+\\s+(?:more|weitere)"
+  - "\\b\\d+\\s+locations?\\b"
+
+work_mode_patterns:
+  hybrid:
+    - "\\bhybrid\\b"
+  onsite:
+    - "\\bon[ -]?site\\b"
+    - "\\bin[- ]office\\b"
+  remote:
+    - "\\bfully remote\\b"
+    - "\\bremote work\\b"
+    - "\\bwork remotely\\b"
+
+remote_compatibility_patterns:
+  - "\\b(?:remote|remotely).{0,80}\\b(?:from|in|based in)\\b"
+  - "\\b(?:open|available|eligible).{0,80}\\b(?:candidates?|employees?).{0,80}\\b(?:in|based in)\\b"
+  - "\\b(?:candidates?|employees?).{0,80}\\b(?:in|based in).{0,80}\\b(?:remote|remotely|eligible)\\b"
+
+remote_restriction_patterns:
+  - "\\b(?:must|required to)\\s+(?:reside|live|be based|be located)\\s+in\\b"
+  - "\\bremote.{0,40}\\b(?:only|solely|restricted).{0,40}\\b(?:in|to|within|from)\\b"
+  - "\\bonly.{0,40}\\b(?:candidates?|residents?|employees?).{0,40}\\b(?:in|from|based in)\\b"
+
+authorization_requirement_patterns:
+  - "\\bmust be authori[sz]ed to (?:work|be employed)\\b"
+  - "\\brequires? (?:permanent |valid )?work authori[sz]ation\\b"
+  - "\\b(?:permanent|valid) work authori[sz]ation\\b"
+  - "\\bright to work.{0,80}\\b(?:required|mandatory)\\b"
+
+language_requirement_patterns:
+  - "{language}.{0,50}\\b(?:required|mandatory|essential)\\b"
+  - "\\b(?:required|mandatory|must have).{0,50}{language}"
+  - "\\b(?:fluent|native|professional proficiency|business[- ]level)(?: in)?\\s+{language}\\b"
+
+compatible_working_time_patterns:
+  - "\\b(?:CET|CEST|European)(?:[- ]compatible)? (?:hours|time zone|timezone)\\b"
+  - "\\bEuropean working hours\\b"
+
+incompatible_working_time_patterns:
+  - "\\b(?:must|required to) work (?:US|U\\.S\\.|Pacific|Eastern) hours\\b"
+  - "\\b(?:PST|PDT|EST|EDT) working hours\\b"

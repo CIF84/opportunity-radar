@@ -1,0 +1,131 @@
+{
+  "fixture_version": 1,
+  "cases": [
+    {
+      "case_id": "johnson_johnson_us_only",
+      "evidence_basis": "Preserved Live Validation v1 normalized locations and description excerpt.",
+      "job": {
+        "company_name": "Johnson & Johnson",
+        "title": "Senior Manager, Data & AI",
+        "description": "#LI-Hybrid. This position is located at Raritan, NJ with an alternate location of Cincinnati, OH.",
+        "locations": [
+          {"raw": "Raritan, New Jersey, United States", "city": "Raritan", "region": "New Jersey", "country": "United States"},
+          {"raw": "Cincinnati, Ohio, United States", "city": "Cincinnati", "region": "Ohio", "country": "United States"}
+        ],
+        "work_mode": "unspecified"
+      },
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "pfizer_us_authorization",
+      "evidence_basis": "Preserved Live Validation v1 normalized locations and description excerpt.",
+      "job": {
+        "company_name": "Pfizer",
+        "title": "Director, Strategy",
+        "description": "This position is hybrid. Candidates must be authorized to be employed in the U.S. by any employer. This position requires permanent work authorization in the United States.",
+        "locations": [{"raw": "New York, United States", "city": "New York", "country": "United States"}],
+        "work_mode": "unspecified"
+      },
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "pure_storage_santa_clara",
+      "evidence_basis": "Preserved Live Validation v1 normalized location and description excerpt.",
+      "job": {
+        "company_name": "Pure Storage",
+        "title": "Strategy role",
+        "description": "This role is primarily an in-office environment in our Santa Clara, CA office. #LI-ONSITE",
+        "locations": [{"raw": "Office - Santa Clara", "city": null, "region": null, "country": null}],
+        "work_mode": "unspecified"
+      },
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "wpp_chicago",
+      "evidence_basis": "Preserved Live Validation v1 normalized location and description excerpt.",
+      "job": {
+        "company_name": "WPP",
+        "title": "Consultant - Growth Consulting",
+        "description": "This is a hybrid role with approximately four days per week in the office.",
+        "locations": [{"raw": "Chicago, Illinois, United States", "city": "Chicago", "region": "Illinois", "country": "United States"}],
+        "work_mode": "unspecified"
+      },
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "wpp_new_york",
+      "evidence_basis": "Accepted Live Validation v1 human annotation identifies the paired New York variant.",
+      "limitation": "The preserved review artifact currently repeats Chicago for both WPP variants; this bounded fixture tests the accepted annotation rather than claiming an exact snapshot.",
+      "job": {
+        "company_name": "WPP",
+        "title": "Consultant - Growth Consulting",
+        "description": "This is a hybrid role with approximately four days per week in the office.",
+        "locations": [{"raw": "New York, New York, United States", "city": "New York", "region": "New York", "country": "United States"}],
+        "work_mode": "unspecified"
+      },
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "red_hat_tokyo_japanese",
+      "evidence_basis": "Tokyo is preserved source evidence; the Japanese requirement is accepted Live Validation v1 human annotation.",
+      "limitation": "The preserved normalized description is Japanese-language content but does not contain a separately normalized language-requirement field.",
+      "job": {
+        "company_name": "Red Hat",
+        "title": "Senior Solution Architect",
+        "description": "This position is based in Tokyo and professional Japanese is required.",
+        "locations": [{"raw": "Tokyo", "city": "Tokyo", "region": null, "country": "Japan"}],
+        "work_mode": "onsite"
+      },
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "wpp_mexico_city",
+      "evidence_basis": "Preserved Live Validation v1 normalized geography and hybrid description evidence.",
+      "job": {
+        "company_name": "WPP",
+        "title": "Technical Delivery Lead",
+        "description": "#LI-Hybrid. The role works from the office four days per week.",
+        "locations": [{"raw": "Mexico City, Mexico", "city": "Mexico City", "region": null, "country": "Mexico"}],
+        "work_mode": "unspecified"
+      },
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "wpp_dusseldorf",
+      "evidence_basis": "Preserved Live Validation v1 normalized geography and hybrid description evidence.",
+      "job": {
+        "company_name": "WPP",
+        "title": "Transformation role",
+        "description": "#LI-Hybrid. The role works from the office four days per week.",
+        "locations": [{"raw": "Düsseldorf, Germany", "city": "Düsseldorf", "region": null, "country": "Germany"}],
+        "work_mode": "unspecified"
+      },
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "deutsche_boerse_cork_incomplete",
+      "evidence_basis": "Preserved Live Validation v1 raw incomplete multi-location value.",
+      "job": {
+        "company_name": "Deutsche Börse Group",
+        "title": "Junior role",
+        "description": "",
+        "locations": [{"raw": "Cork, IE +2 weitere …", "city": "Cork", "region": null, "country": "Ireland"}],
+        "work_mode": "unspecified"
+      },
+      "expected": "UNCERTAIN"
+    },
+    {
+      "case_id": "klaxoon_remote_unresolved",
+      "evidence_basis": "The preserved Live Validation v1 artifact says France and remote; Czech employment access is not established.",
+      "limitation": "The accepted audit narrative called this Belgium/remote. The fixture preserves the actual stored France location and the same unresolved-access conclusion.",
+      "job": {
+        "company_name": "Wrike / Klaxoon",
+        "title": "Remote product role",
+        "description": "Remote role. French is a strong plus. The company has global hubs, including Czechia.",
+        "locations": [{"raw": "France", "city": null, "region": null, "country": "France"}],
+        "work_mode": "remote"
+      },
+      "expected": "UNCERTAIN"
+    }
+  ]
+}

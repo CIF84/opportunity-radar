@@ -1,5 +1,8 @@
 # SPEC-001 — Current Candidate Market Status
 
+Implementation status: implemented as a pure evaluator; routing and
+recommendation integration remain out of scope for this packet.
+
 ## Purpose
 
 Implement Phase 4 Slice 2 only: a pure post-detail, candidate-dependent `CurrentCandidateMarketStatus` evaluator.

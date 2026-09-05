@@ -95,14 +95,14 @@ Responsibility: interpret a current job for a versioned candidate using
 conservative eligibility, neutral features, and a provider-independent semantic
 assessment contract.
 
-- Main modules: `phase3_config.py`, `phase3_models.py`, `eligibility.py`,
-  `features.py`, `semantic.py`, `experimental_semantic.py`.
-- Inputs: `SemanticJobInput`, candidate profile, taxonomy, deterministic
-  features, and semantic assessor.
-- Outputs: eligibility evidence and six dimension scores with structured
-  strengths, gaps, and risks.
-- Nature: eligibility/features are deterministic; dimension interpretation may
-  be semantic.
+- Main modules: `phase3_config.py`, `phase3_models.py`, `market_status.py`,
+  `eligibility.py`, `features.py`, `semantic.py`, `experimental_semantic.py`.
+- Inputs: `SemanticJobInput`, candidate profile, market-normalization rules,
+  taxonomy, deterministic features, and semantic assessor.
+- Outputs: structured candidate-market assessment, eligibility evidence, and
+  six dimension scores with structured strengths, gaps, and risks.
+- Nature: market status, eligibility, and features are deterministic;
+  dimension interpretation may be semantic.
 - Persistence: candidate profiles and semantic assessments are versioned in
   SQLite outside the assessor.
 
@@ -116,8 +116,10 @@ Invariants:
   eligibility, composite arithmetic, recommendation, or action authority.
 - Job descriptions are evidence and untrusted input, never model instructions.
 - `CandidateProfile` version 2 validates a separately fingerprinted
-  `market_access_policy`; that policy is excluded from semantic-v1 inputs and
-  is not yet consumed by an evaluator or ranking path.
+  `market_access_policy`; that policy is excluded from semantic-v1 inputs.
+- `market_status.py` provides a pure post-detail candidate-market evaluator
+  using declarative bounded normalization. Its structured assessment is not
+  yet consumed by routing, ranking, or persistence.
 
 ## DECIDE
 
@@ -188,15 +190,14 @@ identity, and application intent are not equivalent:
 JobInstance != Opportunity != Application intent
 ```
 
-## Planned and audited, not implemented
+## Partially implemented Phase 4 direction
 
-The post-validation architecture audit identified four Phase 4 behavioral
-concepts. They are design direction only and must not be described as current
-behavior:
+The post-validation architecture audit identified four Phase 4 concepts:
 
-1. `CurrentCandidateMarketStatus`: `IN_SCOPE`, `UNCERTAIN`, or `OUT_OF_SCOPE`
-   after detailed active state and before candidate ranking. It must never
-   change lifecycle state.
+1. `CurrentCandidateMarketStatus`: the pure evaluator for `IN_SCOPE`,
+   `UNCERTAIN`, or `OUT_OF_SCOPE` after detailed active state is implemented.
+   Its routing and recommendation-policy integration are not implemented. It
+   does not change lifecycle state.
 2. `OpportunityCluster`: a high-confidence employer-scoped grouping above
    independent `JobInstance` records.
 3. Preferred variant: candidate-dependent choice of one cluster member for
@@ -204,10 +205,12 @@ behavior:
 4. Preference-aware decision layer: versioned candidate decision preferences
    applied without silently changing cached semantic interpretation.
 
-The candidate's Prague onsite/hybrid boundary, Czech-compatible remote policy,
+Items 2–4 remain planned and are not implemented. The candidate's Prague
+onsite/hybrid boundary, Czech-compatible remote policy,
 exceptional-relocation posture, language/work-access facts, `UNCERTAIN` cap,
 and junior-role guard are now represented in the generic CandidateProfile
-schema and configuration. Their behavioral evaluation remains unimplemented.
+schema and configuration. Their pure behavioral evaluation is implemented;
+downstream routing and recommendation composition remain unimplemented.
 Soft preference trade-offs remain accepted policy but are deferred to the
 decision-preference slice. Phase 4 of `SPEC.md` defines the boundaries.
 
