@@ -7,10 +7,10 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-014-wave-a-source-contract-preflight.md
+specs/phase4/SPEC-015-bounded-production-source-onboarding.md
 ```
 
-Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -36,60 +36,37 @@ Phases 1–3 are implemented. Phase 4 has committed implementations for candidat
 market access/routing, high-confidence opportunity clustering, preferred variant,
 versioned decision preferences, seniority guard, retrospective replay, residual
 market normalization, prospective-validation preparation, semantic compute-allocation
-audit, completed human compute-worthiness validation, and source-portfolio/role-
-coverage audit.
+audit, completed human compute-worthiness validation, source-portfolio/role-
+coverage audit, and Wave A source-contract preflight.
 
-SPEC-013 is now frozen in commit `a4ebba825e80256ad55ed6bfcaf973a2df37d413`.
-It established that the current 18-employer source portfolio has high raw vacancy
-volume but low effective employer breadth, especially at the routed-cluster boundary.
+SPEC-013 is frozen in commit `a4ebba825e80256ad55ed6bfcaf973a2df37d413`.
+SPEC-014 is frozen in commit `11e000825e339de8c772d5bd7a66e2567469f1b2`.
 
-The zero-detail Wave A source-contract preflight is implemented and awaiting
-promotion review. No employer is authorized for production onboarding yet.
+SPEC-015 is the first bounded production source-onboarding experiment. It authorizes
+only Keboola, Commerzbank, and KPMG, and must measure coverage delta before any
+semantic spending.
 
-## SPEC-014 completed result
+## SPEC-014 frozen result
 
 Run `wave-a-preflight-20260911-v4` completed all nine listing inventories in 36
 bounded public requests, with zero detail calls, zero semantic calls, unchanged
 production configuration, and byte-identical operational SQLite.
 
-- configuration-ready: Keboola, Commerzbank, KPMG;
-- reusable bounded adapter fix: Mews nested first-party feed;
-- investigate before onboarding: Erste listing geography;
-- generic contract correction before onboarding: Zentiva Workday identity and
-  listing-location mapping;
-- low current marginal target-role value: Productboard, ABB, MSD.
+Configuration-ready and approved for SPEC-015 bounded onboarding:
 
-The detailed findings are in
-`docs/wave_a_source_contract_preflight_report.md`; repository-safe evidence is
-indexed by `EXP-WAVE-A-PREFLIGHT-001`.
+- Keboola — 3 listings, all three listing-level in scope, one decision-support title signal;
+- Commerzbank — 24 Czech listings, two product title signals;
+- KPMG — 29 Czech listings, one analytics and one transformation title signal.
 
-## SPEC-012 completed result
+Not approved for SPEC-015:
 
-The frozen semantic compute-worthiness experiment reviewed 60/60 opportunity clusters:
+- Mews — valuable first-party nested feed requiring a reusable declarative flattening extension;
+- Erste Group — inventory works but listing geography is unavailable;
+- Zentiva — Workday identity/location mapping must be corrected before onboarding;
+- Productboard, ABB, MSD — low current marginal target-role value in the frozen preflight.
 
-```text
-WORTH_DEEP_ASSESSMENT      3
-NOT_WORTH_DEEP_ASSESSMENT 57
-NEED_MORE_INFO             0
-```
-
-By frozen triage stratum:
-
-```text
-SEMANTIC_PRIORITY  3 worth / 17 not worth
-SEMANTIC_OPTIONAL  0 worth / 20 not worth
-SEMANTIC_DEFER     0 worth / 20 not worth
-```
-
-Directional gates:
-
-- DEFER safety: PASS at 100%;
-- DEFER worth count: PASS at 0;
-- PRIORITY precision: FAIL at 15% versus >=60%;
-- information sufficiency: PASS;
-- employer-specific catastrophic blind spot: none detected.
-
-The current triage is therefore not promoted as a runtime semantic-compute gate.
+The detailed findings are in `docs/wave_a_source_contract_preflight_report.md`;
+repository-safe evidence is indexed by `EXP-WAVE-A-PREFLIGHT-001`.
 
 ## SPEC-013 frozen result
 
@@ -112,89 +89,42 @@ The durable intake principle is:
 
 > Maximize marginal useful market coverage, not raw vacancy volume.
 
-SPEC-013 proposed the following employer portfolio:
+## SPEC-012 completed result
 
-### Wave A — configuration-first candidates
-
-- Keboola
-- Mews
-- Productboard
-- Commerzbank
-- Erste Group
-- ABB
-- KPMG
-- MSD
-- Zentiva
-
-### Wave B — higher-value source work
-
-- Gen Digital
-- Mastercard
-- Visa
-- Rossum
-- Accenture
-- Barclays
-- Microsoft
-- Sanofi
-- Takeda
-- AstraZeneca
-
-### Watchlist
-
-- BCG
-- Deloitte
-- Eaton
-- McKinsey
-- Novartis
-- RBI
-- Resistant AI
-- Bosch
-- Oracle
-- PwC
-- Bayer
-
-## Why SPEC-014 exists
-
-Technical reachability is not enough to justify onboarding a source.
-
-For each Wave A employer the system must establish, before production configuration:
+The frozen semantic compute-worthiness experiment reviewed 60/60 opportunity clusters:
 
 ```text
-Can we enumerate it reliably?
-Can an existing adapter handle it?
-Do listings expose useful geography/title evidence?
-Does it add target-role-family breadth?
-Does it add employer/business-model diversification?
-What detail burden would onboarding create?
+WORTH_DEEP_ASSESSMENT      3
+NOT_WORTH_DEEP_ASSESSMENT 57
+NEED_MORE_INFO             0
 ```
 
-The result should recommend only the employers with the highest **marginal useful
-market coverage**, not mechanically onboard all nine.
+By frozen triage stratum:
 
-SPEC-014 is explicitly zero-detail: it may inspect public listing/index surfaces
-and pagination/source contracts, but it may not retrieve job-detail pages or mutate
-Phase 2 state.
+```text
+SEMANTIC_PRIORITY  3 worth / 17 not worth
+SEMANTIC_OPTIONAL  0 worth / 20 not worth
+SEMANTIC_DEFER     0 worth / 20 not worth
+```
+
+DEFER safety passed; PRIORITY precision failed at 15% versus the frozen 60% gate.
+The current triage is not promoted as a runtime semantic-compute gate.
 
 ## New human direction captured by SPEC-013
 
 Business/data/decision-analytics is a viable career direction when business-facing
 and aligned with broader AI/transformation work.
 
-Existing candidate capability already includes strong evidence for:
-
-- business analytics;
-- decision support;
-- forecasting/KPI decomposition;
-- commercial analytics;
-- business operations;
-- turning messy data into clear business decisions.
+Existing candidate capability already includes strong evidence for business
+analytics, decision support, forecasting/KPI decomposition, commercial analytics,
+business operations, and turning messy data into clear business decisions.
 
 Hard-skill gaps such as SQL/Python depth remain real. The target is not generic
 reporting/data administration; it is analytics connected to decisions,
 transformation, commercial/product outcomes, and AI-enabled work.
 
 A future decision-preference update for `business_analytics` / `decision_support`
-remains a separate approval. It is not part of SPEC-014.
+remains a separate approval. It is not part of SPEC-015.
 
 ## Fresh operational state from SPEC-009
 
@@ -234,34 +164,30 @@ NEGATIVE        -> -0.3
 aggregate cap   -> [-1.0, +1.0]
 ```
 
-## Frozen items during SPEC-014
+## Current gate
+
+> Execute SPEC-015 only: onboard Keboola, Commerzbank, and KPMG through the
+> existing production ingestion/state architecture, make zero semantic calls,
+> and measure whether they materially improve useful market coverage.
+
+The key result is not whether three sources can be scraped. It is whether the
+observable opportunity universe becomes meaningfully broader and more relevant.
+
+## SPEC-015 protected boundaries
 
 Do not change:
 
-- production `config/companies.yaml`;
-- operational SQLite / Phase 2 state;
-- Luna / low / `phase3-semantic-v1`;
-- semantic assessments/cache;
-- Phase 3 scoring weights;
+- employers other than Keboola, Commerzbank, and KPMG;
 - candidate profile/preferences;
-- market-access policy and market-status rules;
-- clustering contract;
+- market policy;
+- semantic model/prompt/contract/weights;
+- existing semantic cache;
+- clustering semantics;
 - seniority guard;
-- historical judgments and completed SPEC-012 evidence;
-- SPEC-008 frozen prospective protocol;
-- Phase 1/2 identity/lifecycle contracts.
+- historical evidence;
+- Phase 1/2 lifecycle and identity contracts.
 
-SPEC-014 authorizes bounded public listing/index calls for the nine Wave A
-candidates only. Detail retrieval and semantic calls remain prohibited.
-
-## Current gate
-
-> Review whether Keboola, Commerzbank, and KPMG should enter one bounded
-> configuration-only production-onboarding experiment, while Mews is evaluated
-> separately as the first reusable adapter-extension candidate.
-
-A technically scrapeable source may still receive NO-GO if marginal useful market
-coverage is weak.
+No semantic calls are authorized.
 
 ## Intended architecture
 
@@ -281,30 +207,31 @@ RANKED OPPORTUNITY FEED
 Employer breadth and semantic-call minimization remain separate optimization
 problems.
 
-## Next intended steps
+## Direction after SPEC-015
 
-1. Review the SPEC-014 scorecard and three-source configuration-only recommendation.
-2. Only after explicit approval, create a bounded production-onboarding packet for Keboola, Commerzbank, and KPMG.
-3. Review Mews as a separate generic nested-feed extension; do not combine it with configuration-only onboarding.
-4. Keep Erste and Zentiva in source-contract investigation until their listing evidence is safe.
-5. Separately decide whether to create a new decision-preference version for business analytics / decision support.
-6. Preserve semantic-v1 while source breadth improves.
-7. Revisit deterministic rejection/stretch-envelope and semantic compute allocation after intake evidence is more balanced.
+Contingent on evidence:
+
+1. keep only production sources that meet existing invariants and add useful coverage;
+2. compare their observed marginal value with the expected value of a small reusable Mews nested-feed extension;
+3. keep Erste and Zentiva in source-contract investigation until evidence is safe;
+4. separately decide whether to version business-analytics / decision-support preference;
+5. then revisit deterministic rejection/stretch-envelope and semantic compute allocation;
+6. preserve semantic-v1 until upstream market/intake architecture is better balanced.
 
 ## Known open decisions
 
-- Whether to approve bounded configuration-only onboarding for Keboola, Commerzbank, and KPMG.
-- Whether Mews should receive the next reusable adapter-extension packet.
+- Per-employer keep/remove decision after SPEC-015 bounded production evidence.
+- Whether Mews receives the next reusable adapter-extension packet.
 - Whether business/data/decision-analytics receives an explicit decision-preference update.
 - Deterministic rejection / stretch-envelope architecture after source coverage improves.
 - Semantic-call budget for later prospective ranking validation.
 - Durable private backup/retention for operational SQLite and detailed human evidence.
-- Bounded semantic-call authority available to future agents.
 
 ## Explicitly do not build/tune yet
 
-- production employer expansion before SPEC-014 review;
-- new provider adapters for Wave B;
+- Mews adapter extension inside SPEC-015;
+- Erste/Zentiva fixes inside SPEC-015;
+- Wave B adapters/onboarding;
 - semantic prompt/model/weight tuning;
 - cheap secondary LLM routing;
 - embeddings/vector search;
