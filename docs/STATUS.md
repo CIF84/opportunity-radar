@@ -7,15 +7,15 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-012-semantic-compute-worthiness-human-validation.md
+specs/phase4/SPEC-013-source-portfolio-and-role-coverage-audit.md
 ```
 
-Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation/operations agents must follow this pointer rather than infer work
-from file recency. Before starting, verify the local working tree is clean and
-synchronize with `origin/main` when safe. If unexplained changes, divergence, or
-conflicts exist, stop and report them rather than overwriting or improvising.
+from file recency. Before starting, verify the local working tree is synchronized
+with `origin/main` when safe. Intentionally retained local operational/private
+evidence is not itself an error; unexplained code/config divergence is.
 
 The development authority boundary remains:
 
@@ -39,155 +39,115 @@ state, and explain which active opportunities deserve a candidate's attention.
 Phases 1–3 are implemented. Phase 4 has committed implementations for candidate
 market access/routing, high-confidence opportunity clustering, preferred variant,
 versioned decision preferences, seniority guard, retrospective replay, residual
-market normalization, frozen prospective validation preparation, and semantic
-compute-allocation audit tooling.
+market normalization, prospective-validation preparation, semantic compute-
+allocation audit, and completed human compute-worthiness validation.
 
-SPEC-009 executed the first unrestricted fresh 18-employer state refresh.
-SPEC-010 correctly stopped when the frozen rank-based prospective protocol was
-found to require semantic assessment before unbiased sampling. SPEC-011 then
-audited whether cheap deterministic evidence could solve that allocation problem.
-It could not do so safely enough to promote a runtime policy.
+The latest completed human experiment is SPEC-012. Its repository-safe result was
+committed in `e276541598131d7d9132789dbdd3cf88e4460ffe`.
 
-The current packet has prepared a new, bounded human experiment: label whether
-deep semantic reasoning is **worth spending** on 60 cache-blind opportunity
-clusters. It made no Luna call and did not modify the frozen SPEC-008
-prospective protocol. Human review has not started.
+SPEC-013 now shifts attention upstream from semantic allocation to **source
+portfolio quality**: whether the current 18-employer intake provides enough
+employer and role-family breadth for the candidate's actual opportunity market.
 
-## SPEC-011 audit result
+## SPEC-012 completed result
 
-Run `semantic-allocation-audit-20260905-v3`:
-
-- routed post-historical-exclusion clusters: 3,315;
-- compatible cache hits: 206;
-- semantic cache misses: 3,109;
-- full semantic completion projection: ~$8.2367;
-- conservative obvious-role-family deferral: 3,086 calls / ~$8.1757 while
-  preserving 5/5 historical human-APPLY units;
-- title-positive priority: 489 calls / ~$1.2955 but only 3/5 historical APPLY
-  units retained;
-- description-assisted lexical positive evidence: 2,701 calls / ~$7.1558 and
-  only 4/5 historical APPLY units retained;
-- title priority plus 10% deterministic exploration: 754 calls / ~$1.9976 and
-  only 3/5 historical APPLY units retained.
-
-No audited interpretable policy reached <=1,000, <=500, <=250, or <=100 calls
-while retaining all known historical human-APPLY opportunity units. Therefore
-no compute-allocation policy was promoted.
-
-The unpromoted audit triage distribution was:
+The frozen semantic compute-worthiness experiment reviewed 60/60 opportunity
+clusters:
 
 ```text
-SEMANTIC_PRIORITY  512
-SEMANTIC_OPTIONAL  2,776
-SEMANTIC_DEFER     27
+WORTH_DEEP_ASSESSMENT      3
+NOT_WORTH_DEEP_ASSESSMENT 57
+NEED_MORE_INFO             0
 ```
 
-Cache status is not an input to this triage.
+By frozen triage stratum:
 
-SPEC-011 also proved that compatible cached semantic payloads can be recomposed
-against current market/preference/seniority/scoring policy with zero external
-calls and without rewriting semantic evidence.
+```text
+SEMANTIC_PRIORITY  3 worth / 17 not worth
+SEMANTIC_OPTIONAL  0 worth / 20 not worth
+SEMANTIC_DEFER     0 worth / 20 not worth
+```
 
-## Why SPEC-012 exists
+Directional gates:
 
-The next uncertainty is no longer “can we invent more keywords?” It is whether
-the cheap triage categories correspond to the human judgment that matters for
-compute allocation:
+- DEFER safety: PASS at 100%;
+- DEFER worth count: PASS at 0;
+- PRIORITY precision: FAIL at 15% versus >=60%;
+- information sufficiency: PASS;
+- employer-specific catastrophic blind spot: none detected.
 
-> Would deeper AI reasoning on this opportunity be worth the compute before
-> deciding whether it deserves attention?
+The current triage is therefore **not promoted** as a runtime semantic-compute
+gate. The narrower hypothesis remains useful: all three observed human-valued
+cases concentrated in PRIORITY, but PRIORITY is too noisy.
 
-SPEC-012 freezes a 60-opportunity human labeling experiment across PRIORITY,
-OPTIONAL, and DEFER. This evidence can tell us whether deterministic triage is
-worth further development, whether a cheap learned/model-based screen is
-justified, or whether full Luna assessment is simpler and safer at current
-scale/cost.
+Projected current-population economics remain directional only:
 
-These labels are experiment evidence, not APPLY/DONT_APPLY judgments and not
-automatic preference updates.
+```text
+all routed            ~3,109 calls / ~$8.24
+PRIORITY only            ~489 calls / ~$1.30
+```
 
-## SPEC-012 preparation result
+The 3/3 observed worth recall in PRIORITY is insufficient for production
+promotion.
 
-Preparation `semantic-worthiness-preparation-20260905-v5` froze:
+## New human direction captured for SPEC-013
 
-- 60 selected OpportunityClusters: 20 `SEMANTIC_PRIORITY`, 20
-  `SEMANTIC_OPTIONAL`, and 20 `SEMANTIC_DEFER`;
-- five same-stratum reserves for each stratum;
-- 17 represented employers;
-- 18 historically reviewed clusters excluded (19 posting members);
-- deterministic mixed review order and selection fingerprint
-  `397c9f50a39ab84379f330b1363580b8d33ca6fd7d6f742b4738fe0eb83f47d8`;
-- 10 `IN_SCOPE` and 50 `UNCERTAIN` selected market assessments;
-- complete title, description-excerpt, source-link, and market-status evidence
-  for all 60 selected items, with location evidence available for 59.
+The candidate explicitly confirmed that business/data/decision-analytics work is
+a viable career direction when it is business-facing and aligned with broader
+AI/transformation work.
 
-The global five-item employer cap could not fill the small, concentrated DEFER
-stratum after all under-cap employers were exhausted. A joint feasibility check
-proved 9 is the smallest cap capable of filling all quotas; deterministic
-balanced allocation then retained 17 employers. All four relaxation steps are
-preserved in the sanitized receipt. This is an explicit sample limitation, not
-hidden rebalancing.
+The candidate already has deep historical capability in:
 
-The private manifest, blind-review packet, detailed report, replacement record,
-and append-only human judgments are Git-ignored. The repository-safe aggregate
-result preserves counts, fingerprints, provenance hashes, limitations, and
-zero-call/read-only evidence.
+- business analytics;
+- decision support;
+- forecasting/KPI decomposition;
+- commercial analytics;
+- turning messy data into clear insights and business decisions.
 
-The completed frozen result contains 60/60 reviews: 3
-`WORTH_DEEP_ASSESSMENT`, 57 `NOT_WORTH_DEEP_ASSESSMENT`, and no
-`NEED_MORE_INFO`. All three WORTH judgments occurred in `SEMANTIC_PRIORITY`;
-`SEMANTIC_OPTIONAL` and `SEMANTIC_DEFER` yielded none. DEFER safety,
-DEFER worth-count, information-sufficiency, and employer-blind-spot gates
-passed. PRIORITY precision was 15% against the frozen 60% threshold, so the
-current triage is not promoted.
+Current hard-skill gaps such as SQL/Python depth remain real and should not be
+hidden. The attractive direction is not generic reporting/data administration;
+it is analytics connected to decisions, transformation, commercial/product
+outcomes, and AI-enabled work.
+
+The 60-item human review also made repeated employers highly visible, triggering
+a separate concern: current intake may have adequate vacancy **volume** but
+insufficient employer **breadth**.
 
 ## Fresh operational state from SPEC-009
 
 Run `07c036f3-c512-4469-ada6-fe57bf9d337b`:
 
-- status: `COMPLETED`;
 - 18/18 sources successful and complete;
 - inventory: 16,490;
 - selected for detail: 3,949;
 - active jobs after refresh: 3,977;
 - closed jobs: 120;
 - active jobs with usable semantic detail: 3,935;
-- existing semantic assessments: 406.
+- existing semantic assessments at refresh: 406.
 
-The routed prospective population after historical exclusion contains 3,315
-clusters, of which approximately 3,109 lack compatible semantic-v1 assessment.
+Later compute-allocation audit evidence showed approximately 3,315 routed
+post-historical-exclusion clusters and substantial employer concentration; the
+largest employer represented about 57% of that audit population.
 
-## Historical validation baseline
+High posting volume is therefore not proof of useful market coverage.
 
-Live Decision Validation v1 remains immutable:
+## Current source portfolio
 
-- 30/30 reviewed;
-- verdict `NO_GO`;
-- strict/shortlist APPLY recall 100%;
-- top-attention acceptance 35%;
-- ranking agreement 40%.
+The committed `config/companies.yaml` contains 18 employers across:
 
-Phase 4 retrospective replay improved opportunity-level ranking agreement to
-80.77% and top-attention acceptance to 50% while preserving 100% APPLY attention
-recall. The later bounded market correction changed exactly one reviewed market
-decision and moved the explicit-market gate to PASS without tuning semantic-v1.
+- Workday;
+- Greenhouse;
+- AlmaCareer/Jobs.cz;
+- SuccessFactors;
+- generic HTML;
+- JSON feed;
+- Phenom.
 
-## Prospective validation protocol
+SPEC-013 must audit concentration and target-role coverage before adding sources.
+The objective is not “more companies” by itself; it is **higher marginal useful
+market coverage**.
 
-SPEC-008 v1 remains frozen and unchanged:
-
-- 40 OpportunityClusters;
-- strata 15 top / 10 boundary / 10 low / 5 market controls;
-- five reserves per stratum;
-- employer caps;
-- deterministic seed/fallback/blind order;
-- historical overlap exclusion;
-- no early stopping.
-
-It remains blocked by the semantic-population/sampling circularity. SPEC-012 is a
-separate experiment and does not silently replace it.
-
-## Confirmed candidate policy
+## Confirmed candidate market policy
 
 - Normal onsite/hybrid work: Prague only.
 - Remote work: acceptable from Czechia when Czech-based employment/engagement
@@ -213,70 +173,93 @@ NEGATIVE        -> -0.3
 aggregate cap   -> [-1.0, +1.0]
 ```
 
-## Frozen items during SPEC-012
+## Frozen items during SPEC-013
 
 Do not change:
 
 - Luna / low / `phase3-semantic-v1`;
 - Phase 3 scoring weights;
+- current semantic assessments/cache;
 - market-access policy and market-status rules;
-- candidate preferences or effect mapping;
 - clustering contract;
 - seniority guard;
-- recommendation thresholds;
-- SPEC-008 prospective protocol v1;
-- SPEC-011 triage definition while sampling/labeling;
-- historical judgments/batch membership;
-- Phase 1/2 contracts;
-- existing semantic cache records.
+- historical judgments and completed SPEC-012 evidence;
+- SPEC-008 frozen prospective protocol;
+- Phase 1/2 identity/lifecycle contracts.
 
-No semantic calls or live source calls are authorized.
+SPEC-013 authorizes bounded public career-source discovery but no semantic calls,
+no paid APIs, no new-employer full refresh, and no external actions.
 
 ## Current gate
 
-> Preserve the completed SPEC-012 experiment as frozen evidence. Do not promote
-> the current triage as a runtime semantic-compute gate, and do not begin a
-> successor experiment without an explicit architecture decision.
+> Determine whether the current 18-employer source portfolio is too concentrated
+> or structurally weak in business/data/decision-analytics and AI-transformation
+> opportunity coverage, then propose the smallest evidence-based employer
+> expansion that improves useful market breadth.
 
-The experiment preserved all three observed WORTH items in PRIORITY and showed
-perfect bounded DEFER safety, but failed its predeclared PRIORITY-precision gate.
-That is useful allocation evidence, not authority to change runtime policy.
+The audit must separate four possible causes of the observed gap:
+
+```text
+EMPLOYER SELECTION
+ROLE-FAMILY CLASSIFICATION
+MARKET ROUTING
+CANDIDATE PREFERENCE REPRESENTATION
+```
+
+Do not assume the answer is employer expansion until the evidence distinguishes
+them.
+
+## Intended architecture
+
+```text
+SOURCE PORTFOLIO
+maximize useful market coverage
+        ↓
+DETERMINISTIC MARKET / HARD NEGATIVE FILTERS
+remove obvious non-opportunities cheaply
+        ↓
+SEMANTIC COMPUTE ALLOCATION
+spend reasoning where decision value is high
+        ↓
+RANKED OPPORTUNITY FEED
+```
+
+Employer breadth and semantic-call minimization are separate optimization
+problems. Do not narrow intake merely to reduce compute cost.
 
 ## Next intended steps
 
-1. Preserve the completed SPEC-012 evidence and public/private boundary.
-2. Through a separate explicit decision, decide whether to:
-   - test deterministic triage further;
-   - design a cheap learned/model-based screening experiment;
-   - or conclude full semantic assessment is the simpler tradeoff.
-3. Only after that decision revisit SPEC-008 prospective ranking validation.
+1. Execute SPEC-013 read-only portfolio and role-coverage audit.
+2. Measure current employer concentration at inventory, usable-detail, and
+   candidate-routed boundaries.
+3. Diagnose analyst/decision-support coverage including alternate job titles.
+4. Audit whether the current candidate profile already represents this career
+   direction adequately.
+5. Perform bounded public discovery of potential employers.
+6. Recommend staged Wave A / Wave B source expansion and a durable intake policy.
+7. Stop for human review before adding employers or running them live.
 
 ## Known open decisions
 
-- Compute-allocation architecture after the completed 60-item human experiment.
-- Semantic-call budget after an unbiased allocation policy/frame exists.
-- Whether manual opportunity-cluster overrides are needed after future
-  prospective cluster adjudication.
-- Durable private backup/retention for SQLite, raw judgments, and detailed
-  review evidence.
+- Which employers should expand the source portfolio after SPEC-013.
+- Whether business/data/decision-analytics needs a bounded explicit
+  decision-preference update.
+- Deterministic rejection / stretch-envelope architecture after source coverage
+  is better understood.
+- Semantic-call budget for the later prospective ranking experiment.
+- Durable private backup/retention for operational SQLite and detailed human
+  evidence.
 - Bounded semantic-call authority available to future agents.
-
-## Operational/test note
-
-The historical 406-job residual expectation now lives in frozen sanitized test
-evidence rather than depending on mutable operational database size. Current
-operational diagnostics remain read-only.
 
 ## Explicitly do not build/tune yet
 
 - semantic prompt/model/weight tuning;
-- retrospective preference-effect tuning;
 - cheap secondary LLM routing;
 - embeddings/vector search;
 - learned ranking/ML infrastructure;
-- fuzzy/probabilistic clustering;
 - autonomous preference learning;
+- broad fuzzy clustering;
+- production employer expansion before the audit is reviewed;
 - UI/feed/control panel;
-- alerts/scheduling;
 - application automation;
 - external actions inferred from `APPLY`.
