@@ -194,7 +194,7 @@ experiments:
   - experiment_id: EXP-SOURCE-PORTFOLIO-001
     type: SOURCE_PORTFOLIO_ROLE_COVERAGE_AUDIT
     hypothesis: The current 18-employer intake is too concentrated and structurally under-covers business/data/decision-analytics and AI-transformation opportunities for the candidate's actual market.
-    status: IMPLEMENTED_LOCALLY_AWAITING_REVIEW
+    status: COMPLETED
     completed_at: "2026-09-11"
     baseline: Fresh SPEC-009 state with 16,490 complete-inventory identities, 3,935 usable ACTIVE details, and 3,326 current normal-candidate clusters before historical-overlap exclusion.
     intervention: Classify current clusters with a deterministic multi-label role-family diagnostic, measure employer concentration at three pipeline boundaries, audit candidate direction representation, and rank a bounded 30-employer public-source longlist without adding production sources.
@@ -202,7 +202,23 @@ experiments:
     artifacts: [docs/source_portfolio_and_role_coverage_report.md, output/source_portfolio_audit/source-portfolio-audit-20260911-v2/aggregate_summary.json]
     metrics: {configured_employers: 18, inventory_top_1_share: 0.478957, routed_top_1_share: 0.573361, routed_hhi: 3617.01, routed_effective_employers: 2.765, target_role_unique_clusters: 388, target_role_title_supported_clusters: 164, target_role_in_scope: 18, longlist: 30, wave_a: 9, wave_b: 10, external_semantic_calls: 0, new_employer_ingestion_calls: 0}
     result: Employer concentration is high and increases after routing. Target analytics/decision-support evidence exists under alternate titles but remains employer-concentrated, mostly market-uncertain, and especially thin for explicit decision-support titles. Candidate capability representation is already strong.
-    decision: Propose bounded Wave A source-contract preflight and a separate versioned analytics/decision-support preference decision; add no production employer until human review.
+    decision: The audit was accepted as frozen evidence; proceed to the bounded Wave A source-contract preflight and add no production employer until that separate gate is reviewed.
     limitations: Diagnostic multi-label classification is not suitability scoring; description-only matches may indicate adjacency; future source yield is not projected because candidates were not ingested; volatile source contracts require preflight.
     related_decisions: [DR-001, DR-005, DR-007, DR-012, DR-021]
-    commit_or_worktree_state: "Run source-portfolio-audit-20260911-v2 against e0f0a0b in a dirty worktree; exact database/configuration and private-artifact hashes are preserved in the repository-safe aggregate"
+    commit_or_worktree_state: "a4ebba8 (Audit source portfolio and role coverage); exact run database/configuration and private-artifact hashes are preserved in the repository-safe aggregate"
+
+  - experiment_id: EXP-WAVE-A-PREFLIGHT-001
+    type: WAVE_A_ZERO_DETAIL_SOURCE_CONTRACT_PREFLIGHT
+    hypothesis: A small subset of the nine frozen Wave A employers adds useful market and target-role breadth through existing source families at acceptable listing/detail burden.
+    status: COMPLETED_AWAITING_PROMOTION_REVIEW
+    completed_at: "2026-09-11"
+    baseline: The production portfolio remains 18 employers; SPEC-013 identified nine Wave A candidates without ingesting them.
+    intervention: Enumerate each candidate through a bounded public listing/index contract, measure listing evidence, market signal, target-title signal, projected detail burden, and adapter reuse without fetching any detail.
+    inputs: [specs/phase4/SPEC-014-wave-a-source-contract-preflight.md, experiments/wave_a_source_preflight_v1.yaml, experiments/source_portfolio_audit_v1.yaml, config/market_scope.yaml, config/companies.yaml, output/opportunity_radar.sqlite3]
+    artifacts: [docs/wave_a_source_contract_preflight_report.md, output/wave_a_source_preflight/wave-a-preflight-20260911-v4/aggregate_summary.json]
+    metrics: {candidate_sources: 9, completed_inventories: 9, public_requests: 36, configuration_only_go: 3, bounded_adapter_fix_go: 2, conditional_investigation: 1, low_marginal_value_no_go: 3, semantic_calls: 0, detail_calls: 0}
+    result: Keboola, Commerzbank, and KPMG are configuration-ready. Mews has high value behind a reusable nested-feed gap; Zentiva has a generic Workday identity/listing mapping defect; Erste lacks listing geography. Productboard, ABB, and MSD have low current marginal target-role value.
+    decision: Propose a bounded configuration-only onboarding packet for Keboola, Commerzbank, and KPMG; review Mews as a separate first adapter-extension candidate.
+    limitations: Listing-title evidence is diagnostic and current-source dependent; unknown geography is conservatively retained; no job description, suitability, or semantic evidence was evaluated.
+    related_decisions: [DR-001, DR-005, DR-012, DR-021]
+    commit_or_worktree_state: "Run wave-a-preflight-20260911-v4 against aa76bbc in a dirty worktree; exact source/config/database hashes and private-artifact hash are preserved in the aggregate receipt"

@@ -1,0 +1,582 @@
+{
+  "schema_version": 1,
+  "experiment_id": "EXP-WAVE-A-PREFLIGHT-001",
+  "experiment_type": "WAVE_A_ZERO_DETAIL_SOURCE_CONTRACT_PREFLIGHT",
+  "run_id": "wave-a-preflight-20260911-v4",
+  "created_at": "2026-09-11T19:33:21.316883+00:00",
+  "sources": [
+    {
+      "company_id": "keboola",
+      "company_name": "Keboola",
+      "category": "DATA_ANALYTICS",
+      "diversification": "Czech-native data and analytics platform",
+      "provider_adapter": "generic_html",
+      "source_url": "https://www.keboola.com/about/jobs",
+      "probe": "adapter_list_jobs",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 3,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 3,
+        "unique_canonical_urls": 3,
+        "duplicate_external_id_count": 0,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {
+        "title": 3,
+        "canonical_url": 3,
+        "location": 3,
+        "work_mode": 0,
+        "date": 0,
+        "department": 0,
+        "employment_type": 0
+      },
+      "market_scope_counts": {
+        "SELECT_IN_SCOPE": 3
+      },
+      "target_role_family_counts": {
+        "DECISION_INTELLIGENCE_SUPPORT": 1
+      },
+      "all_role_family_counts": {
+        "HR_PEOPLE": 1,
+        "FINANCE_ACCOUNTING_TAX": 1,
+        "DECISION_INTELLIGENCE_SUPPORT": 1,
+        "OTHER_AMBIGUOUS": 1
+      },
+      "projected_detail_burden": {
+        "selected_for_detail": 3,
+        "projected_network_detail_requests": 3,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": true,
+      "bounded_adapter_gap": null,
+      "diagnostics": {},
+      "requests": {
+        "count": 1,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 0.531,
+      "operational_risks": [],
+      "verdict": "GO_CONFIGURATION_ONLY"
+    },
+    {
+      "company_id": "mews",
+      "company_name": "Mews",
+      "category": "SAAS",
+      "diversification": "Czech-founded hospitality SaaS",
+      "provider_adapter": "json_feed",
+      "source_url": "https://www.mews.com/api/careers",
+      "probe": "nested_json_feed",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 28,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 28,
+        "unique_canonical_urls": 28,
+        "duplicate_external_id_count": 0,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {
+        "title": 28,
+        "canonical_url": 28,
+        "location": 28,
+        "work_mode": 0,
+        "date": 28,
+        "department": 28,
+        "employment_type": 0
+      },
+      "market_scope_counts": {
+        "SKIP_EXPLICITLY_OUT_OF_SCOPE": 17,
+        "SELECT_IN_SCOPE": 11
+      },
+      "target_role_family_counts": {
+        "BUSINESS_REVENUE_OPERATIONS": 1,
+        "PRODUCT_STRATEGY": 4
+      },
+      "all_role_family_counts": {
+        "SALES_ACCOUNT_MANAGEMENT": 3,
+        "CUSTOMER_SUPPORT_SERVICE": 3,
+        "FINANCE_ACCOUNTING_TAX": 1,
+        "OTHER_AMBIGUOUS": 13,
+        "BUSINESS_REVENUE_OPERATIONS": 1,
+        "PRODUCT_STRATEGY": 4,
+        "LEGAL": 2,
+        "CLOUD_INFRA_SECURITY_ENGINEERING": 1
+      },
+      "projected_detail_burden": {
+        "selected_for_detail": 11,
+        "projected_network_detail_requests": 11,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": false,
+      "bounded_adapter_gap": "NESTED_JSON_GROUP_FLATTENING",
+      "diagnostics": {
+        "group_count": 9,
+        "group_counts_validated": true
+      },
+      "requests": {
+        "count": 1,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 0.153,
+      "operational_risks": ["NESTED_JSON_GROUP_FLATTENING"],
+      "verdict": "GO_BOUNDED_ADAPTER_FIX"
+    },
+    {
+      "company_id": "productboard",
+      "company_name": "Productboard",
+      "category": "SAAS",
+      "diversification": "Product-management SaaS",
+      "provider_adapter": "generic_html",
+      "source_url": "https://www.productboard.com/careers/open-positions/",
+      "probe": "adapter_list_jobs",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 8,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 8,
+        "unique_canonical_urls": 8,
+        "duplicate_external_id_count": 0,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {
+        "title": 8,
+        "canonical_url": 8,
+        "location": 8,
+        "work_mode": 0,
+        "date": 0,
+        "department": 0,
+        "employment_type": 0
+      },
+      "market_scope_counts": {
+        "SELECT_IN_SCOPE": 6,
+        "SKIP_EXPLICITLY_OUT_OF_SCOPE": 2
+      },
+      "target_role_family_counts": {},
+      "all_role_family_counts": {
+        "OTHER_AMBIGUOUS": 8
+      },
+      "projected_detail_burden": {
+        "selected_for_detail": 6,
+        "projected_network_detail_requests": 6,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": true,
+      "bounded_adapter_gap": null,
+      "diagnostics": {},
+      "requests": {
+        "count": 1,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 0.194,
+      "operational_risks": [],
+      "verdict": "NO_GO_LOW_MARGINAL_VALUE"
+    },
+    {
+      "company_id": "commerzbank",
+      "company_name": "Commerzbank",
+      "category": "FINTECH_BANKING",
+      "diversification": "European banking and financial services",
+      "provider_adapter": "almacareer",
+      "source_url": "https://commerzbank.jobs.cz/job-opportunities",
+      "probe": "adapter_list_jobs",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 24,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 24,
+        "unique_canonical_urls": 24,
+        "duplicate_external_id_count": 0,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {
+        "title": 24,
+        "canonical_url": 24,
+        "location": 24,
+        "work_mode": 0,
+        "date": 24,
+        "department": 0,
+        "employment_type": 0
+      },
+      "market_scope_counts": {
+        "SELECT_IN_SCOPE": 24
+      },
+      "target_role_family_counts": {
+        "PRODUCT_STRATEGY": 2
+      },
+      "all_role_family_counts": {
+        "PRODUCT_STRATEGY": 2,
+        "OTHER_AMBIGUOUS": 18,
+        "SUPPLY_CHAIN_WAREHOUSE_FIELD_SERVICE": 2,
+        "SOFTWARE_ENGINEERING": 1,
+        "DATA_SCIENCE_ML_ENGINEERING": 1
+      },
+      "projected_detail_burden": {
+        "selected_for_detail": 24,
+        "projected_network_detail_requests": 24,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": true,
+      "bounded_adapter_gap": null,
+      "diagnostics": {},
+      "requests": {
+        "count": 10,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 9.398,
+      "operational_risks": [],
+      "verdict": "GO_CONFIGURATION_ONLY"
+    },
+    {
+      "company_id": "erste_group",
+      "company_name": "Erste Group",
+      "category": "FINTECH_BANKING",
+      "diversification": "Central-European banking and financial services",
+      "provider_adapter": "successfactors",
+      "source_url": "https://erstegroup-careers.com/search/",
+      "probe": "adapter_list_jobs",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 55,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 55,
+        "unique_canonical_urls": 55,
+        "duplicate_external_id_count": 0,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {
+        "title": 55,
+        "canonical_url": 55,
+        "location": 0,
+        "work_mode": 0,
+        "date": 0,
+        "department": 0,
+        "employment_type": 0
+      },
+      "market_scope_counts": {
+        "SELECT_GEOGRAPHY_UNKNOWN": 55
+      },
+      "target_role_family_counts": {
+        "BUSINESS_ANALYTICS": 1,
+        "PRODUCT_STRATEGY": 1
+      },
+      "all_role_family_counts": {
+        "BUSINESS_ANALYTICS": 1,
+        "OTHER_AMBIGUOUS": 45,
+        "PRODUCT_STRATEGY": 1,
+        "FINANCE_ACCOUNTING_TAX": 1,
+        "SOFTWARE_ENGINEERING": 1,
+        "CLOUD_INFRA_SECURITY_ENGINEERING": 4,
+        "LEGAL": 1,
+        "HR_PEOPLE": 1
+      },
+      "projected_detail_burden": {
+        "selected_for_detail": 55,
+        "projected_network_detail_requests": 55,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": true,
+      "bounded_adapter_gap": null,
+      "diagnostics": {
+        "listing_geography_contract": "NOT_EXPOSED"
+      },
+      "requests": {
+        "count": 2,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 0.43,
+      "operational_risks": ["LISTING_GEOGRAPHY_UNAVAILABLE"],
+      "verdict": "CONDITIONAL_SOURCE_INVESTIGATION"
+    },
+    {
+      "company_id": "abb",
+      "company_name": "ABB",
+      "category": "INDUSTRIAL_TECH",
+      "diversification": "Industrial automation and electrification",
+      "provider_adapter": "almacareer",
+      "source_url": "https://abb.jobs.cz/",
+      "probe": "alma_discovery_list_jobs",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 56,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 56,
+        "unique_canonical_urls": 56,
+        "duplicate_external_id_count": 0,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {
+        "title": 56,
+        "canonical_url": 56,
+        "location": 56,
+        "work_mode": 0,
+        "date": 56,
+        "department": 0,
+        "employment_type": 0
+      },
+      "market_scope_counts": {
+        "SELECT_IN_SCOPE": 56
+      },
+      "target_role_family_counts": {},
+      "all_role_family_counts": {
+        "OTHER_AMBIGUOUS": 54,
+        "SOFTWARE_ENGINEERING": 1,
+        "SALES_ACCOUNT_MANAGEMENT": 1
+      },
+      "projected_detail_burden": {
+        "selected_for_detail": 56,
+        "projected_network_detail_requests": 56,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": false,
+      "bounded_adapter_gap": "ALMA_INLINE_WIDGET_DISCOVERY",
+      "diagnostics": {
+        "credential_discovery": "BOUNDED_PUBLIC_WIDGET_CONFIGURATION",
+        "credentials_persisted": false
+      },
+      "requests": {
+        "count": 7,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 1.721,
+      "operational_risks": ["ALMA_INLINE_WIDGET_DISCOVERY"],
+      "verdict": "NO_GO_LOW_MARGINAL_VALUE"
+    },
+    {
+      "company_id": "kpmg",
+      "company_name": "KPMG",
+      "category": "TRANSFORMATION_CONSULTING",
+      "diversification": "Professional services and transformation consulting",
+      "provider_adapter": "almacareer",
+      "source_url": "https://kpmg.jobs.cz/",
+      "probe": "adapter_list_jobs",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 29,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 29,
+        "unique_canonical_urls": 29,
+        "duplicate_external_id_count": 0,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {
+        "title": 29,
+        "canonical_url": 29,
+        "location": 29,
+        "work_mode": 0,
+        "date": 29,
+        "department": 0,
+        "employment_type": 0
+      },
+      "market_scope_counts": {
+        "SELECT_IN_SCOPE": 29
+      },
+      "target_role_family_counts": {
+        "BUSINESS_ANALYTICS": 1,
+        "AI_DIGITAL_TRANSFORMATION": 1
+      },
+      "all_role_family_counts": {
+        "OTHER_AMBIGUOUS": 17,
+        "BUSINESS_ANALYTICS": 1,
+        "FINANCE_ACCOUNTING_TAX": 10,
+        "LEGAL": 1,
+        "HR_PEOPLE": 1,
+        "AI_DIGITAL_TRANSFORMATION": 1
+      },
+      "projected_detail_burden": {
+        "selected_for_detail": 29,
+        "projected_network_detail_requests": 29,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": true,
+      "bounded_adapter_gap": null,
+      "diagnostics": {},
+      "requests": {
+        "count": 10,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 7.063,
+      "operational_risks": [],
+      "verdict": "GO_CONFIGURATION_ONLY"
+    },
+    {
+      "company_id": "msd",
+      "company_name": "MSD",
+      "category": "PHARMA_TECH",
+      "diversification": "Pharmaceutical and healthcare technology",
+      "provider_adapter": "almacareer",
+      "source_url": "https://msd.jobs.cz/",
+      "probe": "alma_discovery_list_jobs",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 0,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 0,
+        "unique_canonical_urls": 0,
+        "duplicate_external_id_count": 0,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {},
+      "market_scope_counts": {},
+      "target_role_family_counts": {},
+      "all_role_family_counts": {},
+      "projected_detail_burden": {
+        "selected_for_detail": 0,
+        "projected_network_detail_requests": 0,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": false,
+      "bounded_adapter_gap": "ALMA_INLINE_WIDGET_DISCOVERY",
+      "diagnostics": {
+        "credential_discovery": "BOUNDED_PUBLIC_WIDGET_CONFIGURATION",
+        "credentials_persisted": false,
+        "confirmed_empty": true
+      },
+      "requests": {
+        "count": 2,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 0.571,
+      "operational_risks": ["ALMA_INLINE_WIDGET_DISCOVERY"],
+      "verdict": "NO_GO_LOW_MARGINAL_VALUE"
+    },
+    {
+      "company_id": "zentiva",
+      "company_name": "Zentiva",
+      "category": "PHARMA_TECH",
+      "diversification": "Prague-centered generics pharmaceutical company",
+      "provider_adapter": "workday",
+      "source_url": "https://zentiva.wd3.myworkdayjobs.com/Zentiva",
+      "probe": "adapter_list_jobs",
+      "status": "SUCCESS",
+      "inventory": {
+        "count": 40,
+        "complete": true,
+        "termination_evidence": "SOURCE_CONTRACT_COMPLETED",
+        "unique_external_ids": 12,
+        "unique_canonical_urls": 40,
+        "duplicate_external_id_count": 28,
+        "duplicate_canonical_url_count": 0
+      },
+      "listing_field_counts": {
+        "title": 40,
+        "canonical_url": 40,
+        "location": 0,
+        "work_mode": 0,
+        "date": 0,
+        "department": 0,
+        "employment_type": 0
+      },
+      "market_scope_counts": {
+        "SELECT_GEOGRAPHY_UNKNOWN": 40
+      },
+      "target_role_family_counts": {
+        "PRODUCT_STRATEGY": 1,
+        "BUSINESS_ANALYTICS": 1
+      },
+      "all_role_family_counts": {
+        "OTHER_AMBIGUOUS": 30,
+        "CLINICAL_MEDICAL": 4,
+        "SUPPLY_CHAIN_WAREHOUSE_FIELD_SERVICE": 1,
+        "FINANCE_ACCOUNTING_TAX": 1,
+        "SALES_ACCOUNT_MANAGEMENT": 2,
+        "PRODUCT_STRATEGY": 1,
+        "BUSINESS_ANALYTICS": 1,
+        "HR_PEOPLE": 1
+      },
+      "projected_detail_burden": {
+        "selected_for_detail": 40,
+        "projected_network_detail_requests": 40,
+        "zero_network_detail_advantage": 0
+      },
+      "adapter_reuse_without_code_change": false,
+      "bounded_adapter_gap": "NON_UNIQUE_EXTERNAL_ID_LISTING_MAPPING",
+      "diagnostics": {},
+      "requests": {
+        "count": 2,
+        "ceiling": 100
+      },
+      "error_type": null,
+      "elapsed_seconds": 1.28,
+      "operational_risks": ["LISTING_GEOGRAPHY_UNAVAILABLE", "NON_UNIQUE_EXTERNAL_JOB_ID", "NON_UNIQUE_EXTERNAL_ID_LISTING_MAPPING"],
+      "verdict": "GO_BOUNDED_ADAPTER_FIX"
+    }
+  ],
+  "first_onboarding_wave": [
+    "keboola",
+    "commerzbank",
+    "kpmg"
+  ],
+  "secondary_candidates": [
+    "mews",
+    "erste_group",
+    "zentiva"
+  ],
+  "do_not_onboard_yet": [
+    "productboard",
+    "abb",
+    "msd"
+  ],
+  "configuration": {
+    "fingerprint": "55fe6c91e7a1f2db7e2757f5fc961b9a5ff02b9fb03e33ad7acaa988c2153571",
+    "git": {
+      "commit": "aa76bbc6a5b7526e44a053bdc740c0ef7102fce4",
+      "dirty": true
+    }
+  },
+  "integrity": {
+    "companies_sha256_before": "bb38219e2422cff1cb53a6cf6a1d39c961278009b7d1a25faae2e9dff5c8c967",
+    "companies_sha256_after": "bb38219e2422cff1cb53a6cf6a1d39c961278009b7d1a25faae2e9dff5c8c967",
+    "database_sha256_before": "54f82d4b7ec765b565b7d3ecab06117d32eec4fbcc77f4b23206e6b079987e14",
+    "database_sha256_after": "54f82d4b7ec765b565b7d3ecab06117d32eec4fbcc77f4b23206e6b079987e14",
+    "database_rows_before": {
+      "ingestion_runs": 5,
+      "source_observations": 54,
+      "job_instances": 4097,
+      "job_observations": 4436,
+      "events": 4256,
+      "semantic_assessments": 406
+    },
+    "database_rows_after": {
+      "ingestion_runs": 5,
+      "source_observations": 54,
+      "job_instances": 4097,
+      "job_observations": 4436,
+      "events": 4256,
+      "semantic_assessments": 406
+    },
+    "production_companies_unchanged": true,
+    "database_byte_identical": true,
+    "phase2_rows_unchanged": true,
+    "semantic_calls": 0,
+    "detail_calls": 0
+  },
+  "privacy": {
+    "detailed_artifact": "PRIVATE_LOCAL",
+    "detailed_sha256": "8087154062196a0a7c61d8ee345cc45c82010f91d746b8459d11aa452b3076de",
+    "repository_safe_aggregate": "aggregate_summary.json",
+    "excluded_detail": "JOB_TITLES_URLS_IDENTITIES_AND_SOURCE_RESPONSE_EVIDENCE"
+  },
+  "limitations": [
+    "Listing-title classification is a neutral zero-detail signal, not candidate suitability scoring.",
+    "Current vacancy inventory and source contracts are volatile public evidence.",
+    "Retrieval-scope estimates preserve unknown geography and are not final candidate eligibility.",
+    "A GO verdict authorizes only a later bounded onboarding packet, not production onboarding."
+  ]
+}

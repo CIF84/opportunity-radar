@@ -1,0 +1,154 @@
+schema_version: 1
+experiment_id: EXP-WAVE-A-PREFLIGHT-001
+experiment_type: WAVE_A_ZERO_DETAIL_SOURCE_CONTRACT_PREFLIGHT
+companies_path: config/companies.yaml
+database_path: output/opportunity_radar.sqlite3
+market_scope_path: config/market_scope.yaml
+role_audit_config_path: experiments/source_portfolio_audit_v1.yaml
+role_extension:
+  contract_version: wave-a-listing-title-v1
+  families:
+    BUSINESS_ANALYTICS:
+      - "\\b(?:data/)?business analytik\\b"
+    DECISION_INTELLIGENCE_SUPPORT:
+      - "\\bfinancial intelligence\\b"
+    AI_DIGITAL_TRANSFORMATION:
+      - "\\b(?:strategy|finance) (?:&|and) transformation\\b"
+    PRODUCT_STRATEGY:
+      - "\\bdigital strategy\\b"
+
+safety:
+  connect_timeout_seconds: 10
+  read_timeout_seconds: 30
+  max_requests_per_source: 100
+  max_inventory_per_source: 10000
+
+sources:
+  - company_id: keboola
+    company_name: Keboola
+    category: DATA_ANALYTICS
+    diversification: Czech-native data and analytics platform
+    probe: adapter_list_jobs
+    company:
+      adapter: generic_html
+      endpoint_url: https://www.keboola.com/about/jobs
+      options:
+        external_id_pattern: "/([0-9a-f-]{36})$"
+        selectors:
+          job_container: 'li:has(a[href^="https://jobs.lever.co/keboola/"])'
+          title: span.font-semibold
+          url: 'a[href^="https://jobs.lever.co/keboola/"]'
+          location: '.text-text-muted span:last-child'
+
+  - company_id: mews
+    company_name: Mews
+    category: SAAS
+    diversification: Czech-founded hospitality SaaS
+    probe: nested_json_feed
+    company:
+      adapter: json_feed
+      endpoint_url: https://www.mews.com/api/careers
+      options:
+        groups_path: ''
+        items_path: jobs
+        group_count_path: jobCount
+        group_name_path: name
+        fields:
+          external_job_id: id
+          title: title
+          canonical_url: url
+          locations: locations
+          location: location
+          source_updated_at: updatedAt
+
+  - company_id: productboard
+    company_name: Productboard
+    category: SAAS
+    diversification: Product-management SaaS
+    probe: adapter_list_jobs
+    company:
+      adapter: generic_html
+      endpoint_url: https://www.productboard.com/careers/open-positions/
+      options:
+        external_id_pattern: "/([^/]+)/$"
+        selectors:
+          job_container: 'div:has(> a[data-department])'
+          title: h4
+          url: 'a[data-department]'
+          location: p
+
+  - company_id: commerzbank
+    company_name: Commerzbank
+    category: FINTECH_BANKING
+    diversification: European banking and financial services
+    probe: adapter_list_jobs
+    company:
+      adapter: almacareer
+      endpoint_url: https://commerzbank.jobs.cz/job-opportunities
+      ats_tenant: commerzbank.jobs.cz
+
+  - company_id: erste_group
+    company_name: Erste Group
+    category: FINTECH_BANKING
+    diversification: Central-European banking and financial services
+    probe: adapter_list_jobs
+    company:
+      adapter: successfactors
+      endpoint_url: https://erstegroup-careers.com/search/
+      options:
+        selectors:
+          job_container: tr.data-row
+          title: a.jobTitle-link
+          url: a.jobTitle-link
+          location: .jobLocation
+        pagination:
+          mode: discovered_offset_link
+          safety_max_pages: 100
+
+  - company_id: abb
+    company_name: ABB
+    category: INDUSTRIAL_TECH
+    diversification: Industrial automation and electrification
+    probe: alma_discovery_list_jobs
+    company:
+      adapter: almacareer
+      endpoint_url: https://abb.jobs.cz/
+      ats_tenant: abb.jobs.cz
+
+  - company_id: kpmg
+    company_name: KPMG
+    category: TRANSFORMATION_CONSULTING
+    diversification: Professional services and transformation consulting
+    probe: adapter_list_jobs
+    company:
+      adapter: almacareer
+      endpoint_url: https://kpmg.jobs.cz/
+      ats_tenant: kpmg.jobs.cz
+
+  - company_id: msd
+    company_name: MSD
+    category: PHARMA_TECH
+    diversification: Pharmaceutical and healthcare technology
+    probe: alma_discovery_list_jobs
+    company:
+      adapter: almacareer
+      endpoint_url: https://msd.jobs.cz/
+      ats_tenant: msd.jobs.cz
+
+  - company_id: zentiva
+    company_name: Zentiva
+    category: PHARMA_TECH
+    diversification: Prague-centered generics pharmaceutical company
+    probe: adapter_list_jobs
+    company:
+      adapter: workday
+      endpoint_url: https://zentiva.wd3.myworkdayjobs.com/Zentiva
+      ats_tenant: wd3|zentiva|Zentiva
+      options:
+        page_size: 20
+
+privacy:
+  detailed_artifact: PRIVATE_LOCAL
+  aggregate_artifact: REPOSITORY_SAFE
+outputs:
+  root: output/wave_a_source_preflight

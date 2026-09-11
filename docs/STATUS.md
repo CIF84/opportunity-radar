@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-014-wave-a-source-contract-preflight.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -43,8 +43,25 @@ SPEC-013 is now frozen in commit `a4ebba825e80256ad55ed6bfcaf973a2df37d413`.
 It established that the current 18-employer source portfolio has high raw vacancy
 volume but low effective employer breadth, especially at the routed-cluster boundary.
 
-The current approved work is a **zero-detail Wave A source-contract preflight**.
-No employer is authorized for production onboarding yet.
+The zero-detail Wave A source-contract preflight is implemented and awaiting
+promotion review. No employer is authorized for production onboarding yet.
+
+## SPEC-014 completed result
+
+Run `wave-a-preflight-20260911-v4` completed all nine listing inventories in 36
+bounded public requests, with zero detail calls, zero semantic calls, unchanged
+production configuration, and byte-identical operational SQLite.
+
+- configuration-ready: Keboola, Commerzbank, KPMG;
+- reusable bounded adapter fix: Mews nested first-party feed;
+- investigate before onboarding: Erste listing geography;
+- generic contract correction before onboarding: Zentiva Workday identity and
+  listing-location mapping;
+- low current marginal target-role value: Productboard, ABB, MSD.
+
+The detailed findings are in
+`docs/wave_a_source_contract_preflight_report.md`; repository-safe evidence is
+indexed by `EXP-WAVE-A-PREFLIGHT-001`.
 
 ## SPEC-012 completed result
 
@@ -239,10 +256,9 @@ candidates only. Detail retrieval and semantic calls remain prohibited.
 
 ## Current gate
 
-> Determine which 3–5 Wave A employers, if any, deserve a first bounded
-> production-onboarding experiment based on adapter/source-contract viability,
-> listing evidence quality, market usefulness, target-role yield, diversification,
-> and projected detail burden.
+> Review whether Keboola, Commerzbank, and KPMG should enter one bounded
+> configuration-only production-onboarding experiment, while Mews is evaluated
+> separately as the first reusable adapter-extension candidate.
 
 A technically scrapeable source may still receive NO-GO if marginal useful market
 coverage is weak.
@@ -267,16 +283,18 @@ problems.
 
 ## Next intended steps
 
-1. Execute SPEC-014 zero-detail Wave A preflight.
-2. Review the nine-employer scorecard and first-onboarding-wave recommendation.
-3. Only after explicit approval, create a separate bounded production-onboarding packet for the selected employers.
-4. Separately decide whether to create a new decision-preference version for business analytics / decision support.
-5. Preserve semantic-v1 while source breadth improves.
-6. Revisit deterministic rejection/stretch-envelope and semantic compute allocation after intake evidence is more balanced.
+1. Review the SPEC-014 scorecard and three-source configuration-only recommendation.
+2. Only after explicit approval, create a bounded production-onboarding packet for Keboola, Commerzbank, and KPMG.
+3. Review Mews as a separate generic nested-feed extension; do not combine it with configuration-only onboarding.
+4. Keep Erste and Zentiva in source-contract investigation until their listing evidence is safe.
+5. Separately decide whether to create a new decision-preference version for business analytics / decision support.
+6. Preserve semantic-v1 while source breadth improves.
+7. Revisit deterministic rejection/stretch-envelope and semantic compute allocation after intake evidence is more balanced.
 
 ## Known open decisions
 
-- Which Wave A employers, if any, should enter first production onboarding.
+- Whether to approve bounded configuration-only onboarding for Keboola, Commerzbank, and KPMG.
+- Whether Mews should receive the next reusable adapter-extension packet.
 - Whether business/data/decision-analytics receives an explicit decision-preference update.
 - Deterministic rejection / stretch-envelope architecture after source coverage improves.
 - Semantic-call budget for later prospective ranking validation.

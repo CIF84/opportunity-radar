@@ -2,7 +2,7 @@
 
 ## Status
 
-`APPROVED_FOR_IMPLEMENTATION`
+`IMPLEMENTED_LOCALLY_AWAITING_REVIEW`
 
 ## Purpose
 
@@ -393,3 +393,11 @@ Q. smallest next packet
 R. recommended commit message
 
 Do not commit/push implementation until the normal approval boundary.
+
+## Implementation result
+
+The bounded run `wave-a-preflight-20260911-v4` completed all nine listing
+inventories in 36 public requests with zero detail calls, zero semantic calls,
+and byte-identical operational SQLite. The repository-safe result and decision
+are documented in `docs/wave_a_source_contract_preflight_report.md` and the
+experiment registry. No employer has been added to production configuration.
