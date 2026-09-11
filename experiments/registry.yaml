@@ -178,14 +178,15 @@ experiments:
   - experiment_id: EXP-SEMANTIC-WORTHINESS-001
     type: SEMANTIC_COMPUTE_WORTHINESS_HUMAN_VALIDATION
     hypothesis: Cache-blind deterministic triage meaningfully separates opportunities where deep semantic reasoning is worth spending from those where it is not.
-    status: PREPARED_AWAITING_REVIEW
+    status: COMPLETED
+    completed_at: "2026-09-11"
     baseline: SPEC-011 found 3,109 routed semantic misses and no interpretable <=1,000-call funnel that retained all five historical human-APPLY opportunity units.
     intervention: Freeze a cache-blind 60-cluster sample with 20 PRIORITY, 20 OPTIONAL, 20 DEFER, employer balancing, five same-stratum reserves, mixed blind review order, and append-only human labels.
     inputs: [specs/phase4/SPEC-012-semantic-compute-worthiness-human-validation.md, experiments/semantic_compute_worthiness_v1.yaml, experiments/semantic_compute_allocation_v1.yaml, output/opportunity_radar.sqlite3, output/live_validation/batch-20260826T210045Z-6492b09a/batch.json]
-    artifacts: [output/semantic_compute_worthiness/semantic-worthiness-preparation-20260905-v5/aggregate_summary.json]
-    metrics: {selected: 60, priority: 20, optional: 20, defer: 20, reserves: 15, employers: 17, employer_cap_requested: 5, employer_cap_effective: 9, historical_clusters_excluded: 18, human_judgments: 0, external_calls: 0}
-    result: Preparation filled all strata and reserves with a deterministic cache-blind sample. A joint feasibility check proved DEFER concentration required four disclosed cap relaxations to a minimum feasible cap of 9; balanced allocation retained 17 employers. The blind packet and detailed identities remain private local evidence.
-    decision: Await implementation/sample/privacy review and commit before collecting any human labels. No compute-allocation policy is promoted.
-    limitations: Exploratory 60-cluster sample; DEFER is small and employer-concentrated; 53 of 60 selected opportunities have UNCERTAIN candidate-market status; human worthiness evidence does not yet exist.
+    artifacts: [output/semantic_compute_worthiness/semantic-worthiness-preparation-20260905-v5/aggregate_summary.json, output/semantic_compute_worthiness/semantic-worthiness-preparation-20260905-v5/aggregate_result.json]
+    metrics: {reviewed: 60, worth: 3, not_worth: 57, need_more_info: 0, priority_precision: 0.15, optional_yield: 0.0, defer_safety: 1.0, defer_worth_count: 0, employer_blind_spots: 0, replacement_count: 1, all_directional_gates_pass: false, external_calls: 0}
+    result: All three WORTH judgments fell in PRIORITY; OPTIONAL and DEFER yielded none. DEFER safety, DEFER worth-count, information-sufficiency, and employer-blind-spot gates passed, but PRIORITY precision was 15% against the frozen 60% gate.
+    decision: Accept the completed experiment as frozen evidence, but do not promote the current triage as a runtime semantic-compute gate. No successor experiment has begun.
+    limitations: Exploratory 60-cluster sample with only three positive labels; requested employer cap 5 required deterministic relaxation to 9; 50 of 60 prepared opportunities had UNCERTAIN candidate-market status; five judgments reflected post-freeze vacancy unavailability or closure; counterfactual costs combine sample labels with current-population projections.
     related_decisions: [DR-012, DR-013, DR-016, DR-021, DR-023]
-    commit_or_worktree_state: "49dfd68 plus uncommitted SPEC-012 implementation; exact database/configuration and private-artifact hashes are preserved in the aggregate receipt"
+    commit_or_worktree_state: "Completed against f0d876d; exact database/configuration and private-artifact hashes are preserved in repository-safe aggregate receipts"

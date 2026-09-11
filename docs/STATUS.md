@@ -128,9 +128,18 @@ balanced allocation then retained 17 employers. All four relaxation steps are
 preserved in the sanitized receipt. This is an explicit sample limitation, not
 hidden rebalancing.
 
-The private manifest and blind-review packet are Git-ignored. The repository-safe
-aggregate receipt preserves counts, fingerprints, provenance hashes, limitations,
-and zero-call/read-only evidence. No compute-worthiness judgment exists yet.
+The private manifest, blind-review packet, detailed report, replacement record,
+and append-only human judgments are Git-ignored. The repository-safe aggregate
+result preserves counts, fingerprints, provenance hashes, limitations, and
+zero-call/read-only evidence.
+
+The completed frozen result contains 60/60 reviews: 3
+`WORTH_DEEP_ASSESSMENT`, 57 `NOT_WORTH_DEEP_ASSESSMENT`, and no
+`NEED_MORE_INFO`. All three WORTH judgments occurred in `SEMANTIC_PRIORITY`;
+`SEMANTIC_OPTIONAL` and `SEMANTIC_DEFER` yielded none. DEFER safety,
+DEFER worth-count, information-sufficiency, and employer-blind-spot gates
+passed. PRIORITY precision was 15% against the frozen 60% threshold, so the
+current triage is not promoted.
 
 ## Fresh operational state from SPEC-009
 
@@ -225,39 +234,26 @@ No semantic calls or live source calls are authorized.
 
 ## Current gate
 
-> Review and commit the frozen cache-blind 60-opportunity preparation, then
-> human-label it to test whether `SEMANTIC_PRIORITY / OPTIONAL / DEFER` predicts
-> where deep semantic reasoning is worth spending.
+> Preserve the completed SPEC-012 experiment as frozen evidence. Do not promote
+> the current triage as a runtime semantic-compute gate, and do not begin a
+> successor experiment without an explicit architecture decision.
 
-Preparation itself must be reviewed and committed before human labels are
-collected.
-
-Directional evidence gates after labeling include:
-
-- DEFER safety >=90% NOT_WORTH among adjudicated DEFER;
-- no more than 2 WORTH items in DEFER;
-- PRIORITY worthiness precision >=60%;
-- NEED_MORE_INFO <=20%;
-- no catastrophic employer-specific blind spot in reviewed evidence.
-
-Passing these gates is necessary but not sufficient for runtime promotion.
+The experiment preserved all three observed WORTH items in PRIORITY and showed
+perfect bounded DEFER safety, but failed its predeclared PRIORITY-precision gate.
+That is useful allocation evidence, not authority to change runtime policy.
 
 ## Next intended steps
 
-1. Review sample construction, the DEFER-driven employer-cap relaxations, and
-   the public/private evidence boundary.
-2. Commit the frozen human-labeling protocol only after explicit approval.
-3. Human reviews all 60 items without seeing triage/cache/semantic score.
-4. Evaluate compute-worthiness gates and counterfactual economics.
-5. Decide whether to:
+1. Preserve the completed SPEC-012 evidence and public/private boundary.
+2. Through a separate explicit decision, decide whether to:
    - test deterministic triage further;
    - design a cheap learned/model-based screening experiment;
    - or conclude full semantic assessment is the simpler tradeoff.
-6. Only after that decision revisit SPEC-008 prospective ranking validation.
+3. Only after that decision revisit SPEC-008 prospective ranking validation.
 
 ## Known open decisions
 
-- Compute-allocation architecture after the 60-item human experiment.
+- Compute-allocation architecture after the completed 60-item human experiment.
 - Semantic-call budget after an unbiased allocation policy/frame exists.
 - Whether manual opportunity-cluster overrides are needed after future
   prospective cluster adjudication.

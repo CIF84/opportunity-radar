@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "artifact_type": "REPOSITORY_SAFE_SEMANTIC_WORTHINESS_RESULT",
+  "preparation_id": "semantic-worthiness-preparation-20260905-v5",
+  "experiment_id": "EXP-SEMANTIC-WORTHINESS-001",
+  "protocol_version": "semantic-compute-worthiness-v1",
+  "protocol_fingerprint": "3d460e1d87e1ba98b55cf9877dd7b6c8feb3356654ea419c03c8cfbfa62b2cab",
+  "generated_at": "2026-09-11T09:32:08.956318+00:00",
+  "metrics": {
+    "status": "COMPLETE",
+    "reviewed": 60,
+    "target": 60,
+    "replacement_count": 1,
+    "labels": {
+      "NEED_MORE_INFO": 0,
+      "NOT_WORTH_DEEP_ASSESSMENT": 57,
+      "WORTH_DEEP_ASSESSMENT": 3
+    },
+    "need_more_info_rate": 0.0,
+    "by_stratum": {
+      "SEMANTIC_DEFER": {
+        "reviewed": 20,
+        "adjudicated": 20,
+        "labels": {
+          "NEED_MORE_INFO": 0,
+          "NOT_WORTH_DEEP_ASSESSMENT": 20,
+          "WORTH_DEEP_ASSESSMENT": 0
+        },
+        "worthiness_rate": 0.0,
+        "not_worth_rate": 1.0,
+        "need_more_info_rate": 0.0
+      },
+      "SEMANTIC_PRIORITY": {
+        "reviewed": 20,
+        "adjudicated": 20,
+        "labels": {
+          "NEED_MORE_INFO": 0,
+          "NOT_WORTH_DEEP_ASSESSMENT": 17,
+          "WORTH_DEEP_ASSESSMENT": 3
+        },
+        "worthiness_rate": 0.15,
+        "not_worth_rate": 0.85,
+        "need_more_info_rate": 0.0
+      },
+      "SEMANTIC_OPTIONAL": {
+        "reviewed": 20,
+        "adjudicated": 20,
+        "labels": {
+          "NEED_MORE_INFO": 0,
+          "NOT_WORTH_DEEP_ASSESSMENT": 20,
+          "WORTH_DEEP_ASSESSMENT": 0
+        },
+        "worthiness_rate": 0.0,
+        "not_worth_rate": 1.0,
+        "need_more_info_rate": 0.0
+      }
+    },
+    "priority_precision": 0.15,
+    "defer_safety": 1.0,
+    "defer_worth_count": 0,
+    "employer_blind_spot_count": 0,
+    "gates": {
+      "defer_safety": "PASS",
+      "defer_worth_count": "PASS",
+      "priority_precision": "FAIL",
+      "information_sufficiency": "PASS",
+      "employer_blind_spot": "PASS"
+    },
+    "all_directional_gates_pass": false,
+    "counterfactual_economics": {
+      "PRIORITY_ONLY": {
+        "current_population_projected_calls": 489,
+        "current_population_projected_cost_usd": 1.2955077,
+        "sample_worth_recall": 1.0,
+        "sample_worth_precision": 0.15
+      },
+      "PRIORITY_PLUS_OPTIONAL": {
+        "current_population_projected_calls": 3086,
+        "current_population_projected_cost_usd": 8.1757398,
+        "sample_worth_recall": 1.0,
+        "sample_worth_precision": 0.075
+      },
+      "ALL_EXCEPT_DEFER": {
+        "current_population_projected_calls": 3086,
+        "current_population_projected_cost_usd": 8.1757398,
+        "sample_worth_recall": 1.0,
+        "sample_worth_precision": 0.075
+      },
+      "ALL_ROUTED": {
+        "current_population_projected_calls": 3109,
+        "current_population_projected_cost_usd": 8.2366737,
+        "sample_worth_recall": 1.0,
+        "sample_worth_precision": 0.05
+      }
+    },
+    "promotion_note": "Passing directional gates is necessary but not sufficient for runtime promotion."
+  },
+  "provenance": {
+    "private_manifest_sha256": "0d4962855832cec9431f2348643f46103c30c6fc5d826c24e8d502c4989e8746",
+    "private_report_sha256": "649cc83416bb5cf76a32d7a470462a8e507bfb4e55be3ca4ddab6afed4ea451d",
+    "private_judgments_sha256": "7a691125761147a3f3991959122e4e4b1eafe2c340f124331412f74d4ca9b955",
+    "private_replacements_sha256": "e2fac711ba6842def2e255335a5916a9e9b2193d74388455ebaca70805c123fc"
+  },
+  "privacy": {
+    "detailed_rows_and_human_notes": "PRIVATE_LOCAL",
+    "aggregate_result": "REPOSITORY_SAFE"
+  },
+  "limitations": [
+    "This bounded sample is exploratory and not a statistically definitive product validation.",
+    "Passing directional gates is necessary but not sufficient for runtime triage promotion.",
+    "Counterfactual economics use sample labels and current-population projections."
+  ]
+}
