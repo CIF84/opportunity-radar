@@ -190,3 +190,19 @@ experiments:
     limitations: Exploratory 60-cluster sample with only three positive labels; requested employer cap 5 required deterministic relaxation to 9; 50 of 60 prepared opportunities had UNCERTAIN candidate-market status; five judgments reflected post-freeze vacancy unavailability or closure; counterfactual costs combine sample labels with current-population projections.
     related_decisions: [DR-012, DR-013, DR-016, DR-021, DR-023]
     commit_or_worktree_state: "Completed against f0d876d; exact database/configuration and private-artifact hashes are preserved in repository-safe aggregate receipts"
+
+  - experiment_id: EXP-SOURCE-PORTFOLIO-001
+    type: SOURCE_PORTFOLIO_ROLE_COVERAGE_AUDIT
+    hypothesis: The current 18-employer intake is too concentrated and structurally under-covers business/data/decision-analytics and AI-transformation opportunities for the candidate's actual market.
+    status: IMPLEMENTED_LOCALLY_AWAITING_REVIEW
+    completed_at: "2026-09-11"
+    baseline: Fresh SPEC-009 state with 16,490 complete-inventory identities, 3,935 usable ACTIVE details, and 3,326 current normal-candidate clusters before historical-overlap exclusion.
+    intervention: Classify current clusters with a deterministic multi-label role-family diagnostic, measure employer concentration at three pipeline boundaries, audit candidate direction representation, and rank a bounded 30-employer public-source longlist without adding production sources.
+    inputs: [specs/phase4/SPEC-013-source-portfolio-and-role-coverage-audit.md, experiments/source_portfolio_audit_v1.yaml, config/companies.yaml, config/candidate.yaml, config/taxonomy.yaml, research/target_companies.csv, output/opportunity_radar.sqlite3]
+    artifacts: [docs/source_portfolio_and_role_coverage_report.md, output/source_portfolio_audit/source-portfolio-audit-20260911-v2/aggregate_summary.json]
+    metrics: {configured_employers: 18, inventory_top_1_share: 0.478957, routed_top_1_share: 0.573361, routed_hhi: 3617.01, routed_effective_employers: 2.765, target_role_unique_clusters: 388, target_role_title_supported_clusters: 164, target_role_in_scope: 18, longlist: 30, wave_a: 9, wave_b: 10, external_semantic_calls: 0, new_employer_ingestion_calls: 0}
+    result: Employer concentration is high and increases after routing. Target analytics/decision-support evidence exists under alternate titles but remains employer-concentrated, mostly market-uncertain, and especially thin for explicit decision-support titles. Candidate capability representation is already strong.
+    decision: Propose bounded Wave A source-contract preflight and a separate versioned analytics/decision-support preference decision; add no production employer until human review.
+    limitations: Diagnostic multi-label classification is not suitability scoring; description-only matches may indicate adjacency; future source yield is not projected because candidates were not ingested; volatile source contracts require preflight.
+    related_decisions: [DR-001, DR-005, DR-007, DR-012, DR-021]
+    commit_or_worktree_state: "Run source-portfolio-audit-20260911-v2 against e0f0a0b in a dirty worktree; exact database/configuration and private-artifact hashes are preserved in the repository-safe aggregate"

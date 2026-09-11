@@ -11,13 +11,14 @@ application code.
 ## Current phase
 
 Phases 1–3 are implemented and validated at their respective architecture
-boundaries. The first Live Decision Validation completed 30/30 reviews with a
-directional `NO_GO`: recall was strong, while candidate-market routing,
-multi-posting opportunity identity, and unrepresented preferences reduced
-precision.
+boundaries. Phase 4 has implemented candidate-market routing, high-confidence
+opportunity clustering and preferred variants, decision preferences, and the
+seniority guard. Its retrospective, prospective-protocol, and semantic-compute
+experiments are preserved as frozen evidence.
 
-Phase 4 product behavior is **not implemented**. The current gate and frozen
-decisions are recorded in [docs/STATUS.md](docs/STATUS.md).
+The current packet audits source-portfolio and role-family coverage; it does
+not add employers to production. The active gate and frozen decisions are
+recorded in [docs/STATUS.md](docs/STATUS.md).
 
 ## Repository map
 
@@ -153,6 +154,15 @@ This command currently implements preparation only. It makes no live-source or
 semantic-model calls and does not create the future prospective batch.
 Detailed preview and blind-review artifacts remain private/local; only the
 sanitized aggregate receipt may be tracked.
+
+Read-only source-portfolio and role-coverage audit:
+
+```bash
+.venv/bin/opportunity-radar-source-portfolio-audit --dry-run
+```
+
+The detailed per-opportunity classification evidence remains private/local.
+Only a sanitized `aggregate_summary.json` is eligible for Git.
 
 Project health, derived read-only from repository evidence:
 

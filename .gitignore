@@ -37,5 +37,12 @@ output/semantic_compute_worthiness/**/*
 !output/semantic_compute_worthiness/**/aggregate_summary.json
 !output/semantic_compute_worthiness/**/aggregate_result.json
 
+# Source-portfolio audits include per-opportunity titles and diagnostic role
+# matches. Keep detailed rows local; only the sanitized portfolio/coverage
+# aggregate is repository-safe.
+output/source_portfolio_audit/**/*
+!output/source_portfolio_audit/**/
+!output/source_portfolio_audit/**/aggregate_summary.json
+
 # Replaceable local health evidence.
 output/test_receipt.json

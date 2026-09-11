@@ -1,0 +1,2681 @@
+{
+  "schema_version": 1,
+  "run_id": "source-portfolio-audit-20260911-v2",
+  "experiment_id": "EXP-SOURCE-PORTFOLIO-001",
+  "experiment_type": "SOURCE_PORTFOLIO_ROLE_COVERAGE_AUDIT",
+  "created_at": "2026-09-11T18:54:23.366461+00:00",
+  "portfolio": {
+    "summary": {
+      "configured_employer_count": 18,
+      "sqlite_schema_version": 3,
+      "concentration": {
+        "all_observed_inventory": {
+          "total": 16490,
+          "employer_count": 18,
+          "top_1_share": 0.478957,
+          "top_3_share": 0.778532,
+          "top_5_share": 0.929776,
+          "hhi": 2902.75,
+          "effective_employers": 3.445
+        },
+        "usable_active_detail": {
+          "total": 3935,
+          "employer_count": 17,
+          "top_1_share": 0.489454,
+          "top_3_share": 0.781449,
+          "top_5_share": 0.872173,
+          "hhi": 2899.5,
+          "effective_employers": 3.449
+        },
+        "market_routed_candidate_population": {
+          "total": 3326,
+          "employer_count": 17,
+          "top_1_share": 0.573361,
+          "top_3_share": 0.806073,
+          "top_5_share": 0.883945,
+          "hhi": 3617.01,
+          "effective_employers": 2.765
+        }
+      },
+      "adapter_distribution": {
+        "almacareer": {
+          "configured_employers": 3,
+          "latest_complete_inventory": 167,
+          "routed_clusters": 161
+        },
+        "generic_html": {
+          "configured_employers": 2,
+          "latest_complete_inventory": 18,
+          "routed_clusters": 12
+        },
+        "greenhouse": {
+          "configured_employers": 3,
+          "latest_complete_inventory": 602,
+          "routed_clusters": 167
+        },
+        "json_feed": {
+          "configured_employers": 2,
+          "latest_complete_inventory": 3225,
+          "routed_clusters": 456
+        },
+        "phenom": {
+          "configured_employers": 2,
+          "latest_complete_inventory": 2494,
+          "routed_clusters": 176
+        },
+        "successfactors": {
+          "configured_employers": 3,
+          "latest_complete_inventory": 8147,
+          "routed_clusters": 2011
+        },
+        "workday": {
+          "configured_employers": 3,
+          "latest_complete_inventory": 1837,
+          "routed_clusters": 343
+        }
+      }
+    },
+    "employers": [
+      {
+        "company_id": "johnson_johnson",
+        "company_name": "Johnson & Johnson",
+        "adapter": "workday",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:45:42.048894+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 1757,
+          "observed_count": 1757,
+          "detail_success_count": 469,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 472,
+        "usable_detailed_active_jobs": 472,
+        "market_status_counts": {
+          "IN_SCOPE": 3,
+          "OUT_OF_SCOPE": 154,
+          "UNCERTAIN": 315
+        },
+        "opportunity_clusters": 472,
+        "routed_normal_candidate_clusters": 318,
+        "routed_share": 0.09561,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 17,
+          "SEMANTIC_CACHE_MISS": 455
+        }
+      },
+      {
+        "company_id": "red_hat",
+        "company_name": "Red Hat",
+        "adapter": "workday",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:51:04.981881+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 40,
+          "observed_count": 40,
+          "detail_success_count": 37,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 37,
+        "usable_detailed_active_jobs": 37,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 13,
+          "UNCERTAIN": 24
+        },
+        "opportunity_clusters": 37,
+        "routed_normal_candidate_clusters": 24,
+        "routed_share": 0.007216,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 5,
+          "SEMANTIC_CACHE_MISS": 32
+        }
+      },
+      {
+        "company_id": "pfizer",
+        "company_name": "Pfizer",
+        "adapter": "workday",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:51:23.479181+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 40,
+          "observed_count": 40,
+          "detail_success_count": 16,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 17,
+        "usable_detailed_active_jobs": 17,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 16,
+          "UNCERTAIN": 1
+        },
+        "opportunity_clusters": 17,
+        "routed_normal_candidate_clusters": 1,
+        "routed_share": 0.000301,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 1,
+          "SEMANTIC_CACHE_MISS": 16
+        }
+      },
+      {
+        "company_id": "pure_storage",
+        "company_name": "Pure Storage",
+        "adapter": "greenhouse",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:51:33.388231+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 322,
+          "observed_count": 322,
+          "detail_success_count": 207,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 209,
+        "usable_detailed_active_jobs": 209,
+        "market_status_counts": {
+          "IN_SCOPE": 39,
+          "OUT_OF_SCOPE": 124,
+          "UNCERTAIN": 46
+        },
+        "opportunity_clusters": 209,
+        "routed_normal_candidate_clusters": 85,
+        "routed_share": 0.025556,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 20,
+          "SEMANTIC_CACHE_MISS": 189
+        }
+      },
+      {
+        "company_id": "wrike",
+        "company_name": "Wrike",
+        "adapter": "greenhouse",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:52:13.427219+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 69,
+          "observed_count": 69,
+          "detail_success_count": 69,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 69,
+        "usable_detailed_active_jobs": 69,
+        "market_status_counts": {
+          "IN_SCOPE": 1,
+          "OUT_OF_SCOPE": 23,
+          "UNCERTAIN": 42
+        },
+        "opportunity_clusters": 66,
+        "routed_normal_candidate_clusters": 43,
+        "routed_share": 0.012928,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 24,
+          "SEMANTIC_CACHE_MISS": 42
+        }
+      },
+      {
+        "company_id": "wpp",
+        "company_name": "WPP",
+        "adapter": "greenhouse",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:52:24.814889+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 211,
+          "observed_count": 211,
+          "detail_success_count": 53,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 54,
+        "usable_detailed_active_jobs": 54,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 13,
+          "UNCERTAIN": 39
+        },
+        "opportunity_clusters": 52,
+        "routed_normal_candidate_clusters": 39,
+        "routed_share": 0.011726,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 20,
+          "SEMANTIC_CACHE_MISS": 32
+        }
+      },
+      {
+        "company_id": "siemens",
+        "company_name": "Siemens",
+        "adapter": "almacareer",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:52:33.670334+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 50,
+          "observed_count": 50,
+          "detail_success_count": 50,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 50,
+        "usable_detailed_active_jobs": 50,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 3,
+          "UNCERTAIN": 47
+        },
+        "opportunity_clusters": 50,
+        "routed_normal_candidate_clusters": 47,
+        "routed_share": 0.014131,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 22,
+          "SEMANTIC_CACHE_MISS": 28
+        }
+      },
+      {
+        "company_id": "honeywell",
+        "company_name": "Honeywell",
+        "adapter": "almacareer",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:52:57.099661+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 3,
+          "observed_count": 3,
+          "detail_success_count": 3,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 3,
+        "usable_detailed_active_jobs": 3,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 2,
+          "UNCERTAIN": 1
+        },
+        "opportunity_clusters": 3,
+        "routed_normal_candidate_clusters": 1,
+        "routed_share": 0.000301,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 2,
+          "SEMANTIC_CACHE_MISS": 1
+        }
+      },
+      {
+        "company_id": "csob",
+        "company_name": "ČSOB",
+        "adapter": "almacareer",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:52:59.341694+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 114,
+          "observed_count": 114,
+          "detail_success_count": 114,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 114,
+        "usable_detailed_active_jobs": 114,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 1,
+          "UNCERTAIN": 113
+        },
+        "opportunity_clusters": 114,
+        "routed_normal_candidate_clusters": 113,
+        "routed_share": 0.033975,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 23,
+          "SEMANTIC_CACHE_MISS": 91
+        }
+      },
+      {
+        "company_id": "sap",
+        "company_name": "SAP",
+        "adapter": "successfactors",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:53:43.022710+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 29,
+          "observed_count": 29,
+          "detail_success_count": 29,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 29,
+        "usable_detailed_active_jobs": 29,
+        "market_status_counts": {
+          "IN_SCOPE": 23,
+          "OUT_OF_SCOPE": 6
+        },
+        "opportunity_clusters": 29,
+        "routed_normal_candidate_clusters": 23,
+        "routed_share": 0.006915,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 14,
+          "SEMANTIC_CACHE_MISS": 15
+        }
+      },
+      {
+        "company_id": "ey",
+        "company_name": "EY",
+        "adapter": "successfactors",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T15:53:47.671471+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 7898,
+          "observed_count": 7898,
+          "detail_success_count": 1922,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 1926,
+        "usable_detailed_active_jobs": 1926,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 7,
+          "UNCERTAIN": 1907
+        },
+        "opportunity_clusters": 1914,
+        "routed_normal_candidate_clusters": 1907,
+        "routed_share": 0.573361,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 25,
+          "SEMANTIC_CACHE_MISS": 1889
+        }
+      },
+      {
+        "company_id": "deutsche_boerse_group",
+        "company_name": "Deutsche Börse Group",
+        "adapter": "successfactors",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T16:02:19.881853+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 220,
+          "observed_count": 220,
+          "detail_success_count": 77,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 82,
+        "usable_detailed_active_jobs": 82,
+        "market_status_counts": {
+          "IN_SCOPE": 66,
+          "OUT_OF_SCOPE": 1,
+          "UNCERTAIN": 15
+        },
+        "opportunity_clusters": 82,
+        "routed_normal_candidate_clusters": 81,
+        "routed_share": 0.024354,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 25,
+          "SEMANTIC_CACHE_MISS": 57
+        }
+      },
+      {
+        "company_id": "gooddata",
+        "company_name": "GoodData",
+        "adapter": "generic_html",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T16:02:31.004271+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 7,
+          "observed_count": 7,
+          "detail_success_count": 7,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 7,
+        "usable_detailed_active_jobs": 7,
+        "market_status_counts": {
+          "IN_SCOPE": 7
+        },
+        "opportunity_clusters": 7,
+        "routed_normal_candidate_clusters": 7,
+        "routed_share": 0.002105,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 5,
+          "SEMANTIC_CACHE_MISS": 2
+        }
+      },
+      {
+        "company_id": "kiwi_com",
+        "company_name": "Kiwi.com",
+        "adapter": "generic_html",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T16:02:36.265984+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 11,
+          "observed_count": 11,
+          "detail_success_count": 11,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 11,
+        "usable_detailed_active_jobs": 11,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 2,
+          "UNCERTAIN": 5
+        },
+        "opportunity_clusters": 7,
+        "routed_normal_candidate_clusters": 5,
+        "routed_share": 0.001503,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 6,
+          "SEMANTIC_CACHE_MISS": 1
+        }
+      },
+      {
+        "company_id": "allegro",
+        "company_name": "Allegro",
+        "adapter": "json_feed",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T16:02:39.012783+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 42,
+          "observed_count": 42,
+          "detail_success_count": 42,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 42,
+        "usable_detailed_active_jobs": 0,
+        "market_status_counts": {},
+        "opportunity_clusters": 0,
+        "routed_normal_candidate_clusters": 0,
+        "routed_share": 0.0,
+        "semantic_cache_status_counts": {}
+      },
+      {
+        "company_id": "schneider_electric",
+        "company_name": "Schneider Electric",
+        "adapter": "json_feed",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T16:02:39.951845+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 3183,
+          "observed_count": 3183,
+          "detail_success_count": 674,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 677,
+        "usable_detailed_active_jobs": 677,
+        "market_status_counts": {
+          "IN_SCOPE": 2,
+          "OUT_OF_SCOPE": 177,
+          "UNCERTAIN": 454
+        },
+        "opportunity_clusters": 633,
+        "routed_normal_candidate_clusters": 456,
+        "routed_share": 0.137102,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 14,
+          "SEMANTIC_CACHE_MISS": 619
+        }
+      },
+      {
+        "company_id": "roche",
+        "company_name": "Roche",
+        "adapter": "phenom",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T16:02:55.081935+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 1216,
+          "observed_count": 1216,
+          "detail_success_count": 25,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 30,
+        "usable_detailed_active_jobs": 30,
+        "market_status_counts": {
+          "UNCERTAIN": 30
+        },
+        "opportunity_clusters": 30,
+        "routed_normal_candidate_clusters": 30,
+        "routed_share": 0.00902,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 23,
+          "SEMANTIC_CACHE_MISS": 7
+        }
+      },
+      {
+        "company_id": "cisco",
+        "company_name": "Cisco",
+        "adapter": "phenom",
+        "source": {
+          "valid_complete_inventory_available": true,
+          "valid_run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+          "valid_observed_at": "2026-09-05T16:03:00.287481+00:00",
+          "valid_status": "SUCCESS",
+          "valid_inventory_complete": true,
+          "expected_count": 1278,
+          "observed_count": 1278,
+          "detail_success_count": 144,
+          "detail_failure_count": 0,
+          "latest_status": "SUCCESS",
+          "latest_inventory_complete": true,
+          "latest_error_type": null,
+          "network_detail_requests": null,
+          "network_indicator_limitation": "NOT_PERSISTED_IN_SOURCE_OBSERVATION"
+        },
+        "active_jobs": 148,
+        "usable_detailed_active_jobs": 148,
+        "market_status_counts": {
+          "IN_SCOPE": 3,
+          "OUT_OF_SCOPE": 2,
+          "UNCERTAIN": 143
+        },
+        "opportunity_clusters": 148,
+        "routed_normal_candidate_clusters": 146,
+        "routed_share": 0.043897,
+        "semantic_cache_status_counts": {
+          "COMPATIBLE_SEMANTIC_CACHE_HIT": 18,
+          "SEMANTIC_CACHE_MISS": 130
+        }
+      }
+    ]
+  },
+  "population_metadata": {
+    "active_job_count": 3977,
+    "active_usable_detail_count": 3935,
+    "unassessable_detail_count": 42,
+    "cluster_count": 3870,
+    "normal_candidate_count": 3326,
+    "market_status_counts": {
+      "UNCERTAIN": 3182,
+      "OUT_OF_SCOPE": 544,
+      "IN_SCOPE": 144
+    },
+    "cache_status_counts": {
+      "SEMANTIC_CACHE_MISS": 3606,
+      "COMPATIBLE_SEMANTIC_CACHE_HIT": 264
+    },
+    "latest_ingestion_run": {
+      "run_id": "07c036f3-c512-4469-ada6-fe57bf9d337b",
+      "started_at": "2026-09-05T15:45:42.045737+00:00",
+      "completed_at": "2026-09-05T16:03:06.894349+00:00",
+      "status": "COMPLETED"
+    },
+    "source_failures_or_incomplete": [],
+    "candidate": {
+      "profile_id": "roman_christov",
+      "version": 3,
+      "semantic_profile_fingerprint": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+      "scoring_preference_fingerprint": "9237433984fb06f964248b199a08a6bd3ed9ddf0a0f0b341c13a0cb278db0e8a",
+      "market_access_policy_fingerprint": "86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb",
+      "decision_preference_fingerprint": "e0146d4d87ce44810f6cd7f2c8a1125d313d18087666829b92fd100b2671c6a4"
+    },
+    "semantic": {
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "contract_version": "phase3-semantic-v1",
+      "assessor_id": "external-structured",
+      "assessor_version": "1:gpt-5.6-luna"
+    }
+  },
+  "role_coverage": {
+    "BUSINESS_ANALYTICS": {
+      "cluster_count": 61,
+      "normal_candidate_count": 50,
+      "market_status_counts": {
+        "IN_SCOPE": 5,
+        "OUT_OF_SCOPE": 11,
+        "UNCERTAIN": 45
+      },
+      "employer_count": 7,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 37
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 12
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 4
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 4
+        },
+        {
+          "company_id": "deutsche_boerse_group",
+          "count": 2
+        }
+      ],
+      "employer_concentration": {
+        "total": 61,
+        "employer_count": 7,
+        "top_1_share": 0.606557,
+        "top_3_share": 0.868852,
+        "top_5_share": 0.967213,
+        "hhi": 4168.23,
+        "effective_employers": 2.399
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 37,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 5,
+        "TITLE_SUPPORTED": 19
+      }
+    },
+    "DATA_ANALYTICS": {
+      "cluster_count": 166,
+      "normal_candidate_count": 142,
+      "market_status_counts": {
+        "IN_SCOPE": 7,
+        "OUT_OF_SCOPE": 24,
+        "UNCERTAIN": 135
+      },
+      "employer_count": 10,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 107
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 22
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 15
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 7
+        },
+        {
+          "company_id": "deutsche_boerse_group",
+          "count": 5
+        }
+      ],
+      "employer_concentration": {
+        "total": 166,
+        "employer_count": 10,
+        "top_1_share": 0.644578,
+        "top_3_share": 0.86747,
+        "top_5_share": 0.939759,
+        "hhi": 4449.12,
+        "effective_employers": 2.248
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 152,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 11,
+        "TITLE_SUPPORTED": 3
+      }
+    },
+    "DECISION_INTELLIGENCE_SUPPORT": {
+      "cluster_count": 14,
+      "normal_candidate_count": 8,
+      "market_status_counts": {
+        "OUT_OF_SCOPE": 6,
+        "UNCERTAIN": 8
+      },
+      "employer_count": 3,
+      "top_employers": [
+        {
+          "company_id": "johnson_johnson",
+          "count": 5
+        },
+        {
+          "company_id": "ey",
+          "count": 5
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 4
+        }
+      ],
+      "employer_concentration": {
+        "total": 14,
+        "employer_count": 3,
+        "top_1_share": 0.357143,
+        "top_3_share": 1.0,
+        "top_5_share": 1.0,
+        "hhi": 3367.35,
+        "effective_employers": 2.97
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 14
+      }
+    },
+    "BUSINESS_REVENUE_OPERATIONS": {
+      "cluster_count": 31,
+      "normal_candidate_count": 23,
+      "market_status_counts": {
+        "IN_SCOPE": 5,
+        "OUT_OF_SCOPE": 8,
+        "UNCERTAIN": 18
+      },
+      "employer_count": 7,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 11
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 8
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 4
+        },
+        {
+          "company_id": "wrike",
+          "count": 3
+        },
+        {
+          "company_id": "deutsche_boerse_group",
+          "count": 2
+        }
+      ],
+      "employer_concentration": {
+        "total": 31,
+        "employer_count": 7,
+        "top_1_share": 0.354839,
+        "top_3_share": 0.741935,
+        "top_5_share": 0.903226,
+        "hhi": 2278.88,
+        "effective_employers": 4.388
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 18,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 8,
+        "TITLE_SUPPORTED": 5
+      }
+    },
+    "AI_DIGITAL_TRANSFORMATION": {
+      "cluster_count": 39,
+      "normal_candidate_count": 35,
+      "market_status_counts": {
+        "IN_SCOPE": 1,
+        "OUT_OF_SCOPE": 4,
+        "UNCERTAIN": 34
+      },
+      "employer_count": 7,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 29
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 3
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 2
+        },
+        {
+          "company_id": "siemens",
+          "count": 2
+        },
+        {
+          "company_id": "deutsche_boerse_group",
+          "count": 1
+        }
+      ],
+      "employer_concentration": {
+        "total": 39,
+        "employer_count": 7,
+        "top_1_share": 0.74359,
+        "top_3_share": 0.871795,
+        "top_5_share": 0.948718,
+        "hhi": 5660.75,
+        "effective_employers": 1.767
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 19,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 7,
+        "TITLE_SUPPORTED": 13
+      }
+    },
+    "PRODUCT_STRATEGY": {
+      "cluster_count": 74,
+      "normal_candidate_count": 49,
+      "market_status_counts": {
+        "IN_SCOPE": 1,
+        "OUT_OF_SCOPE": 25,
+        "UNCERTAIN": 48
+      },
+      "employer_count": 9,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 20
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 14
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 11
+        },
+        {
+          "company_id": "wrike",
+          "count": 9
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 8
+        }
+      ],
+      "employer_concentration": {
+        "total": 74,
+        "employer_count": 9,
+        "top_1_share": 0.27027,
+        "top_3_share": 0.608108,
+        "top_5_share": 0.837838,
+        "hhi": 1665.45,
+        "effective_employers": 6.004
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 9,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 30,
+        "TITLE_SUPPORTED": 35
+      }
+    },
+    "COMMERCIAL_PRICING_RETENTION": {
+      "cluster_count": 33,
+      "normal_candidate_count": 32,
+      "market_status_counts": {
+        "IN_SCOPE": 2,
+        "OUT_OF_SCOPE": 1,
+        "UNCERTAIN": 30
+      },
+      "employer_count": 6,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 26
+        },
+        {
+          "company_id": "deutsche_boerse_group",
+          "count": 2
+        },
+        {
+          "company_id": "cisco",
+          "count": 2
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 1
+        },
+        {
+          "company_id": "kiwi_com",
+          "count": 1
+        }
+      ],
+      "employer_concentration": {
+        "total": 33,
+        "employer_count": 6,
+        "top_1_share": 0.787879,
+        "top_3_share": 0.909091,
+        "top_5_share": 0.969697,
+        "hhi": 6308.54,
+        "effective_employers": 1.585
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 3,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 5,
+        "TITLE_SUPPORTED": 25
+      }
+    },
+    "DATA_SCIENCE_ML_ENGINEERING": {
+      "cluster_count": 60,
+      "normal_candidate_count": 51,
+      "market_status_counts": {
+        "IN_SCOPE": 2,
+        "OUT_OF_SCOPE": 9,
+        "UNCERTAIN": 49
+      },
+      "employer_count": 9,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 35
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 10
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 3
+        },
+        {
+          "company_id": "kiwi_com",
+          "count": 3
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 2
+        }
+      ],
+      "employer_concentration": {
+        "total": 60,
+        "employer_count": 9,
+        "top_1_share": 0.583333,
+        "top_3_share": 0.8,
+        "top_5_share": 0.883333,
+        "hhi": 3777.78,
+        "effective_employers": 2.647
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 34,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 22,
+        "TITLE_SUPPORTED": 4
+      }
+    },
+    "SOFTWARE_ENGINEERING": {
+      "cluster_count": 102,
+      "normal_candidate_count": 88,
+      "market_status_counts": {
+        "IN_SCOPE": 26,
+        "OUT_OF_SCOPE": 14,
+        "UNCERTAIN": 62
+      },
+      "employer_count": 13,
+      "top_employers": [
+        {
+          "company_id": "pure_storage",
+          "count": 28
+        },
+        {
+          "company_id": "ey",
+          "count": 25
+        },
+        {
+          "company_id": "cisco",
+          "count": 16
+        },
+        {
+          "company_id": "deutsche_boerse_group",
+          "count": 7
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 5
+        }
+      ],
+      "employer_concentration": {
+        "total": 102,
+        "employer_count": 13,
+        "top_1_share": 0.27451,
+        "top_3_share": 0.676471,
+        "top_5_share": 0.794118,
+        "hhi": 1732.03,
+        "effective_employers": 5.774
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 15,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 43,
+        "TITLE_SUPPORTED": 44
+      }
+    },
+    "CLOUD_INFRA_SECURITY_ENGINEERING": {
+      "cluster_count": 238,
+      "normal_candidate_count": 211,
+      "market_status_counts": {
+        "IN_SCOPE": 24,
+        "OUT_OF_SCOPE": 27,
+        "UNCERTAIN": 187
+      },
+      "employer_count": 13,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 140
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 21
+        },
+        {
+          "company_id": "wrike",
+          "count": 16
+        },
+        {
+          "company_id": "deutsche_boerse_group",
+          "count": 13
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 13
+        }
+      ],
+      "employer_concentration": {
+        "total": 238,
+        "employer_count": 13,
+        "top_1_share": 0.588235,
+        "top_3_share": 0.743697,
+        "top_5_share": 0.852941,
+        "hhi": 3676.29,
+        "effective_employers": 2.72
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 196,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 32,
+        "TITLE_SUPPORTED": 10
+      }
+    },
+    "FINANCE_ACCOUNTING_TAX": {
+      "cluster_count": 614,
+      "normal_candidate_count": 577,
+      "market_status_counts": {
+        "IN_SCOPE": 10,
+        "OUT_OF_SCOPE": 37,
+        "UNCERTAIN": 567
+      },
+      "employer_count": 11,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 518
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 33
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 19
+        },
+        {
+          "company_id": "wpp",
+          "count": 17
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 13
+        }
+      ],
+      "employer_concentration": {
+        "total": 614,
+        "employer_count": 11,
+        "top_1_share": 0.843648,
+        "top_3_share": 0.928339,
+        "top_5_share": 0.977199,
+        "hhi": 7169.31,
+        "effective_employers": 1.395
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 36,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 203,
+        "TITLE_SUPPORTED": 375
+      }
+    },
+    "SALES_ACCOUNT_MANAGEMENT": {
+      "cluster_count": 160,
+      "normal_candidate_count": 126,
+      "market_status_counts": {
+        "IN_SCOPE": 3,
+        "OUT_OF_SCOPE": 34,
+        "UNCERTAIN": 123
+      },
+      "employer_count": 10,
+      "top_employers": [
+        {
+          "company_id": "schneider_electric",
+          "count": 44
+        },
+        {
+          "company_id": "cisco",
+          "count": 37
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 30
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 21
+        },
+        {
+          "company_id": "wrike",
+          "count": 12
+        }
+      ],
+      "employer_concentration": {
+        "total": 160,
+        "employer_count": 10,
+        "top_1_share": 0.275,
+        "top_3_share": 0.69375,
+        "top_5_share": 0.9,
+        "hhi": 1899.22,
+        "effective_employers": 5.265
+      },
+      "classification_evidence": {
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 16,
+        "TITLE_SUPPORTED": 144
+      }
+    },
+    "CUSTOMER_SUPPORT_SERVICE": {
+      "cluster_count": 62,
+      "normal_candidate_count": 56,
+      "market_status_counts": {
+        "IN_SCOPE": 1,
+        "OUT_OF_SCOPE": 6,
+        "UNCERTAIN": 55
+      },
+      "employer_count": 8,
+      "top_employers": [
+        {
+          "company_id": "schneider_electric",
+          "count": 17
+        },
+        {
+          "company_id": "ey",
+          "count": 14
+        },
+        {
+          "company_id": "wrike",
+          "count": 9
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 8
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 6
+        }
+      ],
+      "employer_concentration": {
+        "total": 62,
+        "employer_count": 8,
+        "top_1_share": 0.274194,
+        "top_3_share": 0.645161,
+        "top_5_share": 0.870968,
+        "hhi": 1810.61,
+        "effective_employers": 5.523
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 47,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 4,
+        "TITLE_SUPPORTED": 11
+      }
+    },
+    "HR_PEOPLE": {
+      "cluster_count": 29,
+      "normal_candidate_count": 24,
+      "market_status_counts": {
+        "IN_SCOPE": 6,
+        "OUT_OF_SCOPE": 5,
+        "UNCERTAIN": 18
+      },
+      "employer_count": 7,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 11
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 5
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 5
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 3
+        },
+        {
+          "company_id": "sap",
+          "count": 3
+        }
+      ],
+      "employer_concentration": {
+        "total": 29,
+        "employer_count": 7,
+        "top_1_share": 0.37931,
+        "top_3_share": 0.724138,
+        "top_5_share": 0.931034,
+        "hhi": 2271.11,
+        "effective_employers": 4.403
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 3,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 11,
+        "TITLE_SUPPORTED": 15
+      }
+    },
+    "LEGAL": {
+      "cluster_count": 11,
+      "normal_candidate_count": 7,
+      "market_status_counts": {
+        "IN_SCOPE": 1,
+        "OUT_OF_SCOPE": 4,
+        "UNCERTAIN": 6
+      },
+      "employer_count": 5,
+      "top_employers": [
+        {
+          "company_id": "johnson_johnson",
+          "count": 5
+        },
+        {
+          "company_id": "ey",
+          "count": 3
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 1
+        },
+        {
+          "company_id": "wpp",
+          "count": 1
+        },
+        {
+          "company_id": "sap",
+          "count": 1
+        }
+      ],
+      "employer_concentration": {
+        "total": 11,
+        "employer_count": 5,
+        "top_1_share": 0.454545,
+        "top_3_share": 0.818182,
+        "top_5_share": 1.0,
+        "hhi": 3057.85,
+        "effective_employers": 3.27
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 1,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 4,
+        "TITLE_SUPPORTED": 6
+      }
+    },
+    "CLINICAL_MEDICAL": {
+      "cluster_count": 86,
+      "normal_candidate_count": 61,
+      "market_status_counts": {
+        "OUT_OF_SCOPE": 25,
+        "UNCERTAIN": 61
+      },
+      "employer_count": 4,
+      "top_employers": [
+        {
+          "company_id": "johnson_johnson",
+          "count": 73
+        },
+        {
+          "company_id": "pfizer",
+          "count": 6
+        },
+        {
+          "company_id": "ey",
+          "count": 4
+        },
+        {
+          "company_id": "roche",
+          "count": 3
+        }
+      ],
+      "employer_concentration": {
+        "total": 86,
+        "employer_count": 4,
+        "top_1_share": 0.848837,
+        "top_3_share": 0.965116,
+        "top_5_share": 1.0,
+        "hhi": 7287.72,
+        "effective_employers": 1.372
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 10,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 43,
+        "TITLE_SUPPORTED": 33
+      }
+    },
+    "SUPPLY_CHAIN_WAREHOUSE_FIELD_SERVICE": {
+      "cluster_count": 184,
+      "normal_candidate_count": 136,
+      "market_status_counts": {
+        "OUT_OF_SCOPE": 48,
+        "UNCERTAIN": 136
+      },
+      "employer_count": 6,
+      "top_employers": [
+        {
+          "company_id": "schneider_electric",
+          "count": 102
+        },
+        {
+          "company_id": "ey",
+          "count": 43
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 29
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 6
+        },
+        {
+          "company_id": "roche",
+          "count": 2
+        }
+      ],
+      "employer_concentration": {
+        "total": 184,
+        "employer_count": 6,
+        "top_1_share": 0.554348,
+        "top_3_share": 0.945652,
+        "top_5_share": 0.98913,
+        "hhi": 3880.55,
+        "effective_employers": 2.577
+      },
+      "classification_evidence": {
+        "DESCRIPTION_SUPPORTED": 25,
+        "TITLE_AND_DESCRIPTION_SUPPORTED": 140,
+        "TITLE_SUPPORTED": 19
+      }
+    },
+    "OTHER_AMBIGUOUS": {
+      "cluster_count": 2142,
+      "normal_candidate_count": 1849,
+      "market_status_counts": {
+        "IN_SCOPE": 67,
+        "OUT_OF_SCOPE": 293,
+        "UNCERTAIN": 1782
+      },
+      "employer_count": 16,
+      "top_employers": [
+        {
+          "company_id": "ey",
+          "count": 1010
+        },
+        {
+          "company_id": "schneider_electric",
+          "count": 420
+        },
+        {
+          "company_id": "johnson_johnson",
+          "count": 240
+        },
+        {
+          "company_id": "csob",
+          "count": 104
+        },
+        {
+          "company_id": "pure_storage",
+          "count": 94
+        }
+      ],
+      "employer_concentration": {
+        "total": 2142,
+        "employer_count": 16,
+        "top_1_share": 0.471522,
+        "top_3_share": 0.779645,
+        "top_5_share": 0.872082,
+        "hhi": 2801.83,
+        "effective_employers": 3.569
+      },
+      "classification_evidence": {
+        "AMBIGUOUS": 2142
+      }
+    }
+  },
+  "target_role_summary": {
+    "families": {
+      "BUSINESS_ANALYTICS": {
+        "cluster_count": 61,
+        "normal_candidate_count": 50,
+        "market_status_counts": {
+          "IN_SCOPE": 5,
+          "OUT_OF_SCOPE": 11,
+          "UNCERTAIN": 45
+        },
+        "employer_count": 7,
+        "top_employers": [
+          {
+            "company_id": "ey",
+            "count": 37
+          },
+          {
+            "company_id": "johnson_johnson",
+            "count": 12
+          },
+          {
+            "company_id": "schneider_electric",
+            "count": 4
+          },
+          {
+            "company_id": "pure_storage",
+            "count": 4
+          },
+          {
+            "company_id": "deutsche_boerse_group",
+            "count": 2
+          }
+        ],
+        "employer_concentration": {
+          "total": 61,
+          "employer_count": 7,
+          "top_1_share": 0.606557,
+          "top_3_share": 0.868852,
+          "top_5_share": 0.967213,
+          "hhi": 4168.23,
+          "effective_employers": 2.399
+        },
+        "classification_evidence": {
+          "DESCRIPTION_SUPPORTED": 37,
+          "TITLE_AND_DESCRIPTION_SUPPORTED": 5,
+          "TITLE_SUPPORTED": 19
+        }
+      },
+      "DATA_ANALYTICS": {
+        "cluster_count": 166,
+        "normal_candidate_count": 142,
+        "market_status_counts": {
+          "IN_SCOPE": 7,
+          "OUT_OF_SCOPE": 24,
+          "UNCERTAIN": 135
+        },
+        "employer_count": 10,
+        "top_employers": [
+          {
+            "company_id": "ey",
+            "count": 107
+          },
+          {
+            "company_id": "johnson_johnson",
+            "count": 22
+          },
+          {
+            "company_id": "schneider_electric",
+            "count": 15
+          },
+          {
+            "company_id": "pure_storage",
+            "count": 7
+          },
+          {
+            "company_id": "deutsche_boerse_group",
+            "count": 5
+          }
+        ],
+        "employer_concentration": {
+          "total": 166,
+          "employer_count": 10,
+          "top_1_share": 0.644578,
+          "top_3_share": 0.86747,
+          "top_5_share": 0.939759,
+          "hhi": 4449.12,
+          "effective_employers": 2.248
+        },
+        "classification_evidence": {
+          "DESCRIPTION_SUPPORTED": 152,
+          "TITLE_AND_DESCRIPTION_SUPPORTED": 11,
+          "TITLE_SUPPORTED": 3
+        }
+      },
+      "DECISION_INTELLIGENCE_SUPPORT": {
+        "cluster_count": 14,
+        "normal_candidate_count": 8,
+        "market_status_counts": {
+          "OUT_OF_SCOPE": 6,
+          "UNCERTAIN": 8
+        },
+        "employer_count": 3,
+        "top_employers": [
+          {
+            "company_id": "johnson_johnson",
+            "count": 5
+          },
+          {
+            "company_id": "ey",
+            "count": 5
+          },
+          {
+            "company_id": "pure_storage",
+            "count": 4
+          }
+        ],
+        "employer_concentration": {
+          "total": 14,
+          "employer_count": 3,
+          "top_1_share": 0.357143,
+          "top_3_share": 1.0,
+          "top_5_share": 1.0,
+          "hhi": 3367.35,
+          "effective_employers": 2.97
+        },
+        "classification_evidence": {
+          "DESCRIPTION_SUPPORTED": 14
+        }
+      },
+      "BUSINESS_REVENUE_OPERATIONS": {
+        "cluster_count": 31,
+        "normal_candidate_count": 23,
+        "market_status_counts": {
+          "IN_SCOPE": 5,
+          "OUT_OF_SCOPE": 8,
+          "UNCERTAIN": 18
+        },
+        "employer_count": 7,
+        "top_employers": [
+          {
+            "company_id": "ey",
+            "count": 11
+          },
+          {
+            "company_id": "johnson_johnson",
+            "count": 8
+          },
+          {
+            "company_id": "pure_storage",
+            "count": 4
+          },
+          {
+            "company_id": "wrike",
+            "count": 3
+          },
+          {
+            "company_id": "deutsche_boerse_group",
+            "count": 2
+          }
+        ],
+        "employer_concentration": {
+          "total": 31,
+          "employer_count": 7,
+          "top_1_share": 0.354839,
+          "top_3_share": 0.741935,
+          "top_5_share": 0.903226,
+          "hhi": 2278.88,
+          "effective_employers": 4.388
+        },
+        "classification_evidence": {
+          "DESCRIPTION_SUPPORTED": 18,
+          "TITLE_AND_DESCRIPTION_SUPPORTED": 8,
+          "TITLE_SUPPORTED": 5
+        }
+      },
+      "AI_DIGITAL_TRANSFORMATION": {
+        "cluster_count": 39,
+        "normal_candidate_count": 35,
+        "market_status_counts": {
+          "IN_SCOPE": 1,
+          "OUT_OF_SCOPE": 4,
+          "UNCERTAIN": 34
+        },
+        "employer_count": 7,
+        "top_employers": [
+          {
+            "company_id": "ey",
+            "count": 29
+          },
+          {
+            "company_id": "johnson_johnson",
+            "count": 3
+          },
+          {
+            "company_id": "schneider_electric",
+            "count": 2
+          },
+          {
+            "company_id": "siemens",
+            "count": 2
+          },
+          {
+            "company_id": "deutsche_boerse_group",
+            "count": 1
+          }
+        ],
+        "employer_concentration": {
+          "total": 39,
+          "employer_count": 7,
+          "top_1_share": 0.74359,
+          "top_3_share": 0.871795,
+          "top_5_share": 0.948718,
+          "hhi": 5660.75,
+          "effective_employers": 1.767
+        },
+        "classification_evidence": {
+          "DESCRIPTION_SUPPORTED": 19,
+          "TITLE_AND_DESCRIPTION_SUPPORTED": 7,
+          "TITLE_SUPPORTED": 13
+        }
+      },
+      "PRODUCT_STRATEGY": {
+        "cluster_count": 74,
+        "normal_candidate_count": 49,
+        "market_status_counts": {
+          "IN_SCOPE": 1,
+          "OUT_OF_SCOPE": 25,
+          "UNCERTAIN": 48
+        },
+        "employer_count": 9,
+        "top_employers": [
+          {
+            "company_id": "ey",
+            "count": 20
+          },
+          {
+            "company_id": "johnson_johnson",
+            "count": 14
+          },
+          {
+            "company_id": "pure_storage",
+            "count": 11
+          },
+          {
+            "company_id": "wrike",
+            "count": 9
+          },
+          {
+            "company_id": "schneider_electric",
+            "count": 8
+          }
+        ],
+        "employer_concentration": {
+          "total": 74,
+          "employer_count": 9,
+          "top_1_share": 0.27027,
+          "top_3_share": 0.608108,
+          "top_5_share": 0.837838,
+          "hhi": 1665.45,
+          "effective_employers": 6.004
+        },
+        "classification_evidence": {
+          "DESCRIPTION_SUPPORTED": 9,
+          "TITLE_AND_DESCRIPTION_SUPPORTED": 30,
+          "TITLE_SUPPORTED": 35
+        }
+      },
+      "COMMERCIAL_PRICING_RETENTION": {
+        "cluster_count": 33,
+        "normal_candidate_count": 32,
+        "market_status_counts": {
+          "IN_SCOPE": 2,
+          "OUT_OF_SCOPE": 1,
+          "UNCERTAIN": 30
+        },
+        "employer_count": 6,
+        "top_employers": [
+          {
+            "company_id": "ey",
+            "count": 26
+          },
+          {
+            "company_id": "deutsche_boerse_group",
+            "count": 2
+          },
+          {
+            "company_id": "cisco",
+            "count": 2
+          },
+          {
+            "company_id": "johnson_johnson",
+            "count": 1
+          },
+          {
+            "company_id": "kiwi_com",
+            "count": 1
+          }
+        ],
+        "employer_concentration": {
+          "total": 33,
+          "employer_count": 6,
+          "top_1_share": 0.787879,
+          "top_3_share": 0.909091,
+          "top_5_share": 0.969697,
+          "hhi": 6308.54,
+          "effective_employers": 1.585
+        },
+        "classification_evidence": {
+          "DESCRIPTION_SUPPORTED": 3,
+          "TITLE_AND_DESCRIPTION_SUPPORTED": 5,
+          "TITLE_SUPPORTED": 25
+        }
+      }
+    },
+    "unique_cluster_count": 388,
+    "unique_routed_cluster_count": 315,
+    "share_of_all_clusters": 0.100258,
+    "share_of_routed_clusters": 0.094708,
+    "market_status_counts": {
+      "IN_SCOPE": 18,
+      "OUT_OF_SCOPE": 73,
+      "UNCERTAIN": 297
+    },
+    "employer_count": 14,
+    "employer_concentration": {
+      "total": 388,
+      "employer_count": 14,
+      "top_1_share": 0.559278,
+      "top_3_share": 0.796392,
+      "top_5_share": 0.896907,
+      "hhi": 3524.95,
+      "effective_employers": 2.837
+    },
+    "title_supported_unique_cluster_count": 164,
+    "description_only_unique_cluster_count": 224,
+    "title_supported_routed_cluster_count": 136
+  },
+  "candidate_direction": {
+    "profile_id": "roman_christov",
+    "profile_version": 3,
+    "capabilities": {
+      "business_analytics": {
+        "represented": true,
+        "level": "EXPERT",
+        "confidence": "HIGH"
+      },
+      "decision_support": {
+        "represented": true,
+        "level": "EXPERT",
+        "confidence": "HIGH"
+      },
+      "forecasting": {
+        "represented": true,
+        "level": "EXPERT",
+        "confidence": "HIGH"
+      },
+      "commercial_strategy": {
+        "represented": true,
+        "level": "EXPERT",
+        "confidence": "HIGH"
+      },
+      "business_operations": {
+        "represented": true,
+        "level": "EXPERT",
+        "confidence": "HIGH"
+      },
+      "machine_learning_business_application": {
+        "represented": true,
+        "level": "INTERMEDIATE",
+        "confidence": "HIGH"
+      }
+    },
+    "legacy_preferences": {
+      "analytical_problem_solving": {
+        "represented": true,
+        "importance": "VERY_HIGH"
+      },
+      "decision_intelligence": {
+        "represented": true,
+        "importance": "VERY_HIGH"
+      },
+      "business_operations": {
+        "represented": true,
+        "importance": "HIGH"
+      },
+      "ai_enabled_work": {
+        "represented": true,
+        "importance": "VERY_HIGH"
+      },
+      "transformation": {
+        "represented": true,
+        "importance": "HIGH"
+      }
+    },
+    "decision_preferences": {
+      "business_analytics": {
+        "represented": false,
+        "stance": null
+      },
+      "decision_support": {
+        "represented": false,
+        "stance": null
+      },
+      "business_operations": {
+        "represented": true,
+        "stance": "POSITIVE"
+      },
+      "ai_enabled_work": {
+        "represented": true,
+        "stance": "STRONG_POSITIVE"
+      },
+      "transformation_execution": {
+        "represented": true,
+        "stance": "STRONG_POSITIVE"
+      }
+    },
+    "missing_decision_direction_concepts": [
+      "business_analytics",
+      "decision_support"
+    ],
+    "recommendation": "PROPOSE_VERSIONED_DECISION_PREFERENCE_UPDATE_ONLY",
+    "profile_mutated": false
+  },
+  "employer_discovery": {
+    "longlist_count": 30,
+    "score_scale": "0_WEAK_OR_UNKNOWN_TO_3_STRONG_PER_DIMENSION",
+    "ranking_dimensions": [
+      "market_access",
+      "target_role_density",
+      "career_direction_quality",
+      "diversification",
+      "source_operability"
+    ],
+    "wave_a": [
+      {
+        "company_id": "keboola",
+        "company_name": "Keboola",
+        "category": "DATA_ANALYTICS",
+        "market_evidence": "Prague/Remote EU",
+        "careers_url": "https://www.keboola.com/about/jobs",
+        "source_url": "https://www.keboola.com/about/jobs",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "custom",
+        "expected_adapter": "GenericCareerSearchAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 3,
+          "diversification": 3,
+          "source_operability": 3
+        },
+        "total_score": 15
+      },
+      {
+        "company_id": "mews",
+        "company_name": "Mews",
+        "category": "SAAS",
+        "market_evidence": "Prague/Remote",
+        "careers_url": "https://www.mews.com/en/careers",
+        "source_url": "https://www.mews.com/en/careers",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "greenhouse",
+        "expected_adapter": "GreenhouseAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 3,
+          "diversification": 3,
+          "source_operability": 3
+        },
+        "total_score": 15
+      },
+      {
+        "company_id": "productboard",
+        "company_name": "Productboard",
+        "category": "SAAS",
+        "market_evidence": "Prague/Brno/Remote EU",
+        "careers_url": "https://www.productboard.com/careers/",
+        "source_url": "https://www.productboard.com/careers/open-positions/",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "custom",
+        "expected_adapter": "GenericHtmlAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 3,
+          "source_operability": 3
+        },
+        "total_score": 14
+      },
+      {
+        "company_id": "commerzbank",
+        "company_name": "Commerzbank",
+        "category": "FINTECH_BANKING",
+        "market_evidence": "Prague",
+        "careers_url": "https://jobs.commerzbank.com/",
+        "source_url": "https://commerzbank.jobs.cz/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "almacareer",
+        "expected_adapter": "AlmaCareerAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 2,
+          "diversification": 3,
+          "source_operability": 3
+        },
+        "total_score": 13
+      },
+      {
+        "company_id": "erste_group",
+        "company_name": "Erste Group",
+        "category": "FINTECH_BANKING",
+        "market_evidence": "Prague/CEE",
+        "careers_url": "https://www.erstegroup.com/en/career",
+        "source_url": "https://erstegroup-careers.com/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "successfactors",
+        "expected_adapter": "SuccessFactorsAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 2,
+          "diversification": 3,
+          "source_operability": 3
+        },
+        "total_score": 13
+      },
+      {
+        "company_id": "abb",
+        "company_name": "ABB",
+        "category": "INDUSTRIAL_TECH",
+        "market_evidence": "Prague/Brno/Ostrava",
+        "careers_url": "https://careers.abb/",
+        "source_url": "https://abb.jobs.cz/",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "almacareer",
+        "expected_adapter": "AlmaCareerAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 1,
+          "career_direction_quality": 2,
+          "diversification": 3,
+          "source_operability": 3
+        },
+        "total_score": 12
+      },
+      {
+        "company_id": "kpmg",
+        "company_name": "KPMG",
+        "category": "TRANSFORMATION_CONSULTING",
+        "market_evidence": "Prague",
+        "careers_url": "https://kpmg.jobs.cz/",
+        "source_url": "https://kpmg.jobs.cz/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "almacareer",
+        "expected_adapter": "AlmaCareerAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 2,
+          "diversification": 2,
+          "source_operability": 3
+        },
+        "total_score": 12
+      },
+      {
+        "company_id": "msd",
+        "company_name": "MSD",
+        "category": "PHARMA_TECH",
+        "market_evidence": "Prague",
+        "careers_url": "https://www.msd.cz/en/careers/",
+        "source_url": "https://msd.jobs.cz/",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "almacareer",
+        "expected_adapter": "AlmaCareerAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 2,
+          "diversification": 2,
+          "source_operability": 3
+        },
+        "total_score": 12
+      },
+      {
+        "company_id": "zentiva",
+        "company_name": "Zentiva",
+        "category": "PHARMA_TECH",
+        "market_evidence": "Prague",
+        "careers_url": "https://www.zentiva.com/careers",
+        "source_url": "https://zentiva.wd3.myworkdayjobs.com/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "workday",
+        "expected_adapter": "WorkdayAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 1,
+          "career_direction_quality": 2,
+          "diversification": 3,
+          "source_operability": 2
+        },
+        "total_score": 11
+      }
+    ],
+    "wave_b": [
+      {
+        "company_id": "gen_digital",
+        "company_name": "Gen Digital",
+        "category": "CYBERSECURITY",
+        "market_evidence": "Prague",
+        "careers_url": "https://www.gendigital.com/us/en/careers/",
+        "source_url": "https://jobs.ashbyhq.com/gen-digital",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "ashby",
+        "expected_adapter": "AshbyAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 3,
+          "diversification": 3,
+          "source_operability": 2
+        },
+        "total_score": 14
+      },
+      {
+        "company_id": "mastercard",
+        "company_name": "Mastercard",
+        "category": "FINTECH_PAYMENTS",
+        "market_evidence": "Prague",
+        "careers_url": "https://careers.mastercard.com/",
+        "source_url": "https://careers.mastercard.com/us/en/search-results/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "phenom_like",
+        "expected_adapter": "PhenomLikeAdapter",
+        "integration_effort": "SMALL_ADAPTER_EXTENSION",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 3,
+          "diversification": 3,
+          "source_operability": 2
+        },
+        "total_score": 14
+      },
+      {
+        "company_id": "visa",
+        "company_name": "Visa",
+        "category": "FINTECH_PAYMENTS",
+        "market_evidence": "Prague",
+        "careers_url": "https://corporate.visa.com/en/careers.html",
+        "source_url": "https://jobs.smartrecruiters.com/Visa",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "smartrecruiters",
+        "expected_adapter": "SmartRecruitersAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 3,
+          "diversification": 3,
+          "source_operability": 2
+        },
+        "total_score": 14
+      },
+      {
+        "company_id": "rossum",
+        "company_name": "Rossum",
+        "category": "AI_NATIVE",
+        "market_evidence": "Prague",
+        "careers_url": "https://rossum.ai/careers/",
+        "source_url": "https://jobs.ashbyhq.com/rossum.ai",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "ashby",
+        "expected_adapter": "AshbyAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 3,
+          "source_operability": 2
+        },
+        "total_score": 13
+      },
+      {
+        "company_id": "accenture",
+        "company_name": "Accenture",
+        "category": "TRANSFORMATION_CONSULTING",
+        "market_evidence": "Prague",
+        "careers_url": "https://www.accenture.com/cz-en/careers",
+        "source_url": "https://www.accenture.com/cz-en/careers/jobsearch",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "workday",
+        "expected_adapter": "WorkdayAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 3,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 12
+      },
+      {
+        "company_id": "barclays",
+        "company_name": "Barclays",
+        "category": "FINTECH_BANKING",
+        "market_evidence": "Prague",
+        "careers_url": "https://home.barclays/careers/",
+        "source_url": "https://search.jobs.barclays/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "barclays_careers",
+        "expected_adapter": "BarclaysCareersAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 2,
+          "diversification": 3,
+          "source_operability": 1
+        },
+        "total_score": 12
+      },
+      {
+        "company_id": "microsoft",
+        "company_name": "Microsoft",
+        "category": "ENTERPRISE_TECH",
+        "market_evidence": "Prague",
+        "careers_url": "https://careers.microsoft.com/",
+        "source_url": "https://careers.microsoft.com/v2/global/en/locations/prague.html",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "microsoft_careers",
+        "expected_adapter": "MicrosoftCareersAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 3,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 12
+      },
+      {
+        "company_id": "sanofi",
+        "company_name": "Sanofi",
+        "category": "PHARMA_TECH",
+        "market_evidence": "Prague",
+        "careers_url": "https://jobs.sanofi.com/",
+        "source_url": "https://jobs.sanofi.com/en/search-jobs/czech/20873/1/1",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "phenom_like",
+        "expected_adapter": "PhenomLikeAdapter",
+        "integration_effort": "SMALL_ADAPTER_EXTENSION",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 2,
+          "source_operability": 2
+        },
+        "total_score": 12
+      },
+      {
+        "company_id": "takeda",
+        "company_name": "Takeda",
+        "category": "PHARMA_TECH",
+        "market_evidence": "Prague/Czechia",
+        "careers_url": "https://jobs.takeda.com/",
+        "source_url": "https://takeda.wd3.myworkdayjobs.com/External",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "workday",
+        "expected_adapter": "WorkdayAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 2,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 2,
+          "source_operability": 3
+        },
+        "total_score": 12
+      },
+      {
+        "company_id": "astrazeneca",
+        "company_name": "AstraZeneca",
+        "category": "PHARMA_TECH",
+        "market_evidence": "Prague",
+        "careers_url": "https://careers.astrazeneca.com/",
+        "source_url": "https://careers.astrazeneca.com/search-jobs/czech/7684/1/1",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "talentbrew",
+        "expected_adapter": "TalentBrewAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 11
+      }
+    ],
+    "watchlist": [
+      {
+        "company_id": "bcg",
+        "company_name": "Boston Consulting Group (BCG)",
+        "category": "TRANSFORMATION_CONSULTING",
+        "market_evidence": "Prague",
+        "careers_url": "https://careers.bcg.com/",
+        "source_url": "https://careers.bcg.com/global/en/search-results",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "workday",
+        "expected_adapter": "WorkdayAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 11
+      },
+      {
+        "company_id": "deloitte",
+        "company_name": "Deloitte",
+        "category": "TRANSFORMATION_CONSULTING",
+        "market_evidence": "Prague",
+        "careers_url": "https://www.deloitte.com/cz-sk/en/careers.html",
+        "source_url": "https://apply.deloittece.com/en_US/careers/SearchJobs/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "deloitte_ce",
+        "expected_adapter": "DeloitteCEAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 3,
+          "career_direction_quality": 2,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 11
+      },
+      {
+        "company_id": "eaton",
+        "company_name": "Eaton",
+        "category": "INDUSTRIAL_TECH",
+        "market_evidence": "Prague",
+        "careers_url": "https://www.eaton.com/cz/en-gb/company/careers.html",
+        "source_url": "https://eaton.jobs.cz/",
+        "source_status": "CONFIRMED_CURRENT_SOURCE",
+        "verified_at": "2026-09-11",
+        "ats_family": "almacareer",
+        "expected_adapter": "AlmaCareerAdapter",
+        "integration_effort": "CONFIG_ONLY",
+        "scores": {
+          "market_access": 2,
+          "target_role_density": 1,
+          "career_direction_quality": 2,
+          "diversification": 3,
+          "source_operability": 3
+        },
+        "total_score": 11
+      },
+      {
+        "company_id": "mckinsey",
+        "company_name": "McKinsey & Company",
+        "category": "TRANSFORMATION_CONSULTING",
+        "market_evidence": "Prague",
+        "careers_url": "https://www.mckinsey.com/careers",
+        "source_url": "https://www.mckinsey.com/careers/search-jobs",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "workday",
+        "expected_adapter": "WorkdayAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 11
+      },
+      {
+        "company_id": "novartis",
+        "company_name": "Novartis",
+        "category": "PHARMA_TECH",
+        "market_evidence": "Prague",
+        "careers_url": "https://www.novartis.com/careers",
+        "source_url": "https://www.novartis.com/careers/career-search",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "novartis_careers",
+        "expected_adapter": "NovartisCareersAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 11
+      },
+      {
+        "company_id": "raiffeisen_bank_international",
+        "company_name": "Raiffeisen Bank International",
+        "category": "FINTECH_BANKING",
+        "market_evidence": "Prague/CEE",
+        "careers_url": "https://jobs.rbinternational.com/",
+        "source_url": "https://jobs.rbinternational.com/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "successfactors",
+        "expected_adapter": "SuccessFactorsAdapter",
+        "integration_effort": "SMALL_ADAPTER_EXTENSION",
+        "scores": {
+          "market_access": 2,
+          "target_role_density": 2,
+          "career_direction_quality": 2,
+          "diversification": 3,
+          "source_operability": 2
+        },
+        "total_score": 11
+      },
+      {
+        "company_id": "resistant_ai",
+        "company_name": "Resistant AI",
+        "category": "AI_NATIVE",
+        "market_evidence": "Prague",
+        "careers_url": "https://resistant.ai/career/",
+        "source_url": "https://resistant.ai/career/",
+        "source_status": "UNVERIFIED_CANDIDATE",
+        "verified_at": "2026-08-20",
+        "ats_family": "unsupported_linkedin",
+        "expected_adapter": "UNKNOWN",
+        "integration_effort": "UNKNOWN",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 3,
+          "diversification": 3,
+          "source_operability": 0
+        },
+        "total_score": 11
+      },
+      {
+        "company_id": "bosch",
+        "company_name": "Bosch",
+        "category": "INDUSTRIAL_TECH",
+        "market_evidence": "Prague/Czechia",
+        "careers_url": "https://www.bosch.cz/kariera/",
+        "source_url": "https://careers.smartrecruiters.com/BoschGroup/czech-republic",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "smartrecruiters",
+        "expected_adapter": "SmartRecruitersAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 2,
+          "target_role_density": 1,
+          "career_direction_quality": 2,
+          "diversification": 3,
+          "source_operability": 2
+        },
+        "total_score": 10
+      },
+      {
+        "company_id": "oracle",
+        "company_name": "Oracle",
+        "category": "ENTERPRISE_TECH",
+        "market_evidence": "Prague/Czechia",
+        "careers_url": "https://www.oracle.com/cz/careers/",
+        "source_url": "https://careers.oracle.com/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "oracle_recruiting",
+        "expected_adapter": "OracleCareersAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 2,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 10
+      },
+      {
+        "company_id": "pwc",
+        "company_name": "PwC",
+        "category": "TRANSFORMATION_CONSULTING",
+        "market_evidence": "Prague/Brno/Ostrava",
+        "careers_url": "https://www.pwc.com/cz/en/kariera.html",
+        "source_url": "https://www.pwc.com/cz/en/kariera.html",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "workday",
+        "expected_adapter": "WorkdayAdapter",
+        "integration_effort": "NEW_ADAPTER_REQUIRED",
+        "scores": {
+          "market_access": 3,
+          "target_role_density": 2,
+          "career_direction_quality": 2,
+          "diversification": 2,
+          "source_operability": 1
+        },
+        "total_score": 10
+      },
+      {
+        "company_id": "bayer",
+        "company_name": "Bayer",
+        "category": "PHARMA_TECH",
+        "market_evidence": "Prague/Czechia",
+        "careers_url": "https://www.bayer.com/en/career",
+        "source_url": "https://jobs.bayer.com/",
+        "source_status": "LIKELY_SOURCE",
+        "verified_at": "2026-08-20",
+        "ats_family": "successfactors",
+        "expected_adapter": "SuccessFactorsAdapter",
+        "integration_effort": "SMALL_ADAPTER_EXTENSION",
+        "scores": {
+          "market_access": 2,
+          "target_role_density": 1,
+          "career_direction_quality": 2,
+          "diversification": 2,
+          "source_operability": 2
+        },
+        "total_score": 9
+      }
+    ],
+    "source_status_counts": {
+      "CONFIRMED_CURRENT_SOURCE": 10,
+      "LIKELY_SOURCE": 19,
+      "UNVERIFIED_CANDIDATE": 1
+    },
+    "integration_effort_counts": {
+      "CONFIG_ONLY": 11,
+      "NEW_ADAPTER_REQUIRED": 14,
+      "SMALL_ADAPTER_EXTENSION": 4,
+      "UNKNOWN": 1
+    }
+  },
+  "configuration": {
+    "audit_fingerprint": "684cc5ac881573b64f7e397f6949a156f5eba5868db699b9e5c97aae44d7f5bc",
+    "role_contract_version": "source-portfolio-role-family-v1",
+    "prospective_protocol_fingerprint": "8998e4dacf9b5cf0475d24f0a835a5df6d93e96ae9ad80dc509c92b34ad831d2",
+    "git": {
+      "commit": "e0f0a0b7346cc80eb489261547c9619792207b89",
+      "dirty": true
+    }
+  },
+  "integrity": {
+    "database_sha256_before": "54f82d4b7ec765b565b7d3ecab06117d32eec4fbcc77f4b23206e6b079987e14",
+    "database_sha256_after": "54f82d4b7ec765b565b7d3ecab06117d32eec4fbcc77f4b23206e6b079987e14",
+    "database_unchanged": true,
+    "semantic_calls": 0,
+    "new_employer_ingestion_calls": 0,
+    "sqlite_writes": 0,
+    "candidate_profile_mutated": false
+  },
+  "privacy": {
+    "detailed_artifact": "PRIVATE_LOCAL",
+    "detailed_sha256": "8542d3827858581187c4e799ae1fd5d03066bfc39671def22fcdc0ce1a584b03",
+    "repository_safe_aggregate": "aggregate_summary.json",
+    "excluded_detail": "PER_CLUSTER_TITLES_AND_CLASSIFICATION_SIGNALS"
+  },
+  "limitations": [
+    "Role-family evidence is deterministic, multi-label, and diagnostic; it is not a production ranker or final suitability assessment.",
+    "Description-supported classification requires two independent patterns but can still over-count generic cross-functional language.",
+    "The candidate-employer longlist uses bounded public-source evidence and the prior fingerprinted feasibility dataset; LIKELY and UNVERIFIED entries require source-contract confirmation before onboarding.",
+    "Projected portfolio benefits are directional because candidate employers were not ingested and no future role volume was fabricated.",
+    "Network detail-request counts are not persisted in source_observations, so detail observation counts are not mislabeled as network cost."
+  ],
+  "decision_gates": {
+    "portfolio_expansion_justified": true,
+    "analytics_direction_hidden_only": false,
+    "candidate_profile_capability_gap": false,
+    "bounded_decision_preference_update_proposed": true,
+    "production_employers_added": 0
+  },
+  "intake_portfolio_policy": {
+    "objective": "MAXIMIZE_MARGINAL_USEFUL_MARKET_COVERAGE_NOT_RAW_VACANCY_VOLUME",
+    "review_signals": [
+      "CONCENTRATION_BY_INVENTORY_USABLE_DETAIL_AND_ROUTED_CLUSTER",
+      "UNIQUE_CANDIDATE_RELEVANT_CLUSTER_YIELD_BY_EMPLOYER",
+      "TARGET_ROLE_FAMILY_EMPLOYER_BREADTH",
+      "SOURCE_COMPLETENESS_AND_MAINTENANCE_COST",
+      "MARGINAL_SECTOR_AND_BUSINESS_MODEL_DIVERSITY"
+    ],
+    "addition_gate": "CLOSES_OBSERVED_MARKET_OR_ROLE_GAP_WITH_PUBLIC_OPERABLE_SOURCE",
+    "retirement_gate": "REPEATED_NEGLIGIBLE_UNIQUE_USEFUL_YIELD_OR_UNACCEPTABLE_SOURCE_COST_AFTER_REVIEW",
+    "automatic_removal": false
+  },
+  "conclusions": [
+    "The current portfolio is highly concentrated at every measured boundary and becomes most concentrated after candidate routing.",
+    "Business/data/decision-analytics evidence exists, but it is employer-concentrated, predominantly uncertain in market status, and especially thin for explicit decision-intelligence/support roles.",
+    "The gap is a combination of employer selection and diagnostic role visibility, not an absent candidate capability representation.",
+    "The profile already represents business analytics and decision support as expert capabilities; a future versioned decision-preference update is justified, but this audit does not mutate the profile.",
+    "Wave A should validate configuration-only sources first while Wave B tests high-value employers whose source contracts require adapter work.",
+    "EY and Johnson & Johnson dominate current supply; their marginal candidate-relevant yield should be monitored, but this audit does not authorize removal.",
+    "Source breadth and semantic compute allocation remain separate optimization problems."
+  ],
+  "recommendation": "EXPAND_PORTFOLIO_IN_BOUNDED_WAVES_AFTER_SOURCE_CONTRACT_PREFLIGHT"
+}

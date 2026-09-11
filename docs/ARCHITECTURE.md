@@ -246,7 +246,9 @@ and junior-role guard are now represented in the generic CandidateProfile
 schema and configuration. Their market behavioral evaluation, routing, and
 uncertainty cap are implemented without persistence.
 Soft preference trade-offs use the separately fingerprinted configuration and
-effect policy defined by `SPEC-004`. Retrospective validation remains pending.
+effect policy defined by `SPEC-004`. Retrospective replay, residual diagnostics,
+prospective-protocol preparation, and semantic-compute allocation experiments
+are implemented; the latest gate is recorded in `docs/STATUS.md`.
 
 Clusters and preferred selections are computed from persisted member evidence
 and recorded in new immutable validation manifests. They add no SQLite tables,

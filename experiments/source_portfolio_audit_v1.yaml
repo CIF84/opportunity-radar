@@ -1,0 +1,271 @@
+schema_version: 1
+experiment_id: EXP-SOURCE-PORTFOLIO-001
+experiment_type: SOURCE_PORTFOLIO_ROLE_COVERAGE_AUDIT
+candidate_path: config/candidate.yaml
+taxonomy_path: config/taxonomy.yaml
+companies_path: config/companies.yaml
+research_dataset_path: research/target_companies.csv
+prospective_protocol_path: experiments/phase4_prospective_validation_v1.yaml
+
+role_classification:
+  contract_version: source-portfolio-role-family-v1
+  minimum_description_signals: 2
+  families:
+    BUSINESS_ANALYTICS:
+      title_patterns:
+        - "\\bbusiness (?:intelligence |data )?analyst\\b"
+        - "\\bbusiness analytics?\\b"
+        - "\\banalytics manager\\b"
+        - "\\binsights manager\\b"
+        - "\\bbusiness performance\\b"
+      description_patterns:
+        - "\\bbusiness analytics?\\b"
+        - "\\bbusiness intelligence\\b"
+        - "\\bactionable insights?\\b"
+        - "\\bkey performance indicators?\\b|\\bkpis?\\b"
+    DATA_ANALYTICS:
+      title_patterns:
+        - "\\bdata analyst\\b"
+        - "\\banalytics engineer\\b"
+        - "\\bdata analytics?\\b"
+        - "\\breporting analyst\\b"
+      description_patterns:
+        - "\\bdata analys(?:is|t|ts|e|es|ing)\\b"
+        - "\\bdata visualization\\b"
+        - "\\btableau\\b|\\bpower bi\\b"
+        - "\\bsql\\b"
+    DECISION_INTELLIGENCE_SUPPORT:
+      title_patterns:
+        - "\\bdecision (?:scientist|intelligence|support)\\b"
+        - "\\binsights analyst\\b"
+        - "\\bstrategy analyst\\b"
+        - "\\bplanning analyst\\b"
+        - "\\bdecisioning\\b"
+      description_patterns:
+        - "\\bdecision intelligence\\b|\\bdecision support\\b"
+        - "\\bdata[- ]driven decisions?\\b|\\binformed decisions?\\b"
+        - "\\bstrategic insights?\\b"
+        - "\\bexecutive decision\\b"
+    BUSINESS_REVENUE_OPERATIONS:
+      title_patterns:
+        - "\\bbusiness operations?\\b"
+        - "\\brevenue operations?\\b|\\brevops\\b"
+        - "\\bsales operations?\\b"
+        - "\\bstrategy (?:&|and) operations?\\b"
+        - "\\boperations analyst\\b"
+      description_patterns:
+        - "\\boperating model\\b"
+        - "\\bbusiness operations?\\b"
+        - "\\brevenue operations?\\b|\\bsales operations?\\b"
+        - "\\boperational performance\\b"
+    AI_DIGITAL_TRANSFORMATION:
+      title_patterns:
+        - "\\bai transformation\\b|\\bartificial intelligence transformation\\b"
+        - "\\bdigital transformation\\b"
+        - "\\bautomation (?:lead|manager|consultant|director)\\b"
+        - "\\btransformation (?:lead|manager|consultant|director)\\b"
+      description_patterns:
+        - "\\bai transformation\\b|\\bartificial intelligence transformation\\b"
+        - "\\bdigital transformation\\b"
+        - "\\bprocess automation\\b"
+        - "\\boperating model transformation\\b"
+    PRODUCT_STRATEGY:
+      title_patterns:
+        - "\\bproduct (?:manager|owner|strategist|strategy|analyst|operations?)\\b"
+        - "\\bhead of product\\b|\\bdirector of product\\b"
+      description_patterns:
+        - "\\bproduct strategy\\b"
+        - "\\bproduct roadmap\\b"
+        - "\\bproduct discovery\\b"
+        - "\\bcustomer needs?\\b"
+    COMMERCIAL_PRICING_RETENTION:
+      title_patterns:
+        - "\\bcommercial analyst\\b|\\bcommercial strategy\\b"
+        - "\\bpricing\\b"
+        - "\\bretention\\b"
+        - "\\bmonetization\\b"
+        - "\\bgrowth analyst\\b"
+      description_patterns:
+        - "\\bpricing strategy\\b|\\bprice optimization\\b"
+        - "\\bcustomer retention\\b|\\bchurn\\b"
+        - "\\bcommercial insights?\\b"
+        - "\\brevenue growth\\b"
+    DATA_SCIENCE_ML_ENGINEERING:
+      title_patterns:
+        - "\\bdata scientist\\b"
+        - "\\bmachine learning (?:engineer|scientist|researcher)\\b|\\bml engineer\\b"
+        - "\\bai (?:engineer|researcher|scientist)\\b"
+      description_patterns:
+        - "\\bmachine learning\\b"
+        - "\\bmodel training\\b|\\bpredictive model(?:ing|ling)\\b"
+        - "\\bpytorch\\b|\\btensorflow\\b|\\bjax\\b"
+        - "\\bmlops\\b"
+    SOFTWARE_ENGINEERING:
+      title_patterns:
+        - "\\bsoftware (?:engineer|developer|architect)\\b"
+        - "\\b(?:backend|front[- ]?end|full[- ]?stack) (?:engineer|developer)\\b"
+        - "\\bjava developer\\b|\\bpython developer\\b"
+      description_patterns:
+        - "\\bsoftware development\\b"
+        - "\\bproduction code\\b"
+        - "\\bdistributed systems?\\b"
+        - "\\bcode review\\b"
+    CLOUD_INFRA_SECURITY_ENGINEERING:
+      title_patterns:
+        - "\\b(?:cloud|security|cyber ?security|infrastructure|platform|network) (?:engineer|architect)\\b"
+        - "\\bsite reliability engineer\\b|\\bsre\\b"
+      description_patterns:
+        - "\\bcloud infrastructure\\b"
+        - "\\baws\\b|\\bazure\\b|\\bgcp\\b"
+        - "\\bkubernetes\\b|\\bterraform\\b"
+        - "\\bcyber ?security\\b|\\binformation security\\b"
+    FINANCE_ACCOUNTING_TAX:
+      title_patterns:
+        - "\\bfinance\\b|\\bfinancial\\b|\\bcontroller\\b"
+        - "\\baccount(?:ant|ing)\\b|\\bpayroll\\b|\\btreasury\\b"
+        - "\\btax\\b|\\baudit\\b|\\bfp&a\\b"
+      description_patterns:
+        - "\\bfinancial reporting\\b|\\bfinancial planning\\b"
+        - "\\baccounting standards?\\b|\\bifrs\\b|\\bgaap\\b"
+        - "\\btax compliance\\b|\\btreasury operations?\\b"
+        - "\\bbudgeting\\b|\\bforecasting\\b"
+    SALES_ACCOUNT_MANAGEMENT:
+      title_patterns:
+        - "\\baccount (?:manager|executive|director)\\b"
+        - "\\bsales (?:manager|director|representative)\\b"
+        - "\\bbusiness development\\b"
+        - "\\bpartnerships? manager\\b"
+      description_patterns:
+        - "\\bsales quota\\b|\\bquota attainment\\b"
+        - "\\baccount portfolio\\b"
+        - "\\bupsell\\b|\\bcross[- ]sell\\b"
+        - "\\bpipeline generation\\b"
+    CUSTOMER_SUPPORT_SERVICE:
+      title_patterns:
+        - "\\bcustomer (?:support|service|success)\\b"
+        - "\\btechnical support\\b|\\bservice desk\\b"
+        - "\\bhelp ?desk\\b"
+      description_patterns:
+        - "\\bcustomer support\\b|\\bcustomer service\\b"
+        - "\\bsupport tickets?\\b"
+        - "\\bservice level agreement\\b|\\bsla\\b"
+        - "\\btroubleshoot(?:ing)?\\b"
+    HR_PEOPLE:
+      title_patterns:
+        - "\\bhuman resources?\\b|\\bhr\\b"
+        - "\\bpeople (?:partner|operations?|analytics?)\\b"
+        - "\\btalent (?:acquisition|management)\\b|\\brecruit(?:er|ing)\\b"
+      description_patterns:
+        - "\\bhuman resources?\\b"
+        - "\\bemployee relations?\\b"
+        - "\\btalent acquisition\\b"
+        - "\\bpeople analytics?\\b"
+    LEGAL:
+      title_patterns:
+        - "\\blegal\\b|\\blawyer\\b|\\battorney\\b|\\bcounsel\\b"
+        - "\\bparalegal\\b"
+      description_patterns:
+        - "\\blegal advice\\b|\\blegal counsel\\b"
+        - "\\bqualified lawyer\\b|\\bbar admission\\b"
+        - "\\bcontracts? law\\b"
+        - "\\bregulatory law\\b"
+    CLINICAL_MEDICAL:
+      title_patterns:
+        - "\\bclinical\\b|\\bmedical\\b|\\bphysician\\b|\\bdoctor\\b"
+        - "\\bpharmacist\\b|\\bnurse\\b"
+      description_patterns:
+        - "\\bmedical degree\\b|\\bclinical practice\\b"
+        - "\\bpatient care\\b"
+        - "\\bclinical trials?\\b"
+        - "\\bhealthcare professionals?\\b"
+    SUPPLY_CHAIN_WAREHOUSE_FIELD_SERVICE:
+      title_patterns:
+        - "\\bwarehouse\\b|\\bmaterial handler\\b|\\bsupply chain\\b"
+        - "\\bfield service\\b|\\bservice technician\\b"
+        - "\\blogistics\\b|\\bprocurement\\b"
+      description_patterns:
+        - "\\bwarehouse operations?\\b|\\bmaterial handling\\b"
+        - "\\bsupply chain\\b|\\blogistics operations?\\b"
+        - "\\bfield service\\b|\\bon[- ]site service\\b"
+        - "\\binventory management\\b"
+
+target_role_families:
+  - BUSINESS_ANALYTICS
+  - DATA_ANALYTICS
+  - DECISION_INTELLIGENCE_SUPPORT
+  - BUSINESS_REVENUE_OPERATIONS
+  - AI_DIGITAL_TRANSFORMATION
+  - PRODUCT_STRATEGY
+  - COMMERCIAL_PRICING_RETENTION
+
+candidate_direction:
+  capability_concepts:
+    - business_analytics
+    - decision_support
+    - forecasting
+    - commercial_strategy
+    - business_operations
+    - machine_learning_business_application
+  legacy_preference_concepts:
+    - analytical_problem_solving
+    - decision_intelligence
+    - business_operations
+    - ai_enabled_work
+    - transformation
+  decision_preference_concepts_expected:
+    - business_analytics
+    - decision_support
+    - business_operations
+    - ai_enabled_work
+    - transformation_execution
+
+portfolio_selection:
+  wave_a_limit: 10
+  wave_b_limit: 10
+  score_dimensions:
+    - market_access
+    - target_role_density
+    - career_direction_quality
+    - diversification
+    - source_operability
+
+# Candidate employers reference the existing fingerprinted research dataset.
+# Scores are bounded discovery evidence (0 weak/unknown, 3 strong), not job fit.
+candidate_employers:
+  - {company_id: mews, category: SAAS, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 3, diversification: 3, source_operability: 3}}
+  - {company_id: productboard, category: SAAS, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 3, diversification: 3, source_operability: 3}}
+  - {company_id: keboola, category: DATA_ANALYTICS, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 3, diversification: 3, source_operability: 3}}
+  - {company_id: msd, category: PHARMA_TECH, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 2, diversification: 2, source_operability: 3}}
+  - {company_id: kpmg, category: TRANSFORMATION_CONSULTING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 2, diversification: 2, source_operability: 3}}
+  - {company_id: commerzbank, category: FINTECH_BANKING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 2, diversification: 3, source_operability: 3}}
+  - {company_id: erste_group, category: FINTECH_BANKING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 2, diversification: 3, source_operability: 3}}
+  - {company_id: takeda, category: PHARMA_TECH, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: CONFIG_ONLY, scores: {market_access: 2, target_role_density: 2, career_direction_quality: 3, diversification: 2, source_operability: 3}}
+  - {company_id: abb, category: INDUSTRIAL_TECH, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 1, career_direction_quality: 2, diversification: 3, source_operability: 3}}
+  - {company_id: zentiva, category: PHARMA_TECH, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: CONFIG_ONLY, scores: {market_access: 3, target_role_density: 1, career_direction_quality: 2, diversification: 3, source_operability: 2}}
+  - {company_id: gen_digital, category: CYBERSECURITY, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 3, diversification: 3, source_operability: 2}}
+  - {company_id: rossum, category: AI_NATIVE, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 3, diversification: 3, source_operability: 2}}
+  - {company_id: microsoft, category: ENTERPRISE_TECH, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 3, diversification: 2, source_operability: 1}}
+  - {company_id: visa, category: FINTECH_PAYMENTS, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 3, diversification: 3, source_operability: 2}}
+  - {company_id: mastercard, category: FINTECH_PAYMENTS, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: SMALL_ADAPTER_EXTENSION, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 3, diversification: 3, source_operability: 2}}
+  - {company_id: oracle, category: ENTERPRISE_TECH, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 2, diversification: 2, source_operability: 1}}
+  - {company_id: novartis, category: PHARMA_TECH, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 3, diversification: 2, source_operability: 1}}
+  - {company_id: astrazeneca, category: PHARMA_TECH, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 3, diversification: 2, source_operability: 1}}
+  - {company_id: barclays, category: FINTECH_BANKING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 2, diversification: 3, source_operability: 1}}
+  - {company_id: accenture, category: TRANSFORMATION_CONSULTING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 3, diversification: 2, source_operability: 1}}
+  - {company_id: sanofi, category: PHARMA_TECH, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: SMALL_ADAPTER_EXTENSION, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 3, diversification: 2, source_operability: 2}}
+  - {company_id: deloitte, category: TRANSFORMATION_CONSULTING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 3, career_direction_quality: 2, diversification: 2, source_operability: 1}}
+  - {company_id: pwc, category: TRANSFORMATION_CONSULTING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 2, diversification: 2, source_operability: 1}}
+  - {company_id: raiffeisen_bank_international, category: FINTECH_BANKING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: SMALL_ADAPTER_EXTENSION, scores: {market_access: 2, target_role_density: 2, career_direction_quality: 2, diversification: 3, source_operability: 2}}
+  - {company_id: bcg, category: TRANSFORMATION_CONSULTING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 3, diversification: 2, source_operability: 1}}
+  - {company_id: mckinsey, category: TRANSFORMATION_CONSULTING, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 3, diversification: 2, source_operability: 1}}
+  - {company_id: eaton, category: INDUSTRIAL_TECH, source_status: CONFIRMED_CURRENT_SOURCE, verified_at: '2026-09-11', integration_effort: CONFIG_ONLY, scores: {market_access: 2, target_role_density: 1, career_direction_quality: 2, diversification: 3, source_operability: 3}}
+  - {company_id: bosch, category: INDUSTRIAL_TECH, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: NEW_ADAPTER_REQUIRED, scores: {market_access: 2, target_role_density: 1, career_direction_quality: 2, diversification: 3, source_operability: 2}}
+  - {company_id: bayer, category: PHARMA_TECH, source_status: LIKELY_SOURCE, verified_at: '2026-08-20', integration_effort: SMALL_ADAPTER_EXTENSION, scores: {market_access: 2, target_role_density: 1, career_direction_quality: 2, diversification: 2, source_operability: 2}}
+  - {company_id: resistant_ai, category: AI_NATIVE, source_status: UNVERIFIED_CANDIDATE, verified_at: '2026-08-20', integration_effort: UNKNOWN, scores: {market_access: 3, target_role_density: 2, career_direction_quality: 3, diversification: 3, source_operability: 0}}
+
+privacy:
+  detailed_artifact: PRIVATE_LOCAL
+  aggregate_artifact: REPOSITORY_SAFE
+
+outputs:
+  root: output/source_portfolio_audit

@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-013-source-portfolio-and-role-coverage-audit.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -45,9 +45,10 @@ allocation audit, and completed human compute-worthiness validation.
 The latest completed human experiment is SPEC-012. Its repository-safe result was
 committed in `e276541598131d7d9132789dbdd3cf88e4460ffe`.
 
-SPEC-013 now shifts attention upstream from semantic allocation to **source
-portfolio quality**: whether the current 18-employer intake provides enough
-employer and role-family breadth for the candidate's actual opportunity market.
+SPEC-013 has now audited **source portfolio quality** locally. It found that the
+current 18-employer intake is highly concentrated and that target analytics/
+decision-support supply is both employer-concentrated and mostly market
+`UNCERTAIN`. No production employer was added.
 
 ## SPEC-012 completed result
 
@@ -147,6 +148,34 @@ SPEC-013 must audit concentration and target-role coverage before adding sources
 The objective is not “more companies” by itself; it is **higher marginal useful
 market coverage**.
 
+## SPEC-013 local result
+
+Run `source-portfolio-audit-20260911-v2` used the latest complete 18-employer
+inventory and current ACTIVE detailed state without mutating SQLite:
+
+- inventory top-1/top-3 share: 47.9% / 77.9%;
+- usable-detail top-1/top-3 share: 48.9% / 78.1%;
+- routed-cluster top-1/top-3 share: 57.3% / 80.6%;
+- routed HHI: 3,617; effective breadth: 2.77 employers;
+- 388 clusters had at least one target-family signal, of which 164 had
+  title-supported evidence;
+- target-family market status: 18 `IN_SCOPE`, 297 `UNCERTAIN`, 73
+  `OUT_OF_SCOPE`;
+- target-family top-1 share: 55.9%; effective breadth: 2.84 employers;
+- explicit decision-intelligence/support title matches: 0;
+- employer longlist: 30; proposed Wave A: 9; Wave B: 10; Watchlist: 11;
+- external semantic calls: 0; new-employer ingestion calls: 0; SQLite writes: 0.
+
+The candidate profile already represents business analytics and decision
+support as expert capabilities. The audit proposes, but does not implement, a
+future versioned decision-preference update for those concepts.
+
+The repository-safe result is
+`output/source_portfolio_audit/source-portfolio-audit-20260911-v2/aggregate_summary.json`;
+the human-readable analysis is
+`docs/source_portfolio_and_role_coverage_report.md`. Per-cluster role examples
+remain private/local.
+
 ## Confirmed candidate market policy
 
 - Normal onsite/hybrid work: Prague only.
@@ -192,22 +221,14 @@ no paid APIs, no new-employer full refresh, and no external actions.
 
 ## Current gate
 
-> Determine whether the current 18-employer source portfolio is too concentrated
-> or structurally weak in business/data/decision-analytics and AI-transformation
-> opportunity coverage, then propose the smallest evidence-based employer
-> expansion that improves useful market breadth.
+> Review the SPEC-013 result before promoting any employer expansion or
+> candidate-preference change. If accepted, the smallest next packet is a
+> zero-detail source-contract preflight for the nine proposed Wave A employers.
 
-The audit must separate four possible causes of the observed gap:
-
-```text
-EMPLOYER SELECTION
-ROLE-FAMILY CLASSIFICATION
-MARKET ROUTING
-CANDIDATE PREFERENCE REPRESENTATION
-```
-
-Do not assume the answer is employer expansion until the evidence distinguishes
-them.
+The audit found that employer selection, role-family visibility, and incomplete
+market evidence all contribute. Candidate capability representation is not the
+cause. Production configuration must remain unchanged until the audit and a
+bounded source-contract preflight are explicitly approved.
 
 ## Intended architecture
 
@@ -229,19 +250,20 @@ problems. Do not narrow intake merely to reduce compute cost.
 
 ## Next intended steps
 
-1. Execute SPEC-013 read-only portfolio and role-coverage audit.
-2. Measure current employer concentration at inventory, usable-detail, and
-   candidate-routed boundaries.
-3. Diagnose analyst/decision-support coverage including alternate job titles.
-4. Audit whether the current candidate profile already represents this career
-   direction adequately.
-5. Perform bounded public discovery of potential employers.
-6. Recommend staged Wave A / Wave B source expansion and a durable intake policy.
-7. Stop for human review before adding employers or running them live.
+1. Review the SPEC-013 aggregate and proposed Wave A / Wave B / Watchlist.
+2. If accepted, specify a zero-detail source-contract preflight for Wave A that
+   does not modify production `config/companies.yaml` or Phase 2 state.
+3. Separately decide whether to create a new candidate decision-preference
+   version for `business_analytics` and `decision_support`.
+4. Preserve the frozen semantic compute-worthiness result while source breadth
+   is improved; do not tune semantic-v1.
+5. Revisit compute allocation and the frozen SPEC-008 prospective protocol only
+   after intake/routing evidence is better balanced.
 
 ## Known open decisions
 
-- Which employers should expand the source portfolio after SPEC-013.
+- Whether to accept the proposed nine-employer Wave A and authorize its
+  zero-detail source-contract preflight.
 - Whether business/data/decision-analytics needs a bounded explicit
   decision-preference update.
 - Deterministic rejection / stretch-envelope architecture after source coverage
