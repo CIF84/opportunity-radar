@@ -36,6 +36,10 @@ Invariants:
 - Raw location strings are preserved and work mode is separate from location.
 - The adapter registry selects source families only; employer-specific values
   belong in configuration.
+- JSON feeds may declaratively flatten nested child collections into explicit
+  `item`/`parent` contexts, validate group counts, and opt into configured HTML
+  detail selectors. Shared code contains no employer identity branches and
+  flat JSON-feed behavior remains unchanged.
 - Adapters normalize source facts. They do not own candidate relevance,
   lifecycle, persistence, scoring, or action.
 

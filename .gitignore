@@ -55,5 +55,12 @@ output/production_source_onboarding/**/*
 !output/production_source_onboarding/**/aggregate_summary.json
 output/spec015-onboarding-state-report.txt
 
+# SPEC-016 Mews onboarding keeps per-vacancy source/detail evidence and state
+# reports private. Only the deliberately sanitized aggregate receipt is safe.
+output/mews_nested_feed/**/*
+!output/mews_nested_feed/**/
+!output/mews_nested_feed/**/aggregate_summary.json
+output/spec016-mews-state-report.txt
+
 # Replaceable local health evidence.
 output/test_receipt.json

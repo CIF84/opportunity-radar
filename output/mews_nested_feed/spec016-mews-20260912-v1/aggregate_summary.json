@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "experiment_id": "EXP-MEWS-NESTED-FEED-001",
+  "run_id": "spec016-mews-20260912-v1",
+  "baseline_run_id": "spec016-baseline-v2",
+  "state_run_id": "4f04bb78-cca2-4234-bcf3-19a776f28bab",
+  "post_run_id": "spec016-after-v2",
+  "source_contract": {
+    "endpoint": "https://www.mews.com/api/careers",
+    "root_shape": "LIST_OF_PARENT_GROUPS",
+    "group_count": 9,
+    "child_collection": "jobs",
+    "group_count_field": "jobCount",
+    "parent_context": [
+      "name"
+    ],
+    "child_fields": [
+      "id",
+      "location",
+      "locations",
+      "title",
+      "updatedAt",
+      "url"
+    ],
+    "description_embedded": false,
+    "detail_contract": "DECLARATIVE_HTML_SELECTORS",
+    "pagination": "SINGLE_COMPLETE_RESPONSE_WITH_PER_GROUP_COUNTS",
+    "research_correction": "The historical Greenhouse fingerprint is stale; the current source is the first-party /api/careers feed. Historical research evidence was not rewritten."
+  },
+  "zero_detail_gate": {
+    "status": "PASS",
+    "listing_requests": 2,
+    "detail_calls": 0,
+    "phase2_writes": 0,
+    "database_byte_identical": true,
+    "deterministic_rerun_equal": true,
+    "inventory": 29,
+    "historical_inventory": 28,
+    "source_change": "ONE_ADDITIONAL_FOREIGN_LISTING",
+    "unique_external_ids": 29,
+    "unique_canonical_urls": 29,
+    "listing_scope_counts": {
+      "SELECT_IN_SCOPE": 11,
+      "SKIP_EXPLICITLY_OUT_OF_SCOPE": 18
+    }
+  },
+  "production_ingestion": {
+    "status": "COMPLETED",
+    "inventory": 29,
+    "inventory_complete": true,
+    "selected_for_detail": 11,
+    "intentionally_skipped": 18,
+    "detail_success": 11,
+    "detail_failures": 0,
+    "details_complete": true,
+    "network_detail_requests": 11,
+    "estimated_total_source_requests": 12,
+    "elapsed_seconds": 3.5,
+    "active_identities_created": 11,
+    "active_identities_reused_on_corrected_detail_run": 11,
+    "usable_active_details": 11,
+    "lifecycle_anomalies": 0,
+    "unrelated_sources_refreshed": 0
+  },
+  "mews_market_usefulness": {
+    "opportunity_clusters": 11,
+    "routed_clusters": 0,
+    "market_status_counts": {
+      "OUT_OF_SCOPE": 11
+    },
+    "listing_level_czechia_inclusive": 11,
+    "post_detail_limitation": "Country-only Czechia alternatives plus generic hybrid evidence do not establish Prague, the candidate's accepted onsite/hybrid city.",
+    "target_family_unique_clusters": 2,
+    "target_family_title_supported_clusters": 2,
+    "target_family_routed_clusters": 0,
+    "target_families": {
+      "BUSINESS_REVENUE_OPERATIONS": 1,
+      "PRODUCT_STRATEGY": 1
+    }
+  },
+  "coverage_delta": {
+    "configured_employers": {
+      "before": 21,
+      "after": 22,
+      "delta": 1
+    },
+    "active_jobs": {
+      "before": 4033,
+      "after": 4044,
+      "delta": 11
+    },
+    "usable_active_details": {
+      "before": 3991,
+      "after": 4002,
+      "delta": 11
+    },
+    "opportunity_clusters": {
+      "before": 3924,
+      "after": 3935,
+      "delta": 11
+    },
+    "routed_clusters": {
+      "before": 3377,
+      "after": 3377,
+      "delta": 0
+    },
+    "target_family_clusters": {
+      "before": 391,
+      "after": 393,
+      "delta": 2
+    },
+    "target_family_routed_clusters": {
+      "before": 318,
+      "after": 318,
+      "delta": 0
+    },
+    "target_family_title_supported_clusters": {
+      "before": 166,
+      "after": 168,
+      "delta": 2
+    }
+  },
+  "portfolio_concentration": {
+    "all_observed_inventory": {
+      "top_1_share_before": 0.477336,
+      "top_1_share_after": 0.476501,
+      "top_3_share_before": 0.775897,
+      "top_3_share_after": 0.77454,
+      "top_5_share_before": 0.926629,
+      "top_5_share_after": 0.925008,
+      "hhi_before": 2883.19,
+      "hhi_after": 2873.14,
+      "effective_employers_before": 3.468,
+      "effective_employers_after": 3.481
+    },
+    "usable_active_detail": {
+      "top_1_share_before": 0.482586,
+      "top_1_share_after": 0.481259,
+      "top_3_share_before": 0.770484,
+      "top_3_share_after": 0.768366,
+      "top_5_share_before": 0.859935,
+      "top_5_share_after": 0.857571,
+      "hhi_before": 2819.6,
+      "hhi_after": 2804.19,
+      "effective_employers_before": 3.547,
+      "effective_employers_after": 3.566
+    },
+    "market_routed_candidate_population": {
+      "top_1_share_before": 0.564702,
+      "top_1_share_after": 0.564702,
+      "top_3_share_before": 0.7939,
+      "top_3_share_after": 0.7939,
+      "top_5_share_before": 0.870595,
+      "top_5_share_after": 0.870595,
+      "hhi_before": 3509.65,
+      "hhi_after": 3509.65,
+      "effective_employers_before": 2.849,
+      "effective_employers_after": 2.849
+    }
+  },
+  "engineering_comparison": {
+    "spec015": {
+      "engineering": "CONFIGURATION_ONLY",
+      "employers": 3,
+      "jobs": 56,
+      "routed_cluster_delta": 51,
+      "target_family_cluster_delta": 3
+    },
+    "spec016": {
+      "engineering": "GENERIC_NESTED_FLATTENING_PLUS_DECLARATIVE_DETAIL_SELECTORS",
+      "employers": 1,
+      "jobs": 29,
+      "usable_detail_delta": 11,
+      "routed_cluster_delta": 0,
+      "target_family_cluster_delta": 2
+    }
+  },
+  "integrity": {
+    "semantic_calls": 0,
+    "semantic_assessment_rows_before": 406,
+    "semantic_assessment_rows_after": 406,
+    "existing_semantic_cache_mutated": false,
+    "existing_sources_refreshed": 0,
+    "phase1_phase2_contracts_preserved": true,
+    "implementation_base_commit": "76693b9a2ba371de1d8ccdddecd8536cd14116bc",
+    "experiment_config_fingerprint": "83ed157e2385fbdf3445e36c3c2f6133dd7df535ba33438d73439f63081d269d",
+    "experiment_config_sha256": "0da3ced12dbd892842420772d0171e9a0b20c35496ace71ca6840949280f2f92",
+    "production_config_sha256": "fe407d74c84a91af68c49d423deab0f95acf424d3071bee1c7262d41e1c39acb",
+    "database_sha256_before": "32377de7eba8fe1d251c7b92b3ac46ad01f5c4f37c5662f415c7ea3e4e930bdc",
+    "database_sha256_after": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "private_baseline_audit_sha256": "051f45d85d68ce5fb22c53a500b94aaf669feb609bed208b64c096cfac6f7881",
+    "private_post_audit_sha256": "3eabe69725389a28961976aa12f30733839b3b916b786b06f165660fb1e7d3cf",
+    "private_state_report_sha256": "a34218d49b5af5013e3cc420446b160de9c4b3aedd69c41d908ea9656f98d90c"
+  },
+  "semantic_diagnostic": {
+    "newly_routed_clusters_without_compatible_semantics": 0,
+    "projected_calls": 0,
+    "projected_cost_usd": 0.0
+  },
+  "adapter_extension_value": "MODERATE_REUSABLE_SOURCE_VALUE",
+  "production_recommendation": "KEEP_CONFIGURED",
+  "recommendation_basis": "The source adds 11 low-cost usable Czechia-inclusive details and two title-supported target-family clusters through a reusable contract. Current routed value is zero because the public evidence does not establish Prague for hybrid roles; retaining the bounded source allows future explicit Prague/remote evidence without weakening market policy.",
+  "limitations": [
+    "Mews exposes country alternatives but no Czech city, so current candidate policy excludes its hybrid Czechia-inclusive roles from the normal shortlist.",
+    "The generic detail selector relies on current public page structure and must fail visibly if that structure changes.",
+    "Role-family classification is diagnostic lexical evidence, not semantic fit.",
+    "The nested-feed capability is proven on synthetic fixtures and Mews, not yet on a second live employer."
+  ],
+  "privacy": {
+    "classification": "REPOSITORY_SAFE_AGGREGATE",
+    "detailed_vacancy_evidence": "PRIVATE_LOCAL",
+    "operational_sqlite": "PRIVATE_LOCAL"
+  }
+}

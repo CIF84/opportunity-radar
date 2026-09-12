@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Operations",
+    "jobCount": 2,
+    "jobs": [
+      {
+        "id": 20,
+        "title": "Operations Analyst",
+        "url": "https://example.test/jobs/20",
+        "locations": ["Prague, Czechia"],
+        "updatedAt": "2026-09-10T10:00:00+00:00"
+      },
+      {
+        "id": 10,
+        "title": "Remote Operations Lead",
+        "url": "https://example.test/jobs/10",
+        "locations": ["Remote - Europe"],
+        "updatedAt": "2026-09-09T10:00:00+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Product",
+    "jobCount": 1,
+    "jobs": [
+      {
+        "id": 30,
+        "title": "Product Manager",
+        "url": "https://example.test/jobs/30",
+        "locations": ["London, United Kingdom"],
+        "updatedAt": "2026-09-08T10:00:00+00:00"
+      }
+    ]
+  }
+]

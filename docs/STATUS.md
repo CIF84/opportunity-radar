@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-016-mews-nested-feed-extension.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -45,8 +45,41 @@ Frozen milestones:
 - SPEC-014 Wave A preflight: `11e000825e339de8c772d5bd7a66e2567469f1b2`
 - SPEC-015 production onboarding: `541685ce40e959a66d2ec443b6ef748190713bb1`
 
-SPEC-016 is now approved to test one generic nested first-party JSON-feed capability
-and Mews as the first source using it. No semantic calls are authorized.
+SPEC-016 has completed locally. Its generic nested first-party JSON-feed
+capability and Mews-only production ingestion passed with zero failures and zero
+semantic calls. Promotion of the implementation and `KEEP_CONFIGURED`
+recommendation awaits review.
+
+## SPEC-016 completed result
+
+The current Mews `/api/careers` contract contains 29 unique jobs in nine parent
+groups. Two zero-detail reruns were deterministic, validated every group count,
+reproduced 11 Czechia-inclusive selections and 18 foreign skips, and left SQLite
+byte-identical.
+
+The final Mews-only production run completed in 3.5 seconds:
+
+```text
+inventory                         29
+selected / intentionally skipped 11 / 18
+detail success / failure          11 / 0
+network detail requests           11
+usable clusters added             11
+routed clusters added              0
+target-family clusters added       2
+semantic calls                     0
+```
+
+All 11 detailed clusters are currently `OUT_OF_SCOPE`: the source supplies
+Czechia among country alternatives and the pages describe hybrid work, but no
+Czech city establishes Prague. The frozen market policy was not weakened.
+
+Recommendation: `KEEP_CONFIGURED`. The source is cheap, current, and adds two
+target-family signals plus Czechia-inclusive evidence that future postings may
+resolve more precisely. Adapter-extension value is
+`MODERATE_REUSABLE_SOURCE_VALUE`; live reuse beyond Mews is not yet proven.
+
+Canonical report: `docs/mews_nested_feed_report.md`.
 
 ## SPEC-015 frozen result
 
@@ -164,13 +197,10 @@ aggregate cap   -> [-1.0, +1.0]
 
 ## Current gate
 
-> Execute SPEC-016 only: reconstruct the current Mews feed contract, implement
-> the smallest source-generic nested-feed extension, prove flat-feed backwards
-> compatibility, rerun a zero-detail Mews gate, and only if it passes onboard
-> Mews through normal production ingestion with zero semantic calls.
-
-The final decision must compare Mews' actual useful-market contribution with the
-engineering cost/reusability of the new capability.
+> Review SPEC-016's `KEEP_CONFIGURED` recommendation and generic nested-feed
+> promotion. Decide whether the next source packet should investigate Erste or
+> Zentiva, or return to the separately pending candidate-direction and
+> deterministic-allocation decisions.
 
 ## SPEC-016 protected boundaries
 
@@ -211,8 +241,8 @@ problems.
 
 Contingent on evidence:
 
-1. keep Mews only if it meets ingestion invariants and adds useful coverage;
-2. decide whether the generic nested-feed capability has sufficient reusable source value;
+1. review whether Mews' 11 usable but currently non-routed clusters justify keeping the source;
+2. promote the generic nested-feed capability only with its explicit declarative boundaries;
 3. keep Erste and Zentiva in bounded source-contract investigation until safe;
 4. consider the separate business-analytics / decision-support preference version;
 5. then return to deterministic rejection/stretch-envelope architecture and semantic allocation;
@@ -220,7 +250,7 @@ Contingent on evidence:
 
 ## Known open decisions
 
-- Mews keep/remove and nested-feed capability promotion after SPEC-016.
+- Mews keep/remove and nested-feed capability promotion review after SPEC-016.
 - Whether Erste or Zentiva deserves the next source-contract repair experiment.
 - Whether business/data/decision-analytics receives an explicit decision-preference update.
 - Deterministic rejection / stretch-envelope architecture.

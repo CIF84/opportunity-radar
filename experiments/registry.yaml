@@ -238,3 +238,19 @@ experiments:
     limitations: Most new Alma clusters remain market-uncertain because normalized detail lacks work-mode evidence; lexical role evidence is not semantic fit.
     related_decisions: [DR-001, DR-005, DR-012, DR-021]
     commit_or_worktree_state: "State run 1e5f4685-563d-40d5-8463-c364b6d34834 against 0ca0de5 in a dirty worktree; operational SQLite remains private/local"
+
+  - experiment_id: EXP-MEWS-NESTED-FEED-001
+    type: DECLARATIVE_NESTED_FEED_EXTENSION_AND_ONBOARDING
+    hypothesis: A small generic nested JSON-feed extension can ingest Mews safely and add useful market breadth without employer-specific adapter logic.
+    status: COMPLETED_AWAITING_PROMOTION_REVIEW
+    completed_at: "2026-09-12"
+    baseline: Post-SPEC-015 production state with 21 configured employers, 3,991 usable ACTIVE details, 3,924 clusters, and 3,377 routed clusters.
+    intervention: Add declarative child traversal, parent-context projection, group-count validation, deterministic duplicate-safe ordering, and configured HTML detail selectors; then run a two-pass zero-detail gate and Mews-only production ingestion.
+    inputs: [specs/phase4/SPEC-016-mews-nested-feed-extension.md, experiments/mews_nested_feed_v1.yaml, config/companies.yaml]
+    artifacts: [docs/mews_nested_feed_report.md, output/mews_nested_feed/spec016-mews-20260912-v1/aggregate_summary.json]
+    metrics: {inventory: 29, listing_in_scope: 11, listing_foreign: 18, usable_details: 11, routed_cluster_delta: 0, target_family_cluster_delta: 2, detail_failures: 0, network_detail_requests: 11, semantic_calls: 0}
+    result: The generic contract and source ingestion passed. Mews added 11 usable clusters and two title-supported target-family clusters, but zero routed clusters because country-only Czechia alternatives plus hybrid evidence do not establish Prague.
+    decision: Recommend KEEP_CONFIGURED and classify the extension MODERATE_REUSABLE_SOURCE_VALUE; retain frozen market routing and make no semantic calls.
+    limitations: Live nested-feed reuse is proven only for Mews; public source geography lacks Czech city evidence; role-family matches are diagnostic rather than semantic fit.
+    related_decisions: [DR-001, DR-005, DR-012, DR-021]
+    commit_or_worktree_state: "Implemented against 76693b9 in a dirty worktree; exact run/config/private-artifact hashes and operational SQLite remain local"

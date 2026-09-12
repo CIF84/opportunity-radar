@@ -4,6 +4,7 @@ import pytest
 
 from opportunity_radar.config import ConfigurationError, load_companies
 from opportunity_radar.production_onboarding import coverage_delta
+from opportunity_radar.state_runner import detail_requires_network
 from opportunity_radar.state_runner import select_company_configs
 
 
@@ -12,9 +13,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_spec015_adds_only_approved_generic_sources():
     configs = load_companies(ROOT / "config/companies.yaml")
-    assert len(configs) == 21
-    assert [item.company_id for item in configs[-3:]] == ["keboola", "commerzbank", "kpmg"]
-    assert [item.adapter for item in configs[-3:]] == ["generic_html", "almacareer", "almacareer"]
+    assert len(configs) == 22
+    assert [item.company_id for item in configs[-4:-1]] == ["keboola", "commerzbank", "kpmg"]
+    assert configs[-1].company_id == "mews"
+    assert detail_requires_network(configs[-1])
+    assert not detail_requires_network(next(item for item in configs if item.company_id == "allegro"))
+    assert [item.adapter for item in configs[-4:-1]] == ["generic_html", "almacareer", "almacareer"]
 
 
 def test_bounded_source_selection_never_widens_and_all_source_is_unchanged():

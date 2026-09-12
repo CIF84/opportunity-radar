@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Commercial",
+    "jobs": [
+      {
+        "id": 4967104101,
+        "title": "Business Development Representative",
+        "location": "United States",
+        "locations": ["United States"],
+        "url": "https://www.mews.com/en/careers/jobs/4967104101?gh_jid=4967104101",
+        "updatedAt": "2026-09-10T13:16:15-04:00"
+      }
+    ],
+    "jobCount": 1
+  },
+  {
+    "id": 2,
+    "name": "Technical",
+    "jobs": [
+      {
+        "id": 4968000101,
+        "title": "Product Manager",
+        "location": "Czechia; Spain; United Kingdom",
+        "locations": ["Czechia; Spain; United Kingdom"],
+        "url": "https://www.mews.com/en/careers/jobs/4968000101?gh_jid=4968000101",
+        "updatedAt": "2026-09-11T09:30:00-04:00"
+      }
+    ],
+    "jobCount": 1
+  }
+]

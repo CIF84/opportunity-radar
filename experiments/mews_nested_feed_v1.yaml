@@ -1,0 +1,46 @@
+schema_version: 1
+experiment_id: EXP-MEWS-NESTED-FEED-001
+experiment_type: DECLARATIVE_NESTED_FEED_EXTENSION_AND_ONBOARDING
+specification: specs/phase4/SPEC-016-mews-nested-feed-extension.md
+companies_path: config/companies.yaml
+database_path: output/opportunity_radar.sqlite3
+market_scope_path: config/market_scope.yaml
+role_audit_config_path: experiments/source_portfolio_audit_v1.yaml
+source:
+  company_id: mews
+  company_name: Mews
+  adapter: json_feed
+  endpoint_url: https://www.mews.com/api/careers
+  options:
+    nested_items:
+      groups_path: ""
+      items_path: jobs
+      group_count_path: jobCount
+      parent_context:
+        department: name
+    fields:
+      external_job_id: item.id
+      title: item.title
+      canonical_url: item.url
+      locations: item.locations
+      source_updated_at: item.updatedAt
+      department: parent.department
+    detail_selectors:
+      title: h1
+      description: .job-content
+safety:
+  connect_timeout_seconds: 10
+  read_timeout_seconds: 30
+  zero_detail_reruns: 2
+  max_listing_requests: 2
+  max_inventory: 1000
+historical_reference:
+  observed_at: "2026-09-11"
+  inventory: 28
+  listing_in_scope: 11
+  listing_foreign: 17
+privacy:
+  detailed_artifact: PRIVATE_LOCAL
+  aggregate_artifact: REPOSITORY_SAFE
+outputs:
+  root: output/mews_nested_feed

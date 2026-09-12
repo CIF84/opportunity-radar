@@ -21,7 +21,7 @@ def test_config_has_exact_wave_a_and_is_separate_from_production():
     ids = [item["company_id"] for item in config.sources]
     assert ids == ["keboola", "mews", "productboard", "commerzbank", "erste_group", "abb", "kpmg", "msd", "zentiva"]
     production = {item.company_id for item in preflight.load_companies(ROOT / "config/companies.yaml")}
-    assert production.intersection(ids) == {"keboola", "commerzbank", "kpmg"}
+    assert production.intersection(ids) == {"keboola", "commerzbank", "kpmg", "mews"}
 
 
 def test_request_guard_blocks_detail_graphql_and_enforces_cap(monkeypatch):

@@ -24,7 +24,15 @@ from opportunity_radar.state_models import DetailObservation, SourceOutcome
 from opportunity_radar.state_repository import StateRepository
 
 
-LOCAL_DETAIL_ADAPTERS = frozenset({"json_feed", "phenom"})
+LOCAL_DETAIL_ADAPTERS = frozenset({"phenom"})
+
+
+def detail_requires_network(config: CompanyConfig) -> bool:
+    if config.adapter in LOCAL_DETAIL_ADAPTERS:
+        return False
+    if config.adapter == "json_feed":
+        return bool(config.options.get("detail_selectors"))
+    return True
 
 
 def select_company_configs(configs: list[CompanyConfig], requested: list[str]) -> list[CompanyConfig]:
@@ -193,7 +201,7 @@ def observe_source(
             selected_for_detail_count=len(selected_references),
             intentionally_skipped_count=intentionally_skipped_count,
             network_detail_request_count=(
-                0 if config.adapter in LOCAL_DETAIL_ADAPTERS else len(to_fetch)
+                len(to_fetch) if detail_requires_network(config) else 0
             ),
             reused_detail_count=reused_count,
             details_to_fetch_count=len(to_fetch),
