@@ -7,10 +7,10 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-016-mews-nested-feed-extension.md
+specs/phase4/SPEC-017-partial-geography-semantics-audit.md
 ```
 
-Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -37,27 +37,29 @@ market access/routing, opportunity clustering/preferred variant, versioned decis
 preferences, seniority guard, retrospective replay, residual market normalization,
 prospective-validation preparation, semantic compute-allocation audit, completed
 human compute-worthiness validation, source-portfolio/role-coverage audit, Wave A
-source-contract preflight, and bounded production onboarding for three sources.
+source-contract preflight, bounded production onboarding for three sources, and a
+generic nested-feed extension with Mews production onboarding.
 
 Frozen milestones:
 
 - SPEC-013 source portfolio audit: `a4ebba825e80256ad55ed6bfcaf973a2df37d413`
 - SPEC-014 Wave A preflight: `11e000825e339de8c772d5bd7a66e2567469f1b2`
 - SPEC-015 production onboarding: `541685ce40e959a66d2ec443b6ef748190713bb1`
+- SPEC-016 nested feeds + Mews: `556fd7aec5d77874f56d7a5b5137a06a75fbfbca`
 
-SPEC-016 has completed locally. Its generic nested first-party JSON-feed
-capability and Mews-only production ingestion passed with zero failures and zero
-semantic calls. Promotion of the implementation and `KEEP_CONFIGURED`
-recommendation awaits review.
+SPEC-017 now audits whether partial geography is being interpreted too strongly at
+the candidate-market boundary. This is an evidence-semantics question, not a
+candidate-policy change.
 
-## SPEC-016 completed result
+## SPEC-016 frozen result
 
 The current Mews `/api/careers` contract contains 29 unique jobs in nine parent
-groups. Two zero-detail reruns were deterministic, validated every group count,
-reproduced 11 Czechia-inclusive selections and 18 foreign skips, and left SQLite
-byte-identical.
+groups. The generic nested-feed implementation supports declarative flattening,
+explicit parent-context inheritance, group-count validation, deterministic
+ordering, duplicate rejection, and optional HTML detail selectors with no
+Mews-specific branch.
 
-The final Mews-only production run completed in 3.5 seconds:
+Mews production ingestion:
 
 ```text
 inventory                         29
@@ -70,37 +72,49 @@ target-family clusters added       2
 semantic calls                     0
 ```
 
-All 11 detailed clusters are currently `OUT_OF_SCOPE`: the source supplies
-Czechia among country alternatives and the pages describe hybrid work, but no
-Czech city establishes Prague. The frozen market policy was not weakened.
+All 11 detailed Mews clusters currently evaluate `OUT_OF_SCOPE`: Czechia appears
+among country alternatives and the postings are hybrid, but no Czech city proves
+Prague. The source remains configured and the extension verdict is
+`MODERATE_REUSABLE_SOURCE_VALUE`.
 
-Recommendation: `KEEP_CONFIGURED`. The source is cheap, current, and adds two
-target-family signals plus Czechia-inclusive evidence that future postings may
-resolve more precisely. Adapter-extension value is
-`MODERATE_REUSABLE_SOURCE_VALUE`; live reuse beyond Mews is not yet proven.
+This result exposed a generic semantic question: when country is compatible but
+city evidence is absent, does the evaluator correctly return `UNCERTAIN`, or does
+it infer incompatibility from missing city evidence?
 
-Canonical report: `docs/mews_nested_feed_report.md`.
+## Why SPEC-017 exists
+
+Candidate policy remains unchanged:
+
+> Normal onsite/hybrid work is acceptable in Prague only.
+
+But policy and evidence are different objects.
+
+The intended distinction is:
+
+```text
+Prague hybrid                  -> IN_SCOPE
+explicit Brno hybrid           -> OUT_OF_SCOPE
+Czechia hybrid, city absent    -> UNCERTAIN
+explicit Germany hybrid        -> OUT_OF_SCOPE
+```
+
+SPEC-017 freezes this as an audit hypothesis, reconstructs current evaluator
+behavior, replays any proposed generic correction over the whole active corpus,
+and verifies historical explicit-market cases before changing runtime semantics.
+
+The packet must not make missing evidence equivalent to positive compatibility;
+partial Czech geography should normally move at most from `OUT_OF_SCOPE` to
+`UNCERTAIN` unless explicit Prague evidence exists independently.
 
 ## SPEC-015 frozen result
 
-Experiment `EXP-PRODUCTION-SOURCE-ONBOARDING-001` completed a bounded production
-run for Keboola, Commerzbank, and KPMG:
+Keboola, Commerzbank, and KPMG remain configured after a bounded production run:
 
-- run status: `COMPLETED`;
 - inventory: 56;
 - details: 56/56 successful;
-- failures/skips: 0;
+- new routed clusters: 51;
 - semantic calls: 0;
-- existing employers refreshed: 0;
-- semantic assessments unchanged at 406.
-
-Per employer:
-
-```text
-Keboola       3 inventory / 3 clusters / 3 routed / 3 IN_SCOPE
-Commerzbank  24 inventory / 22 clusters / 19 routed / 19 UNCERTAIN + 3 OUT_OF_SCOPE
-KPMG         29 inventory / 29 clusters / 29 routed / 29 UNCERTAIN
-```
+- combined verdict: `MODEST_COVERAGE_IMPROVEMENT`.
 
 Coverage delta:
 
@@ -116,48 +130,19 @@ target-family clusters    388 -> 391
 title-supported target    164 -> 166
 ```
 
-Combined verdict: `MODEST_COVERAGE_IMPROVEMENT`.
+## SPEC-012 completed compute-worthiness result
 
-All three sources remain configured. The experiment improved employer breadth but
-did not increase target-family `IN_SCOPE` supply. Most new Commerzbank/KPMG roles
-remain market `UNCERTAIN`, largely because available normalized evidence does not
-resolve work arrangement.
+The frozen 60-opportunity human experiment produced:
 
-All 51 newly routed clusters lack compatible semantics. Assessing all would be
-approximately $0.104 at the frozen directional cost estimate; no calls were made.
+```text
+WORTH_DEEP_ASSESSMENT      3
+NOT_WORTH_DEEP_ASSESSMENT 57
+NEED_MORE_INFO             0
+```
 
-## Why SPEC-016 exists
-
-SPEC-014 found Mews to be a potentially higher-density source than several
-configuration-only candidates:
-
-- current first-party `/api/careers` source;
-- 28 listings at preflight;
-- 11 listing-level `IN_SCOPE`, 17 foreign;
-- operations/product title signals;
-- source requires nested-feed flattening rather than simple configuration reuse.
-
-SPEC-016 asks whether the smallest **generic declarative nested-feed extension** can
-support Mews cleanly and whether Mews' observed marginal useful-market value
-justifies that reusable engineering complexity.
-
-This is not authorization for a Mews-specific scraper.
-
-## SPEC-013 portfolio finding
-
-The pre-expansion 18-employer portfolio had high raw volume but low effective
-breadth at the routed boundary:
-
-- routed top-1/top-3 shares: 57.3% / 80.6%;
-- routed HHI: 3,617;
-- effective employer breadth: 2.77;
-- target-family union: 388 clusters;
-- target-family `IN_SCOPE`: 18;
-- explicit decision-intelligence/support title matches: 0.
-
-The durable intake principle remains:
-
-> Maximize marginal useful market coverage, not raw vacancy volume.
+All three WORTH cases occurred in `SEMANTIC_PRIORITY`; PRIORITY precision was
+15%, so the triage is not promoted. This evidence remains frozen during
+SPEC-017.
 
 ## Candidate direction
 
@@ -169,8 +154,7 @@ decision support, forecasting/KPI decomposition, commercial analytics, business
 operations, and translating messy data into decisions.
 
 A future explicit decision-preference update for `business_analytics` /
-`decision_support` remains separate from source onboarding and is not authorized
-inside SPEC-016.
+`decision_support` remains separate and is not authorized inside SPEC-017.
 
 ## Confirmed candidate market policy
 
@@ -185,72 +169,60 @@ inside SPEC-016.
 - Explicit junior/graduate evidence: candidate-configurable maximum `LOW_PRIORITY`.
 - Domain/function/employer/product aversions are soft and tradeable.
 
-## Frozen preference policy
-
-```text
-STRONG_POSITIVE -> +0.4
-POSITIVE        -> +0.2
-NEUTRAL         ->  0.0
-NEGATIVE        -> -0.3
-aggregate cap   -> [-1.0, +1.0]
-```
-
 ## Current gate
 
-> Review SPEC-016's `KEEP_CONFIGURED` recommendation and generic nested-feed
-> promotion. Decide whether the next source packet should investigate Erste or
-> Zentiva, or return to the separately pending candidate-direction and
-> deterministic-allocation decisions.
+> Execute SPEC-017 only: determine whether incomplete city evidence is being
+> misclassified as explicit incompatibility, replay any generic correction over
+> the full current corpus and frozen market regressions, and change evaluator
+> semantics only if the evidence proves a generic defect.
 
-## SPEC-016 protected boundaries
+No semantic calls are authorized.
+
+## SPEC-017 protected boundaries
 
 Do not change:
 
-- candidate profile/preferences;
-- market policy;
-- semantic model/prompt/contract/weights;
-- existing semantic cache;
+- candidate market policy itself;
+- candidate preferences;
+- source configuration;
+- semantic model/prompt/contract/weights/cache;
 - clustering semantics;
 - seniority guard;
 - Phase 1/2 identity/lifecycle semantics;
-- Erste/Zentiva contracts;
-- Wave B/Watchlist sources;
-- historical experiment evidence.
+- historical evidence.
 
-No semantic calls are authorized.
+If semantics change, documentation must state clearly that **policy did not
+change; interpretation of incomplete evidence changed**.
 
 ## Intended architecture
 
 ```text
-SOURCE PORTFOLIO
-maximize useful market coverage
+SOURCE EVIDENCE
+what the employer actually states
         ↓
-DETERMINISTIC MARKET / HARD NEGATIVE FILTERS
-remove obvious non-opportunities cheaply
+CANDIDATE MARKET POLICY
+what is acceptable
         ↓
-SEMANTIC COMPUTE ALLOCATION
-spend reasoning where decision value is high
-        ↓
-RANKED OPPORTUNITY FEED
+MARKET ASSESSMENT
+IN_SCOPE / UNCERTAIN / OUT_OF_SCOPE
 ```
 
-Source integration complexity and semantic compute cost remain separate optimization
-problems.
+Missing evidence must not silently become an asserted negative fact.
 
-## Direction after SPEC-016
+## Direction after SPEC-017
 
 Contingent on evidence:
 
-1. review whether Mews' 11 usable but currently non-routed clusters justify keeping the source;
-2. promote the generic nested-feed capability only with its explicit declarative boundaries;
-3. keep Erste and Zentiva in bounded source-contract investigation until safe;
-4. consider the separate business-analytics / decision-support preference version;
-5. then return to deterministic rejection/stretch-envelope architecture and semantic allocation;
-6. preserve semantic-v1 until upstream source/routing evidence is better balanced.
+1. re-evaluate Mews marginal routed/target-family coverage under correct generic market semantics;
+2. continue source expansion only after the routing boundary is trustworthy;
+3. keep Erste/Zentiva source-contract issues separate;
+4. separately decide whether to version business-analytics / decision-support preference;
+5. return to deterministic rejection/stretch-envelope and semantic allocation after upstream evidence is better balanced.
 
 ## Known open decisions
 
-- Mews keep/remove and nested-feed capability promotion review after SPEC-016.
+- Whether SPEC-017 proves a generic market-evidence semantics defect.
+- Mews marginal source value after any justified correction.
 - Whether Erste or Zentiva deserves the next source-contract repair experiment.
 - Whether business/data/decision-analytics receives an explicit decision-preference update.
 - Deterministic rejection / stretch-envelope architecture.
@@ -259,9 +231,9 @@ Contingent on evidence:
 
 ## Explicitly do not build/tune yet
 
-- Mews-specific branches in shared adapters;
-- Erste/Zentiva fixes inside SPEC-016;
-- Wave B onboarding/adapters;
+- candidate policy relaxation;
+- employer-specific market-routing logic;
+- new source integrations during SPEC-017;
 - semantic prompt/model/weight tuning;
 - cheap secondary LLM routing;
 - embeddings/vector search;
