@@ -122,7 +122,7 @@ def test_preflight_is_read_only_and_classifies_cache_and_missing_detail(tmp_path
     monkeypatch.setattr("requests.post", forbidden)
     result = _preflight(database, candidate_path)
     assert result["read_only"] is True
-    assert result["configured_employers"] == 18
+    assert result["configured_employers"] == 21
     assert result["active_jobs"] == 5
     assert result["active_jobs_with_usable_semantic_details"] == 4
     assert result["unassessable_detail_missing_count"] == 1

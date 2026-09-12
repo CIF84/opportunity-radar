@@ -12,7 +12,7 @@ def test_workday_configuration_is_validated_before_network():
 
 def test_runtime_config_is_independent_from_research_csv():
     companies = load_companies("config/companies.yaml")
-    assert len(companies) == 18
+    assert len(companies) == 21
     assert {company.adapter for company in companies} == {
         "workday", "greenhouse", "almacareer", "successfactors", "generic_html",
         "json_feed", "phenom"

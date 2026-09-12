@@ -33,7 +33,7 @@ def test_source_portfolio_config_is_bounded_and_resolves_research_companies():
     assert len(config.raw["candidate_employers"]) == 30
     longlist = audit._candidate_longlist(config)
     assert longlist["longlist_count"] == 30
-    assert 8 <= len(longlist["wave_a"]) <= 12
+    assert len(longlist["wave_a"]) + longlist["production_configured_candidate_count"] == 9
     assert len(longlist["wave_b"]) == 10
 
 

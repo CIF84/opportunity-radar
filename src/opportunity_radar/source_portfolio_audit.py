@@ -344,8 +344,6 @@ def _candidate_longlist(config: SourcePortfolioAuditConfig) -> dict[str, Any]:
     values = []
     for item in config.raw["candidate_employers"]:
         company_id = str(item["company_id"])
-        if company_id in current:
-            raise SourcePortfolioAuditError(f"candidate employer already configured: {company_id}")
         if company_id not in research:
             raise SourcePortfolioAuditError(f"candidate employer missing from research dataset: {company_id}")
         row = research[company_id]
@@ -364,11 +362,13 @@ def _candidate_longlist(config: SourcePortfolioAuditConfig) -> dict[str, Any]:
             "integration_effort": item["integration_effort"],
             "scores": dict(item["scores"]),
             "total_score": score,
+            "production_configured": company_id in current,
         })
     key = lambda item: (-item["total_score"], item["company_id"])
     a_candidates = sorted([
         item for item in values
         if item["integration_effort"] == "CONFIG_ONLY"
+        and not item["production_configured"]
         and item["source_status"] != "UNVERIFIED_CANDIDATE"
         and item["scores"]["market_access"] == 3
     ], key=key)
@@ -377,16 +377,18 @@ def _candidate_longlist(config: SourcePortfolioAuditConfig) -> dict[str, Any]:
     b_candidates = sorted([
         item for item in values
         if item["company_id"] not in used
+        and not item["production_configured"]
         and item["source_status"] != "UNVERIFIED_CANDIDATE"
         and item["total_score"] >= 10
     ], key=key)
     wave_b = b_candidates[: int(config.raw["portfolio_selection"]["wave_b_limit"])]
     used.update(item["company_id"] for item in wave_b)
     watchlist = sorted(
-        [item for item in values if item["company_id"] not in used], key=key,
+        [item for item in values if item["company_id"] not in used and not item["production_configured"]], key=key,
     )
     return {
         "longlist_count": len(values),
+        "production_configured_candidate_count": sum(item["production_configured"] for item in values),
         "score_scale": "0_WEAK_OR_UNKNOWN_TO_3_STRONG_PER_DIMENSION",
         "ranking_dimensions": list(dimensions),
         "wave_a": wave_a,

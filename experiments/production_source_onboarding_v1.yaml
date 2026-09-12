@@ -1,0 +1,10 @@
+schema_version: 1
+experiment_id: EXP-PRODUCTION-SOURCE-ONBOARDING-001
+approved_company_ids: [keboola, commerzbank, kpmg]
+baseline_run_id: spec015-baseline-v2
+state_run_id: 1e5f4685-563d-40d5-8463-c364b6d34834
+post_run_id: spec015-after-v1
+semantic_calls_authorized: false
+privacy:
+  detailed_evidence: PRIVATE_LOCAL
+  aggregate_evidence: REPOSITORY_SAFE

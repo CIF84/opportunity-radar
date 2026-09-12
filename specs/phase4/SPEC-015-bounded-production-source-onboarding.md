@@ -1,6 +1,6 @@
 # SPEC-015 — Bounded Production Source Onboarding and Coverage Delta
 
-Status: `APPROVED_FOR_IMPLEMENTATION`
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`
 
 ## Purpose
 
@@ -275,3 +275,10 @@ P. recommended next packet;
 Q. recommended commit message.
 
 No commit or push until normal approval after review.
+
+## Implementation result
+
+State run `1e5f4685-563d-40d5-8463-c364b6d34834` completed 56/56 details for
+the three approved sources with zero failures and zero semantic calls. The
+combined verdict is `MODEST_COVERAGE_IMPROVEMENT`; see
+`docs/production_source_onboarding_report.md`.

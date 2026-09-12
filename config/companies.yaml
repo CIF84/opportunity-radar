@@ -172,3 +172,29 @@ companies:
     endpoint_url: https://careers.cisco.com/widgets
     options:
       canonical_url_template: https://careers.cisco.com/global/en/job/{jobId}/{title_slug}
+
+  # SPEC-015 bounded production-onboarding sources. All behavior remains
+  # declarative and uses source contracts proven by SPEC-014.
+  - company_id: keboola
+    company_name: Keboola
+    adapter: generic_html
+    endpoint_url: https://www.keboola.com/about/jobs
+    options:
+      external_id_pattern: "/([0-9a-f-]{36})$"
+      selectors:
+        job_container: 'li:has(a[href^="https://jobs.lever.co/keboola/"])'
+        title: span.font-semibold
+        url: 'a[href^="https://jobs.lever.co/keboola/"]'
+        location: '.text-text-muted span:last-child'
+
+  - company_id: commerzbank
+    company_name: Commerzbank
+    adapter: almacareer
+    endpoint_url: https://commerzbank.jobs.cz/job-opportunities
+    ats_tenant: commerzbank.jobs.cz
+
+  - company_id: kpmg
+    company_name: KPMG
+    adapter: almacareer
+    endpoint_url: https://kpmg.jobs.cz/
+    ats_tenant: kpmg.jobs.cz

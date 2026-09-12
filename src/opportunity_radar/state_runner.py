@@ -27,6 +27,18 @@ from opportunity_radar.state_repository import StateRepository
 LOCAL_DETAIL_ADAPTERS = frozenset({"json_feed", "phenom"})
 
 
+def select_company_configs(configs: list[CompanyConfig], requested: list[str]) -> list[CompanyConfig]:
+    """Select an explicit bounded source set, rejecting typos instead of widening scope."""
+    if not requested:
+        return configs
+    requested_set = set(requested)
+    available = {item.company_id for item in configs}
+    unknown = requested_set - available
+    if unknown:
+        raise ConfigurationError(f"unknown requested company IDs: {sorted(unknown)}")
+    return [item for item in configs if item.company_id in requested_set]
+
+
 @dataclass
 class _ObservationProgress:
     index: int
@@ -334,8 +346,7 @@ def main() -> int:
     parser.add_argument("--detail-refresh-hours", type=float, default=168.0)
     args = parser.parse_args()
     configs = load_companies(args.config)
-    if args.company:
-        configs = [item for item in configs if item.company_id in args.company]
+    configs = select_company_configs(configs, args.company)
     repository = StateRepository(args.database)
     run_id, outcomes, status = run_stateful(
         configs, repository, args.max_jobs, market_scope_path=args.market_scope,

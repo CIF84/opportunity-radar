@@ -16,8 +16,8 @@ opportunity clustering and preferred variants, decision preferences, and the
 seniority guard. Its retrospective, prospective-protocol, and semantic-compute
 experiments are preserved as frozen evidence.
 
-The current packet runs a bounded, zero-detail Wave A source-contract preflight;
-it does not add employers to production. The active gate and frozen decisions are
+The current packet is the completed bounded production onboarding of Keboola,
+Commerzbank, and KPMG; its coverage-delta result awaits review. The active gate and frozen decisions are
 recorded in [docs/STATUS.md](docs/STATUS.md).
 
 ## Repository map

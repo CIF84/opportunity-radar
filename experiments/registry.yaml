@@ -222,3 +222,19 @@ experiments:
     limitations: Listing-title evidence is diagnostic and current-source dependent; unknown geography is conservatively retained; no job description, suitability, or semantic evidence was evaluated.
     related_decisions: [DR-001, DR-005, DR-012, DR-021]
     commit_or_worktree_state: "Run wave-a-preflight-20260911-v4 against aa76bbc in a dirty worktree; exact source/config/database hashes and private-artifact hash are preserved in the aggregate receipt"
+
+  - experiment_id: EXP-PRODUCTION-SOURCE-ONBOARDING-001
+    type: BOUNDED_PRODUCTION_SOURCE_ONBOARDING
+    hypothesis: Keboola, Commerzbank, and KPMG improve useful employer and target-role breadth through existing production contracts.
+    status: COMPLETED_AWAITING_PROMOTION_REVIEW
+    completed_at: "2026-09-11"
+    baseline: 18 configured employers, 3,326 routed clusters, routed HHI 3,617.01.
+    intervention: Add exactly three declarative source configurations and run only those companies through normal Phase 1/2 ingestion with no semantic calls.
+    inputs: [specs/phase4/SPEC-015-bounded-production-source-onboarding.md, experiments/production_source_onboarding_v1.yaml, config/companies.yaml]
+    artifacts: [docs/production_source_onboarding_report.md, output/production_source_onboarding/spec015-onboarding-20260911-v1/aggregate_summary.json]
+    metrics: {inventory: 56, detail_successes: 56, detail_failures: 0, routed_cluster_delta: 51, target_cluster_delta: 3, routed_hhi_before: 3617.01, routed_hhi_after: 3509.65, semantic_calls: 0}
+    result: All three contracts passed; employer breadth improved modestly, while target-family in-scope supply did not increase.
+    decision: Keep all three configured and review Mews as the next bounded adapter-extension candidate.
+    limitations: Most new Alma clusters remain market-uncertain because normalized detail lacks work-mode evidence; lexical role evidence is not semantic fit.
+    related_decisions: [DR-001, DR-005, DR-012, DR-021]
+    commit_or_worktree_state: "State run 1e5f4685-563d-40d5-8463-c364b6d34834 against 0ca0de5 in a dirty worktree; operational SQLite remains private/local"

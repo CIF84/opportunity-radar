@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-015-bounded-production-source-onboarding.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -42,9 +42,9 @@ coverage audit, and Wave A source-contract preflight.
 SPEC-013 is frozen in commit `a4ebba825e80256ad55ed6bfcaf973a2df37d413`.
 SPEC-014 is frozen in commit `11e000825e339de8c772d5bd7a66e2567469f1b2`.
 
-SPEC-015 is the first bounded production source-onboarding experiment. It authorizes
-only Keboola, Commerzbank, and KPMG, and must measure coverage delta before any
-semantic spending.
+SPEC-015 has completed locally: Keboola, Commerzbank, and KPMG passed full
+inventory/detail ingestion with zero failures and zero semantic calls. The
+combined verdict is `MODEST_COVERAGE_IMPROVEMENT` and awaits promotion review.
 
 ## SPEC-014 frozen result
 
@@ -166,9 +166,8 @@ aggregate cap   -> [-1.0, +1.0]
 
 ## Current gate
 
-> Execute SPEC-015 only: onboard Keboola, Commerzbank, and KPMG through the
-> existing production ingestion/state architecture, make zero semantic calls,
-> and measure whether they materially improve useful market coverage.
+> Review SPEC-015's keep recommendation for all three sources and decide whether
+> Mews should receive the next reusable nested-feed adapter-extension packet.
 
 The key result is not whether three sources can be scraped. It is whether the
 observable opportunity universe becomes meaningfully broader and more relevant.

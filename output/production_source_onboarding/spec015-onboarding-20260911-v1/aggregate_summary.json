@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "experiment_id": "EXP-PRODUCTION-SOURCE-ONBOARDING-001",
+  "run_id": "spec015-onboarding-20260911-v1",
+  "state_run_id": "1e5f4685-563d-40d5-8463-c364b6d34834",
+  "sources": {
+    "keboola": {
+      "inventory": 3,
+      "inventory_complete": true,
+      "selected_for_detail": 3,
+      "intentionally_skipped": 0,
+      "detail_success": 3,
+      "detail_failures": 0,
+      "active": 3,
+      "usable_active_detail": 3,
+      "clusters": 3,
+      "routed_clusters": 3,
+      "market_status_counts": {
+        "IN_SCOPE": 3
+      },
+      "semantic_cache_status_counts": {
+        "SEMANTIC_CACHE_MISS": 3
+      },
+      "network_detail_requests": 3,
+      "estimated_total_source_requests": 4,
+      "elapsed_seconds": 1.6
+    },
+    "commerzbank": {
+      "inventory": 24,
+      "inventory_complete": true,
+      "selected_for_detail": 24,
+      "intentionally_skipped": 0,
+      "detail_success": 24,
+      "detail_failures": 0,
+      "active": 24,
+      "usable_active_detail": 24,
+      "clusters": 22,
+      "routed_clusters": 19,
+      "market_status_counts": {
+        "OUT_OF_SCOPE": 3,
+        "UNCERTAIN": 19
+      },
+      "semantic_cache_status_counts": {
+        "SEMANTIC_CACHE_MISS": 22
+      },
+      "network_detail_requests": 24,
+      "estimated_total_source_requests": 34,
+      "elapsed_seconds": 25.5
+    },
+    "kpmg": {
+      "inventory": 29,
+      "inventory_complete": true,
+      "selected_for_detail": 29,
+      "intentionally_skipped": 0,
+      "detail_success": 29,
+      "detail_failures": 0,
+      "active": 29,
+      "usable_active_detail": 29,
+      "clusters": 29,
+      "routed_clusters": 29,
+      "market_status_counts": {
+        "UNCERTAIN": 29
+      },
+      "semantic_cache_status_counts": {
+        "SEMANTIC_CACHE_MISS": 29
+      },
+      "network_detail_requests": 29,
+      "estimated_total_source_requests": 39,
+      "elapsed_seconds": 12.4
+    }
+  },
+  "coverage_delta": {
+    "configured_employers": {
+      "before": 18,
+      "after": 21,
+      "delta": 3
+    },
+    "boundaries": {
+      "all_observed_inventory": {
+        "total": {
+          "before": 16490,
+          "after": 16546,
+          "delta": 56
+        },
+        "employer_count": {
+          "before": 18,
+          "after": 21,
+          "delta": 3
+        },
+        "top_1_share": {
+          "before": 0.478957,
+          "after": 0.477336,
+          "delta": -0.001621
+        },
+        "top_3_share": {
+          "before": 0.778532,
+          "after": 0.775897,
+          "delta": -0.002635
+        },
+        "top_5_share": {
+          "before": 0.929776,
+          "after": 0.926629,
+          "delta": -0.003147
+        },
+        "hhi": {
+          "before": 2902.75,
+          "after": 2883.19,
+          "delta": -19.56
+        },
+        "effective_employers": {
+          "before": 3.445,
+          "after": 3.468,
+          "delta": 0.023
+        }
+      },
+      "usable_active_detail": {
+        "total": {
+          "before": 3935,
+          "after": 3991,
+          "delta": 56
+        },
+        "employer_count": {
+          "before": 17,
+          "after": 20,
+          "delta": 3
+        },
+        "top_1_share": {
+          "before": 0.489454,
+          "after": 0.482586,
+          "delta": -0.006868
+        },
+        "top_3_share": {
+          "before": 0.781449,
+          "after": 0.770484,
+          "delta": -0.010965
+        },
+        "top_5_share": {
+          "before": 0.872173,
+          "after": 0.859935,
+          "delta": -0.012238
+        },
+        "hhi": {
+          "before": 2899.5,
+          "after": 2819.6,
+          "delta": -79.9
+        },
+        "effective_employers": {
+          "before": 3.449,
+          "after": 3.547,
+          "delta": 0.098
+        }
+      },
+      "market_routed_candidate_population": {
+        "total": {
+          "before": 3326,
+          "after": 3377,
+          "delta": 51
+        },
+        "employer_count": {
+          "before": 17,
+          "after": 20,
+          "delta": 3
+        },
+        "top_1_share": {
+          "before": 0.573361,
+          "after": 0.564702,
+          "delta": -0.008659
+        },
+        "top_3_share": {
+          "before": 0.806073,
+          "after": 0.7939,
+          "delta": -0.012173
+        },
+        "top_5_share": {
+          "before": 0.883945,
+          "after": 0.870595,
+          "delta": -0.01335
+        },
+        "hhi": {
+          "before": 3617.01,
+          "after": 3509.65,
+          "delta": -107.36
+        },
+        "effective_employers": {
+          "before": 2.765,
+          "after": 2.849,
+          "delta": 0.084
+        }
+      }
+    },
+    "opportunity_coverage": {
+      "active_job_count": {
+        "before": 3977,
+        "after": 4033,
+        "delta": 56
+      },
+      "active_usable_detail_count": {
+        "before": 3935,
+        "after": 3991,
+        "delta": 56
+      },
+      "cluster_count": {
+        "before": 3870,
+        "after": 3924,
+        "delta": 54
+      },
+      "normal_candidate_count": {
+        "before": 3326,
+        "after": 3377,
+        "delta": 51
+      }
+    },
+    "target_role_summary": {
+      "unique_cluster_count": {
+        "before": 388,
+        "after": 391,
+        "delta": 3
+      },
+      "unique_routed_cluster_count": {
+        "before": 315,
+        "after": 318,
+        "delta": 3
+      },
+      "title_supported_unique_cluster_count": {
+        "before": 164,
+        "after": 166,
+        "delta": 2
+      },
+      "description_only_unique_cluster_count": {
+        "before": 224,
+        "after": 225,
+        "delta": 1
+      }
+    }
+  },
+  "target_market_status_before": {
+    "IN_SCOPE": 18,
+    "OUT_OF_SCOPE": 73,
+    "UNCERTAIN": 297
+  },
+  "target_market_status_after": {
+    "IN_SCOPE": 18,
+    "OUT_OF_SCOPE": 73,
+    "UNCERTAIN": 300
+  },
+  "integrity": {
+    "semantic_calls": 0,
+    "semantic_assessment_rows_before": 406,
+    "semantic_assessment_rows_after": 406,
+    "existing_sources_refreshed": 0,
+    "approved_sources_only": [
+      "keboola",
+      "commerzbank",
+      "kpmg"
+    ],
+    "database_sha256_before": "54f82d4b7ec765b565b7d3ecab06117d32eec4fbcc77f4b23206e6b079987e14",
+    "database_sha256_after": "32377de7eba8fe1d251c7b92b3ac46ad01f5c4f37c5662f415c7ea3e4e930bdc"
+  },
+  "semantic_diagnostic": {
+    "new_routed_clusters_eligible_for_semantic_processing": 51,
+    "compatible_cache_hits": 0,
+    "projected_calls": 51,
+    "frozen_luna_cost_per_job_usd": 0.00204,
+    "projected_cost_usd": 0.10404
+  },
+  "verdict": "MODEST_COVERAGE_IMPROVEMENT",
+  "keep": [
+    "keboola",
+    "commerzbank",
+    "kpmg"
+  ],
+  "limitations": [
+    "Lexical role-family evidence is not semantic fit.",
+    "Alma detail normalization loses listing work-mode evidence, leaving most new bank/consulting clusters market-uncertain.",
+    "Request totals combine listing/configuration and detail requests; Phase 2 persists only detail-success counts."
+  ],
+  "privacy": {
+    "classification": "REPOSITORY_SAFE_AGGREGATE",
+    "detailed_job_evidence": "PRIVATE_LOCAL"
+  }
+}
