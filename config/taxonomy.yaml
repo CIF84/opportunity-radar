@@ -88,6 +88,7 @@ concepts:
     - bachelors_degree
 
   ROLE_CHARACTERISTIC:
+    - account_management_execution
     - advisory_without_implementation_ownership
     - ai_enabled_work
     - ai_interest

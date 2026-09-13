@@ -258,7 +258,7 @@ experiments:
   - experiment_id: EXP-PARTIAL-GEOGRAPHY-001
     type: PARTIAL_GEOGRAPHY_SEMANTICS_AUDIT
     hypothesis: A recognized compatible country with the required onsite/hybrid city absent is being misclassified as explicit incompatibility rather than insufficient evidence.
-    status: COMPLETED_AWAITING_PROMOTION_REVIEW
+    status: COMPLETED
     completed_at: "2026-09-12"
     baseline: Evaluator v2 classified 575 of 4,002 ACTIVE usable details OUT_OF_SCOPE, including all 11 Mews Czechia-inclusive jobs.
     intervention: Freeze a generic country/city truth table, distinguish accepted-country city absence from explicit incompatible geography, and replay evaluator v3 read-only over the current corpus and frozen market regressions.
@@ -266,7 +266,23 @@ experiments:
     artifacts: [docs/partial_geography_semantics_audit.md, output/partial_geography_semantics/spec017-partial-geography-20260912-v1/aggregate_summary.json]
     metrics: {active_detailed_jobs: 4002, changed_assessments: 26, out_of_scope_to_uncertain: 26, out_of_scope_to_in_scope: 0, changed_employers: 4, mews_uncertain_after: 11, mews_target_family_routed_after: 2, truth_table_passed: 15, historical_regressions_passed: 10, semantic_calls: 0, sqlite_writes: 0}
     result: The audit proved a bounded multi-source evaluator defect. Missing city evidence under an accepted country had been treated as explicit incompatibility; the generic correction changed only OUT_OF_SCOPE to UNCERTAIN cases.
-    decision: Recommend promoting evaluator v3 while preserving the Prague-only candidate policy, REVIEW cap for uncertainty, semantic-v1 identity, and all lifecycle semantics.
+    decision: Evaluator v3 was accepted and promoted while preserving the Prague-only candidate policy, REVIEW cap for uncertainty, semantic-v1 identity, and all lifecycle semantics.
     limitations: Current-corpus replay is not an unbiased market sample; normalization remains deliberately bounded; Mews hybrid mode is inferred from generic detail wording; lexical target-family matches are not semantic fit.
     related_decisions: [DR-012, DR-017, DR-018, DR-019, DR-020]
-    commit_or_worktree_state: "Implemented against e94d7dd in a dirty worktree; operational SQLite and per-job audit evidence remain private/local"
+    commit_or_worktree_state: "1871a082874f27db606796fc06e348fbee71776c (Fix partial geography market semantics); operational SQLite and per-job audit evidence remain private/local"
+
+  - experiment_id: EXP-CANDIDATE-DIRECTION-001
+    type: CANDIDATE_DIRECTION_PROMOTION_AUDIT
+    hypothesis: Repeated explicit human career-direction evidence supports a narrow versioned preference change without capability inflation, semantic reassessment, or collateral penalties to adjacent commercial work.
+    status: COMPLETED_AWAITING_PROMOTION_REVIEW
+    completed_at: "2026-09-13"
+    baseline: Candidate profile version 3 with 11 Phase 4 decision preferences; frozen semantic-v1 identity; completed 60-item compute-worthiness evidence; 20 current compatible cached opportunities; frozen 30-posting Phase 4 retrospective.
+    intervention: Add one taxonomy-backed title-scoped account-management execution preference, advance only candidate/profile decision identities, and run deterministic zero-call counterfactuals across all three evidence populations.
+    inputs: [specs/phase4/SPEC-018-candidate-direction-promotion-audit.md, experiments/candidate_direction_promotion_v1.yaml, config/candidate.yaml, config/taxonomy.yaml, config/preference_matching_rules.yaml, config/preference_effect_policy.yaml, output/opportunity_radar.sqlite3, data/semantic_compute_worthiness/judgments.jsonl]
+    artifacts: [docs/candidate_direction_promotion_audit.md, output/candidate_direction_promotion/spec018-candidate-direction-20260913-v1/aggregate_summary.json]
+    metrics: {promotion_gates_passed: 10, promotion_gates_total: 10, worthiness_sample: 60, worthiness_matches: 4, matched_not_worth: 4, known_worth_demotions: 0, cached_population: 20, cached_matches: 1, cached_score_changes: 1, cached_recommendation_changes: 0, retrospective_postings: 30, retrospective_matches: 0, known_apply_demotions: 0, semantic_reassessments: 0, semantic_calls: 0, live_source_calls: 0, sqlite_writes: 0}
+    result: Only `account_management_execution` met the promotion rule. Business/decision analytics and AI-transformation evidence were already represented; broader support, QA, automation-risk, and stretch concepts remained insufficient, contextual, or architecture-only.
+    decision: Recommend promoting candidate profile version 4 / decision-preference version 2 with one NEGATIVE account-management execution preference; retain frozen effect weights and all semantic, market, clustering, lifecycle, and action boundaries.
+    limitations: The 60-item sample has only three WORTH labels; title-only matching may miss disguised account-management ownership; the compatible cache population is small and not an unbiased market sample.
+    related_decisions: [DR-013, DR-021, DR-022, DR-024]
+    commit_or_worktree_state: "Implemented against e81b837 in a dirty worktree; exact private-evidence and database hashes are preserved in the sanitized aggregate"

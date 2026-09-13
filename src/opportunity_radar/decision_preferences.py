@@ -144,14 +144,23 @@ def load_preference_matching_rules(
     concepts: dict[str, dict[str, tuple[str, ...]]] = {}
     for concept_id, value in raw["concepts"].items():
         taxonomy.require(concept_id, "preference matching concept")
-        if not isinstance(value, dict) or not {"match_any"} <= set(value) <= {
-            "match_any", "exclude_any",
-        }:
+        allowed_fields = {
+            "match_any", "title_match_any", "description_match_any", "exclude_any",
+        }
+        match_fields = {"match_any", "title_match_any", "description_match_any"}
+        if (
+            not isinstance(value, dict)
+            or not set(value) <= allowed_fields
+            or not set(value).intersection(match_fields)
+        ):
             raise Phase3ConfigurationError(
-                f"preference matcher {concept_id} requires match_any and permits exclude_any"
+                f"preference matcher {concept_id} requires at least one match field "
+                "and permits exclude_any"
             )
         rules: dict[str, tuple[str, ...]] = {}
-        for field in ("match_any", "exclude_any"):
+        for field in (
+            "match_any", "title_match_any", "description_match_any", "exclude_any",
+        ):
             patterns = value.get(field, [])
             if not isinstance(patterns, list) or any(not isinstance(item, str) for item in patterns):
                 raise Phase3ConfigurationError(f"{concept_id}.{field} must be a string list")
@@ -217,6 +226,11 @@ def _match_preference(
         return None
     for source, value in sources:
         for pattern in rule["match_any"]:
+            match = re.search(pattern, value, re.IGNORECASE)
+            if match:
+                return source, match.group(0)
+    for source, value in sources:
+        for pattern in rule[f"{source}_match_any"]:
             match = re.search(pattern, value, re.IGNORECASE)
             if match:
                 return source, match.group(0)

@@ -1,9 +1,15 @@
 matching_rule_id: phase4-preference-matching
-version: 1
+version: 2
 
 # These patterns identify neutral job evidence. Candidate stance and numeric
 # effect live in separate configuration and are never encoded here.
 concepts:
+  account_management_execution:
+    # Deliberately title-only for the first promotion. Descriptions often
+    # mention account managers as stakeholders even when the role does not own
+    # an account portfolio.
+    title_match_any:
+      - "\\b(?:senior\\s+|strategic\\s+|key\\s+|enterprise\\s+|global\\s+|customer\\s+|client\\s+)*account\\s+(?:manager|management|executive)\\b"
   ai_enabled_work:
     match_any: ["\\b(?:artificial intelligence|machine learning|AI|automation)\\b"]
   transformation_execution:

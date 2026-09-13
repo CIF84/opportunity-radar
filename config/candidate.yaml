@@ -1,7 +1,7 @@
 profile:
   profile_id: roman_christov
-  version: 3
-  created_at: "2026-09-04"
+  version: 4
+  created_at: "2026-09-13"
 
 # Frozen phase3-semantic-v1 facts. Phase 4 market-access authority is the
 # separately fingerprinted policy below.
@@ -320,7 +320,7 @@ market_access_policy:
 
 decision_preferences:
   schema_version: 1
-  preference_version: 1
+  preference_version: 2
   entries:
     - concept_id: ai_enabled_work
       source_type: PREFERENCE
@@ -353,6 +353,9 @@ decision_preferences:
       source_type: CONVICTION
       stance: NEGATIVE
     - concept_id: social_influencer_operations
+      source_type: PREFERENCE
+      stance: NEGATIVE
+    - concept_id: account_management_execution
       source_type: PREFERENCE
       stance: NEGATIVE
 

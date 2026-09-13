@@ -54,7 +54,8 @@ def test_both_profiles_use_the_same_market_access_schema():
     primary = _load(PRIMARY_PATH)
     portability = _load(PORTABILITY_PATH)
 
-    assert primary.version == portability.version == 3
+    assert primary.version == 4
+    assert portability.version == 3
     assert isinstance(primary.market_access_policy, MarketAccessPolicy)
     assert isinstance(portability.market_access_policy, MarketAccessPolicy)
     assert set(primary.market_access_policy.payload()) == set(

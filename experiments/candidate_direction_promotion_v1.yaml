@@ -1,0 +1,136 @@
+schema_version: 1
+experiment_id: EXP-CANDIDATE-DIRECTION-001
+experiment_type: CANDIDATE_DIRECTION_PROMOTION_AUDIT
+specification: specs/phase4/SPEC-018-candidate-direction-promotion-audit.md
+
+inputs:
+  candidate_path: config/candidate.yaml
+  portability_candidate_path: config/candidate_portability_test.yaml
+  taxonomy_path: config/taxonomy.yaml
+  matching_rules_path: config/preference_matching_rules.yaml
+  effect_policy_path: config/preference_effect_policy.yaml
+  market_rules_path: config/market_status_rules.yaml
+  seniority_rules_path: config/seniority_guard_rules.yaml
+  database_path: output/opportunity_radar.sqlite3
+  worthiness_manifest_path: output/semantic_compute_worthiness/semantic-worthiness-preparation-20260905-v5/manifest.json
+  worthiness_judgments_path: data/semantic_compute_worthiness/judgments.jsonl
+  worthiness_replacements_path: data/semantic_compute_worthiness/replacements.jsonl
+  retrospective_config_path: experiments/phase4_replay_v1.yaml
+
+baseline_candidate:
+  profile_version: 3
+  created_at: "2026-09-04"
+  full_profile_fingerprint: 67c459aa1cc9c9901aa1cf5e764e08b7e3905ac09ef80aefc5696af1dfb5746e
+  semantic_profile_fingerprint: 6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b
+  scoring_preference_fingerprint: 9237433984fb06f964248b199a08a6bd3ed9ddf0a0f0b341c13a0cb278db0e8a
+  market_access_policy_fingerprint: 86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb
+  decision_preference_fingerprint: e0146d4d87ce44810f6cd7f2c8a1125d313d18087666829b92fd100b2671c6a4
+  decision_preferences:
+    schema_version: 1
+    preference_version: 1
+    entries:
+      - {concept_id: ai_enabled_work, source_type: PREFERENCE, stance: STRONG_POSITIVE}
+      - {concept_id: transformation_execution, source_type: PREFERENCE, stance: STRONG_POSITIVE}
+      - {concept_id: implementation_ownership, source_type: PREFERENCE, stance: STRONG_POSITIVE}
+      - {concept_id: business_operations, source_type: PREFERENCE, stance: POSITIVE}
+      - {concept_id: product_development, source_type: PREFERENCE, stance: POSITIVE}
+      - {concept_id: continuous_learning, source_type: PREFERENCE, stance: POSITIVE}
+      - {concept_id: customer_service_operations, source_type: PREFERENCE, stance: NEGATIVE}
+      - {concept_id: advisory_without_implementation_ownership, source_type: PREFERENCE, stance: NEGATIVE}
+      - {concept_id: orthopaedics, source_type: PREFERENCE, stance: NEGATIVE}
+      - {concept_id: legacy_agency_sector, source_type: CONVICTION, stance: NEGATIVE}
+      - {concept_id: social_influencer_operations, source_type: PREFERENCE, stance: NEGATIVE}
+
+frozen_semantic:
+  assessor_id: external-structured
+  assessor_version: 1:gpt-5.6-luna
+  contract_version: phase3-semantic-v1
+
+baseline_matching_rules:
+  version: 1
+  fingerprint: ea20c4b3200faf87dcf966257c9b4180ae7022b7fa48a4700299e4d6adccd9b7
+
+proposed_candidate:
+  profile_version: 4
+  preference_version: 2
+  full_profile_fingerprint: 9b220d73521fafe087f49269046eabdb9d94cfddc18a77b2e64a9745b9dd89e9
+  decision_preference_fingerprint: 394342b487cc3b7b36f6f8a2cd38a5ea2f6c747af73f9f5f409b7fcb3ca359f5
+  promoted_entries:
+    - concept_id: account_management_execution
+      source_type: PREFERENCE
+      stance: NEGATIVE
+      evidence_count: 6
+      evidence_source: PRIVATE_EXPLICIT_HUMAN_JUDGMENTS
+
+concept_audit:
+  - concept_id: business_analytics
+    evidence_category: POSITIVE_DIRECTION
+    verdict: ALREADY_REPRESENTED_SUFFICIENTLY
+    rationale: Existing EXPERT capability, analytical-problem-solving preference, decision-intelligence preference, and strategic goal already carry this evidence; another post-semantic effect would double count it.
+  - concept_id: decision_intelligence
+    evidence_category: POSITIVE_DIRECTION
+    verdict: ALREADY_REPRESENTED_SUFFICIENTLY
+    rationale: Existing VERY_HIGH role-characteristic preference and strategic goal already expose this direction to semantic-v1.
+  - concept_id: ai_enabled_work
+    evidence_category: POSITIVE_DIRECTION
+    verdict: ALREADY_REPRESENTED_SUFFICIENTLY
+    rationale: Existing strong-positive AI-enabled work, transformation execution, and implementation ownership effects already represent AI-transformation attraction.
+  - concept_id: ai_assisted_development
+    evidence_category: POSITIVE_DIRECTION
+    verdict: ALREADY_REPRESENTED_SUFFICIENTLY
+    rationale: Existing candidate capability and AI-enabled career evidence represent the bounded direction without rewarding conventional software-engineering identity.
+  - concept_id: implementation_ownership
+    evidence_category: POSITIVE_DIRECTION
+    verdict: ALREADY_REPRESENTED_SUFFICIENTLY
+    rationale: Existing strong-positive decision preference already represents execution authority.
+  - concept_id: account_management_execution
+    evidence_category: REPEATED_EXPLICIT_AVERSION
+    verdict: PROMOTE_NEGATIVE
+    proposed_source_type: PREFERENCE
+    proposed_stance: NEGATIVE
+    rationale: Repeated explicit human evidence rejects returning to account-management/account-executive ownership; title-only matching keeps the boundary separate from commercial strategy, revenue operations, retention strategy, and business development.
+  - concept_id: customer_service_operations
+    evidence_category: NEGATIVE_DIRECTION
+    verdict: ALREADY_REPRESENTED_SUFFICIENTLY
+    rationale: Existing negative decision preference covers customer-service operations.
+  - concept_id: technical_support
+    evidence_category: NEGATIVE_DIRECTION
+    verdict: INSUFFICIENT_EVIDENCE
+    rationale: Explicit evidence exists, but the frozen sample contains only one narrow title-supported case and does not satisfy the repeated-evidence promotion gate.
+  - concept_id: software_testing_qa
+    evidence_category: AUTOMATION_CONVICTION
+    verdict: KEEP_CONTEXTUAL_ONLY
+    rationale: The available judgment combines role aversion and future-value conviction; a durable generic preference would overgeneralize from one case.
+  - concept_id: mundane_administrative_automation_exposure
+    evidence_category: AUTOMATION_CONVICTION
+    verdict: KEEP_AS_CONVICTION_ONLY
+    rationale: Repeated concern is real but current evidence does not support a narrow deterministic matcher that would avoid suppressing attractive transformation work.
+  - concept_id: advisory_without_implementation_ownership
+    evidence_category: NEGATIVE_DIRECTION
+    verdict: ALREADY_REPRESENTED_SUFFICIENTLY
+    rationale: Existing negative decision preference and implementation-ownership override already preserve the intended trade-off.
+  - concept_id: healthcare
+    evidence_category: CONTEXTUAL_DOMAIN_OPENNESS
+    verdict: KEEP_CONTEXTUAL_ONLY
+    rationale: Evidence rejects individual qualification mismatches, not the healthcare domain; no preference change is warranted.
+  - concept_id: robotics
+    evidence_category: CONTEXTUAL_DOMAIN_OPENNESS
+    verdict: KEEP_CONTEXTUAL_ONLY
+    rationale: Evidence supports openness rather than a stable positive effect; no preference change is warranted.
+
+promotion_gates:
+  require_repeated_explicit_evidence: true
+  require_narrow_matching: true
+  known_positive_demotion_maximum: 0
+  semantic_reassessments_maximum: 0
+  require_semantic_profile_unchanged: true
+  require_scoring_preferences_unchanged: true
+  require_market_policy_unchanged: true
+
+privacy:
+  detailed_artifact: PRIVATE_LOCAL
+  aggregate_artifact: REPOSITORY_SAFE
+  raw_human_notes: PRIVATE_LOCAL_APPEND_ONLY
+
+outputs:
+  root: output/candidate_direction_promotion

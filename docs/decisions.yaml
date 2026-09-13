@@ -321,3 +321,17 @@ decisions:
     supersedes: []
     related_experiments: [EXP-PHASE4-REPLAY-001, EXP-PHASE4-RESIDUAL-001]
     affected_contracts: [CurrentCandidateMarketStatus, MarketNormalizationRules]
+
+  - decision_id: DR-024
+    title: Promote a narrow account-management execution aversion
+    status: PROPOSED
+    decided_at: "2026-09-13"
+    context: SPEC-018 found repeated explicit rejection of returning to account-management/account-executive ownership, while the existing candidate representation did not distinguish that role choice from valuable commercial strategy, revenue operations, retention strategy, or business development experience.
+    decision: Add `account_management_execution` as a NEGATIVE versioned candidate decision preference and match it only from explicit account-management/account-executive title evidence in the initial policy version.
+    evidence: [specs/phase4/SPEC-018-candidate-direction-promotion-audit.md, docs/candidate_direction_promotion_audit.md, output/candidate_direction_promotion/spec018-candidate-direction-20260913-v1/aggregate_summary.json]
+    alternatives_rejected: [Penalize broad B2B or commercial work, infer aversion from capability history, add redundant business-analytics or AI-transformation effects, promote broad automation risk]
+    assumptions: [Title-only matching favors precision over recall, decision preferences remain reversible and soft]
+    consequences: [Candidate full-profile and decision-policy identities change; semantic, scoring, market, clustering, lifecycle, and action-authority identities do not]
+    supersedes: []
+    related_experiments: [EXP-SEMANTIC-WORTHINESS-001, EXP-CANDIDATE-DIRECTION-001]
+    affected_contracts: [DecisionPreferences, PreferenceMatchingRules, decision-preference fingerprint]

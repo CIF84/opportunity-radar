@@ -14,6 +14,7 @@ from opportunity_radar.phase4_residual_diagnostics import (
     load_residual_diagnostics_config,
     run_residual_diagnostics,
 )
+from opportunity_radar.phase3_config import load_candidate_profile, load_taxonomy
 from opportunity_radar.state_repository import SCHEMA_VERSION
 
 
@@ -28,10 +29,19 @@ def _hash(path: Path) -> str:
 
 def _has_private_evidence() -> bool:
     config = load_residual_diagnostics_config(CONFIG)
-    return all(Path(path).exists() for path in (
+    paths_exist = all(Path(path).exists() for path in (
         config.parent_detailed_replay_path,
         load_residual_diagnostics_config(CONFIG).parent_aggregate_path,
     ))
+    if not paths_exist:
+        return False
+    parent = json.loads(Path(config.parent_detailed_replay_path).read_text())
+    taxonomy = load_taxonomy(ROOT / "config/taxonomy.yaml")
+    profile = load_candidate_profile(ROOT / "config/candidate.yaml", taxonomy)
+    return (
+        parent["frozen"]["candidate"]["decision_preference_fingerprint"]
+        == profile.decision_preference_fingerprint
+    )
 
 
 def _posting(market: str, preference: list[dict] | None = None) -> dict:
@@ -64,7 +74,10 @@ def test_diagnostic_classification_is_deterministic(kind, before, after, expecte
     assert classify_diagnostic_case(case, before, after) == expected
 
 
-@pytest.mark.skipif(not _has_private_evidence(), reason="private local replay evidence is unavailable")
+@pytest.mark.skipif(
+    not _has_private_evidence(),
+    reason="private frozen replay evidence or its candidate-policy identity is unavailable",
+)
 def test_corrected_replay_is_zero_call_read_only_and_bounded(tmp_path, monkeypatch):
     config = load_residual_diagnostics_config(CONFIG)
     base = __import__("opportunity_radar.phase4_replay", fromlist=["load_replay_config"]).load_replay_config(config.base_replay_config)
@@ -130,7 +143,10 @@ def test_corrected_replay_is_zero_call_read_only_and_bounded(tmp_path, monkeypat
         connection.close()
 
 
-@pytest.mark.skipif(not _has_private_evidence(), reason="private local replay evidence is unavailable")
+@pytest.mark.skipif(
+    not _has_private_evidence(),
+    reason="private frozen replay evidence or its candidate-policy identity is unavailable",
+)
 def test_corrected_artifact_keeps_detailed_evidence_private(tmp_path):
     result = run_residual_diagnostics(CONFIG, tmp_path, run_id="corrected-artifact")
     detailed = tmp_path / "corrected-artifact/replay.json"

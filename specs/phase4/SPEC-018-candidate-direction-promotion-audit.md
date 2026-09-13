@@ -1,6 +1,6 @@
 # SPEC-018 — Candidate Direction Promotion Audit
 
-Status: `APPROVED_FOR_IMPLEMENTATION`
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`
 
 ## Purpose
 
@@ -320,6 +320,30 @@ Stop for human decision rather than improvising if:
 - promotion would require changing semantic-v1 or scoring weights;
 - private human evidence cannot be accessed sufficiently to support a claimed repeated preference;
 - multiple plausible preference representations have materially different behavior.
+
+## Implementation result
+
+Run `spec018-candidate-direction-20260913-v1` completed the approved audit with
+zero external calls and zero SQLite writes. All ten promotion gates passed for
+one narrow change: candidate profile version 4 / decision-preference version 2
+adds `account_management_execution` as a negative preference, matched only from
+explicit account-management/account-executive title evidence.
+
+The frozen 60-item sample contained four title matches, all human-labeled
+`NOT_WORTH_DEEP_ASSESSMENT`; no WORTH evidence was demoted. One of 20 current
+compatible cached opportunities changed score, none changed recommendation,
+and three relative ranks changed. The frozen 30-posting retrospective had zero
+matches and no score, recommendation, cluster, or human-APPLY change. Semantic
+reassessments were zero.
+
+Business/decision analytics, AI transformation, AI-assisted development, and
+implementation ownership remain represented by existing capability, semantic
+preference, goal, and decision-preference evidence. Broader technical-support,
+QA/testing, automation-risk, and stretch policies were not promoted.
+
+The implementation remains uncommitted pending normal promotion review. See
+`docs/candidate_direction_promotion_audit.md` and the sanitized aggregate receipt
+indexed by `experiments/registry.yaml`.
 
 ## Deliverable
 

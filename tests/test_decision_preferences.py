@@ -75,11 +75,50 @@ def _assess(profile, text, *, semantic=None, score=7.0, title="Role"):
 
 def test_profiles_share_generic_decision_preference_schema_and_resolve_taxonomy():
     other = load_candidate_profile(ROOT / "config/candidate_portability_test.yaml", TAXONOMY)
-    assert PROFILE.version == other.version == 3
+    assert PROFILE.version == 4
+    assert other.version == 3
     assert set(PROFILE.decision_preferences.payload()) == set(other.decision_preferences.payload())
     for profile in (PROFILE, other):
         for item in profile.decision_preferences.entries:
             TAXONOMY.require(item.concept_id)
+
+
+def test_promoted_account_management_preference_is_title_scoped_and_narrow():
+    expected = _assess(PROFILE, "Own commercial outcomes.", title="Strategic Account Manager")
+    assert [item.concept_id for item in expected.matched_effects] == [
+        "account_management_execution"
+    ]
+    assert expected.bounded_total_effect == -0.3
+
+    executive = _assess(PROFILE, "Own a book of business.", title="Account Executive")
+    assert [item.concept_id for item in executive.matched_effects] == [
+        "account_management_execution"
+    ]
+
+    for title, description in (
+        ("Sales Operations Lead", "Partner with account managers and account executives."),
+        ("Commercial Strategy Director", "Set account strategy and retention priorities."),
+        ("Customer Retention Strategy Lead", "Improve renewal decisions."),
+        ("Business Development Manager", "Build new market partnerships."),
+    ):
+        result = _assess(PROFILE, description, title=title)
+        assert "account_management_execution" not in {
+            item.concept_id for item in result.matched_effects
+        }
+
+
+def test_account_management_synonyms_contribute_once_per_job():
+    result = _assess(
+        PROFILE,
+        "The account manager owns account management for account executives.",
+        title="Senior Strategic Account Manager",
+    )
+    effects = [
+        item for item in result.matched_effects
+        if item.concept_id == "account_management_execution"
+    ]
+    assert len(effects) == 1
+    assert effects[0].evidence_source == "title"
 
 
 def test_decision_preference_change_preserves_frozen_phase3_fingerprints(tmp_path):

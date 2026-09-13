@@ -173,6 +173,11 @@ Invariants:
   taxonomy-backed declarative rules, and applied once per concept after
   preferred selection. The numeric effect mapping is a separately fingerprinted
   policy, clipped to ±1.0, and never creates hard eligibility or market status.
+- Matching rules may be scoped to title, description, or both. The proposed
+  SPEC-018 account-management aversion uses title-only evidence so stakeholder
+  mentions cannot turn commercial-strategy or sales-operations roles into
+  account-management execution. This remains generic configuration, not a
+  candidate or employer branch.
 - Preference-only or effect-policy-only changes recompute derived decision
   output without changing semantic identity, cluster membership, or lifecycle.
 - The seniority guard uses only explicit title/detail evidence and versioned

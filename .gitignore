@@ -68,5 +68,11 @@ output/partial_geography_semantics/**/*
 !output/partial_geography_semantics/**/
 !output/partial_geography_semantics/**/aggregate_summary.json
 
+# SPEC-018 keeps per-opportunity preference effects and private human-evidence
+# joins local. Only the deliberately sanitized aggregate receipt is safe.
+output/candidate_direction_promotion/**/*
+!output/candidate_direction_promotion/**/
+!output/candidate_direction_promotion/**/aggregate_summary.json
+
 # Replaceable local health evidence.
 output/test_receipt.json

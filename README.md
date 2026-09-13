@@ -16,10 +16,11 @@ opportunity clustering and preferred variants, decision preferences, and the
 seniority guard. Its retrospective, prospective-protocol, and semantic-compute
 experiments are preserved as frozen evidence.
 
-The current packet is the completed partial-geography semantics audit. It found
-a bounded generic defect and implemented a candidate-policy-preserving correction;
-promotion awaits review. The active gate and frozen decisions are recorded in
-[docs/STATUS.md](docs/STATUS.md).
+The current packet is the completed candidate-direction promotion audit. It
+supports one bounded negative account-management preference, rejects redundant
+business/decision-analytics and AI-transformation effects, and leaves stretch
+and automation policy deferred. Promotion awaits review. The active gate and
+frozen decisions are recorded in [docs/STATUS.md](docs/STATUS.md).
 
 ## Repository map
 
@@ -180,6 +181,16 @@ Read-only partial-geography semantics audit:
 The audit compares the corrected evaluator with the frozen prior behavior over
 the current ACTIVE detailed corpus. It makes no semantic calls or SQLite writes;
 per-job evidence remains local and only a sanitized aggregate is Git-eligible.
+
+Read-only candidate-direction promotion audit (requires the private frozen
+human judgments and operational SQLite evidence):
+
+```bash
+.venv/bin/opportunity-radar-candidate-direction-audit --dry-run
+```
+
+The command performs no semantic or live-source calls. Per-opportunity joins
+remain private/local; only a sanitized aggregate receipt is Git-eligible.
 
 Project health, derived read-only from repository evidence:
 

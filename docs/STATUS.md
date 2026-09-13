@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-018-candidate-direction-promotion-audit.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -48,10 +48,43 @@ Frozen recent milestones:
 - SPEC-016 nested feeds + Mews: `556fd7aec5d77874f56d7a5b5137a06a75fbfbca`
 - SPEC-017 partial-geography semantics: `1871a082874f27db606796fc06e348fbee71776c`
 
-SPEC-018 returns to the separately deferred candidate-direction question. It audits
-whether repeated explicit human evidence justifies a new versioned decision-
-preference representation. It must not inflate capability, tune semantic-v1, or
-autonomously learn preferences.
+SPEC-018 returned to the separately deferred candidate-direction question. Its
+zero-call audit supports one narrow candidate preference promotion while rejecting
+redundant or weakly supported additions. The proposed profile/configuration change
+remains uncommitted pending review.
+
+## SPEC-018 completed result
+
+All ten predeclared promotion gates passed for one concept:
+
+```text
+account_management_execution  PREFERENCE  NEGATIVE
+```
+
+The proposed candidate profile version 4 / preference version 2 adds only that
+entry. Matching is deliberately title-only for explicit account-manager,
+account-management, and account-executive ownership. Sales/revenue operations,
+commercial strategy, customer-retention strategy, business development, and
+descriptions that merely mention account managers remain neutral.
+
+Counterfactual result:
+
+```text
+frozen 60-item sample          4 matches, all NOT_WORTH, 0 WORTH demotions
+compatible cached population  1/20 affected, 1 score change, 0 recommendation changes
+frozen Phase 4 retrospective  0/30 affected, 0 APPLY demotions
+semantic reassessments         0
+```
+
+Business analytics, decision intelligence, AI-enabled work, AI-assisted
+development, and implementation ownership were already represented sufficiently;
+adding post-semantic effects would be redundant. Technical support lacked repeated
+evidence. QA/testing and broad automation exposure remain contextual/conviction
+evidence because no narrow safe matcher is yet proven.
+
+The semantic-profile, Phase 3 scoring, and market-policy fingerprints are
+unchanged. Cluster membership and operational SQLite are unchanged. Canonical
+report: `docs/candidate_direction_promotion_audit.md`.
 
 ## SPEC-017 frozen result
 
@@ -96,7 +129,7 @@ Current capability representation is already strong:
 The candidate also has developing SQL/Python/technical depth. Those gaps must not
 be hidden by preference promotion.
 
-Current Phase 4 decision preferences already include:
+The proposed Phase 4 decision preferences include:
 
 ```text
 ai_enabled_work                    STRONG_POSITIVE
@@ -110,11 +143,11 @@ advisory_without_implementation     NEGATIVE
 orthopaedics                        NEGATIVE
 legacy_agency_sector                NEGATIVE (CONVICTION)
 social_influencer_operations        NEGATIVE
+account_management_execution        NEGATIVE
 ```
 
-SPEC-018 must determine whether explicit `business_analytics` / `decision_support`
-preference promotion adds decision information or merely double-counts what is
-already represented.
+SPEC-018 found that explicit `business_analytics` / `decision_support` promotion
+would double-count direction already present in semantic-v1 candidate inputs.
 
 The completed human review also repeatedly distinguished:
 
@@ -126,7 +159,8 @@ The completed human review also repeatedly distinguished:
 - negative sentiment toward mundane/highly automatable administrative work;
 - openness to domains such as pharma/healthcare or robotics when role fit exists.
 
-These are evidence for audit, not automatic permanent profile facts.
+Only the narrowly supported account-management preference passed promotion gates.
+The remaining distinctions stay evidence rather than automatic profile facts.
 
 ## SPEC-012 compute-worthiness evidence
 
@@ -187,12 +221,12 @@ SPEC-018 may not tune these values.
 
 ## Current gate
 
-> Execute SPEC-018 as a zero-call candidate-direction audit. Promote a new
-> preference version only if repeated explicit human evidence, narrow concept
-> boundaries, counterfactual replay, and fingerprint/cache invariants all pass.
+> Review the bounded SPEC-018 promotion of candidate profile version 4 and
+> decision-preference version 2. Do not promote broader direction, stretch, or
+> automation policies from the same evidence.
 
-The audit must keep capability, preference, stretch, conviction, and hard
-eligibility as distinct objects.
+The audit gates passed, but Git promotion remains a separate human decision.
+Capability, preference, stretch, conviction, and hard eligibility remain distinct.
 
 ## SPEC-018 protected boundaries
 
@@ -234,7 +268,7 @@ Preferences should steer attention without rewriting capability truth.
 
 Contingent on evidence:
 
-1. review any candidate-preference promotion separately from capability facts;
+1. review the narrow account-management preference promotion separately from capability facts;
 2. preserve a versioned/reversible representation of changing sentiment;
 3. design stretch-envelope logic only after its evidence contract is explicit;
 4. then revisit deterministic hard-negative rejection and semantic allocation;
@@ -243,7 +277,7 @@ Contingent on evidence:
 
 ## Known open decisions
 
-- Whether SPEC-018 evidence justifies a new decision-preference version.
+- Whether to accept the SPEC-018 versioned account-management preference promotion into Git.
 - How to represent manageable vs excessive stretch without conflating capability and preference.
 - Deterministic rejection architecture after candidate direction is explicit.
 - Semantic-call budget for later prospective ranking validation.
