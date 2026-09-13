@@ -7,10 +7,10 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-017-partial-geography-semantics-audit.md
+specs/phase4/SPEC-018-candidate-direction-promotion-audit.md
 ```
 
-Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -32,101 +32,31 @@ and explain which active opportunities deserve a candidate's attention.
 
 ## Current phase
 
-Phases 1–3 are implemented. Phase 4 has committed implementations for candidate
+Phases 1–3 are implemented. Phase 4 now has committed implementations for candidate
 market access/routing, opportunity clustering/preferred variant, versioned decision
 preferences, seniority guard, retrospective replay, residual market normalization,
 prospective-validation preparation, semantic compute-allocation audit, completed
 human compute-worthiness validation, source-portfolio/role-coverage audit, Wave A
-source-contract preflight, bounded production onboarding for three sources, and a
-generic nested-feed extension with Mews production onboarding.
+source-contract preflight, bounded production onboarding, generic nested feeds with
+Mews, and corrected partial-geography market semantics.
 
-Frozen milestones:
+Frozen recent milestones:
 
 - SPEC-013 source portfolio audit: `a4ebba825e80256ad55ed6bfcaf973a2df37d413`
 - SPEC-014 Wave A preflight: `11e000825e339de8c772d5bd7a66e2567469f1b2`
 - SPEC-015 production onboarding: `541685ce40e959a66d2ec443b6ef748190713bb1`
 - SPEC-016 nested feeds + Mews: `556fd7aec5d77874f56d7a5b5137a06a75fbfbca`
+- SPEC-017 partial-geography semantics: `1871a082874f27db606796fc06e348fbee71776c`
 
-SPEC-017 completed its read-only audit and implemented the bounded generic
-correction. Promotion awaits review. This is an evidence-semantics correction,
-not a candidate-policy change.
+SPEC-018 returns to the separately deferred candidate-direction question. It audits
+whether repeated explicit human evidence justifies a new versioned decision-
+preference representation. It must not inflate capability, tune semantic-v1, or
+autonomously learn preferences.
 
-## SPEC-017 completed result
+## SPEC-017 frozen result
 
-The evaluator previously treated a recognized compatible country with the
-required city absent as explicit location incompatibility. The corrected
-`phase4-current-candidate-market-v3` evaluator returns `UNCERTAIN` for that
-partial evidence while keeping explicit non-Prague Czech cities and foreign
-onsite/hybrid locations `OUT_OF_SCOPE`.
-
-Read-only replay over 4,002 ACTIVE usable details produced exactly 26 changes:
-
-```text
-OUT_OF_SCOPE -> UNCERTAIN  26
-OUT_OF_SCOPE -> IN_SCOPE    0
-```
-
-The changes are bounded to Wrike 13, Mews 11, ČSOB 1, and Schneider Electric 1.
-All 15 truth-table cases and 10 frozen historical market regressions passed.
-Candidate-policy and semantic-profile fingerprints remain unchanged; SQLite was
-byte-identical; semantic calls were zero.
-
-Mews now contributes 11 `UNCERTAIN` market-routed clusters, including two
-deterministic target-family signals. No job became `IN_SCOPE`. Assessing those
-11 cache misses would directionally cost about `$0.0291`; no calls were made.
-
-Impact: `BOUNDED_MULTI_SOURCE_CORRECTION`. Canonical report:
-`docs/partial_geography_semantics_audit.md`.
-
-## Last known operational health
-
-- SQLite schema: version 3.
-- ACTIVE jobs with usable detail assessed by SPEC-017: 4,002.
-- Existing semantic assessments: 406, unchanged.
-- Offline validation: 294 passed, 22 live tests deselected.
-- External source calls during SPEC-017: 0.
-- External semantic calls during SPEC-017: 0.
-- Operational SQLite remains private/local and intentionally uncommitted.
-
-## SPEC-016 frozen result
-
-The current Mews `/api/careers` contract contains 29 unique jobs in nine parent
-groups. The generic nested-feed implementation supports declarative flattening,
-explicit parent-context inheritance, group-count validation, deterministic
-ordering, duplicate rejection, and optional HTML detail selectors with no
-Mews-specific branch.
-
-Mews production ingestion:
-
-```text
-inventory                         29
-selected / intentionally skipped 11 / 18
-detail success / failure          11 / 0
-network detail requests           11
-usable clusters added             11
-routed clusters added              0
-target-family clusters added       2
-semantic calls                     0
-```
-
-All 11 detailed Mews clusters currently evaluate `OUT_OF_SCOPE`: Czechia appears
-among country alternatives and the postings are hybrid, but no Czech city proves
-Prague. The source remains configured and the extension verdict is
-`MODERATE_REUSABLE_SOURCE_VALUE`.
-
-This result exposed a generic semantic question: when country is compatible but
-city evidence is absent, does the evaluator correctly return `UNCERTAIN`, or does
-it infer incompatibility from missing city evidence?
-
-## Why SPEC-017 exists
-
-Candidate policy remains unchanged:
-
-> Normal onsite/hybrid work is acceptable in Prague only.
-
-But policy and evidence are different objects.
-
-The intended distinction is:
+The `phase4-current-candidate-market-v3` evaluator now correctly distinguishes
+partial compatible-country evidence from explicit city incompatibility:
 
 ```text
 Prague hybrid                  -> IN_SCOPE
@@ -135,39 +65,70 @@ Czechia hybrid, city absent    -> UNCERTAIN
 explicit Germany hybrid        -> OUT_OF_SCOPE
 ```
 
-SPEC-017 freezes this as an audit hypothesis, reconstructs current evaluator
-behavior, replays any proposed generic correction over the whole active corpus,
-and verifies historical explicit-market cases before changing runtime semantics.
-
-The packet must not make missing evidence equivalent to positive compatibility;
-partial Czech geography should normally move at most from `OUT_OF_SCOPE` to
-`UNCERTAIN` unless explicit Prague evidence exists independently.
-
-## SPEC-015 frozen result
-
-Keboola, Commerzbank, and KPMG remain configured after a bounded production run:
-
-- inventory: 56;
-- details: 56/56 successful;
-- new routed clusters: 51;
-- semantic calls: 0;
-- combined verdict: `MODEST_COVERAGE_IMPROVEMENT`.
-
-Coverage delta:
+Read-only replay over 4,002 ACTIVE usable details produced exactly 26 changes:
 
 ```text
-configured employers       18 -> 21
-ACTIVE jobs              3977 -> 4033
-usable ACTIVE details    3935 -> 3991
-opportunity clusters     3870 -> 3924
-routed clusters          3326 -> 3377
-routed HHI            3617.01 -> 3509.65
-effective employers     2.765 -> 2.849
-target-family clusters    388 -> 391
-title-supported target    164 -> 166
+OUT_OF_SCOPE -> UNCERTAIN  26
+OUT_OF_SCOPE -> IN_SCOPE    0
 ```
 
-## SPEC-012 completed compute-worthiness result
+Affected employers: Wrike 13, Mews 11, ČSOB 1, Schneider Electric 1.
+All 15 truth-table cases and 10 frozen historical market regressions passed.
+Candidate policy did not change. Semantic calls were zero.
+
+Mews now contributes 11 `UNCERTAIN` routed clusters including two deterministic
+target-family signals. No job became confirmed `IN_SCOPE`.
+
+## Candidate direction under SPEC-018
+
+The candidate has explicitly confirmed that business/data/decision-analytics is a
+viable direction when business-facing and aligned with AI/transformation work.
+
+Current capability representation is already strong:
+
+- `business_analytics`: EXPERT / HIGH;
+- `decision_support`: EXPERT / HIGH;
+- `forecasting`: EXPERT / HIGH;
+- `business_operations`: EXPERT / HIGH;
+- `commercial_strategy`: EXPERT / HIGH;
+- `transformation`: ADVANCED / HIGH.
+
+The candidate also has developing SQL/Python/technical depth. Those gaps must not
+be hidden by preference promotion.
+
+Current Phase 4 decision preferences already include:
+
+```text
+ai_enabled_work                    STRONG_POSITIVE
+transformation_execution           STRONG_POSITIVE
+implementation_ownership           STRONG_POSITIVE
+business_operations                POSITIVE
+product_development                POSITIVE
+continuous_learning                POSITIVE
+customer_service_operations        NEGATIVE
+advisory_without_implementation     NEGATIVE
+orthopaedics                        NEGATIVE
+legacy_agency_sector                NEGATIVE (CONVICTION)
+social_influencer_operations        NEGATIVE
+```
+
+SPEC-018 must determine whether explicit `business_analytics` / `decision_support`
+preference promotion adds decision information or merely double-counts what is
+already represented.
+
+The completed human review also repeatedly distinguished:
+
+- attractive manageable stretches in AI transformation/AI-enabled work;
+- attractive domains with obviously excessive specialist gaps;
+- strong aversion to returning to account-management/account-executive work;
+- no intended career direction toward technical support;
+- no intended direction toward generic testing/QA;
+- negative sentiment toward mundane/highly automatable administrative work;
+- openness to domains such as pharma/healthcare or robotics when role fit exists.
+
+These are evidence for audit, not automatic permanent profile facts.
+
+## SPEC-012 compute-worthiness evidence
 
 The frozen 60-opportunity human experiment produced:
 
@@ -177,21 +138,27 @@ NOT_WORTH_DEEP_ASSESSMENT 57
 NEED_MORE_INFO             0
 ```
 
-All three WORTH cases occurred in `SEMANTIC_PRIORITY`; PRIORITY precision was
-15%, so the triage is not promoted. This evidence remains frozen during
-SPEC-017.
+All three WORTH cases occurred in `SEMANTIC_PRIORITY`. They shared a useful
+qualitative pattern: desired trajectory was strong while qualification fit was
+uncertain enough that deeper reasoning had decision value.
 
-## Candidate direction
+Many NOT_WORTH cases were either obvious functional/domain/seniority mismatches,
+explicitly unwanted role families, decisive market incompatibilities, or roles
+whose perceived future value was low.
 
-Business/data/decision-analytics remains a viable career direction when business-facing
-and aligned with broader AI/transformation work.
+SPEC-018 may inspect this evidence read-only. It must not modify the frozen sample
+or judgments.
 
-The candidate already has strong capability evidence for business analytics,
-decision support, forecasting/KPI decomposition, commercial analytics, business
-operations, and translating messy data into decisions.
+## Source portfolio state
 
-A future explicit decision-preference update for `business_analytics` /
-`decision_support` remains separate and is not authorized inside SPEC-017.
+Production sources now include Keboola, Commerzbank, KPMG, and Mews in addition
+to the earlier portfolio.
+
+SPEC-015 produced a modest breadth improvement. SPEC-016 added a reusable nested-
+feed capability. SPEC-017 corrected the routing interpretation of incomplete
+Czech city evidence.
+
+No new source integration is authorized during SPEC-018.
 
 ## Confirmed candidate market policy
 
@@ -206,77 +173,93 @@ A future explicit decision-preference update for `business_analytics` /
 - Explicit junior/graduate evidence: candidate-configurable maximum `LOW_PRIORITY`.
 - Domain/function/employer/product aversions are soft and tradeable.
 
+## Frozen preference effect policy
+
+```text
+STRONG_POSITIVE -> +0.4
+POSITIVE        -> +0.2
+NEUTRAL         ->  0.0
+NEGATIVE        -> -0.3
+aggregate cap   -> [-1.0, +1.0]
+```
+
+SPEC-018 may not tune these values.
+
 ## Current gate
 
-> Review SPEC-017's bounded generic evidence-semantics correction and decide
-> whether to promote it. Do not interpret newly `UNCERTAIN` jobs as confirmed
-> Prague-compatible opportunities.
+> Execute SPEC-018 as a zero-call candidate-direction audit. Promote a new
+> preference version only if repeated explicit human evidence, narrow concept
+> boundaries, counterfactual replay, and fingerprint/cache invariants all pass.
 
-No semantic calls are authorized.
+The audit must keep capability, preference, stretch, conviction, and hard
+eligibility as distinct objects.
 
-## SPEC-017 protected boundaries
+## SPEC-018 protected boundaries
 
 Do not change:
 
-- candidate market policy itself;
-- candidate preferences;
+- semantic-v1 model/prompt/reasoning/contract;
+- Phase 3 scoring weights;
+- market-access policy or market-status rules;
 - source configuration;
-- semantic model/prompt/contract/weights/cache;
 - clustering semantics;
 - seniority guard;
-- Phase 1/2 identity/lifecycle semantics;
-- historical evidence.
+- historical judgments;
+- semantic cache records;
+- Phase 1/2 lifecycle/identity contracts.
 
-If semantics change, documentation must state clearly that **policy did not
-change; interpretation of incomplete evidence changed**.
+No external semantic or live-source calls are authorized.
 
 ## Intended architecture
 
 ```text
 SOURCE EVIDENCE
-what the employer actually states
         ↓
-CANDIDATE MARKET POLICY
-what is acceptable
+HARD / MARKET ELIGIBILITY
         ↓
-MARKET ASSESSMENT
-IN_SCOPE / UNCERTAIN / OUT_OF_SCOPE
+CAPABILITY FIT
+        ↓
+CAREER DIRECTION + PREFERENCES
+        ↓
+STRETCH / DECISION VALUE
+        ↓
+SEMANTIC COMPUTE ALLOCATION
+        ↓
+RANKED OPPORTUNITY FEED
 ```
 
-Missing evidence must not silently become an asserted negative fact.
+Preferences should steer attention without rewriting capability truth.
 
-## Direction after SPEC-017
+## Direction after SPEC-018
 
 Contingent on evidence:
 
-1. review and, if accepted, promote the SPEC-017 evaluator correction;
-2. decide separately whether newly uncertain jobs warrant semantic assessment;
-3. continue source expansion only after the routing boundary is trustworthy;
-4. keep Erste/Zentiva source-contract issues separate;
-5. separately decide whether to version business-analytics / decision-support preference;
-6. return to deterministic rejection/stretch-envelope and semantic allocation after upstream evidence is better balanced.
+1. review any candidate-preference promotion separately from capability facts;
+2. preserve a versioned/reversible representation of changing sentiment;
+3. design stretch-envelope logic only after its evidence contract is explicit;
+4. then revisit deterministic hard-negative rejection and semantic allocation;
+5. return to source expansion (Erste/Zentiva/Wave B) only as a separate portfolio decision;
+6. preserve semantic-v1 until upstream decision architecture is validated.
 
 ## Known open decisions
 
-- Promotion of the proven SPEC-017 generic market-evidence correction.
-- Whether any newly uncertain Mews opportunities justify semantic assessment.
-- Whether Erste or Zentiva deserves the next source-contract repair experiment.
-- Whether business/data/decision-analytics receives an explicit decision-preference update.
-- Deterministic rejection / stretch-envelope architecture.
+- Whether SPEC-018 evidence justifies a new decision-preference version.
+- How to represent manageable vs excessive stretch without conflating capability and preference.
+- Deterministic rejection architecture after candidate direction is explicit.
 - Semantic-call budget for later prospective ranking validation.
+- Whether Erste or Zentiva receives the next source-contract repair packet.
 - Durable private backup/retention for operational SQLite and detailed human evidence.
 
 ## Explicitly do not build/tune yet
 
-- candidate policy relaxation;
-- employer-specific market-routing logic;
-- new source integrations during SPEC-017;
+- autonomous preference learning;
+- stretch score/recommendation changes inside SPEC-018;
 - semantic prompt/model/weight tuning;
 - cheap secondary LLM routing;
 - embeddings/vector search;
 - learned ranking/ML infrastructure;
-- autonomous preference learning;
 - broad fuzzy clustering;
+- new source integrations;
 - UI/feed/control panel;
 - application automation;
 - external actions inferred from `APPLY`.
