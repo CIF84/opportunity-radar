@@ -1,6 +1,6 @@
 # SPEC-017 — Partial Geography Semantics Audit
 
-Status: `APPROVED_FOR_IMPLEMENTATION`
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`
 
 ## Purpose
 

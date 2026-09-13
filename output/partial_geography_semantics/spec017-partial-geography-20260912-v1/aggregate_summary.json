@@ -1,0 +1,367 @@
+{
+  "schema_version": 1,
+  "run_id": "spec017-partial-geography-20260912-v1",
+  "experiment_id": "EXP-PARTIAL-GEOGRAPHY-001",
+  "experiment_type": "PARTIAL_GEOGRAPHY_SEMANTICS_AUDIT",
+  "created_at": "2026-09-12T07:51:07.833010+00:00",
+  "truth_table": [
+    {
+      "case_id": "prague_hybrid",
+      "expected": "IN_SCOPE",
+      "actual": "IN_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "ACCEPTED_LOCATION_COMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "prague_onsite",
+      "expected": "IN_SCOPE",
+      "actual": "IN_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "ACCEPTED_LOCATION_COMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "brno_hybrid",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "ostrava_onsite",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "czechia_city_absent_hybrid",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "ACCEPTED_COUNTRY_CITY_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "czechia_city_absent_onsite",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "ACCEPTED_COUNTRY_CITY_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "czech_alias_city_absent_hybrid",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "ACCEPTED_COUNTRY_CITY_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "germany_hybrid",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "united_states_onsite",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "united_states_remote_restricted",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "REMOTE_COUNTRY_RESTRICTED"
+      ]
+    },
+    {
+      "case_id": "prague_work_mode_unspecified",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "WORK_MODE_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "czechia_city_and_mode_absent",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "WORK_MODE_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "location_absent",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "GEOGRAPHY_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "mews_country_alternatives_hybrid_text",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "ACCEPTED_COUNTRY_CITY_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "czechia_partial_with_japanese_required",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "REQUIRED_LANGUAGE_SUPPORTED",
+        "REQUIRED_LANGUAGE_INCOMPATIBLE",
+        "ACCEPTED_COUNTRY_CITY_UNKNOWN"
+      ]
+    }
+  ],
+  "historical_regressions": [
+    {
+      "case_id": "johnson_johnson_us_only",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "pfizer_us_authorization",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "WORK_AUTHORIZATION_UNKNOWN",
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "pure_storage_santa_clara",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "wpp_chicago",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "wpp_new_york",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "red_hat_tokyo_japanese",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "REQUIRED_LANGUAGE_INCOMPATIBLE",
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "wpp_mexico_city",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "wpp_dusseldorf",
+      "expected": "OUT_OF_SCOPE",
+      "actual": "OUT_OF_SCOPE",
+      "passed": true,
+      "reason_codes": [
+        "FOREIGN_ONSITE_INCOMPATIBLE"
+      ]
+    },
+    {
+      "case_id": "deutsche_boerse_cork_incomplete",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "INCOMPLETE_MULTI_LOCATION",
+        "WORK_MODE_UNKNOWN"
+      ]
+    },
+    {
+      "case_id": "klaxoon_remote_unresolved",
+      "expected": "UNCERTAIN",
+      "actual": "UNCERTAIN",
+      "passed": true,
+      "reason_codes": [
+        "REMOTE_ELIGIBILITY_UNKNOWN"
+      ]
+    }
+  ],
+  "corpus": {
+    "active_detailed_jobs_assessed": 4002,
+    "market_status_before": {
+      "IN_SCOPE": 147,
+      "OUT_OF_SCOPE": 575,
+      "UNCERTAIN": 3280
+    },
+    "market_status_after": {
+      "IN_SCOPE": 147,
+      "OUT_OF_SCOPE": 549,
+      "UNCERTAIN": 3306
+    },
+    "transition_matrix": {
+      "IN_SCOPE -> IN_SCOPE": 147,
+      "OUT_OF_SCOPE -> OUT_OF_SCOPE": 549,
+      "OUT_OF_SCOPE -> UNCERTAIN": 26,
+      "UNCERTAIN -> UNCERTAIN": 3280
+    },
+    "changed_assessments": 26,
+    "changed_share": 0.006497,
+    "changed_employers": {
+      "csob": 1,
+      "mews": 11,
+      "schneider_electric": 1,
+      "wrike": 13
+    },
+    "changed_work_modes": {
+      "hybrid": 24,
+      "onsite": 2
+    },
+    "changed_reason_codes": {
+      "ACCEPTED_COUNTRY_CITY_UNKNOWN": 26,
+      "REQUIRED_LANGUAGE_SUPPORTED": 5
+    },
+    "changed_geography_completeness": {
+      "ACCEPTED_COUNTRY_CITY_ABSENT": 26
+    },
+    "changed_target_role_families": {
+      "BUSINESS_REVENUE_OPERATIONS": 1,
+      "PRODUCT_STRATEGY": 3
+    },
+    "changed_target_role_match_count": 4,
+    "safety": {
+      "out_of_scope_to_in_scope": 0,
+      "explicit_compatibility_invented": false
+    },
+    "mews": {
+      "active_detailed_jobs": 11,
+      "before": {
+        "OUT_OF_SCOPE": 11
+      },
+      "after": {
+        "UNCERTAIN": 11
+      },
+      "stored_work_modes": {
+        "unspecified": 11
+      },
+      "effective_work_modes": {
+        "hybrid": 11
+      },
+      "city_absent": 11,
+      "partial_country_reason": 11,
+      "market_routed_before": 0,
+      "market_routed_after": 11,
+      "target_role_families": {
+        "BUSINESS_REVENUE_OPERATIONS": 1,
+        "PRODUCT_STRATEGY": 1
+      },
+      "target_role_routed_before": 0,
+      "target_role_routed_after": 2,
+      "compatible_semantic_cache_hits": 0,
+      "projected_semantic_calls_without_execution": 11,
+      "projected_semantic_cost_usd": 0.0291423,
+      "cost_basis": {
+        "source": "output/semantic_roi_experiment.json",
+        "observed_calls": 14,
+        "first_assessment_sample_size": 7,
+        "first_assessment_total_cost_usd": 0.0185451,
+        "estimated_cost_per_cache_miss_usd": 0.0026493
+      }
+    },
+    "semantic_assessment_rows": 406
+  },
+  "root_cause": {
+    "classification": "MISSING_CITY_TREATED_AS_EXPLICIT_INCOMPATIBILITY",
+    "previous_behavior": "A recognized country plus no accepted-city match entered the outside-location branch.",
+    "promoted_behavior": "An accepted country with required city absent is UNCERTAIN; explicit incompatible city/country evidence remains OUT_OF_SCOPE.",
+    "candidate_policy_changed": false
+  },
+  "identity": {
+    "previous_evaluator_version": "phase4-current-candidate-market-v2",
+    "promoted_evaluator_version": "phase4-current-candidate-market-v3",
+    "market_normalization_version": "phase4-market-normalization-v2",
+    "market_access_policy_fingerprint": "86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb",
+    "semantic_profile_fingerprint": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "audit_config_fingerprint": "f224a21d30a2745ee7b6ebc100ec6945c0a48546659a081b51d53cd3be3539f5",
+    "role_classifier_fingerprint": "684cc5ac881573b64f7e397f6949a156f5eba5868db699b9e5c97aae44d7f5bc",
+    "git": {
+      "commit": "e94d7ddf463ecbd7666de471a9e80a151ea9c1cc",
+      "dirty": true
+    }
+  },
+  "integrity": {
+    "database_sha256_before": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "database_sha256_after": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "database_unchanged": true,
+    "sqlite_writes": 0,
+    "semantic_calls": 0,
+    "semantic_assessment_rows_unchanged": true,
+    "candidate_market_policy_changed": false,
+    "semantic_profile_changed": false
+  },
+  "impact_classification": "BOUNDED_MULTI_SOURCE_CORRECTION",
+  "promotion_decision": "PROMOTE_GENERIC_EVIDENCE_SEMANTICS_CORRECTION",
+  "privacy": {
+    "classification": "REPOSITORY_SAFE_AGGREGATE",
+    "private_detailed_artifact_sha256": "14216eb60e6dfd9caf383d5ec73201dd0de222af7b314b3f6a366e0265498ea1",
+    "excluded_detail": "PER_JOB_TITLES_LOCATIONS_IDENTITIES_AND_REASON_EVIDENCE"
+  },
+  "limitations": [
+    "The replay covers the current local ACTIVE detailed corpus and is not an unbiased market sample.",
+    "The bounded country/city normalizer does not attempt to solve all world geography.",
+    "Mews work mode is inferred from generic hybrid wording in current detail evidence; source data does not provide a structured mode.",
+    "Target-role overlap is deterministic lexical evidence, not semantic fit.",
+    "UNCERTAIN does not establish Prague compatibility and remains capped at REVIEW downstream."
+  ]
+}

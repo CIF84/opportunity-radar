@@ -62,5 +62,11 @@ output/mews_nested_feed/**/*
 !output/mews_nested_feed/**/aggregate_summary.json
 output/spec016-mews-state-report.txt
 
+# SPEC-017 keeps per-job market evidence private. Only sanitized aggregate
+# transitions, regression verdicts, fingerprints, and conclusions are safe.
+output/partial_geography_semantics/**/*
+!output/partial_geography_semantics/**/
+!output/partial_geography_semantics/**/aggregate_summary.json
+
 # Replaceable local health evidence.
 output/test_receipt.json

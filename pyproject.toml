@@ -27,6 +27,7 @@ opportunity-radar-semantic-allocation-audit = "opportunity_radar.semantic_alloca
 opportunity-radar-semantic-worthiness = "opportunity_radar.semantic_worthiness_validation:main"
 opportunity-radar-source-portfolio-audit = "opportunity_radar.source_portfolio_audit:main"
 opportunity-radar-wave-a-preflight = "opportunity_radar.wave_a_preflight:main"
+opportunity-radar-partial-geography-audit = "opportunity_radar.partial_geography_audit:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

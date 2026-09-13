@@ -242,7 +242,7 @@ experiments:
   - experiment_id: EXP-MEWS-NESTED-FEED-001
     type: DECLARATIVE_NESTED_FEED_EXTENSION_AND_ONBOARDING
     hypothesis: A small generic nested JSON-feed extension can ingest Mews safely and add useful market breadth without employer-specific adapter logic.
-    status: COMPLETED_AWAITING_PROMOTION_REVIEW
+    status: COMPLETED
     completed_at: "2026-09-12"
     baseline: Post-SPEC-015 production state with 21 configured employers, 3,991 usable ACTIVE details, 3,924 clusters, and 3,377 routed clusters.
     intervention: Add declarative child traversal, parent-context projection, group-count validation, deterministic duplicate-safe ordering, and configured HTML detail selectors; then run a two-pass zero-detail gate and Mews-only production ingestion.
@@ -253,4 +253,20 @@ experiments:
     decision: Recommend KEEP_CONFIGURED and classify the extension MODERATE_REUSABLE_SOURCE_VALUE; retain frozen market routing and make no semantic calls.
     limitations: Live nested-feed reuse is proven only for Mews; public source geography lacks Czech city evidence; role-family matches are diagnostic rather than semantic fit.
     related_decisions: [DR-001, DR-005, DR-012, DR-021]
-    commit_or_worktree_state: "Implemented against 76693b9 in a dirty worktree; exact run/config/private-artifact hashes and operational SQLite remain local"
+    commit_or_worktree_state: "556fd7a (Integrate declarative nested feeds and Mews); exact run/config/private-artifact hashes and operational SQLite remain local"
+
+  - experiment_id: EXP-PARTIAL-GEOGRAPHY-001
+    type: PARTIAL_GEOGRAPHY_SEMANTICS_AUDIT
+    hypothesis: A recognized compatible country with the required onsite/hybrid city absent is being misclassified as explicit incompatibility rather than insufficient evidence.
+    status: COMPLETED_AWAITING_PROMOTION_REVIEW
+    completed_at: "2026-09-12"
+    baseline: Evaluator v2 classified 575 of 4,002 ACTIVE usable details OUT_OF_SCOPE, including all 11 Mews Czechia-inclusive jobs.
+    intervention: Freeze a generic country/city truth table, distinguish accepted-country city absence from explicit incompatible geography, and replay evaluator v3 read-only over the current corpus and frozen market regressions.
+    inputs: [specs/phase4/SPEC-017-partial-geography-semantics-audit.md, experiments/partial_geography_semantics_v1.yaml, config/candidate.yaml, config/market_status_rules.yaml, tests/fixtures/phase4/partial_geography_truth_table.json, tests/fixtures/phase4/market_status_cases.json]
+    artifacts: [docs/partial_geography_semantics_audit.md, output/partial_geography_semantics/spec017-partial-geography-20260912-v1/aggregate_summary.json]
+    metrics: {active_detailed_jobs: 4002, changed_assessments: 26, out_of_scope_to_uncertain: 26, out_of_scope_to_in_scope: 0, changed_employers: 4, mews_uncertain_after: 11, mews_target_family_routed_after: 2, truth_table_passed: 15, historical_regressions_passed: 10, semantic_calls: 0, sqlite_writes: 0}
+    result: The audit proved a bounded multi-source evaluator defect. Missing city evidence under an accepted country had been treated as explicit incompatibility; the generic correction changed only OUT_OF_SCOPE to UNCERTAIN cases.
+    decision: Recommend promoting evaluator v3 while preserving the Prague-only candidate policy, REVIEW cap for uncertainty, semantic-v1 identity, and all lifecycle semantics.
+    limitations: Current-corpus replay is not an unbiased market sample; normalization remains deliberately bounded; Mews hybrid mode is inferred from generic detail wording; lexical target-family matches are not semantic fit.
+    related_decisions: [DR-012, DR-017, DR-018, DR-019, DR-020]
+    commit_or_worktree_state: "Implemented against e94d7dd in a dirty worktree; operational SQLite and per-job audit evidence remain private/local"

@@ -125,6 +125,10 @@ Invariants:
   semantic-v1 inputs.
 - `market_status.py` provides a pure post-detail candidate-market evaluator
   using declarative bounded normalization.
+- Candidate-market evidence distinguishes an explicit incompatible location
+  from incomplete evidence. For Prague-only onsite/hybrid policy, an explicit
+  non-Prague city or foreign country is `OUT_OF_SCOPE`, while an accepted country
+  with city absent is `UNCERTAIN`; the policy itself is unchanged.
 - `market_routing.py` is the shared candidate-ranking boundary. It excludes
   `OUT_OF_SCOPE` jobs before semantic processing and preserves `UNCERTAIN` jobs
   while applying a deterministic terminal `REVIEW` cap. It does not persist

@@ -60,6 +60,10 @@ def codes(value) -> set[MarketReasonCode]:
         (job(work_mode="onsite"), CurrentCandidateMarketStatus.IN_SCOPE),
         (job(work_mode="hybrid"), CurrentCandidateMarketStatus.IN_SCOPE),
         (job(location="Brno, Czechia", city="Brno", work_mode="hybrid"), CurrentCandidateMarketStatus.OUT_OF_SCOPE),
+        (job(location="Ostrava, Czechia", city="Ostrava", work_mode="onsite"), CurrentCandidateMarketStatus.OUT_OF_SCOPE),
+        (job(location="Czechia", city=None, work_mode="hybrid"), CurrentCandidateMarketStatus.UNCERTAIN),
+        (job(location="Czech Republic", city=None, country="Czech Republic", work_mode="onsite"), CurrentCandidateMarketStatus.UNCERTAIN),
+        (job(location="Germany", city=None, country="Germany", work_mode="hybrid"), CurrentCandidateMarketStatus.OUT_OF_SCOPE),
         (job(location="Chicago, United States", city="Chicago", country="United States", work_mode="onsite"), CurrentCandidateMarketStatus.OUT_OF_SCOPE),
         (job(location="Unparseable place", city=None, country=None, work_mode="onsite"), CurrentCandidateMarketStatus.UNCERTAIN),
         (job(location="Cork, IE +2 more…", city="Cork", country="Ireland", work_mode="onsite"), CurrentCandidateMarketStatus.UNCERTAIN),
@@ -81,6 +85,46 @@ def test_incomplete_multi_location_is_resolved_only_by_explicit_accepted_member(
     result = assess(value)
     assert result.status is CurrentCandidateMarketStatus.IN_SCOPE
     assert MarketReasonCode.INCOMPLETE_MULTI_LOCATION not in codes(result)
+
+
+def test_accepted_country_without_required_city_is_uncertain_not_compatible():
+    result = assess(job(
+        location="Czechia; Spain; United Kingdom",
+        city=None,
+        country=None,
+        work_mode="hybrid",
+    ))
+    assert result.status is CurrentCandidateMarketStatus.UNCERTAIN
+    assert MarketReasonCode.ACCEPTED_COUNTRY_CITY_UNKNOWN in codes(result)
+    assert MarketReasonCode.ACCEPTED_LOCATION_COMPATIBLE not in codes(result)
+    assert MarketReasonCode.FOREIGN_ONSITE_INCOMPATIBLE not in codes(result)
+
+
+def test_bounded_unknown_alternative_does_not_weaken_explicit_foreign_evidence():
+    value = SemanticJobInput(
+        "Fixture Company", "Role", "",
+        (
+            {"raw": "Germany", "city": None, "country": "Germany"},
+            {"raw": "Unresolved location", "city": None, "country": None},
+        ),
+        "hybrid",
+    )
+    result = assess(value)
+    assert result.status is CurrentCandidateMarketStatus.OUT_OF_SCOPE
+    assert MarketReasonCode.FOREIGN_ONSITE_INCOMPATIBLE in codes(result)
+
+
+def test_independent_incompatibility_dominates_partial_compatible_geography():
+    result = assess(job(
+        location="Czechia",
+        city=None,
+        country="Czechia",
+        work_mode="hybrid",
+        description="Professional Japanese is required.",
+    ))
+    assert result.status is CurrentCandidateMarketStatus.OUT_OF_SCOPE
+    assert MarketReasonCode.ACCEPTED_COUNTRY_CITY_UNKNOWN in codes(result)
+    assert MarketReasonCode.REQUIRED_LANGUAGE_INCOMPATIBLE in codes(result)
 
 
 def test_confirmed_czech_remote_with_compatible_hours_is_in_scope():

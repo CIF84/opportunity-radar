@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-017-partial-geography-semantics-audit.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -47,9 +47,46 @@ Frozen milestones:
 - SPEC-015 production onboarding: `541685ce40e959a66d2ec443b6ef748190713bb1`
 - SPEC-016 nested feeds + Mews: `556fd7aec5d77874f56d7a5b5137a06a75fbfbca`
 
-SPEC-017 now audits whether partial geography is being interpreted too strongly at
-the candidate-market boundary. This is an evidence-semantics question, not a
-candidate-policy change.
+SPEC-017 completed its read-only audit and implemented the bounded generic
+correction. Promotion awaits review. This is an evidence-semantics correction,
+not a candidate-policy change.
+
+## SPEC-017 completed result
+
+The evaluator previously treated a recognized compatible country with the
+required city absent as explicit location incompatibility. The corrected
+`phase4-current-candidate-market-v3` evaluator returns `UNCERTAIN` for that
+partial evidence while keeping explicit non-Prague Czech cities and foreign
+onsite/hybrid locations `OUT_OF_SCOPE`.
+
+Read-only replay over 4,002 ACTIVE usable details produced exactly 26 changes:
+
+```text
+OUT_OF_SCOPE -> UNCERTAIN  26
+OUT_OF_SCOPE -> IN_SCOPE    0
+```
+
+The changes are bounded to Wrike 13, Mews 11, ČSOB 1, and Schneider Electric 1.
+All 15 truth-table cases and 10 frozen historical market regressions passed.
+Candidate-policy and semantic-profile fingerprints remain unchanged; SQLite was
+byte-identical; semantic calls were zero.
+
+Mews now contributes 11 `UNCERTAIN` market-routed clusters, including two
+deterministic target-family signals. No job became `IN_SCOPE`. Assessing those
+11 cache misses would directionally cost about `$0.0291`; no calls were made.
+
+Impact: `BOUNDED_MULTI_SOURCE_CORRECTION`. Canonical report:
+`docs/partial_geography_semantics_audit.md`.
+
+## Last known operational health
+
+- SQLite schema: version 3.
+- ACTIVE jobs with usable detail assessed by SPEC-017: 4,002.
+- Existing semantic assessments: 406, unchanged.
+- Offline validation: 294 passed, 22 live tests deselected.
+- External source calls during SPEC-017: 0.
+- External semantic calls during SPEC-017: 0.
+- Operational SQLite remains private/local and intentionally uncommitted.
 
 ## SPEC-016 frozen result
 
@@ -171,10 +208,9 @@ A future explicit decision-preference update for `business_analytics` /
 
 ## Current gate
 
-> Execute SPEC-017 only: determine whether incomplete city evidence is being
-> misclassified as explicit incompatibility, replay any generic correction over
-> the full current corpus and frozen market regressions, and change evaluator
-> semantics only if the evidence proves a generic defect.
+> Review SPEC-017's bounded generic evidence-semantics correction and decide
+> whether to promote it. Do not interpret newly `UNCERTAIN` jobs as confirmed
+> Prague-compatible opportunities.
 
 No semantic calls are authorized.
 
@@ -213,16 +249,17 @@ Missing evidence must not silently become an asserted negative fact.
 
 Contingent on evidence:
 
-1. re-evaluate Mews marginal routed/target-family coverage under correct generic market semantics;
-2. continue source expansion only after the routing boundary is trustworthy;
-3. keep Erste/Zentiva source-contract issues separate;
-4. separately decide whether to version business-analytics / decision-support preference;
-5. return to deterministic rejection/stretch-envelope and semantic allocation after upstream evidence is better balanced.
+1. review and, if accepted, promote the SPEC-017 evaluator correction;
+2. decide separately whether newly uncertain jobs warrant semantic assessment;
+3. continue source expansion only after the routing boundary is trustworthy;
+4. keep Erste/Zentiva source-contract issues separate;
+5. separately decide whether to version business-analytics / decision-support preference;
+6. return to deterministic rejection/stretch-envelope and semantic allocation after upstream evidence is better balanced.
 
 ## Known open decisions
 
-- Whether SPEC-017 proves a generic market-evidence semantics defect.
-- Mews marginal source value after any justified correction.
+- Promotion of the proven SPEC-017 generic market-evidence correction.
+- Whether any newly uncertain Mews opportunities justify semantic assessment.
 - Whether Erste or Zentiva deserves the next source-contract repair experiment.
 - Whether business/data/decision-analytics receives an explicit decision-preference update.
 - Deterministic rejection / stretch-envelope architecture.

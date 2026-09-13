@@ -1,0 +1,23 @@
+schema_version: 1
+experiment_id: EXP-PARTIAL-GEOGRAPHY-001
+experiment_type: PARTIAL_GEOGRAPHY_SEMANTICS_AUDIT
+specification: specs/phase4/SPEC-017-partial-geography-semantics-audit.md
+database_path: output/opportunity_radar.sqlite3
+candidate_path: config/candidate.yaml
+taxonomy_path: config/taxonomy.yaml
+market_rules_path: config/market_status_rules.yaml
+role_audit_config_path: experiments/source_portfolio_audit_v1.yaml
+semantic_roi_results_path: output/semantic_roi_experiment.json
+truth_table_fixture_path: tests/fixtures/phase4/partial_geography_truth_table.json
+historical_regression_fixture_path: tests/fixtures/phase4/market_status_cases.json
+mews_company_id: mews
+frozen_identity:
+  previous_evaluator_version: phase4-current-candidate-market-v2
+  promoted_evaluator_version: phase4-current-candidate-market-v3
+  market_access_policy_fingerprint: 86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb
+  semantic_profile_fingerprint: 6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b
+privacy:
+  detailed_artifact: PRIVATE_LOCAL
+  aggregate_artifact: REPOSITORY_SAFE
+outputs:
+  root: output/partial_geography_semantics

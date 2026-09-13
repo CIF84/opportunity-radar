@@ -1,0 +1,80 @@
+{
+  "fixture_version": 1,
+  "cases": [
+    {
+      "case_id": "prague_hybrid",
+      "job": {"location": "Prague, Czechia", "city": "Prague", "country": "Czechia", "work_mode": "hybrid", "description": ""},
+      "expected": "IN_SCOPE"
+    },
+    {
+      "case_id": "prague_onsite",
+      "job": {"location": "Prague, Czechia", "city": "Prague", "country": "Czechia", "work_mode": "onsite", "description": ""},
+      "expected": "IN_SCOPE"
+    },
+    {
+      "case_id": "brno_hybrid",
+      "job": {"location": "Brno, Czechia", "city": "Brno", "country": "Czechia", "work_mode": "hybrid", "description": ""},
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "ostrava_onsite",
+      "job": {"location": "Ostrava, Czechia", "city": "Ostrava", "country": "Czechia", "work_mode": "onsite", "description": ""},
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "czechia_city_absent_hybrid",
+      "job": {"location": "Czechia", "city": null, "country": "Czechia", "work_mode": "hybrid", "description": ""},
+      "expected": "UNCERTAIN"
+    },
+    {
+      "case_id": "czechia_city_absent_onsite",
+      "job": {"location": "Czechia", "city": null, "country": "Czechia", "work_mode": "onsite", "description": ""},
+      "expected": "UNCERTAIN"
+    },
+    {
+      "case_id": "czech_alias_city_absent_hybrid",
+      "job": {"location": "Czech Republic", "city": null, "country": null, "work_mode": "hybrid", "description": ""},
+      "expected": "UNCERTAIN"
+    },
+    {
+      "case_id": "germany_hybrid",
+      "job": {"location": "Germany", "city": null, "country": "Germany", "work_mode": "hybrid", "description": ""},
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "united_states_onsite",
+      "job": {"location": "United States", "city": null, "country": "United States", "work_mode": "onsite", "description": ""},
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "united_states_remote_restricted",
+      "job": {"location": "Remote - United States", "city": null, "country": "United States", "work_mode": "remote", "description": "Candidates must reside in the United States."},
+      "expected": "OUT_OF_SCOPE"
+    },
+    {
+      "case_id": "prague_work_mode_unspecified",
+      "job": {"location": "Prague, Czechia", "city": "Prague", "country": "Czechia", "work_mode": "unspecified", "description": ""},
+      "expected": "UNCERTAIN"
+    },
+    {
+      "case_id": "czechia_city_and_mode_absent",
+      "job": {"location": "Czechia", "city": null, "country": "Czechia", "work_mode": "unspecified", "description": ""},
+      "expected": "UNCERTAIN"
+    },
+    {
+      "case_id": "location_absent",
+      "job": {"location": "", "city": null, "country": null, "work_mode": "onsite", "description": ""},
+      "expected": "UNCERTAIN"
+    },
+    {
+      "case_id": "mews_country_alternatives_hybrid_text",
+      "job": {"location": "Czechia; Spain; United Kingdom", "city": null, "country": null, "work_mode": "unspecified", "description": "Flexible, hybrid working options."},
+      "expected": "UNCERTAIN"
+    },
+    {
+      "case_id": "czechia_partial_with_japanese_required",
+      "job": {"location": "Czechia", "city": null, "country": "Czechia", "work_mode": "hybrid", "description": "Professional Japanese is required."},
+      "expected": "OUT_OF_SCOPE"
+    }
+  ]
+}

@@ -14,7 +14,7 @@ from opportunity_radar.phase3_config import Phase3ConfigurationError, stable_jso
 from opportunity_radar.phase3_models import CandidateProfile, SemanticJobInput
 
 
-EVALUATOR_VERSION = "phase4-current-candidate-market-v2"
+EVALUATOR_VERSION = "phase4-current-candidate-market-v3"
 
 
 class CurrentCandidateMarketStatus(str, Enum):
@@ -31,6 +31,7 @@ class MarketReasonEffect(str, Enum):
 
 class MarketReasonCode(str, Enum):
     ACCEPTED_LOCATION_COMPATIBLE = "ACCEPTED_LOCATION_COMPATIBLE"
+    ACCEPTED_COUNTRY_CITY_UNKNOWN = "ACCEPTED_COUNTRY_CITY_UNKNOWN"
     FOREIGN_ONSITE_INCOMPATIBLE = "FOREIGN_ONSITE_INCOMPATIBLE"
     EXPLICIT_FOREIGN_REGION_INCOMPATIBLE = "EXPLICIT_FOREIGN_REGION_INCOMPATIBLE"
     REMOTE_RESIDENCE_CONFIRMED = "REMOTE_RESIDENCE_CONFIRMED"
@@ -340,6 +341,7 @@ def evaluate_current_candidate_market(
     incomplete = bool(incomplete_values)
 
     countries: list[tuple[str, str]] = []
+    location_geography: list[tuple[str | None, str | None, str | None]] = []
     explicit_region_evidence_ids: list[str] = []
     for index, location in enumerate(locations):
         raw = location.get("country") or location.get("raw") or location.get("city")
@@ -348,13 +350,23 @@ def evaluate_current_candidate_market(
             country = _country_from_value(location.get("raw"), rules, structured=False)
         if country is None:
             country = _country_from_value(location.get("city"), rules, structured=True)
+        city = _text(location.get("city")).strip() or _city_from_value(
+            location.get("raw"), rules,
+        )
+        evidence_id = None
         if country:
             evidence_id = builder.add("location", f"locations[{index}]", raw, country)
             countries.append((country, evidence_id))
             if _region_country_from_value(location.get("raw"), rules) == country:
                 explicit_region_evidence_ids.append(evidence_id)
+        location_geography.append((country, city or None, evidence_id))
 
     accepted_locations = policy.onsite_hybrid["accepted_locations"]
+    accepted_countries = {
+        _search_text(accepted.get("country"))
+        for accepted in accepted_locations
+        if accepted.get("country")
+    }
     accepted_matches = [
         index for index, location in enumerate(locations)
         if any(_location_matches(location, accepted, rules) for accepted in accepted_locations)
@@ -428,10 +440,32 @@ def evaluate_current_candidate_market(
         if accepted_matches:
             ids = [builder.add("accepted_location", f"locations[{index}]", locations[index].get("raw") or locations[index], "accepted") for index in accepted_matches]
             reason(MarketReasonCode.ACCEPTED_LOCATION_COMPATIBLE, MarketReasonEffect.SUPPORTS_IN_SCOPE, ids + [mode_id], "Location matches onsite_hybrid.accepted_locations")
-        elif countries and not incomplete:
+        elif incomplete:
+            # The earlier INCOMPLETE_MULTI_LOCATION reason preserves uncertainty.
+            pass
+        elif any(
+            country is not None
+            and _search_text(country) in accepted_countries
+            and city is None
+            for country, city, _ in location_geography
+        ):
+            ids = [
+                evidence_id
+                for country, city, evidence_id in location_geography
+                if evidence_id is not None
+                and _search_text(country) in accepted_countries
+                and city is None
+            ]
+            reason(
+                MarketReasonCode.ACCEPTED_COUNTRY_CITY_UNKNOWN,
+                MarketReasonEffect.SUPPORTS_UNCERTAIN,
+                ids + [mode_id],
+                "Country matches an accepted onsite/hybrid country, but the required city is absent.",
+            )
+        elif countries:
             effect = MarketReasonEffect.SUPPORTS_OUT_OF_SCOPE if policy.onsite_hybrid["outside_accepted_locations"] == "OUT_OF_SCOPE" else MarketReasonEffect.SUPPORTS_UNCERTAIN
             reason(MarketReasonCode.FOREIGN_ONSITE_INCOMPATIBLE, effect, [evidence_id for _, evidence_id in countries] + [mode_id], f"onsite_hybrid.outside_accepted_locations={policy.onsite_hybrid['outside_accepted_locations']}; relocation.normal_shortlist={policy.relocation['normal_shortlist']}")
-        elif not incomplete:
+        else:
             reason(MarketReasonCode.GEOGRAPHY_UNKNOWN, MarketReasonEffect.SUPPORTS_UNCERTAIN, (mode_id,), "Onsite/hybrid geography cannot be established")
     elif mode == "remote":
         residence = str(policy.remote["residence_country"])
