@@ -7,7 +7,7 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-019-stretch-evidence-boundary.md
+specs/phase4/SPEC-020-credential-semantics-human-validation.md
 ```
 
 Status: `APPROVED_FOR_IMPLEMENTATION`.
@@ -32,14 +32,9 @@ and explain which active opportunities deserve a candidate's attention.
 
 ## Current phase
 
-Phases 1–3 are implemented. Phase 4 now has committed implementations for candidate
-market access/routing, opportunity clustering/preferred variant, versioned decision
-preferences, seniority guard, retrospective replay, residual market normalization,
-prospective-validation preparation, semantic compute-allocation audit, completed
-human compute-worthiness validation, source-portfolio/role-coverage audit, Wave A
-source-contract preflight, bounded production onboarding, generic nested feeds with
-Mews, corrected partial-geography market semantics, and bounded candidate-direction
-promotion.
+Phases 1–3 are implemented. Phase 4 has validated market routing, clustering,
+preferences, source breadth, semantic compute-worthiness, and a diagnostic stretch
+evidence boundary. Runtime stretch/rejection remains intentionally unpromoted.
 
 Frozen recent milestones:
 
@@ -50,219 +45,213 @@ Frozen recent milestones:
 - SPEC-017 partial-geography semantics: `1871a082874f27db606796fc06e348fbee71776c`
 - SPEC-018 candidate direction: `34fdd1b601309a025ec72af6a4275f1dcfc72dde`
 
-SPEC-019 is a zero-call diagnostic experiment defining the evidence boundary between
-current fit, manageable stretch, excessive stretch, and unresolved capability
-distance. It must not change runtime ranking/recommendation behavior.
+SPEC-019 is implemented locally and awaiting commit/promotion review in the normal
+workflow. Its diagnostic result motivates SPEC-020: degree/credential evidence is
+the dominant unresolved source of excessive-stretch classifications.
 
-## SPEC-018 frozen result
+## SPEC-019 diagnostic result
 
-One narrowly supported preference was promoted:
-
-```text
-account_management_execution  PREFERENCE  NEGATIVE
-```
-
-Candidate profile is now version 4 and decision preferences version 2. Matching is
-title-only and does not penalize sales/revenue operations, commercial strategy,
-retention strategy, business development, or descriptions merely mentioning account
-managers.
-
-Counterfactual evidence before promotion:
+Frozen 60-item sample:
 
 ```text
-frozen 60-item sample          4 matches, all NOT_WORTH, 0 WORTH demotions
-compatible cached population  1/20 affected, 1 score change, 0 recommendation changes
-frozen Phase 4 retrospective  0/30 affected
-semantic reassessments         0
+CURRENT_FIT          7
+MANAGEABLE_STRETCH  24
+EXCESSIVE_STRETCH    9
+UNRESOLVED           20
 ```
 
-Business analytics, decision intelligence, AI transformation, and implementation
-ownership were already represented sufficiently. Broader automation-risk, QA/testing,
-technical-support, and mundane-administration preferences were not promoted.
+Safety/validation result:
 
-Two frozen SPEC-007 replay tests intentionally skip when the current decision-policy
-identity differs from their historical frozen identity. They are explicit identity-
-mismatch safeguards, not broken tests.
+- human WORTH protection: 3/3;
+- excessive-stretch directional precision: 100%;
+- human-evident excessive coverage: 39.1%;
+- market-only false excessive: 0;
+- preference-only false excessive: 0.
 
-## Why SPEC-019 exists
-
-The frozen 60-opportunity compute-worthiness experiment found only three human
-`WORTH_DEEP_ASSESSMENT` cases. Their useful qualitative pattern was:
+Current-corpus diagnostic replay:
 
 ```text
-desired trajectory is strong
-+
-qualification fit is uncertain but plausibly bridgeable
-=
-deep reasoning has decision value
+clusters              3935
+CURRENT_FIT            191
+MANAGEABLE_STRETCH     281
+EXCESSIVE_STRETCH      171
+UNRESOLVED            3292
 ```
 
-Many NOT_WORTH cases instead had explicit core professional/domain/seniority gaps
-requiring substantial requalification. Others were rejected only for preference or
-market reasons and must not be mislabeled as excessive capability stretch.
+The critical finding is that 144 of 171 current-corpus excessive results are driven
+by mandatory-degree evidence. This concentration is too large to promote runtime
+stretch semantics without human validation of credential wording and substitutability.
 
-SPEC-019 tests whether explicit evidence can safely separate:
+SPEC-019 therefore remains diagnostic: no stretch filtering, ranking, recommendation,
+or semantic allocation was introduced.
+
+## Why SPEC-020 exists
+
+A formal credential gap and a capability gap are not necessarily the same object.
+
+SPEC-020 validates the distinction between:
 
 ```text
-CURRENT_FIT
-MANAGEABLE_STRETCH
-EXCESSIVE_STRETCH
-UNRESOLVED
+CAPABILITY DISTANCE
+Can the candidate plausibly perform the work?
+
+CREDENTIAL COMPATIBILITY
+Does the employer explicitly require a formal credential the candidate lacks?
+
+CREDENTIAL SUBSTITUTABILITY
+Does equivalent professional experience satisfy or plausibly substitute?
+
+APPLICATION COMPETITIVENESS
+How likely is the employer to accept the gap?
 ```
 
-without using preference as a proxy for capability.
+The candidate has no completed bachelor's degree but approximately 20 years of
+senior technology/business experience. The experiment must not assume either that
+experience always substitutes or that a degree phrase is always decisive.
 
-## Stretch conceptual boundary
+## SPEC-020 human-validation design
 
-Stretch is a capability-distance object only.
+Primary source population: current SPEC-019 degree-driven `EXCESSIVE_STRETCH`
+cases, historically reported as 144. Preparation must verify the actual reproducible
+population and snapshot identity before sampling.
 
-Examples:
+Target human sample: 50 cases, deterministically stratified across employer,
+role/profession family, credential wording pattern, seniority/years context, and
+whether degree evidence is the sole or one of multiple stretch reasons.
 
-- an account-management role may be `CURRENT_FIT` but unattractive;
-- an AI-transformation role may be `MANAGEABLE_STRETCH` and attractive;
-- a senior ML-engineer role may be `EXCESSIVE_STRETCH` even if attractive;
-- a US-only role may be market-ineligible independently of stretch;
-- a mundane HR-data role may be current-fit/manageable but unattractive.
+Human review asks two independent questions.
 
-SPEC-019 must keep market eligibility, capability, preference, stretch, semantic
-compute worthiness, and recommendation as independent objects.
+Question A — source credential semantics:
+
+```text
+HARD_CREDENTIAL
+DEGREE_OR_EQUIVALENT_EXPERIENCE
+PREFERRED_CREDENTIAL
+GENERIC_OR_NONDECISIVE_CREDENTIAL
+AMBIGUOUS_CREDENTIAL
+INVALID_OR_STALE_EVIDENCE
+```
+
+Question B — practical consequence of the missing bachelor's degree:
+
+```text
+DEGREE_GAP_DECISIVE
+EXPERIENCE_PLAUSIBLY_SUBSTITUTES
+DEGREE_GAP_NOT_DECISIVE
+NEED_MORE_INFORMATION
+```
+
+The packet must preserve exact modal wording such as `must`, `required`, `preferred`,
+`or equivalent experience`, and `ideally` rather than paraphrasing it away.
+
+## Blindness and privacy
+
+Before completion, human reviewers must not see:
+
+- current `EXCESSIVE_STRETCH` classification;
+- hidden rule expectation;
+- semantic score/recommendation;
+- cache/triage state;
+- interim aggregate performance that could bias later judgments.
+
+Vacancy-level evidence, sample manifest, human labels/notes, and detailed final
+results remain private/local and Git-ignored. Only sanitized aggregate evidence is
+repository-safe.
 
 ## Candidate capability baseline
 
-Current candidate capability evidence includes:
+Current candidate facts remain unchanged:
 
-- `business_analytics`: EXPERT / HIGH;
-- `decision_support`: EXPERT / HIGH;
-- `forecasting`: EXPERT / HIGH;
-- `business_operations`: EXPERT / HIGH;
-- `commercial_strategy`: EXPERT / HIGH;
-- `transformation`: ADVANCED / HIGH;
-- `ai_strategy` / `ai_adoption`: INTERMEDIATE;
-- SQL/Python/software architecture/product development: developing or intermediate as configured.
+- no completed bachelor's degree;
+- approximately 20 years technology/business experience;
+- expert business analytics/decision support/business operations/commercial strategy;
+- advanced transformation and leadership evidence;
+- intermediate AI strategy/adoption;
+- developing SQL/Python/software architecture/product-development depth.
 
-Interest in learning a skill must not upgrade capability evidence.
+Interest in a role or field must not upgrade capability evidence.
 
-## SPEC-012 human evidence
+## Candidate direction/preferences
 
-Frozen labels:
+Candidate profile version 4 / decision preference version 2 includes the narrow
+negative `account_management_execution` preference from SPEC-018. Preferences must
+not influence SPEC-020 sample selection or credential semantics.
 
-```text
-WORTH_DEEP_ASSESSMENT      3
-NOT_WORTH_DEEP_ASSESSMENT 57
-NEED_MORE_INFO             0
-```
+## Market/source state
 
-The audit must not treat all 57 NOT_WORTH items as excessive stretch. Human reasons
-must be separated into stretch-related, preference-only, market-only, unavailable/
-insufficient-evidence, and other categories.
+Market policy remains Prague-only for normal onsite/hybrid work, with incomplete
+compatible-country city evidence correctly treated as `UNCERTAIN` under SPEC-017.
 
-All three WORTH cases are protected: a tested deterministic rule set that classifies
-one as `EXCESSIVE_STRETCH` must stop for review rather than being broadened/tuned
-around the example.
-
-## SPEC-017 market semantics
-
-Market policy remains independent and unchanged:
-
-```text
-Prague hybrid                  -> IN_SCOPE
-explicit Brno hybrid           -> OUT_OF_SCOPE
-Czechia hybrid, city absent    -> UNCERTAIN
-explicit Germany hybrid        -> OUT_OF_SCOPE
-```
-
-Market incompatibility must not masquerade as capability stretch.
-
-## Source portfolio state
-
-Production sources include the original portfolio plus Keboola, Commerzbank, KPMG,
-and Mews. No new source integration is authorized during SPEC-019.
-
-## Confirmed candidate market policy
-
-- Normal onsite/hybrid work: Prague only.
-- Remote work: acceptable from Czechia when Czech-based employment/engagement and reasonably European-compatible hours are confirmed.
-- Missing remote employment access: `UNCERTAIN`.
-- Explicit incompatible foreign restriction: `OUT_OF_SCOPE`.
-- Relocation: exceptional, not normal shortlist policy.
-- Czech work access: confirmed; foreign authorization must not be inferred.
-- Czech and English: work-capable; Slovak comprehension supported; French not currently work-capable; Japanese `NONE`.
-- Candidate-market `UNCERTAIN`: maximum recommendation `REVIEW`.
-- Explicit junior/graduate evidence: candidate-configurable maximum `LOW_PRIORITY`.
-- Domain/function/employer/product aversions are soft and tradeable.
+Production sources include the earlier portfolio plus Keboola, Commerzbank, KPMG,
+and Mews. No new source integration is authorized during SPEC-020.
 
 ## Current gate
 
-> Execute SPEC-019 as a diagnostic zero-call stretch-evidence audit. Do not filter,
-> rank, cap, reject, or promote opportunities differently based on stretch in this
-> packet.
+> Implement SPEC-020 preparation only. Freeze and validate the credential-semantics
+> human experiment, but do not begin human review until preparation is reviewed and
+> committed.
 
-The key question is whether cheap explicit evidence can identify obvious outer
-boundaries while preserving the interesting ambiguous middle for semantic reasoning.
+The first implementation deliverable must report the verified degree-driven
+population, frozen sample/reserves, blindness/privacy proof, and validation. It may
+present reviews only after explicit approval to begin the human phase.
 
-## SPEC-019 protected boundaries
+## Protected boundaries
 
 Do not change:
 
+- SPEC-019 stretch semantics/source evidence;
 - candidate profile/capabilities/preferences;
 - market policy/status semantics;
+- hard eligibility;
 - source configuration/adapters;
 - semantic-v1 model/prompt/reasoning/contract;
 - Phase 3 scoring weights;
-- decision-preference effect weights;
-- clustering semantics;
-- seniority guard;
+- clustering/seniority/lifecycle semantics;
 - historical judgments;
 - semantic assessments/cache;
-- Phase 1/2 lifecycle/identity contracts.
+- runtime ranking/recommendation/allocation behavior.
 
-No external semantic or live-source calls are authorized.
+No external semantic calls are authorized. Operational SQLite must remain read-only.
 
-## Intended architecture
+## Intended architecture under investigation
 
 ```text
-SOURCE EVIDENCE
-        ↓
-HARD / MARKET ELIGIBILITY
-        ↓
 CAPABILITY FIT
         ↓
-CAREER DIRECTION + PREFERENCES
+CREDENTIAL COMPATIBILITY
         ↓
-STRETCH DISTANCE
-        ↓
-SEMANTIC COMPUTE ALLOCATION
-        ↓
-RANKED OPPORTUNITY FEED
+APPLICATION COMPETITIVENESS
 ```
 
-A later deterministic rejection layer may combine independently validated negative
-evidence, but SPEC-019 implements only the stretch audit contract.
+This is a hypothesis to test, not a pre-approved runtime architecture.
 
-## Direction after SPEC-019
+## Direction after SPEC-020
 
-Contingent on evidence:
+Contingent on completed human evidence:
 
-1. review whether stretch classes are precise enough for a later runtime experiment;
-2. if safe, combine only independently validated hard negatives in a separate deterministic-rejection packet;
-3. compare resulting compute-allocation economics against SPEC-011/012;
-4. preserve a control/exploration path before suppressing semantic reasoning broadly;
-5. return to source expansion only as a separate portfolio decision;
-6. keep semantic-v1 frozen until the upstream allocation architecture is validated.
+1. determine whether credentials belong inside stretch or a separate compatibility object;
+2. correct degree semantics only in a separately approved packet;
+3. rerun stretch replay after any correction;
+4. only then design the combined deterministic rejection layer;
+5. compare compute-allocation economics against SPEC-011/012;
+6. preserve an exploration/control path before broad semantic suppression;
+7. keep semantic-v1 frozen until upstream allocation architecture is validated.
 
 ## Known open decisions
 
-- Whether stretch evidence can safely support a later runtime boundary.
-- Deterministic rejection architecture after stretch validation.
-- Exploration/control rate for any future compute-allocation gate.
+- Credential semantics and degree substitutability.
+- Whether SPEC-019 stretch can later support runtime boundaries.
+- Deterministic rejection architecture after credential validation.
+- Exploration/control rate for future compute allocation.
 - Semantic-call budget for later prospective ranking validation.
-- Whether Erste or Zentiva receives a future source-contract repair packet.
+- Future source-contract work for Erste/Zentiva/Wave B.
 - Durable private backup/retention for operational SQLite and detailed human evidence.
 
 ## Explicitly do not build/tune yet
 
-- runtime stretch score/caps/recommendations;
+- runtime stretch filtering/rejection;
 - combined deterministic rejection;
+- degree-policy correction before human validation;
 - autonomous preference learning;
 - semantic prompt/model/weight tuning;
 - cheap secondary LLM routing;
