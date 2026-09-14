@@ -1,0 +1,401 @@
+{
+  "schema_version": 1,
+  "evidence_class": "SANITIZED_AGGREGATE_EXPERIMENT_RESULT",
+  "experiment_id": "EXP-STRETCH-EVIDENCE-001",
+  "experiment_type": "STRETCH_EVIDENCE_BOUNDARY_AUDIT",
+  "run_id": "spec019-stretch-evidence-20260913-v3",
+  "created_at": "2026-09-13T16:18:30.640569+00:00",
+  "stretch_contract": {
+    "classes": [
+      "CURRENT_FIT",
+      "MANAGEABLE_STRETCH",
+      "EXCESSIVE_STRETCH",
+      "UNRESOLVED"
+    ],
+    "requirement_strengths": [
+      "CORE",
+      "PREFERRED",
+      "CONTEXTUAL"
+    ],
+    "support_states": [
+      "SUPPORTED",
+      "PARTIAL",
+      "UNSUPPORTED",
+      "UNKNOWN"
+    ],
+    "gap_severities": [
+      "NONE",
+      "MATERIAL",
+      "DECISIVE",
+      "UNRESOLVED"
+    ],
+    "runtime_promoted": false,
+    "preference_is_not_capability": true,
+    "market_status_is_not_capability": true
+  },
+  "frozen_human_sample": {
+    "sample_size": 60,
+    "reviewed": 60,
+    "class_distribution": {
+      "CURRENT_FIT": 7,
+      "EXCESSIVE_STRETCH": 9,
+      "MANAGEABLE_STRETCH": 24,
+      "UNRESOLVED": 20
+    },
+    "human_adjudication_categories": {
+      "MARKET_ONLY_REJECTION": 11,
+      "PREFERENCE_ONLY_OR_OTHER_REJECTION": 8,
+      "STRETCH_RELATED_REJECTION": 33,
+      "UNAVAILABLE_OR_INSUFFICIENT_EVIDENCE": 5,
+      "WORTH_QUALIFICATION_UNCERTAINTY": 3
+    },
+    "worth_count": 3,
+    "worth_excessive_count": 0,
+    "worth_protection_recall": 1.0,
+    "human_evident_excessive_count": 23,
+    "detected_human_evident_excessive": 9,
+    "excessive_detection_coverage": 0.391304,
+    "excessive_prediction_precision": 1.0,
+    "preference_only_false_excessive": 0,
+    "market_only_false_excessive": 0,
+    "current_fit_predictions": 7,
+    "human_supported_current_fit_predictions": 7,
+    "current_fit_precision_where_human_supported": 1.0,
+    "unresolved_rate": 0.333333
+  },
+  "compute_allocation_counterfactuals": {
+    "MANAGEABLE_PLUS_UNRESOLVED": {
+      "semantic_calls": 44,
+      "call_reduction": 16,
+      "call_reduction_fraction": 0.266667,
+      "projected_cost_usd": 0.1165692,
+      "human_worth_retained": 3,
+      "human_worth_total": 3,
+      "human_worth_recall": 1.0
+    },
+    "ALL_EXCEPT_EXCESSIVE": {
+      "semantic_calls": 51,
+      "call_reduction": 9,
+      "call_reduction_fraction": 0.15,
+      "projected_cost_usd": 0.1351143,
+      "human_worth_retained": 3,
+      "human_worth_total": 3,
+      "human_worth_recall": 1.0
+    },
+    "ALL_EXCEPT_EXCESSIVE_PLUS_EXPLORATION": {
+      "semantic_calls": 52,
+      "call_reduction": 8,
+      "call_reduction_fraction": 0.133333,
+      "projected_cost_usd": 0.1377636,
+      "human_worth_retained": 3,
+      "human_worth_total": 3,
+      "human_worth_recall": 1.0
+    }
+  },
+  "current_corpus_counterfactuals": {
+    "MANAGEABLE_PLUS_UNRESOLVED": {
+      "hypothetical_semantic_candidates": 3097,
+      "reduction_from_all_routed": 303,
+      "reduction_fraction": 0.089118,
+      "projected_cost_usd": 8.2048821
+    },
+    "ALL_EXCEPT_EXCESSIVE": {
+      "hypothetical_semantic_candidates": 3245,
+      "reduction_from_all_routed": 155,
+      "reduction_fraction": 0.045588,
+      "projected_cost_usd": 8.5969785
+    }
+  },
+  "current_corpus": {
+    "cluster_count": 3935,
+    "class_distribution": {
+      "CURRENT_FIT": 191,
+      "EXCESSIVE_STRETCH": 171,
+      "MANAGEABLE_STRETCH": 281,
+      "UNRESOLVED": 3292
+    },
+    "routed_cluster_count": 3400,
+    "routed_class_distribution": {
+      "CURRENT_FIT": 148,
+      "EXCESSIVE_STRETCH": 155,
+      "MANAGEABLE_STRETCH": 254,
+      "UNRESOLVED": 2843
+    },
+    "hypothetical_deep_reasoning_candidates": 3097,
+    "requirement_concept_counts": {
+      "account_management": 132,
+      "accounting_control": 34,
+      "ai_technology_depth": 188,
+      "ai_transformation": 6,
+      "bachelors_degree": 155,
+      "business_operations": 10,
+      "cloud_networking": 3,
+      "cloud_networking_depth": 2,
+      "legal_profession": 5,
+      "machine_learning_engineering": 16,
+      "machine_learning_engineering_depth": 1,
+      "medical_clinical_profession": 5,
+      "project_program_management": 57,
+      "security_architecture": 9,
+      "security_architecture_depth": 6,
+      "software_engineering": 90,
+      "software_engineering_depth": 19,
+      "warehouse_operations": 6
+    },
+    "decisive_reason_counts": {
+      "ELEVATED_ROLE_DEPTH_BEYOND_DEVELOPING_CAPABILITY": 21,
+      "MANDATORY_CREDENTIAL_ABSENT": 144,
+      "REQUIRED_PROFESSIONAL_YEARS_BEYOND_DEVELOPING_CAPABILITY": 7
+    },
+    "class_counts_by_employer": {
+      "cisco": {
+        "CURRENT_FIT": 35,
+        "EXCESSIVE_STRETCH": 11,
+        "MANAGEABLE_STRETCH": 19,
+        "UNRESOLVED": 83
+      },
+      "commerzbank": {
+        "MANAGEABLE_STRETCH": 1,
+        "UNRESOLVED": 21
+      },
+      "csob": {
+        "EXCESSIVE_STRETCH": 1,
+        "MANAGEABLE_STRETCH": 3,
+        "UNRESOLVED": 110
+      },
+      "deutsche_boerse_group": {
+        "CURRENT_FIT": 1,
+        "MANAGEABLE_STRETCH": 8,
+        "UNRESOLVED": 73
+      },
+      "ey": {
+        "CURRENT_FIT": 10,
+        "EXCESSIVE_STRETCH": 122,
+        "MANAGEABLE_STRETCH": 156,
+        "UNRESOLVED": 1626
+      },
+      "gooddata": {
+        "CURRENT_FIT": 1,
+        "MANAGEABLE_STRETCH": 5,
+        "UNRESOLVED": 1
+      },
+      "honeywell": {
+        "UNRESOLVED": 3
+      },
+      "johnson_johnson": {
+        "CURRENT_FIT": 42,
+        "EXCESSIVE_STRETCH": 24,
+        "MANAGEABLE_STRETCH": 11,
+        "UNRESOLVED": 395
+      },
+      "keboola": {
+        "CURRENT_FIT": 1,
+        "UNRESOLVED": 2
+      },
+      "kiwi_com": {
+        "MANAGEABLE_STRETCH": 5,
+        "UNRESOLVED": 2
+      },
+      "kpmg": {
+        "CURRENT_FIT": 1,
+        "UNRESOLVED": 28
+      },
+      "mews": {
+        "UNRESOLVED": 11
+      },
+      "pfizer": {
+        "CURRENT_FIT": 2,
+        "MANAGEABLE_STRETCH": 1,
+        "UNRESOLVED": 14
+      },
+      "pure_storage": {
+        "CURRENT_FIT": 27,
+        "EXCESSIVE_STRETCH": 4,
+        "MANAGEABLE_STRETCH": 36,
+        "UNRESOLVED": 142
+      },
+      "red_hat": {
+        "CURRENT_FIT": 9,
+        "EXCESSIVE_STRETCH": 1,
+        "MANAGEABLE_STRETCH": 5,
+        "UNRESOLVED": 22
+      },
+      "roche": {
+        "CURRENT_FIT": 5,
+        "UNRESOLVED": 25
+      },
+      "sap": {
+        "MANAGEABLE_STRETCH": 1,
+        "UNRESOLVED": 28
+      },
+      "schneider_electric": {
+        "CURRENT_FIT": 46,
+        "EXCESSIVE_STRETCH": 7,
+        "MANAGEABLE_STRETCH": 15,
+        "UNRESOLVED": 565
+      },
+      "siemens": {
+        "CURRENT_FIT": 1,
+        "MANAGEABLE_STRETCH": 2,
+        "UNRESOLVED": 47
+      },
+      "wpp": {
+        "CURRENT_FIT": 1,
+        "EXCESSIVE_STRETCH": 1,
+        "MANAGEABLE_STRETCH": 9,
+        "UNRESOLVED": 41
+      },
+      "wrike": {
+        "CURRENT_FIT": 9,
+        "MANAGEABLE_STRETCH": 4,
+        "UNRESOLVED": 53
+      }
+    },
+    "boundary_overlap": {
+      "market_status": {
+        "IN_SCOPE": {
+          "CURRENT_FIT": 7,
+          "MANAGEABLE_STRETCH": 32,
+          "UNRESOLVED": 108
+        },
+        "UNCERTAIN": {
+          "CURRENT_FIT": 141,
+          "EXCESSIVE_STRETCH": 155,
+          "MANAGEABLE_STRETCH": 222,
+          "UNRESOLVED": 2735
+        },
+        "OUT_OF_SCOPE": {
+          "CURRENT_FIT": 43,
+          "EXCESSIVE_STRETCH": 16,
+          "MANAGEABLE_STRETCH": 27,
+          "UNRESOLVED": 449
+        }
+      },
+      "preference_effect_present": {
+        "CURRENT_FIT": 1,
+        "UNRESOLVED": 13
+      },
+      "seniority_guard_active": {},
+      "semantic_cache_status": {
+        "COMPATIBLE_SEMANTIC_CACHE_HIT": {
+          "CURRENT_FIT": 29,
+          "EXCESSIVE_STRETCH": 5,
+          "MANAGEABLE_STRETCH": 18,
+          "UNRESOLVED": 212
+        },
+        "SEMANTIC_CACHE_MISS": {
+          "CURRENT_FIT": 162,
+          "EXCESSIVE_STRETCH": 166,
+          "MANAGEABLE_STRETCH": 263,
+          "UNRESOLVED": 3080
+        }
+      }
+    },
+    "evidence_coverage": {
+      "any_core_requirement": 663,
+      "resolved_class": 643,
+      "unresolved_class": 3292
+    },
+    "population_metadata": {
+      "active_job_count": 4044,
+      "active_usable_detail_count": 4002,
+      "unassessable_detail_count": 42,
+      "cluster_count": 3935,
+      "normal_candidate_count": 3400,
+      "market_status_counts": {
+        "UNCERTAIN": 3253,
+        "OUT_OF_SCOPE": 535,
+        "IN_SCOPE": 147
+      },
+      "cache_status_counts": {
+        "SEMANTIC_CACHE_MISS": 3671,
+        "COMPATIBLE_SEMANTIC_CACHE_HIT": 264
+      }
+    }
+  },
+  "fingerprints": {
+    "audit_config": "6f76f792da855cce9421d36ce598ff7727b2a03ea6597e9420389d4874bcd0fa",
+    "stretch_rules": "c9388aa47a4422b37a83217e692bd281318be8e028469709744304bfa66b848f",
+    "candidate_capability_evidence": "38f07b5ebf7ed5a8912e9c1f3deff9e3477f1a8e7e9ddbff1f6c6ab08bc16f35",
+    "candidate_semantic_profile": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "candidate_market_policy": "86c00d7cfb8b40b02c141b955ce482575464396a3097065fd435e64d11411bdb",
+    "candidate_decision_preferences": "394342b487cc3b7b36f6f8a2cd38a5ea2f6c747af73f9f5f409b7fcb3ca359f5",
+    "worthiness_manifest_sha256": "0d4962855832cec9431f2348643f46103c30c6fc5d826c24e8d502c4989e8746",
+    "worthiness_judgments_sha256": "7a691125761147a3f3991959122e4e4b1eafe2c340f124331412f74d4ca9b955",
+    "worthiness_result_sha256": "81f64932f91c504efa1f03f3a9876600dccb6c1199663f03acd377e2eb53cd39",
+    "database_sha256": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "estimated_cost_per_semantic_call_usd": 0.0026493
+  },
+  "safety_gates": [
+    {
+      "gate": "frozen_worth_protected",
+      "status": "PASS"
+    },
+    {
+      "gate": "preference_only_not_mislabeled_excessive",
+      "status": "PASS"
+    },
+    {
+      "gate": "market_only_not_mislabeled_excessive",
+      "status": "PASS"
+    },
+    {
+      "gate": "explicit_profession_mismatch_supported",
+      "status": "PASS"
+    },
+    {
+      "gate": "missing_evidence_remains_unresolved",
+      "status": "PASS"
+    },
+    {
+      "gate": "preferences_excluded_from_stretch_identity",
+      "status": "PASS"
+    },
+    {
+      "gate": "zero_semantic_calls_and_cache_mutation",
+      "status": "PASS"
+    },
+    {
+      "gate": "deterministic_replay",
+      "status": "PASS"
+    }
+  ],
+  "integrity": {
+    "database_sha256_before": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "database_sha256_after": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "database_unchanged": true,
+    "judgments_sha256_before": "7a691125761147a3f3991959122e4e4b1eafe2c340f124331412f74d4ca9b955",
+    "judgments_sha256_after": "7a691125761147a3f3991959122e4e4b1eafe2c340f124331412f74d4ca9b955",
+    "judgments_unchanged": true,
+    "semantic_calls": 0,
+    "semantic_cache_writes": 0,
+    "live_source_calls": 0,
+    "sqlite_writes": 0,
+    "lifecycle_changes": 0,
+    "cluster_changes": 0,
+    "recommendation_changes": 0,
+    "preference_inputs_absent": true,
+    "market_inputs_absent": true,
+    "deterministic_replay": true,
+    "git": {
+      "commit": "bc14a53c12bc6e8d3ce9a18caecefad3512bff5c",
+      "dirty": true,
+      "worktree_status_fingerprint": "b2c71bd07d8aab2e730e770a4300019e88532444e387fc44336857c62dbaed64"
+    }
+  },
+  "architecture_conclusion": "A separate auditable stretch object is feasible, but the conservative v1 rules leave substantial evidence unresolved and remain diagnostic only.",
+  "recommendation": "REVIEW_FOR_LATER_RUNTIME_EXPERIMENT",
+  "privacy": {
+    "classification": "REPOSITORY_SAFE_AGGREGATE",
+    "private_detailed_artifact_sha256": "600df8073b6d1073811551ee62a657665f8145c59887493e90d3909a659bfedd",
+    "excluded_detail": "RAW_HUMAN_NOTES_TITLES_URLS_CLUSTER_IDENTITIES_AND_PER_OPPORTUNITY_STRETCH_EVIDENCE"
+  },
+  "limitations": [
+    "The 60-item sample is exploratory, contains only three WORTH labels, and is not training data.",
+    "Human-evident excessive stretch is a conservative private-note adjudication, not a universal ground-truth label.",
+    "Title-scoped profession rules prioritize auditability and miss requirements hidden only in prose.",
+    "Omitted candidate capability remains UNKNOWN, so many obvious-to-a-human mismatches correctly remain unresolved.",
+    "Current-corpus counts reflect one local operational snapshot and are not an unbiased market estimate.",
+    "No runtime filtering, ranking, recommendation, cache, lifecycle, candidate, or source behavior changed."
+  ]
+}

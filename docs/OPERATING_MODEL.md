@@ -211,6 +211,8 @@ Current classification:
 | `output/semantic_compute_worthiness/*/aggregate_*.json` | EXPERIMENT RESULT, sanitized | Track only aggregate counts, metrics/gates, fingerprints, artifact hashes, limitations, and conclusions |
 | `output/candidate_direction_promotion/*/audit.json` | CANONICAL_EVIDENCE, private | Retain locally and exclude from Git because it joins human labels to per-opportunity preference effects |
 | `output/candidate_direction_promotion/*/aggregate_summary.json` | EXPERIMENT RESULT, sanitized | Track only concept verdicts, aggregate counterfactuals, fingerprints, gates, limitations, and the private-artifact hash |
+| `output/stretch_evidence_boundary/*/audit.json` | CANONICAL_EVIDENCE, private | Retain locally and exclude from Git because it joins frozen human evidence to per-opportunity capability-distance evidence |
+| `output/stretch_evidence_boundary/*/aggregate_summary.json` | EXPERIMENT RESULT, sanitized | Track only aggregate class counts, validation/counterfactual metrics, fingerprints, gates, limitations, conclusions, and the private-artifact hash |
 | `output/opportunity_radar.sqlite3` | LOCAL_STATE | Private backup; do not publish by default |
 | `output/*sample*.sqlite3`, `*diagnostic*.sqlite3` | DIAGNOSTIC | Historical currently; future generated copies should be ignored |
 | `output/scope_measurement/*.json` | CANONICAL_EVIDENCE or SUPERSEDED | Registry identifies the final evidence and historical predecessors |

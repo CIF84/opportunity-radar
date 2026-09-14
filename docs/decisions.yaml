@@ -324,7 +324,7 @@ decisions:
 
   - decision_id: DR-024
     title: Promote a narrow account-management execution aversion
-    status: PROPOSED
+    status: ACCEPTED
     decided_at: "2026-09-13"
     context: SPEC-018 found repeated explicit rejection of returning to account-management/account-executive ownership, while the existing candidate representation did not distinguish that role choice from valuable commercial strategy, revenue operations, retention strategy, or business development experience.
     decision: Add `account_management_execution` as a NEGATIVE versioned candidate decision preference and match it only from explicit account-management/account-executive title evidence in the initial policy version.

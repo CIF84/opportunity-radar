@@ -1,6 +1,6 @@
 # SPEC-019 — Stretch Evidence Boundary Audit
 
-Status: `APPROVED_FOR_IMPLEMENTATION`
+Status: `IMPLEMENTED_LOCALLY_AWAITING_REVIEW`
 
 ## Purpose
 
@@ -369,3 +369,23 @@ P. recommended next packet;
 Q. recommended commit message.
 
 No commit or push until normal review approval.
+
+## Implementation result
+
+The immutable local run `spec019-stretch-evidence-20260913-v3` implemented the
+diagnostic contract without runtime integration. All eight safety gates passed:
+all three frozen human-WORTH cases were protected, no market-only or
+preference-only case became excessive stretch, omitted evidence remained
+unresolved, replay was deterministic, and external/source/SQLite/cache writes
+were zero.
+
+Frozen-sample classes were 7 current fit, 24 manageable stretch, 9 excessive
+stretch, and 20 unresolved. The nine excessive predictions had 100% directional
+precision against the conservative private adjudication but covered only 39.1%
+of its 23 human-evident excessive cases. The current 3,935-cluster corpus was
+83.7% unresolved. Mandatory-degree evidence produced 144 of 171 current-corpus
+excessive classifications, so direct runtime promotion is not authorized.
+
+The detailed result remains private/local. The sanitized receipt and full
+analysis are indexed by `experiments/registry.yaml` and documented in
+`docs/stretch_evidence_boundary_audit.md`.

@@ -16,11 +16,11 @@ opportunity clustering and preferred variants, decision preferences, and the
 seniority guard. Its retrospective, prospective-protocol, and semantic-compute
 experiments are preserved as frozen evidence.
 
-The current packet is the completed candidate-direction promotion audit. It
-supports one bounded negative account-management preference, rejects redundant
-business/decision-analytics and AI-transformation effects, and leaves stretch
-and automation policy deferred. Promotion awaits review. The active gate and
-frozen decisions are recorded in [docs/STATUS.md](docs/STATUS.md).
+The latest implemented packet is the diagnostic, unpromoted SPEC-019
+stretch-evidence boundary audit. It separates current fit, manageable stretch,
+excessive stretch, and unresolved evidence without changing runtime ranking,
+recommendations, or semantic allocation. The active gate and evidence are
+recorded in [docs/STATUS.md](docs/STATUS.md).
 
 ## Repository map
 
@@ -191,6 +191,17 @@ human judgments and operational SQLite evidence):
 
 The command performs no semantic or live-source calls. Per-opportunity joins
 remain private/local; only a sanitized aggregate receipt is Git-eligible.
+
+Read-only stretch-evidence boundary audit (requires the private frozen human
+judgments and operational SQLite evidence):
+
+```bash
+.venv/bin/opportunity-radar-stretch-audit --dry-run
+```
+
+Stretch is diagnostic and unpromoted. The command does not filter, rank, cap,
+recommend, call a model, contact a source, or write SQLite. Per-opportunity
+evidence remains private/local; only a sanitized aggregate receipt may be tracked.
 
 Project health, derived read-only from repository evidence:
 

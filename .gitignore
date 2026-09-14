@@ -74,5 +74,11 @@ output/candidate_direction_promotion/**/*
 !output/candidate_direction_promotion/**/
 !output/candidate_direction_promotion/**/aggregate_summary.json
 
+# SPEC-019 keeps human-linked and per-opportunity stretch evidence private.
+# Only the deliberately sanitized aggregate receipt is repository-safe.
+output/stretch_evidence_boundary/**/*
+!output/stretch_evidence_boundary/**/
+!output/stretch_evidence_boundary/**/aggregate_summary.json
+
 # Replaceable local health evidence.
 output/test_receipt.json

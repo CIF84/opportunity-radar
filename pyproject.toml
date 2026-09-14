@@ -29,6 +29,7 @@ opportunity-radar-source-portfolio-audit = "opportunity_radar.source_portfolio_a
 opportunity-radar-wave-a-preflight = "opportunity_radar.wave_a_preflight:main"
 opportunity-radar-partial-geography-audit = "opportunity_radar.partial_geography_audit:main"
 opportunity-radar-candidate-direction-audit = "opportunity_radar.candidate_direction_audit:main"
+opportunity-radar-stretch-audit = "opportunity_radar.stretch_evidence:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

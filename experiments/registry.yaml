@@ -274,7 +274,7 @@ experiments:
   - experiment_id: EXP-CANDIDATE-DIRECTION-001
     type: CANDIDATE_DIRECTION_PROMOTION_AUDIT
     hypothesis: Repeated explicit human career-direction evidence supports a narrow versioned preference change without capability inflation, semantic reassessment, or collateral penalties to adjacent commercial work.
-    status: COMPLETED_AWAITING_PROMOTION_REVIEW
+    status: COMPLETED
     completed_at: "2026-09-13"
     baseline: Candidate profile version 3 with 11 Phase 4 decision preferences; frozen semantic-v1 identity; completed 60-item compute-worthiness evidence; 20 current compatible cached opportunities; frozen 30-posting Phase 4 retrospective.
     intervention: Add one taxonomy-backed title-scoped account-management execution preference, advance only candidate/profile decision identities, and run deterministic zero-call counterfactuals across all three evidence populations.
@@ -282,7 +282,23 @@ experiments:
     artifacts: [docs/candidate_direction_promotion_audit.md, output/candidate_direction_promotion/spec018-candidate-direction-20260913-v1/aggregate_summary.json]
     metrics: {promotion_gates_passed: 10, promotion_gates_total: 10, worthiness_sample: 60, worthiness_matches: 4, matched_not_worth: 4, known_worth_demotions: 0, cached_population: 20, cached_matches: 1, cached_score_changes: 1, cached_recommendation_changes: 0, retrospective_postings: 30, retrospective_matches: 0, known_apply_demotions: 0, semantic_reassessments: 0, semantic_calls: 0, live_source_calls: 0, sqlite_writes: 0}
     result: Only `account_management_execution` met the promotion rule. Business/decision analytics and AI-transformation evidence were already represented; broader support, QA, automation-risk, and stretch concepts remained insufficient, contextual, or architecture-only.
-    decision: Recommend promoting candidate profile version 4 / decision-preference version 2 with one NEGATIVE account-management execution preference; retain frozen effect weights and all semantic, market, clustering, lifecycle, and action boundaries.
+    decision: Candidate profile version 4 / decision-preference version 2 with one NEGATIVE account-management execution preference was accepted and promoted; frozen effect weights and all semantic, market, clustering, lifecycle, and action boundaries remain unchanged.
     limitations: The 60-item sample has only three WORTH labels; title-only matching may miss disguised account-management ownership; the compatible cache population is small and not an unbiased market sample.
     related_decisions: [DR-013, DR-021, DR-022, DR-024]
-    commit_or_worktree_state: "Implemented against e81b837 in a dirty worktree; exact private-evidence and database hashes are preserved in the sanitized aggregate"
+    commit_or_worktree_state: "34fdd1b601309a025ec72af6a4275f1dcfc72dde (Promote bounded candidate direction preference); exact private-evidence and database hashes are preserved in the sanitized aggregate"
+
+  - experiment_id: EXP-STRETCH-EVIDENCE-001
+    type: STRETCH_EVIDENCE_BOUNDARY_AUDIT
+    hypothesis: Cheap explicit vacancy requirements and frozen candidate capability evidence can identify obvious current fit and excessive stretch while preserving the ambiguous middle for deeper reasoning, without using market or preference evidence as capability proxies.
+    status: COMPLETED_AWAITING_REVIEW
+    completed_at: "2026-09-13"
+    baseline: The frozen 60-item compute-worthiness experiment had three WORTH judgments and 57 NOT_WORTH judgments spanning capability, market, preference, and unavailable-evidence reasons; no separate stretch object existed.
+    intervention: Implement a four-class auditable stretch contract with title-scoped role requirements, explicit credential and professional-depth rules, conservative UNKNOWN handling, private frozen-sample adjudication, and read-only current-corpus/cost counterfactuals.
+    inputs: [specs/phase4/SPEC-019-stretch-evidence-boundary.md, experiments/stretch_evidence_boundary_v1.yaml, config/candidate.yaml, config/taxonomy.yaml, experiments/semantic_compute_worthiness_v1.yaml, output/opportunity_radar.sqlite3, data/semantic_compute_worthiness/judgments.jsonl]
+    artifacts: [docs/stretch_evidence_boundary_audit.md, output/stretch_evidence_boundary/spec019-stretch-evidence-20260913-v3/aggregate_summary.json]
+    metrics: {sample_size: 60, current_fit: 7, manageable_stretch: 24, excessive_stretch: 9, unresolved: 20, worth_protected: 3, worth_excessive: 0, excessive_precision: 1.0, excessive_coverage: 0.391304, preference_false_excessive: 0, market_false_excessive: 0, current_corpus_clusters: 3935, current_corpus_unresolved: 3292, routed_excessive: 155, semantic_calls: 0, live_source_calls: 0, sqlite_writes: 0}
+    result: A separate stretch evidence object is feasible and all safety gates passed, but 83.7% of the current corpus remained unresolved and 144 of 171 current-corpus excessive classifications were driven by mandatory-degree evidence.
+    decision: Do not promote runtime stretch behavior. Recommend a separately frozen shadow-only human validation, emphasizing credential and professional-depth decisions, before any runtime or combined deterministic-rejection experiment.
+    limitations: Exploratory sample with three WORTH labels; conservative private-note adjudication is not universal ground truth; title-scoped rules have low coverage; omitted capability remains unknown; current-corpus counts are one local snapshot.
+    related_decisions: [DR-012, DR-013, DR-016, DR-021, DR-023, DR-024]
+    commit_or_worktree_state: "Implemented against bc14a53 in a dirty worktree; exact private-evidence and operational database hashes are preserved in the sanitized aggregate"

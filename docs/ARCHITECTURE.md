@@ -120,7 +120,7 @@ Invariants:
 - Semantic models do not own identity, lifecycle, persistence, hard
   eligibility, composite arithmetic, recommendation, or action authority.
 - Job descriptions are evidence and untrusted input, never model instructions.
-- `CandidateProfile` version 3 validates separately fingerprinted
+- `CandidateProfile` version 4 validates separately fingerprinted
   `market_access_policy` and `decision_preferences`; both are excluded from
   semantic-v1 inputs.
 - `market_status.py` provides a pure post-detail candidate-market evaluator
@@ -185,6 +185,20 @@ Invariants:
   otherwise less restrictive recommendation at `LOW_PRIORITY`, and never
   changes score/tier, eligibility, market status, cluster identity, or lifecycle.
 - A recommendation is a decision-support output, not authorization to act.
+
+### Diagnostic capability-distance boundary
+
+SPEC-019 implements a standalone, read-only `StretchAssessment` experiment
+with `CURRENT_FIT`, `MANAGEABLE_STRETCH`, `EXCESSIVE_STRETCH`, and `UNRESOLVED`
+classes. It records bounded requirement evidence and independent
+rules/input/assessment fingerprints. Stretch consumes only vacancy requirement
+evidence and candidate capability/experience evidence; market status and
+decision preferences are excluded from both classification and input identity.
+
+This is an implemented audit contract, not runtime decision architecture. It
+does not filter opportunities, allocate semantic calls, alter a recommendation,
+persist state, or participate in semantic cache identity. A later promotion
+requires a separate decision and validation packet.
 
 ## HUMAN VALIDATE
 

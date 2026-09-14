@@ -1,0 +1,200 @@
+schema_version: 1
+experiment_id: EXP-STRETCH-EVIDENCE-001
+experiment_type: STRETCH_EVIDENCE_BOUNDARY_AUDIT
+specification: specs/phase4/SPEC-019-stretch-evidence-boundary.md
+
+inputs:
+  candidate_path: config/candidate.yaml
+  taxonomy_path: config/taxonomy.yaml
+  prospective_protocol_path: experiments/phase4_prospective_validation_v1.yaml
+  database_path: output/opportunity_radar.sqlite3
+  worthiness_manifest_path: output/semantic_compute_worthiness/semantic-worthiness-preparation-20260905-v5/manifest.json
+  worthiness_judgments_path: data/semantic_compute_worthiness/judgments.jsonl
+  worthiness_replacements_path: data/semantic_compute_worthiness/replacements.jsonl
+  worthiness_result_path: output/semantic_compute_worthiness/semantic-worthiness-preparation-20260905-v5/aggregate_result.json
+
+policy:
+  policy_version: stretch-evidence-v1
+  supported_level: ADVANCED
+  adjacent_level: INTERMEDIATE
+  elevated_title_patterns:
+    - "\\bprincipal\\b"
+    - "\\bdistinguished\\b"
+    - "\\btechnical leader\\b"
+    - "\\b(?:security|solution|cloud) architect\\b"
+  required_years_pattern: "\\b(?:minimum of |at least )?(\\d{1,2})\\+? years?(?: of)?(?: relevant| professional| hands[- ]on)? experience\\b"
+  decisive_years_minimum: 5
+  preferred_context_pattern: "\\b(?:preferred|desirable|nice to have|advantage|a plus)\\b"
+  equivalent_education_pattern: "\\bor equivalent(?: experience)?\\b"
+  mandatory_degree_patterns:
+    - "\\b(?:bachelor(?:'s)?|university) degree (?:is )?required\\b"
+    - "\\brequire(?:d|s)? (?:a )?(?:bachelor(?:'s)?|university) degree\\b"
+    - "\\bmust (?:have|hold) (?:a )?(?:bachelor(?:'s)?|university) degree\\b"
+  preferred_degree_patterns:
+    - "\\b(?:bachelor(?:'s)?|university) degree (?:is )?(?:preferred|desirable)\\b"
+    - "\\b(?:preferred|desirable):? (?:a )?(?:bachelor(?:'s)?|university) degree\\b"
+  role_requirements:
+    - concept_id: software_engineering
+      category: PROFESSION_FUNCTION
+      title_patterns:
+        - "\\b(?:software|full[- ]stack|backend|frontend|python|java(?:/kotlin)?) (?:engineer|developer)\\b"
+        - "\\bsoftware engineering technical leader\\b"
+      direct_capabilities: [software_engineering, production_software_development, programming, python]
+      adjacent_capabilities: [software_architecture, product_development, ai_assisted_development]
+      experience_domains: []
+      numeric_evidence: []
+
+    - concept_id: machine_learning_engineering
+      category: SPECIALIST_TECHNICAL_DEPTH
+      title_patterns:
+        - "\\b(?:machine learning|ML|AI) engineer\\b"
+        - "\\bAI Python developer\\b"
+      direct_capabilities: [machine_learning, deep_learning, model_training, production_software_development, python]
+      adjacent_capabilities: [machine_learning_business_application, ai_strategy, ai_adoption, ai_assisted_development, software_architecture]
+      experience_domains: [artificial_intelligence]
+      numeric_evidence: []
+
+    - concept_id: security_architecture
+      category: SPECIALIST_TECHNICAL_DEPTH
+      title_patterns:
+        - "\\b(?:cyber ?security|security) architect\\b"
+        - "\\bAI engineer[^\\n]*security\\b"
+      direct_capabilities: [software_architecture, systems_engineering]
+      adjacent_capabilities: [ai_strategy, ai_adoption, ai_assisted_development]
+      experience_domains: []
+      numeric_evidence:
+        - path: facts.career.cybersecurity_years
+          partial_minimum: 1
+          supported_minimum: 10
+
+    - concept_id: cloud_networking
+      category: SPECIALIST_TECHNICAL_DEPTH
+      title_patterns:
+        - "\\bcloud solution engineer\\b"
+        - "\\b(?:cloud|network) architect\\b"
+      direct_capabilities: [systems_engineering, software_architecture]
+      adjacent_capabilities: [production_software_development, programming]
+      experience_domains: [cybersecurity]
+      numeric_evidence: []
+
+    - concept_id: medical_clinical_profession
+      category: PROFESSION_FUNCTION
+      title_patterns:
+        - "\\bclinical specialist\\b"
+        - "\\bmedical and scientific affairs\\b"
+        - "\\bclinical development medical\\b"
+      direct_capabilities: []
+      adjacent_capabilities: [robotics, physical_ai]
+      experience_domains: [healthcare]
+      numeric_evidence: []
+
+    - concept_id: legal_profession
+      category: PROFESSION_FUNCTION
+      title_patterns:
+        - "\\b(?:lawyer|attorney|legal counsel)\\b"
+      direct_capabilities: []
+      adjacent_capabilities: []
+      experience_domains: []
+      numeric_evidence: []
+
+    - concept_id: accounting_control
+      category: SPECIALIST_DOMAIN_DEPTH
+      title_patterns:
+        - "\\b(?:payroll specialist|accountant|financial controller|GL and reporting|tax manager|treasury back office manager)\\b"
+      direct_capabilities: []
+      adjacent_capabilities: [business_case_development, forecasting, excel]
+      experience_domains: [financial_services_domain]
+      numeric_evidence: []
+
+    - concept_id: warehouse_operations
+      category: PROFESSION_FUNCTION
+      title_patterns:
+        - "\\b(?:warehouse operator|warehouse clerk|material handler|forklift operator)\\b"
+      direct_capabilities: []
+      adjacent_capabilities: [business_operations]
+      experience_domains: []
+      numeric_evidence: []
+
+    - concept_id: account_management
+      category: PROFESSION_FUNCTION
+      title_patterns:
+        - "\\b(?:account manager|account executive|account specialist|sales specialist)\\b"
+      direct_capabilities: [customer_retention, commercial_strategy, stakeholder_management]
+      adjacent_capabilities: [business_operations, executive_communication]
+      experience_domains: []
+      numeric_evidence: []
+
+    - concept_id: business_operations
+      category: PROFESSION_FUNCTION
+      title_patterns:
+        - "\\b(?:business|sales) (?:strategy|operations|analytics)\\b"
+        - "\\boperational excellence\\b"
+      direct_capabilities: [business_operations, business_analytics, commercial_strategy, decision_support]
+      adjacent_capabilities: [transformation, stakeholder_management, forecasting]
+      experience_domains: [business_operations, commercial_analytics]
+      numeric_evidence: []
+
+    - concept_id: project_program_management
+      category: PROFESSION_FUNCTION
+      title_patterns:
+        - "\\b(?:project|program|programme) manager\\b"
+      direct_capabilities: [business_operations, cross_functional_leadership, stakeholder_management, transformation]
+      adjacent_capabilities: [change_management, executive_communication]
+      experience_domains: [business_operations]
+      numeric_evidence: []
+
+    - concept_id: ai_transformation
+      category: PROFESSION_FUNCTION
+      title_patterns:
+        - "\\bAI transformation\\b"
+        - "\\benterprise AI\\b"
+      direct_capabilities: [transformation, change_management]
+      adjacent_capabilities: [ai_strategy, ai_adoption, machine_learning_business_application]
+      experience_domains: [artificial_intelligence]
+      numeric_evidence: []
+
+    - concept_id: ai_technology_depth
+      category: SPECIALIST_TECHNICAL_DEPTH
+      title_patterns:
+        - "\\b(?:AI|artificial intelligence|machine learning|ML)\\b"
+      direct_capabilities: [ai_strategy, ai_adoption, machine_learning, model_training]
+      adjacent_capabilities: [machine_learning_business_application, ai_assisted_development, transformation]
+      experience_domains: [artificial_intelligence]
+      numeric_evidence: []
+
+human_adjudication:
+  stretch_reason_codes:
+    - OBVIOUS_FUNCTIONAL_MISMATCH
+    - OBVIOUS_SENIORITY_MISMATCH
+    - OBVIOUS_DOMAIN_MISMATCH
+  market_reason_codes: [MARKET_ACCESS_ALREADY_DECISIVE]
+  insufficient_reason_codes: [INSUFFICIENT_EVIDENCE]
+  explicit_excessive_note_patterns:
+    - "\\bI am no\\b"
+    - "\\bI am not (?:a|an)\\b"
+    - "\\bI (?:simply )?do not meet\\b"
+    - "\\bI don['’]t meet\\b"
+    - "\\bno professional experience\\b"
+    - "\\bzero .(?: years? of)? .{0,40}expertise\\b"
+    - "\\btoo much of a stretch\\b"
+    - "\\bnot in any imaginable stretch\\b"
+    - "\\bcomplete mismatch\\b"
+    - "\\bclear mismatch\\b"
+    - "\\blacking sufficient education\\b"
+    - "\\bminimum (?:criteria|requirements|qualification)\\b"
+    - "\\b\\d{1,2}\\+ years of [^.]{0,80}experience\\b"
+  current_fit_note_patterns:
+    - "\\bbeen there, done that\\b"
+    - "\\bI could do (?:it|this)\\b"
+
+counterfactuals:
+  excessive_exploration_rate: 0.10
+  exploration_seed: stretch-evidence-v1-exploration
+
+privacy:
+  detailed_artifact: PRIVATE_LOCAL
+  aggregate_artifact: REPOSITORY_SAFE
+  raw_human_notes: PRIVATE_LOCAL_APPEND_ONLY
+
+outputs:
+  root: output/stretch_evidence_boundary
