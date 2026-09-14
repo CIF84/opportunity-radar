@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-020-credential-semantics-human-validation.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `PREPARED_LOCALLY_AWAITING_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -45,9 +45,11 @@ Frozen recent milestones:
 - SPEC-017 partial-geography semantics: `1871a082874f27db606796fc06e348fbee71776c`
 - SPEC-018 candidate direction: `34fdd1b601309a025ec72af6a4275f1dcfc72dde`
 
-SPEC-019 is implemented locally and awaiting commit/promotion review in the normal
-workflow. Its diagnostic result motivates SPEC-020: degree/credential evidence is
-the dominant unresolved source of excessive-stretch classifications.
+SPEC-019 is committed as `5591442` and remains diagnostic/unpromoted. Its result
+motivated SPEC-020: degree/credential evidence is the dominant unresolved source
+of excessive-stretch classifications. SPEC-020 tooling is implemented locally;
+the authorized deterministic sample and reserves are frozen, but human review has
+not started.
 
 ## SPEC-019 diagnostic result
 
@@ -144,6 +146,25 @@ NEED_MORE_INFORMATION
 The packet must preserve exact modal wording such as `must`, `required`, `preferred`,
 `or equivalent experience`, and `ideally` rather than paraphrasing it away.
 
+## SPEC-020 preparation result
+
+The current operational snapshot reproduces exactly 144 degree-driven cases across
+only three employers: 116 EY, 22 Johnson & Johnson, and 6 Schneider Electric. A
+50-item sample could contain at most 15 items under the requested employer cap of
+five. The mathematically smallest cap that can fill 50 cases is 22.
+
+The material relaxation was explicitly approved: retain the target of 50, use cap
+22, and preserve the 22 EY / 22 Johnson & Johnson / 6 Schneider Electric design.
+Preparation `spec020-credential-preparation-20260914-v3` froze that sample, a
+deterministic blind order, five direct-mandatory reserves, and five
+qualified/substitutable reserves. External semantic calls, live-source calls,
+SQLite writes, and human judgments remain zero.
+
+Final reporting must keep unweighted/stratified sample results separate from
+employer-population-weighted estimates over the verified 144-case population.
+Balanced sample proportions are not population prevalence; Schneider Electric's
+six selected cases are complete coverage of its current degree-driven population.
+
 ## Blindness and privacy
 
 Before completion, human reviewers must not see:
@@ -187,13 +208,11 @@ and Mews. No new source integration is authorized during SPEC-020.
 
 ## Current gate
 
-> Implement SPEC-020 preparation only. Freeze and validate the credential-semantics
-> human experiment, but do not begin human review until preparation is reviewed and
-> committed.
+> Review and commit the frozen SPEC-020 preparation packet and repository-safe
+> receipt. Begin human review only after explicit approval.
 
-The first implementation deliverable must report the verified degree-driven
-population, frozen sample/reserves, blindness/privacy proof, and validation. It may
-present reviews only after explicit approval to begin the human phase.
+Do not present reviews or create judgments until the frozen packet is reviewed,
+committed, and the human phase is explicitly authorized.
 
 ## Protected boundaries
 
@@ -237,7 +256,7 @@ Contingent on completed human evidence:
 6. preserve an exploration/control path before broad semantic suppression;
 7. keep semantic-v1 frozen until upstream allocation architecture is validated.
 
-## Known open decisions
+## Known blockers and open decisions
 
 - Credential semantics and degree substitutability.
 - Whether SPEC-019 stretch can later support runtime boundaries.
@@ -246,6 +265,19 @@ Contingent on completed human evidence:
 - Semantic-call budget for later prospective ranking validation.
 - Future source-contract work for Erste/Zentiva/Wave B.
 - Durable private backup/retention for operational SQLite and detailed human evidence.
+
+## Last known operational health
+
+- SPEC-020 verified population: 144, matching the SPEC-019 historical count.
+- SPEC-020 cap 22 / target 50 / 22-22-6 design: frozen locally with 10 reserves.
+- Frozen selection / blind-order fingerprints:
+  `400c050ba3091012d0707b534f06ac5a6740c4e174d1c1005f61b686f3d19359` /
+  `307e85f4ddabc5df51ed0eac258d05320296fd2c1aa30b54e2feac7391a8df78`.
+- SPEC-020 external semantic calls, live-source calls, SQLite writes, and judgments: zero.
+- Operational SQLite SHA-256 remained
+  `a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23`.
+- Latest full offline validation: 322 passed, 2 expected private-evidence skips,
+  and 22 live tests deselected; `git diff --check` passed.
 
 ## Explicitly do not build/tune yet
 

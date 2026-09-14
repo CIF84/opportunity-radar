@@ -1,6 +1,6 @@
 # SPEC-020 — Credential Semantics Human Validation
 
-Status: `APPROVED_FOR_IMPLEMENTATION`
+Status: `PREPARED_LOCALLY_AWAITING_REVIEW`
 
 ## Purpose
 
@@ -376,3 +376,46 @@ K. recommended commit message for preparation.
 
 Do not begin human review until preparation implementation is reviewed and committed.
 No commit or push until normal approval after implementation review.
+
+## Implementation result
+
+The preparation workflow, blind-review contract, append-only record and
+same-stratum replacement mechanisms, final aggregate evaluation, privacy
+boundary, and deterministic tests are implemented locally.
+
+The current snapshot reproduces all 144 historical degree-driven cases, but
+they occur across only three employers with counts 116 / 22 / 6. A 50-item
+sample can contain at most 15 items under the requested cap of five; the minimum
+feasible cap is 22. Because that is a material relaxation, the explicit stop
+condition fired before any sample, reserve manifest, blind packet, or judgment
+was created.
+
+That first preparation attempt remains preserved as historical evidence of the
+stop. The human resolution below supersedes the sampling blocker; no sample was
+created during the blocked attempt.
+
+### Human resolution of the sampling stop
+
+The minimum feasible employer cap of 22 is authorized while retaining the target
+sample size of 50 and the deterministic 22 EY / 22 Johnson & Johnson / 6 Schneider
+Electric design. Employer concentration must remain an explicit limitation.
+
+Final reporting must provide two distinct views: unweighted/stratified sample
+results for cross-employer and wording-pattern validation, and employer-population-
+weighted estimates over the verified 144-case source population. The balanced
+sample proportions must not be used directly as population prevalence estimates.
+Schneider Electric's six cases are complete current-employer coverage.
+
+### Authorized preparation
+
+Preparation `spec020-credential-preparation-20260914-v3` froze the deterministic
+50-case sample, blind review order, and ten same-stratum reserves on top of the
+committed SPEC-019 boundary. The sample contains 22 EY, 22 Johnson & Johnson, and
+all 6 Schneider Electric cases. Five reserves belong to direct mandatory wording
+and five to qualified/substitutable wording.
+
+The private immutable manifest and blind packet preserve exact source wording.
+The repository-safe receipt contains only aggregate coverage, fingerprints,
+integrity checks, and provenance. No human judgment, semantic call, live-source
+call, or SQLite write occurred. Human review remains a separate explicitly
+authorized operation after preparation review and commit.

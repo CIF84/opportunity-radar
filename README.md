@@ -16,11 +16,11 @@ opportunity clustering and preferred variants, decision preferences, and the
 seniority guard. Its retrospective, prospective-protocol, and semantic-compute
 experiments are preserved as frozen evidence.
 
-The latest implemented packet is the diagnostic, unpromoted SPEC-019
-stretch-evidence boundary audit. It separates current fit, manageable stretch,
-excessive stretch, and unresolved evidence without changing runtime ranking,
-recommendations, or semantic allocation. The active gate and evidence are
-recorded in [docs/STATUS.md](docs/STATUS.md).
+The current packet is SPEC-020 credential-semantics human-validation
+preparation. Its deterministic 50-case sample, blind order, and reserves are
+frozen locally using the authorized cap of 22 and 22/22/6 employer design.
+Human review has not started. The active gate and evidence are recorded in
+[docs/STATUS.md](docs/STATUS.md).
 
 ## Repository map
 
@@ -114,6 +114,13 @@ Semantic ROI harness (offline unless explicitly opted into external calls):
 
 ```bash
 .venv/bin/opportunity-radar-semantic-roi
+```
+
+Credential-semantics preparation (read-only; creates a new immutable local
+packet, so always supply a new preparation ID):
+
+```bash
+.venv/bin/opportunity-radar-credential-validation prepare --preparation-id <new-id>
 ```
 
 Live Decision Validation preflight is read-only:

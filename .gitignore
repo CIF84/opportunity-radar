@@ -80,5 +80,17 @@ output/stretch_evidence_boundary/**/*
 !output/stretch_evidence_boundary/**/
 !output/stretch_evidence_boundary/**/aggregate_summary.json
 
+# SPEC-020 credential review contains vacancy-level qualification excerpts,
+# candidate substitution evidence, and private human judgments. Only deliberate
+# aggregate preparation/result receipts are repository-safe.
+data/credential_semantics_validation/*.jsonl
+output/credential_semantics_validation/**/*
+!output/credential_semantics_validation/**/
+!output/credential_semantics_validation/**/aggregate_summary.json
+!output/credential_semantics_validation/**/aggregate_result.json
+# Intermediate authorized probe; v1 blocker and v3 frozen receipt are the
+# deliberate repository evidence for this preparation sequence.
+output/credential_semantics_validation/spec020-credential-preparation-20260914-v2/aggregate_summary.json
+
 # Replaceable local health evidence.
 output/test_receipt.json

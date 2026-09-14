@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "artifact_type": "REPOSITORY_SAFE_CREDENTIAL_PREPARATION",
+  "experiment_id": "EXP-CREDENTIAL-SEMANTICS-001",
+  "preparation_id": "spec020-credential-preparation-20260914-v3",
+  "status": "PREPARED_AWAITING_HUMAN_REVIEW",
+  "verified_population_count": 144,
+  "sample": {
+    "selected_count": 50,
+    "reserve_counts": {
+      "DIRECT_MANDATORY_WORDING": 5,
+      "QUALIFIED_OR_SUBSTITUTABLE_WORDING": 5
+    },
+    "employer_cap_requested": 5,
+    "employer_cap_effective": 22,
+    "employer_count": 3,
+    "employer_distribution": {
+      "ey": 22,
+      "johnson_johnson": 22,
+      "schneider_electric": 6
+    },
+    "employer_population_distribution": {
+      "ey": 116,
+      "johnson_johnson": 22,
+      "schneider_electric": 6
+    },
+    "role_family_distribution": {
+      "COMMERCIAL_CLIENT": 1,
+      "CONSULTING_TRANSFORMATION": 8,
+      "FINANCE_ACCOUNTING_TAX": 8,
+      "HEALTHCARE_SCIENCE": 3,
+      "OPERATIONS_PROGRAM": 7,
+      "OTHER_UNCLASSIFIED": 13,
+      "PEOPLE_HR": 2,
+      "TECHNOLOGY_ENGINEERING": 8
+    },
+    "wording_pattern_distribution": {
+      "EXPLICITLY_REQUIRED": 18,
+      "EXPLICIT_EQUIVALENT_EXPERIENCE": 3,
+      "MIXED_PREFERRED_CONTEXT": 15,
+      "MUST_HAVE": 14
+    },
+    "selection_fingerprint": "400c050ba3091012d0707b534f06ac5a6740c4e174d1c1005f61b686f3d19359",
+    "review_order_fingerprint": "307e85f4ddabc5df51ed0eac258d05320296fd2c1aa30b54e2feac7391a8df78",
+    "sample_and_reserve_fingerprint": "53c3d76e78cb547c81a1ab5fac5115f6a6ff7c121f7713f6267a2cf1b7d118d6"
+  },
+  "reporting_policy": {
+    "views": [
+      "UNWEIGHTED_STRATIFIED_SAMPLE",
+      "EMPLOYER_POPULATION_WEIGHTED_ESTIMATE"
+    ],
+    "population_weight_basis": "VERIFIED_144_CASE_EMPLOYER_DISTRIBUTION",
+    "complete_employer_coverage": {
+      "schneider_electric": 6
+    },
+    "employer_concentration_limitation": "Only three employers exist in the verified degree-driven population; the balanced sample is not a population-prevalence estimate.",
+    "balanced_sample_proportions_are_population_prevalence": false
+  },
+  "fingerprints": {
+    "protocol": "df80ce827b9091a57255cf52613bb5c159528bb3f721234a26d1a8ecad7243db",
+    "population": "3040fde1ed38b1cef0648ed889ee9c3146593ee757dcf76f8ce45fba754ef67d",
+    "stretch_rules": "c9388aa47a4422b37a83217e692bd281318be8e028469709744304bfa66b848f",
+    "database_sha256": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "candidate_full_profile": "9b220d73521fafe087f49269046eabdb9d94cfddc18a77b2e64a9745b9dd89e9",
+    "candidate_semantic_profile": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "private_manifest_sha256": "1a00feb3a178765a53b711ce9b9958f300f30afdc5906b73aaabdfa0872789da",
+    "private_blind_review_sha256": "e33536eb0dcf28c3e3ba39ceadd877384f93400bb1a1ef3cdfd12466b997bfb5"
+  },
+  "provenance": {
+    "git": {
+      "commit": "559144258608825bdbc746691c37da041bb2fc82",
+      "dirty": true,
+      "worktree_status_fingerprint": "07cec1a4efee1c0a04b14282911f36baaebdcf7c9b999667e218cef6e5315183"
+    }
+  },
+  "integrity": {
+    "database_unchanged": true,
+    "database_sha256_before": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "database_sha256_after": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "database_mtime_unchanged": true,
+    "deterministic_selection_replay": true,
+    "exact_qualification_wording_preserved": true,
+    "selection_independence": {
+      "semantic_cache_state_excluded": true,
+      "recommendation_excluded": true,
+      "decision_preferences_excluded": true,
+      "hidden_stretch_payload_excluded_after_source_population_filter": true,
+      "historical_human_labels_excluded": true
+    },
+    "blind_review_hides_hidden_evaluation": true,
+    "external_semantic_calls": 0,
+    "live_source_calls": 0,
+    "human_judgments_created": 0
+  },
+  "privacy": {
+    "classification": "REPOSITORY_SAFE_AGGREGATE",
+    "vacancy_level_evidence_excluded": true
+  }
+}

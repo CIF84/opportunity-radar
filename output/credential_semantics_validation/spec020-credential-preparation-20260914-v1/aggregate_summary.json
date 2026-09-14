@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "artifact_type": "REPOSITORY_SAFE_CREDENTIAL_PREPARATION_BLOCKER",
+  "experiment_id": "EXP-CREDENTIAL-SEMANTICS-001",
+  "protocol_version": "credential-semantics-v1",
+  "status": "BLOCKED_EMPLOYER_CONCENTRATION_DECISION_REQUIRED",
+  "verified_population": {
+    "count": 144,
+    "employer_count": 3,
+    "role_family_distribution": {
+      "COMMERCIAL_CLIENT": 1,
+      "CONSULTING_TRANSFORMATION": 15,
+      "FINANCE_ACCOUNTING_TAX": 35,
+      "HEALTHCARE_SCIENCE": 3,
+      "OPERATIONS_PROGRAM": 12,
+      "OTHER_UNCLASSIFIED": 44,
+      "PEOPLE_HR": 2,
+      "TECHNOLOGY_ENGINEERING": 32
+    },
+    "wording_pattern_distribution": {
+      "EXPLICITLY_REQUIRED": 23,
+      "EXPLICIT_EQUIVALENT_EXPERIENCE": 3,
+      "MIXED_PREFERRED_CONTEXT": 34,
+      "MUST_HAVE": 84
+    },
+    "years_context_count": 28,
+    "degree_only_decisive_count": 144
+  },
+  "sampling_stop": {
+    "population_count": 144,
+    "employer_count": 3,
+    "target": 50,
+    "requested_cap": 5,
+    "maximum_sample_at_requested_cap": 15,
+    "minimum_feasible_cap": 22,
+    "material_relaxation_required": true,
+    "minimum_cap_distribution": {
+      "ey": 22,
+      "johnson_johnson": 22,
+      "schneider_electric": 6
+    }
+  },
+  "fingerprints": {
+    "protocol": "9ef27dcb6a646dade72d331cfa8276db19092c326055148f2c57036184ce73d1",
+    "population": "3040fde1ed38b1cef0648ed889ee9c3146593ee757dcf76f8ce45fba754ef67d",
+    "stretch_rules": "c9388aa47a4422b37a83217e692bd281318be8e028469709744304bfa66b848f",
+    "candidate_full_profile": "9b220d73521fafe087f49269046eabdb9d94cfddc18a77b2e64a9745b9dd89e9",
+    "candidate_semantic_profile": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "database_sha256": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23"
+  },
+  "provenance": {
+    "git": {
+      "commit": "af05443759163411381d41f1eaf0c3f0cf29fdb5",
+      "dirty": true,
+      "worktree_status_fingerprint": "5b34a2999f3371cc057c0c777db5ec9c34e00271aed974ca0e9cc34bd4c82777"
+    }
+  },
+  "integrity": {
+    "sample_frozen": false,
+    "human_review_started": false,
+    "human_judgments_created": 0,
+    "external_semantic_calls": 0,
+    "live_source_calls": 0,
+    "sqlite_writes": 0
+  },
+  "privacy": {
+    "classification": "REPOSITORY_SAFE_AGGREGATE",
+    "excluded": "VACANCY_IDENTITIES_TITLES_URLS_QUALIFICATION_EXCERPTS_CANDIDATE_EVIDENCE_AND_HUMAN_NOTES"
+  },
+  "required_human_decision": "Authorize effective employer cap 22 for target 50, reduce target, or redesign the source population."
+}

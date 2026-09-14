@@ -295,6 +295,12 @@ The planned responsibility split is:
 
 The gate and implementation order for these experiments are in `STATUS.md`.
 
+SPEC-020 adds only a shadow human-validation boundary for credential semantics.
+It does not add credential compatibility to runtime interpretation, eligibility,
+ranking, or recommendation. The candidate-independent source wording and the
+candidate-dependent practical consequence are reviewed as separate questions;
+any runtime object or precedence remains a later explicit architecture decision.
+
 ## Known architecture debt
 
 - Complete identity inventories drive lifecycle but are not normally retained

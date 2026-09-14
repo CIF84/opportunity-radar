@@ -302,3 +302,19 @@ experiments:
     limitations: Exploratory sample with three WORTH labels; conservative private-note adjudication is not universal ground truth; title-scoped rules have low coverage; omitted capability remains unknown; current-corpus counts are one local snapshot.
     related_decisions: [DR-012, DR-013, DR-016, DR-021, DR-023, DR-024]
     commit_or_worktree_state: "Implemented against bc14a53 in a dirty worktree; exact private-evidence and operational database hashes are preserved in the sanitized aggregate"
+
+  - experiment_id: EXP-CREDENTIAL-SEMANTICS-001
+    type: CREDENTIAL_SEMANTICS_HUMAN_VALIDATION
+    hypothesis: Degree wording currently treated as capability stretch must be separated into credential semantics, substitutability, and practical candidacy consequence before any runtime promotion.
+    status: PREPARED_AWAITING_HUMAN_REVIEW
+    completed_at: null
+    baseline: SPEC-019 reported and SPEC-020 reproduced 144 current-corpus excessive-stretch cases driven by mandatory-degree evidence.
+    intervention: Implement a zero-call, read-only, blind two-question validation workflow and freeze a 50-case sample only after explicit authorization of the minimum feasible employer cap.
+    inputs: [specs/phase4/SPEC-020-credential-semantics-human-validation.md, experiments/credential_semantics_validation_v1.yaml, experiments/stretch_evidence_boundary_v1.yaml, config/candidate.yaml, output/opportunity_radar.sqlite3]
+    artifacts: [docs/credential_semantics_validation_preparation.md, output/credential_semantics_validation/spec020-credential-preparation-20260914-v1/aggregate_summary.json, output/credential_semantics_validation/spec020-credential-preparation-20260914-v3/aggregate_summary.json]
+    metrics: {verified_population: 144, employers: 3, target_sample: 50, original_employer_cap: 5, effective_employer_cap: 22, frozen_distribution: {ey: 22, johnson_johnson: 22, schneider_electric: 6}, reserves: {DIRECT_MANDATORY_WORDING: 5, QUALIFIED_OR_SUBSTITUTABLE_WORDING: 5}, sample_frozen: true, human_judgments: 0, semantic_calls: 0, live_source_calls: 0, sqlite_writes: 0}
+    result: The historical 144-case population was reproduced exactly and preparation spec020-credential-preparation-20260914-v3 froze the authorized 50-case 22/22/6 sample, deterministic blind order, and ten same-stratum reserves without external calls or operational-state mutation.
+    decision: Preserve separate unweighted/stratified and employer-population-weighted final views; do not begin human review before the frozen preparation is reviewed and committed.
+    limitations: The source population contains only three employers and is dominated by EY; balanced sample proportions must never be used as population prevalence estimates, while Schneider Electric receives complete six-case coverage.
+    related_decisions: [DR-013, DR-016, DR-024]
+    commit_or_worktree_state: "Prepared locally against 5591442 in a dirty worktree; private manifest/blind packet remain excluded and their hashes are preserved in the sanitized receipt"

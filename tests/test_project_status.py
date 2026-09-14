@@ -33,6 +33,7 @@ def test_repository_decision_and_experiment_registries_are_valid():
         "EXP-LIVE-VALIDATION-001",
         "EXP-PHASE4-RESIDUAL-001",
         "EXP-STRETCH-EVIDENCE-001",
+        "EXP-CREDENTIAL-SEMANTICS-001",
     }
 
 

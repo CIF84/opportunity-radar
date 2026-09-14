@@ -30,6 +30,7 @@ opportunity-radar-wave-a-preflight = "opportunity_radar.wave_a_preflight:main"
 opportunity-radar-partial-geography-audit = "opportunity_radar.partial_geography_audit:main"
 opportunity-radar-candidate-direction-audit = "opportunity_radar.candidate_direction_audit:main"
 opportunity-radar-stretch-audit = "opportunity_radar.stretch_evidence:main"
+opportunity-radar-credential-validation = "opportunity_radar.credential_semantics_validation:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
