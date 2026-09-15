@@ -216,6 +216,7 @@ Current classification:
 | `output/credential_semantics_validation/*/manifest.json`, `blind_review.md`, `detailed_report.json` | CANONICAL_EVIDENCE / DERIVED_REPORT, private | Retain locally and exclude from Git because these connect vacancy qualification wording and candidate substitution evidence to human review |
 | `data/credential_semantics_validation/*.jsonl` | CANONICAL_EVIDENCE, private | Append-only credential labels/replacements; exclude from Git and back up privately |
 | `output/credential_semantics_validation/*/aggregate_*.json` | EXPERIMENT RESULT, sanitized | Track only population/sample counts, aggregate label/rule metrics, fingerprints, provenance, limitations, and conclusions |
+| `output/credential_semantics_validation/*/aggregate_termination.json` | EXPERIMENT RESULT, sanitized/incomplete | Track terminal counts, private-evidence hashes, source-decay rationale, and limitations; never present it as final 50-case validation or rule precision |
 | `output/opportunity_radar.sqlite3` | LOCAL_STATE | Private backup; do not publish by default |
 | `output/*sample*.sqlite3`, `*diagnostic*.sqlite3` | DIAGNOSTIC | Historical currently; future generated copies should be ignored |
 | `output/scope_measurement/*.json` | CANONICAL_EVIDENCE or SUPERSEDED | Registry identifies the final evidence and historical predecessors |

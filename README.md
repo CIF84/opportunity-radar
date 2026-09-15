@@ -16,10 +16,10 @@ opportunity clustering and preferred variants, decision preferences, and the
 seniority guard. Its retrospective, prospective-protocol, and semantic-compute
 experiments are preserved as frozen evidence.
 
-The current packet is SPEC-020 credential-semantics human-validation
-preparation. Its deterministic 50-case sample, blind order, and reserves are
-frozen locally using the authorized cap of 22 and 22/22/6 employer design.
-Human review has not started. The active gate and evidence are recorded in
+SPEC-020 credential-semantics human validation was terminated after 20 of 50
+frozen reviews because vacancy pages decayed during review. It is incomplete
+exploratory evidence, not validated credential policy. No next implementation
+packet is approved. The current gate and evidence are recorded in
 [docs/STATUS.md](docs/STATUS.md).
 
 ## Repository map

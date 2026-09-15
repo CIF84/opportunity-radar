@@ -335,3 +335,17 @@ decisions:
     supersedes: []
     related_experiments: [EXP-SEMANTIC-WORTHINESS-001, EXP-CANDIDATE-DIRECTION-001]
     affected_contracts: [DecisionPreferences, PreferenceMatchingRules, decision-preference fingerprint]
+
+  - decision_id: DR-025
+    title: Terminate incomplete credential-semantics validation after source decay
+    status: ACCEPTED
+    decided_at: "2026-09-15"
+    context: Twelve of the first 20 frozen SPEC-020 reviews were human-labeled invalid or stale because vacancy pages were no longer available; the eight interpretable cases all concerned hard-degree wording.
+    decision: Terminate SPEC-020 at 20/50 as TERMINATED_SOURCE_DECAY_CONFOUNDED. Preserve its frozen packet and append-only human evidence; do not calculate final 50-case gates, infer population precision, or promote runtime credential/stretch changes.
+    evidence: [specs/phase4/SPEC-020-credential-semantics-human-validation.md, output/credential_semantics_validation/spec020-credential-preparation-20260914-v3/aggregate_termination.json]
+    alternatives_rejected: [Treat 20/50 as completed validation, extrapolate 6/8 substitution to the source population, silently replace already judged cases, change runtime policy from incomplete evidence]
+    assumptions: [Human-reported page unavailability confounds this frozen packet; source decay does not by itself prove the frozen qualification text was ingested incorrectly]
+    consequences: [Preferred/equivalent/generic/ambiguous semantics remain unvalidated, independent capability gaps remain separate from degree interpretation, any future attempt needs a new approved protocol]
+    supersedes: []
+    related_experiments: [EXP-CREDENTIAL-SEMANTICS-001]
+    affected_contracts: [SPEC-020 experiment status, credential validation evidence boundary]

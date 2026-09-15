@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "artifact_type": "REPOSITORY_SAFE_CREDENTIAL_TERMINATION",
+  "experiment_id": "EXP-CREDENTIAL-SEMANTICS-001",
+  "preparation_id": "spec020-credential-preparation-20260914-v3",
+  "status": "TERMINATED_SOURCE_DECAY_CONFOUNDED",
+  "termination_rationale": "Human-confirmed stop after 20 of 50 reviews because source decay confounded credential-semantics validation.",
+  "coverage": {
+    "frozen_sample_count": 50,
+    "reviewed_count": 20,
+    "unreviewed_count": 30,
+    "replacement_count": 0,
+    "question_a_label_counts": {
+      "HARD_CREDENTIAL": 8,
+      "INVALID_OR_STALE_EVIDENCE": 12
+    },
+    "question_b_label_counts": {
+      "DEGREE_GAP_DECISIVE": 2,
+      "EXPERIENCE_PLAUSIBLY_SUBSTITUTES": 6,
+      "NEED_MORE_INFORMATION": 12
+    },
+    "invalid_or_stale_count": 12,
+    "invalid_or_stale_rate": 0.6,
+    "substantively_interpretable_count": 8,
+    "interpretable_question_a_label_counts": {
+      "HARD_CREDENTIAL": 8
+    },
+    "interpretable_question_b_label_counts": {
+      "DEGREE_GAP_DECISIVE": 2,
+      "EXPERIENCE_PLAUSIBLY_SUBSTITUTES": 6
+    }
+  },
+  "fingerprints": {
+    "protocol": "df80ce827b9091a57255cf52613bb5c159528bb3f721234a26d1a8ecad7243db",
+    "population": "3040fde1ed38b1cef0648ed889ee9c3146593ee757dcf76f8ce45fba754ef67d",
+    "stretch_rules": "c9388aa47a4422b37a83217e692bd281318be8e028469709744304bfa66b848f",
+    "candidate_full_profile": "9b220d73521fafe087f49269046eabdb9d94cfddc18a77b2e64a9745b9dd89e9",
+    "candidate_semantic_profile": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "operational_sqlite_sha256": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "selection": "400c050ba3091012d0707b534f06ac5a6740c4e174d1c1005f61b686f3d19359",
+    "review_order": "307e85f4ddabc5df51ed0eac258d05320296fd2c1aa30b54e2feac7391a8df78",
+    "sample_and_reserves": "53c3d76e78cb547c81a1ab5fac5115f6a6ff7c121f7713f6267a2cf1b7d118d6",
+    "private_manifest_sha256": "1a00feb3a178765a53b711ce9b9958f300f30afdc5906b73aaabdfa0872789da",
+    "private_blind_review_sha256": "e33536eb0dcf28c3e3ba39ceadd877384f93400bb1a1ef3cdfd12466b997bfb5",
+    "private_judgment_log_sha256": "146c1f4bc3bb865f1bbd828af10482ca1011dfc8f525abb2531cecf1e6277524",
+    "private_replacement_log_sha256": null
+  },
+  "architectural_observations": [
+    "Formal credential wording and practical experience substitution are distinct judgments.",
+    "Independent capability and domain gaps repeatedly appeared and must not be attributed to the missing degree.",
+    "Preferred, equivalent-experience, generic, and ambiguous credential semantics remain unvalidated."
+  ],
+  "limitations": [
+    "Incomplete exploratory sample; 20 of 50 frozen reviews were recorded.",
+    "Twelve reviewed cases were human-labeled invalid or stale; source-decay confounding prevents completed validation.",
+    "All eight interpretable cases concerned HARD_CREDENTIAL wording; other credential semantics were not substantively tested.",
+    "The 6 of 8 substitution and 2 of 8 decisive observations are neither population estimates nor validated rule precision.",
+    "The frozen sample is concentrated in three employers and balanced sample proportions are not population prevalence."
+  ],
+  "integrity": {
+    "predeclared_final_50_case_gates_calculated": false,
+    "final_counterfactual_performance_calculated": false,
+    "runtime_policy_changed": false,
+    "operational_sqlite_read_only": true,
+    "judgments_or_replacements_rewritten": false
+  },
+  "privacy": {
+    "classification": "REPOSITORY_SAFE_AGGREGATE",
+    "vacancy_identities_and_human_notes_excluded": true
+  }
+}

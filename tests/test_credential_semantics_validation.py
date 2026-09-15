@@ -5,7 +5,9 @@ import hashlib
 import inspect
 import json
 import subprocess
+import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -15,19 +17,23 @@ from opportunity_radar.credential_semantics_validation import (
     append_judgment,
     append_replacement,
     build_safe_final_summary,
+    build_safe_termination_summary,
     calculate_metrics,
     cap_diagnostic,
     effective_selected_items,
     load_credential_protocol,
+    main,
     prepare_credential_validation,
     render_blind_review,
     select_credential_sample,
+    terminate_credential_validation,
 )
 
 
 ROOT = Path(__file__).resolve().parents[1]
 BLOCKED_AGGREGATE = ROOT / "output/credential_semantics_validation/spec020-credential-preparation-20260914-v1/aggregate_summary.json"
 PREPARED_AGGREGATE = ROOT / "output/credential_semantics_validation/spec020-credential-preparation-20260914-v3/aggregate_summary.json"
+TERMINATED_AGGREGATE = ROOT / "output/credential_semantics_validation/spec020-credential-preparation-20260914-v3/aggregate_termination.json"
 
 
 def _row(index: int, company: str, wording: str = "MUST_HAVE", family: str = "OPERATIONS_PROGRAM") -> dict:
@@ -314,3 +320,117 @@ def test_repository_safe_prepared_receipt_records_frozen_design_and_integrity():
     assert result["integrity"]["database_unchanged"] is True
     assert result["integrity"]["human_judgments_created"] == 0
     assert result["integrity"]["external_semantic_calls"] == 0
+
+
+def _termination_records(manifest: dict) -> list[dict]:
+    rows = []
+    for item in manifest["sample"]["selected"][:20]:
+        number = item["review_number"]
+        a, b = (
+            ("INVALID_OR_STALE_EVIDENCE", "NEED_MORE_INFORMATION") if number <= 12
+            else ("HARD_CREDENTIAL", "EXPERIENCE_PLAUSIBLY_SUBSTITUTES") if number <= 18
+            else ("HARD_CREDENTIAL", "DEGREE_GAP_DECISIVE")
+        )
+        rows.append({
+            "record_id": f"judgment-{number}", "preparation_id": manifest["preparation_id"],
+            "review_number": number, "cluster_id": item["cluster_id"],
+            "credential_label": a, "consequence_label": b,
+            "note": "private human note", "reasons": [], "supersedes_record_id": None,
+        })
+    return rows
+
+
+def test_termination_receipt_is_sanitized_incomplete_and_has_no_final_gates():
+    manifest = _manifest()
+    preparation = json.loads(PREPARED_AGGREGATE.read_text(encoding="utf-8"))
+    preparation["preparation_id"] = manifest["preparation_id"]
+    summary = build_safe_termination_summary(
+        manifest, preparation, _termination_records(manifest), [],
+        judgment_log_sha256="j" * 64, replacement_log_sha256=None,
+    )
+    assert summary["status"] == "TERMINATED_SOURCE_DECAY_CONFOUNDED"
+    assert summary["coverage"]["reviewed_count"] == 20
+    assert summary["coverage"]["invalid_or_stale_count"] == 12
+    assert summary["coverage"]["interpretable_question_a_label_counts"] == {"HARD_CREDENTIAL": 8}
+    assert summary["coverage"]["interpretable_question_b_label_counts"] == {
+        "DEGREE_GAP_DECISIVE": 2, "EXPERIENCE_PLAUSIBLY_SUBSTITUTES": 6,
+    }
+    assert summary["integrity"]["predeclared_final_50_case_gates_calculated"] is False
+    assert "current_rule_precision" not in json.dumps(summary)
+    assert "private human note" not in json.dumps(summary)
+    assert "Program Manager" not in json.dumps(summary)
+    assert "example.test" not in json.dumps(summary)
+    assert "cluster-" not in json.dumps(summary)
+
+
+def test_termination_requires_exact_frozen_review_state_and_is_immutable(tmp_path):
+    manifest = _manifest()
+    preparation = json.loads(PREPARED_AGGREGATE.read_text(encoding="utf-8"))
+    preparation["preparation_id"] = manifest["preparation_id"]
+    directory = tmp_path / manifest["preparation_id"]
+    directory.mkdir()
+    (directory / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    (directory / "aggregate_summary.json").write_text(json.dumps(preparation), encoding="utf-8")
+    judgments = tmp_path / "judgments.jsonl"
+    judgments.write_text("".join(json.dumps(row) + "\n" for row in _termination_records(manifest)), encoding="utf-8")
+    before = judgments.read_bytes()
+    replacements = tmp_path / "replacements.jsonl"
+    summary = terminate_credential_validation(tmp_path, manifest["preparation_id"], judgments, replacements)
+    assert summary["status"] == "TERMINATED_SOURCE_DECAY_CONFOUNDED"
+    assert judgments.read_bytes() == before
+    assert not replacements.exists()
+    with pytest.raises(CredentialValidationError, match="terminal receipt already exists"):
+        terminate_credential_validation(tmp_path, manifest["preparation_id"], judgments, replacements)
+    (directory / "aggregate_termination.json").unlink()
+    judgments.write_text("".join(json.dumps(row) + "\n" for row in _termination_records(manifest)[:-1]), encoding="utf-8")
+    with pytest.raises(CredentialValidationError, match="exactly the first 20"):
+        terminate_credential_validation(tmp_path, manifest["preparation_id"], judgments, replacements)
+
+
+def test_repository_safe_terminal_receipt_is_incomplete_and_private_free():
+    result = json.loads(TERMINATED_AGGREGATE.read_text(encoding="utf-8"))
+    assert result["status"] == "TERMINATED_SOURCE_DECAY_CONFOUNDED"
+    assert result["coverage"]["reviewed_count"] == 20
+    assert result["coverage"]["unreviewed_count"] == 30
+    assert result["coverage"]["invalid_or_stale_count"] == 12
+    assert result["coverage"]["substantively_interpretable_count"] == 8
+    assert result["coverage"]["interpretable_question_b_label_counts"] == {
+        "DEGREE_GAP_DECISIVE": 2, "EXPERIENCE_PLAUSIBLY_SUBSTITUTES": 6,
+    }
+    assert result["integrity"]["predeclared_final_50_case_gates_calculated"] is False
+    assert result["integrity"]["final_counterfactual_performance_calculated"] is False
+    text = json.dumps(result)
+    for private in ("Page no longer exists.", "JavaScript remains", "SAP knowledge", "cluster_id", "canonical_url"):
+        assert private not in text
+    assert subprocess.run(
+        ["git", "check-ignore", "-q", str(TERMINATED_AGGREGATE.relative_to(ROOT))], cwd=ROOT,
+    ).returncode == 1
+
+
+def test_terminal_cli_refuses_new_judgments_and_reports_only_terminal_receipt(tmp_path, monkeypatch, capsys):
+    manifest = _manifest()
+    directory = tmp_path / manifest["preparation_id"]
+    directory.mkdir()
+    (directory / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    (directory / "aggregate_termination.json").write_text(
+        json.dumps({"status": "TERMINATED_SOURCE_DECAY_CONFOUNDED"}), encoding="utf-8",
+    )
+    judgments = tmp_path / "judgments.jsonl"
+    protocol = SimpleNamespace(raw={"outputs": {
+        "root": str(tmp_path), "judgments": str(judgments),
+        "replacements": str(tmp_path / "replacements.jsonl"),
+    }})
+    monkeypatch.setattr(
+        "opportunity_radar.credential_semantics_validation.load_credential_protocol",
+        lambda *args: protocol,
+    )
+    monkeypatch.setattr(sys, "argv", [
+        "credential-cli", "record", manifest["preparation_id"], "--review-number", "21",
+        "HARD_CREDENTIAL", "DEGREE_GAP_DECISIVE",
+    ])
+    with pytest.raises(CredentialValidationError, match="preparation is terminated"):
+        main()
+    assert not judgments.exists()
+    monkeypatch.setattr(sys, "argv", ["credential-cli", "report", manifest["preparation_id"]])
+    assert main() == 0
+    assert "TERMINATED_SOURCE_DECAY_CONFOUNDED" in capsys.readouterr().out

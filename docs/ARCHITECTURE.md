@@ -300,6 +300,8 @@ It does not add credential compatibility to runtime interpretation, eligibility,
 ranking, or recommendation. The candidate-independent source wording and the
 candidate-dependent practical consequence are reviewed as separate questions;
 any runtime object or precedence remains a later explicit architecture decision.
+The frozen experiment was human-terminated at 20/50 because source decay
+confounded review; its exploratory observations do not validate runtime rules.
 
 ## Known architecture debt
 

@@ -1,7 +1,8 @@
 # SPEC-020 Credential Semantics Validation — Preparation
 
-Preparation `spec020-credential-preparation-20260914-v3` is frozen locally and
-awaiting review. Human review has not started. The earlier `v1` aggregate remains
+Preparation `spec020-credential-preparation-20260914-v3` was frozen before human
+review and remains historical evidence. SPEC-020 was subsequently terminated at
+20/50; see `docs/credential_semantics_validation_termination.md`. The earlier `v1` aggregate remains
 immutable evidence that the original cap of five failed closed and required an
 explicit human concentration decision.
 
@@ -135,8 +136,8 @@ professional-history evidence. Neither question is an application decision.
 - External semantic calls: 0
 - Live-source calls: 0
 - SQLite writes: 0
-- Human judgments created: 0
-- Human review started: no
+- Human judgments created during preparation: 0
+- Human review started during preparation: no
 - Operational SQLite hash/mtime: unchanged
 
 Vacancy identities, titles, URLs, qualification excerpts, candidate evidence,
@@ -158,8 +159,6 @@ private blind packet SHA-256  e33536eb0dcf28c3e3ba39ceadd877384f93400bb1a1ef3cdf
 
 The selection replayed deterministically, source qualification wording remained
 exact, review numbers are exactly 1–50, and the operational SQLite hash and mtime
-remained unchanged. Human judgments, external semantic calls, live-source calls,
-and SQLite writes remain zero.
-
-No human review should begin until the frozen preparation is reviewed, committed,
-and explicitly authorized.
+remained unchanged. Preparation made zero human judgments, external semantic
+calls, live-source calls, or SQLite writes. The later append-only human evidence
+and terminal decision do not revise this frozen preparation receipt.

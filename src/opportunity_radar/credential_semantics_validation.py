@@ -995,6 +995,125 @@ def build_safe_final_summary(manifest: dict[str, Any], metrics: dict[str, Any], 
     }
 
 
+TERMINATED_SOURCE_DECAY_CONFOUNDED = "TERMINATED_SOURCE_DECAY_CONFOUNDED"
+
+
+def build_safe_termination_summary(
+    manifest: dict[str, Any], preparation: dict[str, Any],
+    judgments: list[dict[str, Any]], replacements: list[dict[str, Any]],
+    *, judgment_log_sha256: str, replacement_log_sha256: str | None,
+) -> dict[str, Any]:
+    """Derive the approved incomplete-experiment receipt without private rows."""
+    if manifest["preparation_id"] != preparation["preparation_id"]:
+        raise CredentialValidationError("termination preparation identity mismatch")
+    effective = effective_selected_items(manifest, replacements)
+    current = _current_append_only(judgments, manifest["preparation_id"], "cluster_id")
+    reviewed = [item for item in effective if item["cluster_id"] in current]
+    if (
+        len(effective) != 50 or len(reviewed) != 20
+        or sorted(item["review_number"] for item in reviewed) != list(range(1, 21))
+        or set(current) != {item["cluster_id"] for item in reviewed}
+    ):
+        raise CredentialValidationError("SPEC-020 termination requires exactly the first 20 frozen reviews")
+    rows = [current[item["cluster_id"]] for item in reviewed]
+    a_counts = Counter(row["credential_label"] for row in rows)
+    b_counts = Counter(row["consequence_label"] for row in rows)
+    interpretable = [row for row in rows if row["credential_label"] != "INVALID_OR_STALE_EVIDENCE"]
+    interpretable_b = Counter(row["consequence_label"] for row in interpretable)
+    if (
+        a_counts != {"INVALID_OR_STALE_EVIDENCE": 12, "HARD_CREDENTIAL": 8}
+        or b_counts != {
+            "NEED_MORE_INFORMATION": 12, "EXPERIENCE_PLAUSIBLY_SUBSTITUTES": 6,
+            "DEGREE_GAP_DECISIVE": 2,
+        }
+    ):
+        raise CredentialValidationError("recorded labels differ from the approved termination evidence")
+    return {
+        "schema_version": 1,
+        "artifact_type": "REPOSITORY_SAFE_CREDENTIAL_TERMINATION",
+        "experiment_id": manifest["experiment_id"],
+        "preparation_id": manifest["preparation_id"],
+        "status": TERMINATED_SOURCE_DECAY_CONFOUNDED,
+        "termination_rationale": "Human-confirmed stop after 20 of 50 reviews because source decay confounded credential-semantics validation.",
+        "coverage": {
+            "frozen_sample_count": len(effective), "reviewed_count": len(reviewed),
+            "unreviewed_count": len(effective) - len(reviewed),
+            "replacement_count": len(current_replacements(replacements, manifest["preparation_id"])),
+            "question_a_label_counts": dict(sorted(a_counts.items())),
+            "question_b_label_counts": dict(sorted(b_counts.items())),
+            "invalid_or_stale_count": 12, "invalid_or_stale_rate": 0.6,
+            "substantively_interpretable_count": 8,
+            "interpretable_question_a_label_counts": {"HARD_CREDENTIAL": 8},
+            "interpretable_question_b_label_counts": dict(sorted(interpretable_b.items())),
+        },
+        "fingerprints": {
+            "protocol": manifest["protocol_fingerprint"],
+            "population": preparation["fingerprints"]["population"],
+            "stretch_rules": preparation["fingerprints"]["stretch_rules"],
+            "candidate_full_profile": preparation["fingerprints"]["candidate_full_profile"],
+            "candidate_semantic_profile": preparation["fingerprints"]["candidate_semantic_profile"],
+            "operational_sqlite_sha256": preparation["fingerprints"]["database_sha256"],
+            "selection": manifest["sample"]["selection_fingerprint"],
+            "review_order": preparation["sample"]["review_order_fingerprint"],
+            "sample_and_reserves": preparation["sample"]["sample_and_reserve_fingerprint"],
+            "private_manifest_sha256": preparation["fingerprints"]["private_manifest_sha256"],
+            "private_blind_review_sha256": preparation["fingerprints"]["private_blind_review_sha256"],
+            "private_judgment_log_sha256": judgment_log_sha256,
+            "private_replacement_log_sha256": replacement_log_sha256,
+        },
+        "architectural_observations": [
+            "Formal credential wording and practical experience substitution are distinct judgments.",
+            "Independent capability and domain gaps repeatedly appeared and must not be attributed to the missing degree.",
+            "Preferred, equivalent-experience, generic, and ambiguous credential semantics remain unvalidated.",
+        ],
+        "limitations": [
+            "Incomplete exploratory sample; 20 of 50 frozen reviews were recorded.",
+            "Twelve reviewed cases were human-labeled invalid or stale; source-decay confounding prevents completed validation.",
+            "All eight interpretable cases concerned HARD_CREDENTIAL wording; other credential semantics were not substantively tested.",
+            "The 6 of 8 substitution and 2 of 8 decisive observations are neither population estimates nor validated rule precision.",
+            "The frozen sample is concentrated in three employers and balanced sample proportions are not population prevalence.",
+        ],
+        "integrity": {
+            "predeclared_final_50_case_gates_calculated": False,
+            "final_counterfactual_performance_calculated": False,
+            "runtime_policy_changed": False,
+            "operational_sqlite_read_only": True,
+            "judgments_or_replacements_rewritten": False,
+        },
+        "privacy": {
+            "classification": "REPOSITORY_SAFE_AGGREGATE",
+            "vacancy_identities_and_human_notes_excluded": True,
+        },
+    }
+
+
+def terminate_credential_validation(root: str | Path, preparation_id: str,
+                                    judgments_path: str | Path, replacements_path: str | Path) -> dict[str, Any]:
+    directory = Path(root) / preparation_id
+    path = directory / "aggregate_termination.json"
+    if path.exists():
+        raise CredentialValidationError("terminal receipt already exists; frozen experiment cannot be terminated twice")
+    if (directory / "aggregate_result.json").exists():
+        raise CredentialValidationError("completed result already exists; cannot terminate as incomplete")
+    manifest = load_preparation(root, preparation_id)
+    preparation = json.loads((directory / "aggregate_summary.json").read_text(encoding="utf-8"))
+    judgments_path = Path(judgments_path)
+    replacements_path = Path(replacements_path)
+    before_judgments = _sha256_file(judgments_path)
+    before_replacements = _sha256_file(replacements_path) if replacements_path.exists() else None
+    summary = build_safe_termination_summary(
+        manifest, preparation, load_jsonl(judgments_path), load_jsonl(replacements_path),
+        judgment_log_sha256=before_judgments, replacement_log_sha256=before_replacements,
+    )
+    if (
+        _sha256_file(judgments_path) != before_judgments
+        or (_sha256_file(replacements_path) if replacements_path.exists() else None) != before_replacements
+    ):
+        raise CredentialValidationError("termination mutated private append-only evidence")
+    _write_immutable(path, json.dumps(summary, ensure_ascii=False, indent=2) + "\n")
+    return summary
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Frozen SPEC-020 credential-semantics human validation")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -1017,6 +1136,8 @@ def main() -> int:
     replace.add_argument("reason")
     report = subparsers.add_parser("report")
     report.add_argument("preparation_id")
+    terminate = subparsers.add_parser("terminate")
+    terminate.add_argument("preparation_id")
     args = parser.parse_args()
     protocol = load_credential_protocol(getattr(args, "config", DEFAULT_CONFIG))
     root = Path(getattr(args, "output_root", None) or protocol.raw["outputs"]["root"])
@@ -1029,6 +1150,17 @@ def main() -> int:
     manifest = load_preparation(root, args.preparation_id)
     judgments_path = protocol.raw["outputs"]["judgments"]
     replacements_path = protocol.raw["outputs"]["replacements"]
+    terminal_path = root / args.preparation_id / "aggregate_termination.json"
+    if args.command == "terminate":
+        print(json.dumps(terminate_credential_validation(
+            root, args.preparation_id, judgments_path, replacements_path,
+        ), ensure_ascii=False, indent=2))
+        return 0
+    if terminal_path.exists():
+        if args.command == "report":
+            print(terminal_path.read_text(encoding="utf-8"), end="")
+            return 0
+        raise CredentialValidationError("preparation is terminated; no further judgments or replacements are allowed")
     if args.command == "record":
         value = append_judgment(
             manifest, judgments_path, replacements_path, args.credential_label,

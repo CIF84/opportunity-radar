@@ -7,10 +7,10 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-020-credential-semantics-human-validation.md
+None — SPEC-020 is terminated; no successor implementation packet is approved.
 ```
 
-Status: `PREPARED_LOCALLY_AWAITING_REVIEW`.
+Status: `TERMINATED_SOURCE_DECAY_CONFOUNDED`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -47,9 +47,9 @@ Frozen recent milestones:
 
 SPEC-019 is committed as `5591442` and remains diagnostic/unpromoted. Its result
 motivated SPEC-020: degree/credential evidence is the dominant unresolved source
-of excessive-stretch classifications. SPEC-020 tooling is implemented locally;
-the authorized deterministic sample and reserves are frozen, but human review has
-not started.
+of excessive-stretch classifications. SPEC-020 preparation was committed as
+`9b68cee`; its frozen 50-case packet was then human-terminated at 20 reviews
+because source decay confounded validation. No credential policy was promoted.
 
 ## SPEC-019 diagnostic result
 
@@ -157,13 +157,32 @@ The material relaxation was explicitly approved: retain the target of 50, use ca
 22, and preserve the 22 EY / 22 Johnson & Johnson / 6 Schneider Electric design.
 Preparation `spec020-credential-preparation-20260914-v3` froze that sample, a
 deterministic blind order, five direct-mandatory reserves, and five
-qualified/substitutable reserves. External semantic calls, live-source calls,
-SQLite writes, and human judgments remain zero.
+qualified/substitutable reserves. Preparation made zero external semantic calls,
+live-source calls, SQLite writes, or human judgments. Twenty human judgments
+were appended only after preparation was committed.
 
 Final reporting must keep unweighted/stratified sample results separate from
 employer-population-weighted estimates over the verified 144-case population.
 Balanced sample proportions are not population prevalence; Schneider Electric's
 six selected cases are complete coverage of its current degree-driven population.
+
+## SPEC-020 terminal exploratory result
+
+Human decision `DR-025` terminated SPEC-020 as
+`TERMINATED_SOURCE_DECAY_CONFOUNDED` after 20/50 reviews. Twelve Question A
+labels were `INVALID_OR_STALE_EVIDENCE` (60% of reviewed cases), so only eight
+were substantively interpretable. All eight had `HARD_CREDENTIAL` wording; six
+Question B labels were `EXPERIENCE_PLAUSIBLY_SUBSTITUTES` and two were
+`DEGREE_GAP_DECISIVE`. Human notes repeatedly separated independent domain/
+capability gaps from the formal degree gap.
+
+This is an incomplete, source-decay-confounded exploratory observation—not
+validated rule precision or a population estimate. Preferred,
+equivalent-experience, generic, and ambiguous credential semantics remain
+unvalidated. The frozen sample/reserves and all 20 private append-only judgments
+remain unchanged. No final 50-case gates, counterfactual performance, or
+population-weighted results were calculated. See the sanitized receipt in
+`output/credential_semantics_validation/spec020-credential-preparation-20260914-v3/aggregate_termination.json`.
 
 ## Blindness and privacy
 
@@ -208,11 +227,9 @@ and Mews. No new source integration is authorized during SPEC-020.
 
 ## Current gate
 
-> Review and commit the frozen SPEC-020 preparation packet and repository-safe
-> receipt. Begin human review only after explicit approval.
-
-Do not present reviews or create judgments until the frozen packet is reviewed,
-committed, and the human phase is explicitly authorized.
+> Preserve SPEC-020 termination evidence and decide whether a separately
+> approved freshness-aware validation protocol is warranted. Do not resume the
+> terminal packet or begin SPEC-021 without a new human decision.
 
 ## Protected boundaries
 
@@ -246,7 +263,8 @@ This is a hypothesis to test, not a pre-approved runtime architecture.
 
 ## Direction after SPEC-020
 
-Contingent on completed human evidence:
+The following remain deferred because SPEC-020 did not produce completed
+human validation:
 
 1. determine whether credentials belong inside stretch or a separate compatibility object;
 2. correct degree semantics only in a separately approved packet;
@@ -258,7 +276,8 @@ Contingent on completed human evidence:
 
 ## Known blockers and open decisions
 
-- Credential semantics and degree substitutability.
+- Credential semantics beyond hard-wording cases and degree substitutability.
+- Whether a new freshness-aware human validation packet should be approved.
 - Whether SPEC-019 stretch can later support runtime boundaries.
 - Deterministic rejection architecture after credential validation.
 - Exploration/control rate for future compute allocation.
@@ -273,11 +292,13 @@ Contingent on completed human evidence:
 - Frozen selection / blind-order fingerprints:
   `400c050ba3091012d0707b534f06ac5a6740c4e174d1c1005f61b686f3d19359` /
   `307e85f4ddabc5df51ed0eac258d05320296fd2c1aa30b54e2feac7391a8df78`.
-- SPEC-020 external semantic calls, live-source calls, SQLite writes, and judgments: zero.
+- SPEC-020 recorded judgments: 20/50; replacements: zero; final gates: not run.
+- SPEC-020 external semantic calls, live-source calls, and SQLite writes: zero.
 - Operational SQLite SHA-256 remained
   `a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23`.
-- Latest full offline validation: 322 passed, 2 expected private-evidence skips,
-  and 22 live tests deselected; `git diff --check` passed.
+- Terminal-packet offline validation: 326 passed, 2 expected private-evidence
+  skips, 22 live tests deselected; `git diff --check` passed. Generated test
+  receipts are replaceable and not authoritative.
 
 ## Explicitly do not build/tune yet
 

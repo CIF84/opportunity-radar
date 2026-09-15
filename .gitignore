@@ -88,6 +88,7 @@ output/credential_semantics_validation/**/*
 !output/credential_semantics_validation/**/
 !output/credential_semantics_validation/**/aggregate_summary.json
 !output/credential_semantics_validation/**/aggregate_result.json
+!output/credential_semantics_validation/**/aggregate_termination.json
 # Intermediate authorized probe; v1 blocker and v3 frozen receipt are the
 # deliberate repository evidence for this preparation sequence.
 output/credential_semantics_validation/spec020-credential-preparation-20260914-v2/aggregate_summary.json

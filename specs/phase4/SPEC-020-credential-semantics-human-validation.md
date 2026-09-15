@@ -1,6 +1,6 @@
 # SPEC-020 — Credential Semantics Human Validation
 
-Status: `PREPARED_LOCALLY_AWAITING_REVIEW`
+Status: `TERMINATED_SOURCE_DECAY_CONFOUNDED`
 
 ## Purpose
 
@@ -419,3 +419,25 @@ The repository-safe receipt contains only aggregate coverage, fingerprints,
 integrity checks, and provenance. No human judgment, semantic call, live-source
 call, or SQLite write occurred. Human review remains a separate explicitly
 authorized operation after preparation review and commit.
+
+## Terminal human decision — 2026-09-15
+
+Human review was stopped after 20 of the 50 frozen reviews because source decay
+confounded the experiment. This is `TERMINATED_SOURCE_DECAY_CONFOUNDED`, an
+incomplete exploratory result, not a completed validation. The frozen sample,
+blind order, reserves, 20 append-only judgments and private notes, and zero
+replacement records retain their original identities and provenance.
+
+Twelve of the 20 recorded Question A labels were `INVALID_OR_STALE_EVIDENCE`.
+The other eight were `HARD_CREDENTIAL`; six of those eight Question B labels
+were `EXPERIENCE_PLAUSIBLY_SUBSTITUTES` and two were `DEGREE_GAP_DECISIVE`.
+These small, source-decay-confounded observations are not population estimates
+or validated current-rule precision. Preferred, equivalent-experience, generic,
+and ambiguous credential semantics remain unvalidated. Human notes repeatedly
+distinguish independent capability/domain gaps from the missing degree.
+
+No predeclared final 50-case gates, counterfactual performance, or population-
+weighted estimates may be calculated for this terminated packet. No runtime
+stretch, candidate, ranking, recommendation, or semantic-allocation policy is
+promoted. A future attempt requires an explicitly approved new protocol and
+experiment identity; it must not rewrite or resume this terminal packet.
