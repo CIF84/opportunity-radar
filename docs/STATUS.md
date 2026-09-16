@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-021-frozen-credential-evidence-semantics-v2.md
 ```
 
-Status: `APPROVED_FOR_IMPLEMENTATION`.
+Status: `IMPLEMENTED_LOCALLY_AWAITING_PREPARATION_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -147,6 +147,40 @@ Target classes include:
 
 Rare semantic classes should be intentionally oversampled.
 
+## SPEC-021 preparation result
+
+The zero-call, read-only v2 preparation is frozen locally as:
+
+```text
+spec021-credential-evidence-preparation-20260916-v2
+```
+
+It searched 4,514 detailed observation rows covering 4,164 job identities and
+4,206 distinct job/content versions, including 42 historical versions. It
+reconstructed 1,762 valid immutable evidence snapshots. Current source
+availability was deliberately not checked; all snapshots retain
+`SOURCE_CURRENTNESS_NOT_CHECKED` independently of evidence validity.
+
+The proposed review set has 36 cases plus 14 same-class invalid-capture
+reserves:
+
+```text
+EXPLICIT_HARD                         6
+DEGREE_OR_EQUIVALENT_EXPERIENCE       6
+PREFERRED_OR_IDEAL                    5
+MIXED_MANDATORY_PREFERRED             5
+GENERIC_OR_TEMPLATE                   5
+AMBIGUOUS                             5
+CONSTITUTIVE_OR_REGULATED             4
+```
+
+Seventeen employers are represented. Constitutive/regulated evidence is rare
+and concentrated: three selected controls come from EY and one from Johnson &
+Johnson. That is an explicit semantic-coverage limitation, not a prevalence
+claim. The private manifest and blind packet are Git-ignored; only the sanitized
+aggregate receipt is repository-safe. No judgment log exists and human review
+has not begun.
+
 ## Improved human questions
 
 Question A — captured credential semantics:
@@ -203,9 +237,9 @@ No silent early stopping is allowed.
 
 ## Current gate
 
-> Implement SPEC-021 preparation only. Build immutable credential evidence snapshots,
-> enumerate available semantic classes, and propose the smallest diverse frozen
-> review set. Do not begin human review until preparation is reviewed and committed.
+> Review and commit the SPEC-021 preparation boundary. Do not begin human review
+> until the immutable evidence packet, diverse frozen set, and sanitized receipt
+> are explicitly approved and committed.
 
 No runtime credential/stretch policy change is authorized.
 

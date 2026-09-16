@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "experiment_id": "EXP-CREDENTIAL-EVIDENCE-SEMANTICS-002",
+  "protocol_version": "credential-evidence-semantics-v2",
+  "preparation_id": "spec021-credential-evidence-preparation-20260916-v2",
+  "status": "PREPARED_AWAITING_HUMAN_REVIEW_APPROVAL",
+  "prepared_at": "2026-09-16T09:43:59+00:00",
+  "source_populations": {
+    "detailed_observation_rows_searched": 4514,
+    "distinct_job_instances_searched": 4164,
+    "unique_job_content_versions_searched": 4206,
+    "latest_observation_rows_searched": 4164,
+    "historical_unique_content_versions_searched": 42,
+    "reconstructable_valid_evidence_count": 1762,
+    "invalid_or_incomplete_capture_count": 0
+  },
+  "evidence_inventory": {
+    "semantic_class_distribution": {
+      "AMBIGUOUS": 250,
+      "CONSTITUTIVE_OR_REGULATED": 12,
+      "DEGREE_OR_EQUIVALENT_EXPERIENCE": 118,
+      "EXPLICIT_HARD": 659,
+      "GENERIC_OR_TEMPLATE": 354,
+      "MIXED_MANDATORY_PREFERRED": 216,
+      "PREFERRED_OR_IDEAL": 153
+    },
+    "credential_concept_distribution": {
+      "BACHELORS_DEGREE": 870,
+      "DOCTORATE_DEGREE": 115,
+      "GENERAL_ACADEMIC_DEGREE": 215,
+      "MASTERS_DEGREE": 357,
+      "PROFESSIONAL_LICENSE": 205
+    },
+    "candidate_substitution_signal_distribution": {
+      "ADJACENT_TRANSFERABLE_PRESENT": 132,
+      "DEVELOPING_OR_NONE_ONLY": 23,
+      "DIRECT_MATCH_PRESENT": 1462,
+      "NO_ASSERTED_MATCH": 145
+    },
+    "source_currentness_distribution": {
+      "SOURCE_CURRENTNESS_NOT_CHECKED": 1762
+    }
+  },
+  "proposed_frozen_sample": {
+    "selected_count": 36,
+    "reserve_count": 14,
+    "semantic_class_distribution": {
+      "AMBIGUOUS": 5,
+      "CONSTITUTIVE_OR_REGULATED": 4,
+      "DEGREE_OR_EQUIVALENT_EXPERIENCE": 6,
+      "EXPLICIT_HARD": 6,
+      "GENERIC_OR_TEMPLATE": 5,
+      "MIXED_MANDATORY_PREFERRED": 5,
+      "PREFERRED_OR_IDEAL": 5
+    },
+    "company_distribution": {
+      "commerzbank": 2,
+      "csob": 2,
+      "deutsche_boerse_group": 2,
+      "ey": 5,
+      "gooddata": 1,
+      "honeywell": 2,
+      "johnson_johnson": 4,
+      "kiwi_com": 1,
+      "pfizer": 2,
+      "pure_storage": 2,
+      "red_hat": 2,
+      "sap": 2,
+      "schneider_electric": 3,
+      "siemens": 2,
+      "wpp": 2,
+      "wrike": 2
+    },
+    "credential_concept_distribution": {
+      "BACHELORS_DEGREE": 7,
+      "DOCTORATE_DEGREE": 5,
+      "GENERAL_ACADEMIC_DEGREE": 8,
+      "MASTERS_DEGREE": 9,
+      "PROFESSIONAL_LICENSE": 7
+    },
+    "candidate_substitution_signal_distribution": {
+      "ADJACENT_TRANSFERABLE_PRESENT": 6,
+      "DEVELOPING_OR_NONE_ONLY": 3,
+      "DIRECT_MATCH_PRESENT": 21,
+      "NO_ASSERTED_MATCH": 6
+    },
+    "selection_fingerprint": "599c54c428cb5491264c69d8f36130557b386749f3dd677dc43f4c9c99339ac2",
+    "sample_and_reserve_fingerprint": "cd791d527b594082bca39ada36780da80bea703464dc34fd39ee198e365a3550",
+    "replacement_policy": "INVALID_OR_INCOMPLETE_EVIDENCE_ONLY_SAME_SEMANTIC_CLASS"
+  },
+  "fingerprints": {
+    "protocol": "b0d9b7946a7bf13c29e049920c2667a29ca5b04a6b56ce9570067cbbb4aacf26",
+    "evidence_population": "1846d5c7115b09b3dfd68c986fb2d320476062d79cdbcd6c873790044e57e56a",
+    "candidate_full_profile": "9b220d73521fafe087f49269046eabdb9d94cfddc18a77b2e64a9745b9dd89e9",
+    "candidate_semantic_profile": "6579b21e2bc22fef927ca17bdf6083b7e9a099bd5810b49528f589c83793819b",
+    "candidate_projection": "e750d12722a47dd918268678eab2f264f58312388e3ef340b80c777bf865173c",
+    "operational_database_sha256": "a07d53002dc22e07ba33946a1dfc172365d182e37133f6221f4ef48e2154ff23",
+    "private_manifest_sha256": "bdac32b745b96c5d42533b246ea605f644481c014d9415fb08a77c90e3495e83",
+    "private_blind_review_sha256": "2d3e1223b1595bf91cb25383b627e1bce0fd27a24021fc7cb4b2d23a34d642af"
+  },
+  "provenance": {
+    "git": {
+      "commit": "91a3a26e99f41bb6a0048c9066e9f9fe110ec67e",
+      "dirty": true,
+      "worktree_status_fingerprint": "8219b3ed2f18fd9825b6327ca772199f593c20444431a8d9e30bb36c3953255d"
+    },
+    "database_open_mode": "SQLITE_READ_ONLY_QUERY_ONLY",
+    "source_currentness_checked": false,
+    "source_currentness_policy": "CURRENTNESS_SEPARATE_FROM_EVIDENCE_VALIDITY"
+  },
+  "blindness": {
+    "selection_excluded_inputs": [
+      "candidate_preferences",
+      "recommendation",
+      "semantic_score",
+      "cache_status",
+      "stretch_class",
+      "historical_human_labels"
+    ],
+    "blind_packet_excludes_hidden_semantic_class": true,
+    "blind_packet_excludes_runtime_and_historical_labels": true
+  },
+  "integrity": {
+    "deterministic_selection_replay": true,
+    "all_selected_evidence_valid": true,
+    "exact_modal_wording_preserved": true,
+    "candidate_projection_excludes_preferences": true,
+    "operational_database_unchanged": true,
+    "sqlite_writes": 0,
+    "external_semantic_calls": 0,
+    "live_source_calls": 0,
+    "human_review_started": false,
+    "human_judgments_created": 0
+  },
+  "limitations": [
+    "The set is deliberately optimized for credential-reasoning coverage, not population prevalence.",
+    "Deterministic evidence classes are sampling strata, not human interpretation labels or expected outcomes.",
+    "Source currentness was not checked; valid captured evidence remains reviewable after later source decay.",
+    "Candidate capability matching is bounded lexical evidence and preserves omitted capability as UNKNOWN.",
+    "No runtime credential, stretch, ranking, recommendation, candidate, or source behavior changed."
+  ],
+  "conclusion": "Stored current and historical detail supports a semantically diverse immutable evidence set without live or semantic calls; human review remains gated on preparation review and commit."
+}

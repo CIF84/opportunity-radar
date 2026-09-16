@@ -1,6 +1,6 @@
 # SPEC-021 — Frozen Credential Evidence Semantics Validation v2
 
-Status: `APPROVED_FOR_IMPLEMENTATION`
+Status: `IMPLEMENTED_LOCALLY_AWAITING_PREPARATION_REVIEW`
 
 ## Purpose
 

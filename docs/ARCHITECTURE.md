@@ -303,6 +303,15 @@ any runtime object or precedence remains a later explicit architecture decision.
 The frozen experiment was human-terminated at 20/50 because source decay
 confounded review; its exploratory observations do not validate runtime rules.
 
+SPEC-021 implements a separate preparation-only evidence boundary. It captures
+exact credential wording, bounded qualification context, source/observation
+provenance, candidate substitution evidence, and hashes in immutable private
+snapshots. Evidence validity and later source currentness are separate states.
+Its deterministic semantic classes are sampling strata, not runtime policy or
+expected human labels. The workflow adds no SQLite schema, does not change
+stretch/eligibility/ranking/recommendation, and performs no model or source
+calls. Human review remains unstarted pending approval and commit.
+
 ## Known architecture debt
 
 - Complete identity inventories drive lifecycle but are not normally retained

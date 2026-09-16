@@ -349,3 +349,17 @@ decisions:
     supersedes: []
     related_experiments: [EXP-CREDENTIAL-SEMANTICS-001]
     affected_contracts: [SPEC-020 experiment status, credential validation evidence boundary]
+
+  - decision_id: DR-026
+    title: Separate frozen evidence validity from later source currentness
+    status: ACCEPTED
+    decided_at: "2026-09-16"
+    context: SPEC-020 became source-decay-confounded because later page availability was treated as necessary to interpret already captured qualification wording.
+    decision: Preserve exact credential wording, bounded context, observation provenance, completeness, and hashes as immutable private evidence. Record later source currentness separately; an unavailable page alone does not invalidate complete captured evidence.
+    evidence: [specs/phase4/SPEC-021-frozen-credential-evidence-semantics-v2.md, docs/credential_evidence_semantics_v2_preparation.md, output/credential_evidence_validation/spec021-credential-evidence-preparation-20260916-v2/aggregate_summary.json]
+    alternatives_rejected: [Require live page availability during every review, reopen or resample SPEC-020, treat deterministic sampling classes as human labels, promote credential rules before validation]
+    assumptions: [Normalized detailed observations preserve exact enough source wording and provenance for the bounded questions, private detailed evidence remains locally retained]
+    consequences: [SPEC-021 uses a new protocol identity, source decay no longer automatically invalidates complete evidence, runtime credential and stretch behavior remains unchanged]
+    supersedes: []
+    related_experiments: [EXP-CREDENTIAL-SEMANTICS-001, EXP-CREDENTIAL-EVIDENCE-SEMANTICS-002]
+    affected_contracts: [CredentialEvidenceSnapshot, EvidenceValidity, SourceCurrentness, SPEC-021 privacy boundary]

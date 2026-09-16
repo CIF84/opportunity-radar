@@ -17,9 +17,10 @@ seniority guard. Its retrospective, prospective-protocol, and semantic-compute
 experiments are preserved as frozen evidence.
 
 SPEC-020 credential-semantics human validation was terminated after 20 of 50
-frozen reviews because vacancy pages decayed during review. It is incomplete
-exploratory evidence, not validated credential policy. No next implementation
-packet is approved. The current gate and evidence are recorded in
+frozen reviews because vacancy pages decayed during review. SPEC-021 now has a
+separate preparation-only implementation built around immutable captured
+evidence; its 36-case diverse review set is awaiting review/commit and human
+review has not begun. The current gate and evidence are recorded in
 [docs/STATUS.md](docs/STATUS.md).
 
 ## Repository map
@@ -116,12 +117,15 @@ Semantic ROI harness (offline unless explicitly opted into external calls):
 .venv/bin/opportunity-radar-semantic-roi
 ```
 
-Credential-semantics preparation (read-only; creates a new immutable local
-packet, so always supply a new preparation ID):
+SPEC-021 frozen credential-evidence preparation (read-only; its configured
+preparation identity is immutable):
 
 ```bash
-.venv/bin/opportunity-radar-credential-validation prepare --preparation-id <new-id>
+.venv/bin/opportunity-radar-credential-evidence-validation prepare
 ```
+
+The prior `opportunity-radar-credential-validation` command belongs to frozen,
+terminated SPEC-020 and must not be used to resume that experiment.
 
 Live Decision Validation preflight is read-only:
 
