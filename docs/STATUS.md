@@ -7,15 +7,16 @@ and the next approved work packet.
 ## Current approved work packet
 
 ```text
-specs/phase4/SPEC-021-frozen-credential-evidence-semantics-v2.md
+specs/phase4/SPEC-022-shadow-credential-compatibility-and-stretch-replay.md
 ```
 
-Status: `COMPLETED_LOCALLY_AWAITING_OWNER_REVIEW`.
+Status: `APPROVED_FOR_IMPLEMENTATION`.
 
 Implementation/operations agents must follow this pointer rather than infer work
-from file recency. Before starting, verify the local working tree is synchronized
-with `origin/main` when safe. Intentionally retained local operational/private
-evidence is not itself an error; unexplained code/config divergence is.
+from file recency. Before starting, explicitly fetch `origin` and verify the local
+`origin/main` tracking ref matches the authoritative GitHub `main` branch. Intentionally
+retained local operational/private evidence is not itself an error; unexplained
+code/config divergence is.
 
 The development authority boundary remains:
 
@@ -47,10 +48,15 @@ Frozen recent milestones:
 - SPEC-019 stretch evidence audit: `559144258608825bdbc746691c37da041bb2fc82`
 - SPEC-020 terminated credential validation: `676647bb24a7f88b23c334d74e904cd8444f840c`
 
-SPEC-021 is a distinct completed protocol identity. It redesigned credential
+SPEC-021 is a completed and committed protocol identity. It redesigned credential
 validation around immutable captured evidence so later source disappearance does
 not automatically invalidate a trustworthy observation. Its 36-case human review
-and diagnostic replay are complete locally; no runtime rule has been promoted.
+and diagnostic replay are complete; no runtime rule was promoted.
+
+SPEC-022 is the approved next packet. It implements Architecture B in shadow only:
+credential compatibility becomes a separate evidence object and a shadow stretch-v2
+replay removes generic academic credential absence as an independent capability-
+distance reason. Production stretch/ranking/recommendation behavior remains frozen.
 
 ## SPEC-019 diagnostic result
 
@@ -259,11 +265,11 @@ No silent early stopping is allowed.
 
 ## Current gate
 
-> Review the completed SPEC-021 evidence and architecture comparison. Decide
-> whether to authorize a separate implementation specification; do not promote
-> runtime credential/stretch behavior directly from this diagnostic experiment.
+> Execute SPEC-022 as a zero-call, read-only shadow architectural correction.
+> Separate credential compatibility from capability stretch and replay the verified
+> degree-driven population plus the broader corpus. Do not promote runtime behavior.
 
-No runtime credential/stretch policy change is authorized.
+No runtime credential/stretch policy change or semantic spend is authorized.
 
 ## Protected boundaries
 
@@ -296,15 +302,13 @@ APPLICATION COMPETITIVENESS / DECISION REASONING
 Constitutive credentials may ultimately require separate non-substitutable treatment,
 but this is a hypothesis for validation, not a runtime rule.
 
-## Direction after SPEC-021
+## Direction after SPEC-022
 
-1. owner-review Architecture B as the representation boundary and Architecture C
-   as a possible narrow deterministic hard boundary;
-2. if accepted, write a separate implementation specification rather than
-   mutating SPEC-019 in place;
-3. preserve conservative unresolved handling and independent capability gaps;
-4. validate any implementation prospectively before suppressing semantic work;
-5. preserve exploration/control before broad compute suppression;
+1. review the shadow transition matrix and independent capability reasons;
+2. decide whether Architecture B is safe enough for a separately approved runtime experiment;
+3. keep Architecture C constitutive-only treatment shadow/diagnostic until its boundary is stronger;
+4. compare corrected deterministic coverage with SPEC-011/012 compute economics;
+5. preserve conservative unresolved handling and an exploration/control path before suppressing semantic work;
 6. keep semantic-v1 frozen until upstream allocation architecture is validated.
 
 ## Known open decisions
