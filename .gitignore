@@ -101,6 +101,7 @@ data/credential_evidence_validation/*.jsonl
 output/credential_evidence_validation/**/*
 !output/credential_evidence_validation/**/
 !output/credential_evidence_validation/**/aggregate_summary.json
+!output/credential_evidence_validation/**/aggregate_result.json
 # Superseded local preparation probe created before tightening modal-relation
 # and constitutive-credential extraction. The v2 receipt is canonical.
 output/credential_evidence_validation/spec021-credential-evidence-preparation-20260916-v1/aggregate_summary.json

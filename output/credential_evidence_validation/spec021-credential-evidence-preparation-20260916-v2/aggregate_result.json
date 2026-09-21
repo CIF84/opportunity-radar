@@ -1,0 +1,500 @@
+{
+  "schema_version": 1,
+  "artifact_type": "REPOSITORY_SAFE_CREDENTIAL_EVIDENCE_RESULT",
+  "experiment_id": "EXP-CREDENTIAL-EVIDENCE-SEMANTICS-002",
+  "protocol_version": "credential-evidence-semantics-v2",
+  "preparation_id": "spec021-credential-evidence-preparation-20260916-v2",
+  "status": "COMPLETE_PLANNED_COUNT",
+  "coverage": {
+    "reviewed": 36,
+    "planned": 36,
+    "semantic_classes_covered": 7,
+    "question_a_distribution": {
+      "HARD_CREDENTIAL": 22,
+      "DEGREE_OR_EQUIVALENT_EXPERIENCE": 11,
+      "PREFERRED_CREDENTIAL": 3,
+      "GENERIC_OR_NONDECISIVE_CREDENTIAL": 0,
+      "AMBIGUOUS_CREDENTIAL": 0,
+      "EVIDENCE_CAPTURE_INVALID": 0
+    },
+    "question_b_distribution": {
+      "EXPERIENCE_STRONGLY_SUBSTITUTES": 1,
+      "EXPERIENCE_PARTIALLY_SUBSTITUTES": 5,
+      "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE": 23,
+      "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE": 7,
+      "NEED_MORE_INFORMATION": 0
+    },
+    "independent_gap_distribution": {
+      "DOMAIN_EXPERTISE_GAP": 11,
+      "TECHNICAL_SKILL_GAP": 11,
+      "PROFESSIONAL_FUNCTION_GAP": 10,
+      "REGULATORY_OR_LICENSE_GAP": 2,
+      "SENIORITY_DEPTH_GAP": 0,
+      "LANGUAGE_GAP": 1,
+      "OTHER_CAPABILITY_GAP": 1
+    },
+    "cases_with_independent_gaps": 34,
+    "reasoning_pattern_count": 20,
+    "reasoning_patterns": [
+      {
+        "credential_semantics": "DEGREE_OR_EQUIVALENT_EXPERIENCE",
+        "experiential_substitution": "EXPERIENCE_PARTIALLY_SUBSTITUTES",
+        "independent_capability_gaps": [
+          "PROFESSIONAL_FUNCTION_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "DEGREE_OR_EQUIVALENT_EXPERIENCE",
+        "experiential_substitution": "EXPERIENCE_PARTIALLY_SUBSTITUTES",
+        "independent_capability_gaps": [
+          "TECHNICAL_SKILL_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "DEGREE_OR_EQUIVALENT_EXPERIENCE",
+        "experiential_substitution": "EXPERIENCE_STRONGLY_SUBSTITUTES",
+        "independent_capability_gaps": [],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "DEGREE_OR_EQUIVALENT_EXPERIENCE",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "DOMAIN_EXPERTISE_GAP"
+        ],
+        "count": 2,
+        "distinct_employers": 2,
+        "distinct_role_contexts": 2
+      },
+      {
+        "credential_semantics": "DEGREE_OR_EQUIVALENT_EXPERIENCE",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "PROFESSIONAL_FUNCTION_GAP"
+        ],
+        "count": 2,
+        "distinct_employers": 2,
+        "distinct_role_contexts": 2
+      },
+      {
+        "credential_semantics": "DEGREE_OR_EQUIVALENT_EXPERIENCE",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "REGULATORY_OR_LICENSE_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "DEGREE_OR_EQUIVALENT_EXPERIENCE",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "TECHNICAL_SKILL_GAP"
+        ],
+        "count": 3,
+        "distinct_employers": 3,
+        "distinct_role_contexts": 3
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE",
+        "independent_capability_gaps": [
+          "DOMAIN_EXPERTISE_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE",
+        "independent_capability_gaps": [
+          "OTHER_CAPABILITY_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE",
+        "independent_capability_gaps": [
+          "PROFESSIONAL_FUNCTION_GAP"
+        ],
+        "count": 4,
+        "distinct_employers": 3,
+        "distinct_role_contexts": 4
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE",
+        "independent_capability_gaps": [
+          "REGULATORY_OR_LICENSE_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "EXPERIENCE_PARTIALLY_SUBSTITUTES",
+        "independent_capability_gaps": [],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "EXPERIENCE_PARTIALLY_SUBSTITUTES",
+        "independent_capability_gaps": [
+          "DOMAIN_EXPERTISE_GAP"
+        ],
+        "count": 2,
+        "distinct_employers": 2,
+        "distinct_role_contexts": 2
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "DOMAIN_EXPERTISE_GAP"
+        ],
+        "count": 4,
+        "distinct_employers": 3,
+        "distinct_role_contexts": 4
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "DOMAIN_EXPERTISE_GAP",
+          "LANGUAGE_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "DOMAIN_EXPERTISE_GAP",
+          "PROFESSIONAL_FUNCTION_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "PROFESSIONAL_FUNCTION_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "HARD_CREDENTIAL",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "TECHNICAL_SKILL_GAP"
+        ],
+        "count": 5,
+        "distinct_employers": 5,
+        "distinct_role_contexts": 5
+      },
+      {
+        "credential_semantics": "PREFERRED_CREDENTIAL",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "PROFESSIONAL_FUNCTION_GAP"
+        ],
+        "count": 1,
+        "distinct_employers": 1,
+        "distinct_role_contexts": 1
+      },
+      {
+        "credential_semantics": "PREFERRED_CREDENTIAL",
+        "experiential_substitution": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+        "independent_capability_gaps": [
+          "TECHNICAL_SKILL_GAP"
+        ],
+        "count": 2,
+        "distinct_employers": 2,
+        "distinct_role_contexts": 2
+      }
+    ],
+    "semantic_class_coverage": {
+      "EXPLICIT_HARD": {
+        "reviewed": 6,
+        "question_a_distribution": {
+          "HARD_CREDENTIAL": 5,
+          "DEGREE_OR_EQUIVALENT_EXPERIENCE": 1,
+          "PREFERRED_CREDENTIAL": 0,
+          "GENERIC_OR_NONDECISIVE_CREDENTIAL": 0,
+          "AMBIGUOUS_CREDENTIAL": 0,
+          "EVIDENCE_CAPTURE_INVALID": 0
+        },
+        "question_b_distribution": {
+          "EXPERIENCE_STRONGLY_SUBSTITUTES": 0,
+          "EXPERIENCE_PARTIALLY_SUBSTITUTES": 0,
+          "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE": 4,
+          "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE": 2,
+          "NEED_MORE_INFORMATION": 0
+        }
+      },
+      "DEGREE_OR_EQUIVALENT_EXPERIENCE": {
+        "reviewed": 6,
+        "question_a_distribution": {
+          "HARD_CREDENTIAL": 1,
+          "DEGREE_OR_EQUIVALENT_EXPERIENCE": 5,
+          "PREFERRED_CREDENTIAL": 0,
+          "GENERIC_OR_NONDECISIVE_CREDENTIAL": 0,
+          "AMBIGUOUS_CREDENTIAL": 0,
+          "EVIDENCE_CAPTURE_INVALID": 0
+        },
+        "question_b_distribution": {
+          "EXPERIENCE_STRONGLY_SUBSTITUTES": 1,
+          "EXPERIENCE_PARTIALLY_SUBSTITUTES": 0,
+          "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE": 4,
+          "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE": 1,
+          "NEED_MORE_INFORMATION": 0
+        }
+      },
+      "PREFERRED_OR_IDEAL": {
+        "reviewed": 5,
+        "question_a_distribution": {
+          "HARD_CREDENTIAL": 3,
+          "DEGREE_OR_EQUIVALENT_EXPERIENCE": 0,
+          "PREFERRED_CREDENTIAL": 2,
+          "GENERIC_OR_NONDECISIVE_CREDENTIAL": 0,
+          "AMBIGUOUS_CREDENTIAL": 0,
+          "EVIDENCE_CAPTURE_INVALID": 0
+        },
+        "question_b_distribution": {
+          "EXPERIENCE_STRONGLY_SUBSTITUTES": 0,
+          "EXPERIENCE_PARTIALLY_SUBSTITUTES": 1,
+          "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE": 4,
+          "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE": 0,
+          "NEED_MORE_INFORMATION": 0
+        }
+      },
+      "MIXED_MANDATORY_PREFERRED": {
+        "reviewed": 5,
+        "question_a_distribution": {
+          "HARD_CREDENTIAL": 4,
+          "DEGREE_OR_EQUIVALENT_EXPERIENCE": 1,
+          "PREFERRED_CREDENTIAL": 0,
+          "GENERIC_OR_NONDECISIVE_CREDENTIAL": 0,
+          "AMBIGUOUS_CREDENTIAL": 0,
+          "EVIDENCE_CAPTURE_INVALID": 0
+        },
+        "question_b_distribution": {
+          "EXPERIENCE_STRONGLY_SUBSTITUTES": 0,
+          "EXPERIENCE_PARTIALLY_SUBSTITUTES": 0,
+          "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE": 4,
+          "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE": 1,
+          "NEED_MORE_INFORMATION": 0
+        }
+      },
+      "GENERIC_OR_TEMPLATE": {
+        "reviewed": 5,
+        "question_a_distribution": {
+          "HARD_CREDENTIAL": 2,
+          "DEGREE_OR_EQUIVALENT_EXPERIENCE": 3,
+          "PREFERRED_CREDENTIAL": 0,
+          "GENERIC_OR_NONDECISIVE_CREDENTIAL": 0,
+          "AMBIGUOUS_CREDENTIAL": 0,
+          "EVIDENCE_CAPTURE_INVALID": 0
+        },
+        "question_b_distribution": {
+          "EXPERIENCE_STRONGLY_SUBSTITUTES": 0,
+          "EXPERIENCE_PARTIALLY_SUBSTITUTES": 3,
+          "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE": 2,
+          "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE": 0,
+          "NEED_MORE_INFORMATION": 0
+        }
+      },
+      "AMBIGUOUS": {
+        "reviewed": 5,
+        "question_a_distribution": {
+          "HARD_CREDENTIAL": 4,
+          "DEGREE_OR_EQUIVALENT_EXPERIENCE": 0,
+          "PREFERRED_CREDENTIAL": 1,
+          "GENERIC_OR_NONDECISIVE_CREDENTIAL": 0,
+          "AMBIGUOUS_CREDENTIAL": 0,
+          "EVIDENCE_CAPTURE_INVALID": 0
+        },
+        "question_b_distribution": {
+          "EXPERIENCE_STRONGLY_SUBSTITUTES": 0,
+          "EXPERIENCE_PARTIALLY_SUBSTITUTES": 1,
+          "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE": 4,
+          "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE": 0,
+          "NEED_MORE_INFORMATION": 0
+        }
+      },
+      "CONSTITUTIVE_OR_REGULATED": {
+        "reviewed": 4,
+        "question_a_distribution": {
+          "HARD_CREDENTIAL": 3,
+          "DEGREE_OR_EQUIVALENT_EXPERIENCE": 1,
+          "PREFERRED_CREDENTIAL": 0,
+          "GENERIC_OR_NONDECISIVE_CREDENTIAL": 0,
+          "AMBIGUOUS_CREDENTIAL": 0,
+          "EVIDENCE_CAPTURE_INVALID": 0
+        },
+        "question_b_distribution": {
+          "EXPERIENCE_STRONGLY_SUBSTITUTES": 0,
+          "EXPERIENCE_PARTIALLY_SUBSTITUTES": 0,
+          "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE": 1,
+          "CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE": 3,
+          "NEED_MORE_INFORMATION": 0
+        }
+      }
+    },
+    "sampling_interpretation": "Deliberately semantic-class-oversampled human-validation proportions; not population prevalence estimates."
+  },
+  "architecture_comparison": {
+    "A_DEGREE_INSIDE_STRETCH": {
+      "description": "Current SPEC-019-like treatment keeps degree evidence inside capability stretch.",
+      "sample_hard_credential_interpretations": 22,
+      "sample_non_hard_interpretations": 14,
+      "degree_driven_capability_excessive_in_verified_corpus": 144,
+      "implication": "Cheap but conflates credential wording, experiential substitution, and independent capability gaps."
+    },
+    "B_SEPARATE_CREDENTIAL_COMPATIBILITY": {
+      "description": "Capability fit and credential compatibility are separate evidence objects combined only in decision reasoning.",
+      "sample_experience_substitution_supported": 6,
+      "sample_no_credible_substitute": 23,
+      "sample_constitutive_or_non_substitutable": 7,
+      "degree_driven_capability_excessive_in_verified_corpus": 0,
+      "separate_credential_objects_in_verified_corpus": 144,
+      "implication": "Best preserves the observed distinction between credentials and independent capability/domain gaps."
+    },
+    "C_CONSTITUTIVE_ONLY_HARD": {
+      "description": "Only regulated, licensed, or constitutive credentials remain hard; generic degrees become compatibility evidence.",
+      "sample_constitutive_or_non_substitutable": 7,
+      "sample_non_constitutive": 29,
+      "constitutive_hard_case_range_in_verified_corpus": [
+        1,
+        23
+      ],
+      "generic_compatibility_case_range_in_verified_corpus": [
+        121,
+        143
+      ],
+      "implication": "Safest narrow deterministic hard boundary, but requires conservative unresolved handling to avoid false compatibility."
+    },
+    "diagnostic_conclusion": "Architecture B is the strongest representation boundary; Architecture C is the narrowest candidate for any future deterministic hard rule. Neither is promoted by this experiment."
+  },
+  "spec020_compatibility": {
+    "status": "TERMINATED_SOURCE_DECAY_CONFOUNDED",
+    "source_artifact_sha256": "52205e59dbd39e692cdd52fb4b25c2546839de36e539c8233364412e80ba95ab",
+    "interpretable_cases": 8,
+    "experience_plausibly_substitutes": 6,
+    "degree_gap_decisive": 2,
+    "compatible_observations": [
+      "Formal credential semantics and practical substitution are distinct judgments.",
+      "Independent capability/domain gaps must not be attributed to the degree itself."
+    ],
+    "pooling_prohibited": true,
+    "reason": "SPEC-020 was incomplete, hard-wording-only, employer-concentrated, and source-decay-confounded."
+  },
+  "spec019_diagnostic_replay": {
+    "source_experiment": "EXP-STRETCH-EVIDENCE-001",
+    "source_run_id": "spec019-stretch-evidence-20260913-v3",
+    "source_artifact_sha256": "600df8073b6d1073811551ee62a657665f8145c59887493e90d3909a659bfedd",
+    "verified_degree_driven_case_count": 144,
+    "normal_candidate_count": 131,
+    "already_out_of_scope_count": 13,
+    "semantic_evidence_class_distribution": {
+      "CONSTITUTIVE_OR_REGULATED": 1,
+      "DEGREE_OR_EQUIVALENT_EXPERIENCE": 5,
+      "EXPLICIT_HARD": 112,
+      "MIXED_MANDATORY_PREFERRED": 26
+    },
+    "credential_concept_distribution": {
+      "BACHELORS_DEGREE": 79,
+      "DOCTORATE_DEGREE": 2,
+      "GENERAL_ACADEMIC_DEGREE": 5,
+      "MASTERS_DEGREE": 35,
+      "PROFESSIONAL_LICENSE": 23
+    },
+    "architecture_a": {
+      "degree_driven_capability_excessive": 144,
+      "normal_candidate_degree_deferrals": 131
+    },
+    "architecture_b": {
+      "degree_driven_capability_excessive": 0,
+      "separate_credential_compatibility_objects": 144,
+      "normal_candidate_compatibility_assessments": 131
+    },
+    "architecture_c": {
+      "high_confidence_constitutive_hard_lower_bound": 1,
+      "professional_license_or_constitutive_candidate_upper_bound": 23,
+      "generic_credential_compatibility_case_range": [
+        121,
+        143
+      ],
+      "normal_candidate_constitutive_hard_range": [
+        1,
+        23
+      ],
+      "normal_candidate_compatibility_assessment_range": [
+        108,
+        130
+      ]
+    },
+    "interpretation": "Deterministic diagnostic replay on the verified 144-case SPEC-019 corpus; human-validation sample proportions are not projected onto this population."
+  },
+  "compute_allocation": {
+    "estimated_semantic_call_cost_usd": 0.0026493,
+    "architecture_a_incremental_calls": 0,
+    "architecture_b_upper_bound_normal_candidate_calls": 131,
+    "architecture_b_upper_bound_cost_usd": 0.3470583,
+    "architecture_c_normal_candidate_call_range": [
+      108,
+      130
+    ],
+    "architecture_c_cost_range_usd": [
+      0.2861244,
+      0.344409
+    ],
+    "interpretation": "These are conservative call ceilings if every retained normal-candidate credential case receives semantic reasoning. Deterministic evidence parsing and independent capability checks can reduce calls; no calls were made here."
+  },
+  "fingerprints": {
+    "protocol": "b0d9b7946a7bf13c29e049920c2667a29ca5b04a6b56ce9570067cbbb4aacf26",
+    "selection": "599c54c428cb5491264c69d8f36130557b386749f3dd677dc43f4c9c99339ac2",
+    "sample_and_reserves": "cd791d527b594082bca39ada36780da80bea703464dc34fd39ee198e365a3550",
+    "private_manifest_sha256": "bdac32b745b96c5d42533b246ea605f644481c014d9415fb08a77c90e3495e83",
+    "private_judgments_sha256": "6c16718a4959e319ec75380cad636832b6e8bfae1742a42fe19065a8e1a208e7",
+    "private_replacements_sha256": null,
+    "private_detailed_report_sha256": "02a6c06fc52a90e3e9114cb5af1a2307f17bbd18ff346e24649f1909f2917baf"
+  },
+  "integrity": {
+    "runtime_behavior_changed": false,
+    "semantic_calls": 0,
+    "live_source_calls": 0,
+    "sqlite_writes": 0,
+    "judgments_rewritten": false,
+    "population_prevalence_inferred_from_oversampled_validation": false
+  },
+  "limitations": [
+    "The 36-case sample deliberately oversamples semantic evidence classes and cannot estimate population prevalence.",
+    "Question B is candidate-specific and must not be generalized into a universal credential rule.",
+    "The SPEC-019 replay is deterministic and diagnostic; lexical evidence classes are not per-case human adjudication.",
+    "Architecture call counts are ceilings, not recommended budgets or measured production demand.",
+    "No runtime credential, stretch, ranking, recommendation, candidate, or semantic-allocation behavior changed."
+  ]
+}

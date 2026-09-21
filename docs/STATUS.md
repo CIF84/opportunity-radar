@@ -10,7 +10,7 @@ and the next approved work packet.
 specs/phase4/SPEC-021-frozen-credential-evidence-semantics-v2.md
 ```
 
-Status: `IMPLEMENTED_LOCALLY_AWAITING_PREPARATION_REVIEW`.
+Status: `COMPLETED_LOCALLY_AWAITING_OWNER_REVIEW`.
 
 Implementation/operations agents must follow this pointer rather than infer work
 from file recency. Before starting, verify the local working tree is synchronized
@@ -47,9 +47,10 @@ Frozen recent milestones:
 - SPEC-019 stretch evidence audit: `559144258608825bdbc746691c37da041bb2fc82`
 - SPEC-020 terminated credential validation: `676647bb24a7f88b23c334d74e904cd8444f840c`
 
-SPEC-021 is a new protocol identity. It redesigns credential validation around
-immutable captured evidence so later source disappearance does not automatically
-invalidate a trustworthy observation.
+SPEC-021 is a distinct completed protocol identity. It redesigned credential
+validation around immutable captured evidence so later source disappearance does
+not automatically invalidate a trustworthy observation. Its 36-case human review
+and diagnostic replay are complete locally; no runtime rule has been promoted.
 
 ## SPEC-019 diagnostic result
 
@@ -177,9 +178,30 @@ CONSTITUTIVE_OR_REGULATED             4
 Seventeen employers are represented. Constitutive/regulated evidence is rare
 and concentrated: three selected controls come from EY and one from Johnson &
 Johnson. That is an explicit semantic-coverage limitation, not a prevalence
-claim. The private manifest and blind packet are Git-ignored; only the sanitized
-aggregate receipt is repository-safe. No judgment log exists and human review
-has not begun.
+claim. The private manifest, blind packet, append-only judgments, and detailed
+result are Git-ignored. Only sanitized aggregate receipts are repository-safe.
+
+## SPEC-021 completed diagnostic result
+
+The deliberately class-oversampled review completed at 36/36. It produced 22
+`HARD_CREDENTIAL`, 11 `DEGREE_OR_EQUIVALENT_EXPERIENCE`, and three
+`PREFERRED_CREDENTIAL` interpretations. Experiential substitution was strong in
+one case, partial in five, absent in 23, and constitutive/non-substitutable in
+seven. Independent capability gaps were recorded in 34/36 cases.
+
+These are reasoning-coverage proportions, not population-prevalence estimates.
+The result supports separating credential compatibility from capability stretch
+(Architecture B), with constitutive-only hard treatment (Architecture C) as the
+narrowest candidate for any future deterministic rule. Neither architecture is
+promoted. The deterministic SPEC-019 replay preserves the verified 144-case
+identity and reports only bounded diagnostic movement and call ceilings.
+
+Repository-safe result:
+
+```text
+output/credential_evidence_validation/
+  spec021-credential-evidence-preparation-20260916-v2/aggregate_result.json
+```
 
 ## Improved human questions
 
@@ -237,9 +259,9 @@ No silent early stopping is allowed.
 
 ## Current gate
 
-> Review and commit the SPEC-021 preparation boundary. Do not begin human review
-> until the immutable evidence packet, diverse frozen set, and sanitized receipt
-> are explicitly approved and committed.
+> Review the completed SPEC-021 evidence and architecture comparison. Decide
+> whether to authorize a separate implementation specification; do not promote
+> runtime credential/stretch behavior directly from this diagnostic experiment.
 
 No runtime credential/stretch policy change is authorized.
 
@@ -276,15 +298,14 @@ but this is a hypothesis for validation, not a runtime rule.
 
 ## Direction after SPEC-021
 
-Contingent on completed human evidence:
-
-1. derive a generic credential-substitutability reasoning contract;
-2. decide whether credential compatibility should be separated from stretch;
-3. replay corrected semantics against the SPEC-019 corpus diagnostically;
-4. only then design a combined deterministic rejection layer;
-5. compare compute-allocation economics against SPEC-011/012;
-6. preserve exploration/control before suppressing semantic reasoning broadly;
-7. keep semantic-v1 frozen until upstream allocation architecture is validated.
+1. owner-review Architecture B as the representation boundary and Architecture C
+   as a possible narrow deterministic hard boundary;
+2. if accepted, write a separate implementation specification rather than
+   mutating SPEC-019 in place;
+3. preserve conservative unresolved handling and independent capability gaps;
+4. validate any implementation prospectively before suppressing semantic work;
+5. preserve exploration/control before broad compute suppression;
+6. keep semantic-v1 frozen until upstream allocation architecture is validated.
 
 ## Known open decisions
 

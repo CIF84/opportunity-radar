@@ -27,6 +27,13 @@ from opportunity_radar.phase3_config import (
 
 DEFAULT_CONFIG = Path("experiments/credential_evidence_semantics_v2.yaml")
 DEFAULT_DATABASE = Path("output/opportunity_radar.sqlite3")
+DEFAULT_SPEC019_AUDIT = Path(
+    "output/stretch_evidence_boundary/spec019-stretch-evidence-20260913-v3/audit.json"
+)
+DEFAULT_SPEC020_TERMINATION = Path(
+    "output/credential_semantics_validation/"
+    "spec020-credential-preparation-20260914-v3/aggregate_termination.json"
+)
 EXPERIMENT_TYPE = "FROZEN_CREDENTIAL_EVIDENCE_SEMANTICS_VALIDATION"
 
 
@@ -1403,6 +1410,376 @@ def calculate_progress(
     return progress
 
 
+def _count_all(values: Iterable[str], vocabulary: Iterable[str]) -> dict[str, int]:
+    counts = Counter(values)
+    return {item: int(counts[item]) for item in vocabulary}
+
+
+def _completed_pairs(
+    manifest: dict[str, Any], judgments: list[dict[str, Any]], replacements: list[dict[str, Any]],
+) -> list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]]:
+    current = _current_records(
+        [item for item in judgments if item["preparation_id"] == manifest["preparation_id"]],
+        "review_number",
+    )
+    effective = effective_selected_items(manifest, replacements)
+    if len(current) != len(effective):
+        raise CredentialEvidenceError("final analysis requires the complete planned review set")
+    snapshots = {
+        item["snapshot_fingerprint"]: item
+        for item in manifest["evidence_population"]["snapshots"]
+    }
+    pairs: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]] = []
+    for selected in effective:
+        number = int(selected["review_number"])
+        judgment = current.get(number)
+        snapshot = snapshots.get(selected["snapshot_fingerprint"])
+        if judgment is None or snapshot is None:
+            raise CredentialEvidenceError("complete review cannot resolve frozen evidence")
+        if judgment["snapshot_fingerprint"] != selected["snapshot_fingerprint"]:
+            raise CredentialEvidenceError("judgment does not match effective frozen evidence")
+        pairs.append((selected, snapshot, judgment))
+    return sorted(pairs, key=lambda item: int(item[0]["review_number"]))
+
+
+def _reasoning_patterns(
+    pairs: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]],
+) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, str, tuple[str, ...]], list[dict[str, Any]]] = defaultdict(list)
+    for _, snapshot, judgment in pairs:
+        key = (
+            judgment["credential_semantics_label"],
+            judgment["experiential_substitution_label"],
+            tuple(sorted(judgment["independent_capability_gaps"])),
+        )
+        grouped[key].append(snapshot)
+    return [
+        {
+            "credential_semantics": key[0],
+            "experiential_substitution": key[1],
+            "independent_capability_gaps": list(key[2]),
+            "count": len(items),
+            "distinct_employers": len({item["company_id"] for item in items}),
+            "distinct_role_contexts": len({
+                (item["company_id"], item.get("role_title")) for item in items
+            }),
+        }
+        for key, items in sorted(grouped.items())
+    ]
+
+
+def _semantic_class_coverage(
+    pairs: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]],
+    manifest: dict[str, Any],
+) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    a_vocab = manifest["human_labels"]["credential_semantics"]
+    b_vocab = manifest["human_labels"]["experiential_substitution"]
+    for evidence_class in SEMANTIC_CLASSES:
+        judgments = [
+            judgment for selected, _, judgment in pairs
+            if selected["semantic_evidence_class"] == evidence_class
+        ]
+        result[evidence_class] = {
+            "reviewed": len(judgments),
+            "question_a_distribution": _count_all(
+                (item["credential_semantics_label"] for item in judgments), a_vocab
+            ),
+            "question_b_distribution": _count_all(
+                (item["experiential_substitution_label"] for item in judgments), b_vocab
+            ),
+        }
+    return result
+
+
+def _spec019_degree_replay(
+    manifest: dict[str, Any], spec019_audit_path: str | Path,
+) -> dict[str, Any]:
+    path = Path(spec019_audit_path)
+    if not path.exists():
+        raise CredentialEvidenceError("SPEC-019 private audit is required for diagnostic replay")
+    audit = json.loads(path.read_text(encoding="utf-8"))
+    by_observation = {
+        int(item["job_observation_id"]): item
+        for item in manifest["evidence_population"]["snapshots"]
+    }
+    cases: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for item in audit["private_detail"]["current_corpus"]:
+        decisive_degree = any(
+            requirement["concept_id"] == "bachelors_degree"
+            and requirement["gap_severity"] == "DECISIVE"
+            for requirement in item["stretch_assessment"]["requirements"]
+        )
+        if not decisive_degree:
+            continue
+        snapshot = by_observation.get(int(item["job_observation_id"]))
+        if snapshot is None:
+            raise CredentialEvidenceError("SPEC-019 degree case lacks frozen v2 evidence")
+        cases.append((item, snapshot))
+    if len(cases) != 144:
+        raise CredentialEvidenceError("SPEC-019 degree-driven corpus identity changed")
+
+    class_counts = Counter(snapshot["semantic_evidence_class"] for _, snapshot in cases)
+    concept_counts = Counter(snapshot["normalized_credential_concept"] for _, snapshot in cases)
+    normal = [(item, snapshot) for item, snapshot in cases if item["normal_candidate"]]
+    constitutive = [
+        (item, snapshot) for item, snapshot in cases
+        if snapshot["semantic_evidence_class"] == "CONSTITUTIVE_OR_REGULATED"
+    ]
+    professional_license_candidates = [
+        (item, snapshot) for item, snapshot in cases
+        if snapshot["normalized_credential_concept"] == "PROFESSIONAL_LICENSE"
+    ]
+    normal_constitutive = sum(item["normal_candidate"] for item, _ in constitutive)
+    normal_license_candidates = sum(
+        item["normal_candidate"] for item, _ in professional_license_candidates
+    )
+    return {
+        "source_experiment": audit["experiment_id"],
+        "source_run_id": audit["run_id"],
+        "source_artifact_sha256": _sha256_file(path),
+        "verified_degree_driven_case_count": len(cases),
+        "normal_candidate_count": len(normal),
+        "already_out_of_scope_count": len(cases) - len(normal),
+        "semantic_evidence_class_distribution": dict(sorted(class_counts.items())),
+        "credential_concept_distribution": dict(sorted(concept_counts.items())),
+        "architecture_a": {
+            "degree_driven_capability_excessive": len(cases),
+            "normal_candidate_degree_deferrals": len(normal),
+        },
+        "architecture_b": {
+            "degree_driven_capability_excessive": 0,
+            "separate_credential_compatibility_objects": len(cases),
+            "normal_candidate_compatibility_assessments": len(normal),
+        },
+        "architecture_c": {
+            "high_confidence_constitutive_hard_lower_bound": len(constitutive),
+            "professional_license_or_constitutive_candidate_upper_bound": len(
+                professional_license_candidates
+            ),
+            "generic_credential_compatibility_case_range": [
+                len(cases) - len(professional_license_candidates),
+                len(cases) - len(constitutive),
+            ],
+            "normal_candidate_constitutive_hard_range": [
+                normal_constitutive, normal_license_candidates,
+            ],
+            "normal_candidate_compatibility_assessment_range": [
+                len(normal) - normal_license_candidates,
+                len(normal) - normal_constitutive,
+            ],
+        },
+        "interpretation": (
+            "Deterministic diagnostic replay on the verified 144-case SPEC-019 corpus; "
+            "human-validation sample proportions are not projected onto this population."
+        ),
+    }
+
+
+def build_completed_analysis(
+    manifest: dict[str, Any], judgments: list[dict[str, Any]], replacements: list[dict[str, Any]],
+    *, spec019_audit_path: str | Path = DEFAULT_SPEC019_AUDIT,
+    spec020_termination_path: str | Path = DEFAULT_SPEC020_TERMINATION,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    pairs = _completed_pairs(manifest, judgments, replacements)
+    labels = manifest["human_labels"]
+    question_a = _count_all(
+        (judgment["credential_semantics_label"] for _, _, judgment in pairs),
+        labels["credential_semantics"],
+    )
+    question_b = _count_all(
+        (judgment["experiential_substitution_label"] for _, _, judgment in pairs),
+        labels["experiential_substitution"],
+    )
+    gaps = _count_all(
+        (
+            gap for _, _, judgment in pairs
+            for gap in judgment["independent_capability_gaps"]
+        ),
+        labels["independent_capability_gaps"],
+    )
+    patterns = _reasoning_patterns(pairs)
+    replay = _spec019_degree_replay(manifest, spec019_audit_path)
+    spec020_path = Path(spec020_termination_path)
+    if not spec020_path.exists():
+        raise CredentialEvidenceError("SPEC-020 termination evidence is required")
+    spec020 = json.loads(spec020_path.read_text(encoding="utf-8"))
+
+    substitution_supported = (
+        question_b["EXPERIENCE_STRONGLY_SUBSTITUTES"]
+        + question_b["EXPERIENCE_PARTIALLY_SUBSTITUTES"]
+    )
+    constitutive = question_b["CREDENTIAL_CONSTITUTIVE_OR_NON_SUBSTITUTABLE"]
+    independent_gap_cases = sum(
+        bool(judgment["independent_capability_gaps"]) for _, _, judgment in pairs
+    )
+    cost_basis = json.loads(Path(spec019_audit_path).read_text(encoding="utf-8"))[
+        "fingerprints"
+    ]["estimated_cost_per_semantic_call_usd"]
+    upper_b_calls = replay["architecture_b"]["normal_candidate_compatibility_assessments"]
+    c_call_range = replay["architecture_c"]["normal_candidate_compatibility_assessment_range"]
+
+    safe = {
+        "schema_version": 1,
+        "artifact_type": "REPOSITORY_SAFE_CREDENTIAL_EVIDENCE_RESULT",
+        "experiment_id": manifest["experiment_id"],
+        "protocol_version": manifest["protocol_version"],
+        "preparation_id": manifest["preparation_id"],
+        "status": "COMPLETE_PLANNED_COUNT",
+        "coverage": {
+            "reviewed": len(pairs),
+            "planned": len(manifest["sample"]["selected"]),
+            "semantic_classes_covered": len({
+                selected["semantic_evidence_class"] for selected, _, _ in pairs
+            }),
+            "question_a_distribution": question_a,
+            "question_b_distribution": question_b,
+            "independent_gap_distribution": gaps,
+            "cases_with_independent_gaps": independent_gap_cases,
+            "reasoning_pattern_count": len(patterns),
+            "reasoning_patterns": patterns,
+            "semantic_class_coverage": _semantic_class_coverage(pairs, manifest),
+            "sampling_interpretation": (
+                "Deliberately semantic-class-oversampled human-validation proportions; "
+                "not population prevalence estimates."
+            ),
+        },
+        "architecture_comparison": {
+            "A_DEGREE_INSIDE_STRETCH": {
+                "description": "Current SPEC-019-like treatment keeps degree evidence inside capability stretch.",
+                "sample_hard_credential_interpretations": question_a["HARD_CREDENTIAL"],
+                "sample_non_hard_interpretations": len(pairs) - question_a["HARD_CREDENTIAL"],
+                "degree_driven_capability_excessive_in_verified_corpus": replay["architecture_a"]["degree_driven_capability_excessive"],
+                "implication": "Cheap but conflates credential wording, experiential substitution, and independent capability gaps.",
+            },
+            "B_SEPARATE_CREDENTIAL_COMPATIBILITY": {
+                "description": "Capability fit and credential compatibility are separate evidence objects combined only in decision reasoning.",
+                "sample_experience_substitution_supported": substitution_supported,
+                "sample_no_credible_substitute": question_b["NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE"],
+                "sample_constitutive_or_non_substitutable": constitutive,
+                "degree_driven_capability_excessive_in_verified_corpus": 0,
+                "separate_credential_objects_in_verified_corpus": replay["architecture_b"]["separate_credential_compatibility_objects"],
+                "implication": "Best preserves the observed distinction between credentials and independent capability/domain gaps.",
+            },
+            "C_CONSTITUTIVE_ONLY_HARD": {
+                "description": "Only regulated, licensed, or constitutive credentials remain hard; generic degrees become compatibility evidence.",
+                "sample_constitutive_or_non_substitutable": constitutive,
+                "sample_non_constitutive": len(pairs) - constitutive,
+                "constitutive_hard_case_range_in_verified_corpus": [
+                    replay["architecture_c"]["high_confidence_constitutive_hard_lower_bound"],
+                    replay["architecture_c"]["professional_license_or_constitutive_candidate_upper_bound"],
+                ],
+                "generic_compatibility_case_range_in_verified_corpus": replay["architecture_c"]["generic_credential_compatibility_case_range"],
+                "implication": "Safest narrow deterministic hard boundary, but requires conservative unresolved handling to avoid false compatibility.",
+            },
+            "diagnostic_conclusion": (
+                "Architecture B is the strongest representation boundary; Architecture C is the narrowest candidate for any future deterministic hard rule. "
+                "Neither is promoted by this experiment."
+            ),
+        },
+        "spec020_compatibility": {
+            "status": spec020["status"],
+            "source_artifact_sha256": _sha256_file(spec020_path),
+            "interpretable_cases": spec020["coverage"]["substantively_interpretable_count"],
+            "experience_plausibly_substitutes": spec020["coverage"]["interpretable_question_b_label_counts"].get("EXPERIENCE_PLAUSIBLY_SUBSTITUTES", 0),
+            "degree_gap_decisive": spec020["coverage"]["interpretable_question_b_label_counts"].get("DEGREE_GAP_DECISIVE", 0),
+            "compatible_observations": [
+                "Formal credential semantics and practical substitution are distinct judgments.",
+                "Independent capability/domain gaps must not be attributed to the degree itself.",
+            ],
+            "pooling_prohibited": True,
+            "reason": "SPEC-020 was incomplete, hard-wording-only, employer-concentrated, and source-decay-confounded.",
+        },
+        "spec019_diagnostic_replay": replay,
+        "compute_allocation": {
+            "estimated_semantic_call_cost_usd": cost_basis,
+            "architecture_a_incremental_calls": 0,
+            "architecture_b_upper_bound_normal_candidate_calls": upper_b_calls,
+            "architecture_b_upper_bound_cost_usd": round(upper_b_calls * cost_basis, 8),
+            "architecture_c_normal_candidate_call_range": c_call_range,
+            "architecture_c_cost_range_usd": [
+                round(c_call_range[0] * cost_basis, 8),
+                round(c_call_range[1] * cost_basis, 8),
+            ],
+            "interpretation": (
+                "These are conservative call ceilings if every retained normal-candidate credential case receives semantic reasoning. "
+                "Deterministic evidence parsing and independent capability checks can reduce calls; no calls were made here."
+            ),
+        },
+        "fingerprints": {
+            "protocol": manifest["protocol_fingerprint"],
+            "selection": manifest["sample"]["selection_fingerprint"],
+            "sample_and_reserves": manifest["sample"]["sample_and_reserve_fingerprint"],
+        },
+        "integrity": {
+            "runtime_behavior_changed": False,
+            "semantic_calls": 0,
+            "live_source_calls": 0,
+            "sqlite_writes": 0,
+            "judgments_rewritten": False,
+            "population_prevalence_inferred_from_oversampled_validation": False,
+        },
+        "limitations": [
+            "The 36-case sample deliberately oversamples semantic evidence classes and cannot estimate population prevalence.",
+            "Question B is candidate-specific and must not be generalized into a universal credential rule.",
+            "The SPEC-019 replay is deterministic and diagnostic; lexical evidence classes are not per-case human adjudication.",
+            "Architecture call counts are ceilings, not recommended budgets or measured production demand.",
+            "No runtime credential, stretch, ranking, recommendation, candidate, or semantic-allocation behavior changed.",
+        ],
+    }
+    detailed = {
+        "schema_version": 1,
+        "artifact_type": "PRIVATE_CREDENTIAL_EVIDENCE_DETAILED_RESULT",
+        "experiment_id": manifest["experiment_id"],
+        "preparation_id": manifest["preparation_id"],
+        "status": "COMPLETE_PLANNED_COUNT",
+        "records": [
+            {"selected": selected, "snapshot": snapshot, "judgment": judgment}
+            for selected, snapshot, judgment in pairs
+        ],
+        "safe_analysis": safe,
+    }
+    return detailed, safe
+
+
+def run_completed_analysis(
+    root: str | Path,
+    preparation_id: str,
+    judgments_path: str | Path,
+    replacements_path: str | Path,
+    *,
+    spec019_audit_path: str | Path = DEFAULT_SPEC019_AUDIT,
+    spec020_termination_path: str | Path = DEFAULT_SPEC020_TERMINATION,
+) -> dict[str, Any]:
+    directory = Path(root) / preparation_id
+    manifest = _manifest_for(Path(root), preparation_id)
+    judgment_hash_before = _sha256_file(judgments_path)
+    replacement_path = Path(replacements_path)
+    replacement_hash_before = _sha256_file(replacement_path) if replacement_path.exists() else None
+    detailed, safe = build_completed_analysis(
+        manifest,
+        _load_jsonl(judgments_path),
+        _load_jsonl(replacements_path),
+        spec019_audit_path=spec019_audit_path,
+        spec020_termination_path=spec020_termination_path,
+    )
+    detailed_path = directory / "detailed_report.json"
+    aggregate_path = directory / "aggregate_result.json"
+    detailed_path.write_text(json.dumps(detailed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    safe["fingerprints"].update({
+        "private_manifest_sha256": _sha256_file(directory / "manifest.json"),
+        "private_judgments_sha256": judgment_hash_before,
+        "private_replacements_sha256": replacement_hash_before,
+        "private_detailed_report_sha256": _sha256_file(detailed_path),
+    })
+    aggregate_path.write_text(json.dumps(safe, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if _sha256_file(judgments_path) != judgment_hash_before:
+        raise CredentialEvidenceError("final analysis mutated append-only judgments")
+    if replacement_path.exists() and _sha256_file(replacement_path) != replacement_hash_before:
+        raise CredentialEvidenceError("final analysis mutated append-only replacements")
+    return safe
+
+
 def _load_runtime_paths(protocol: CredentialEvidenceProtocol) -> tuple[Path, Path, Path]:
     output = protocol.raw["outputs"]
     return Path(output["root"]), Path(output["judgments"]), Path(output["replacements"])
@@ -1467,7 +1844,12 @@ def main() -> int:
     progress = calculate_progress(
         manifest, _load_jsonl(judgments), _load_jsonl(replacements)
     )
-    print(json.dumps(progress, ensure_ascii=False, indent=2), flush=True)
+    result = (
+        run_completed_analysis(root, args.preparation_id, judgments, replacements)
+        if progress["status"] == "COMPLETE_PLANNED_COUNT"
+        else progress
+    )
+    print(json.dumps(result, ensure_ascii=False, indent=2), flush=True)
     return 0
 
 

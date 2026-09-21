@@ -17,6 +17,7 @@ from opportunity_radar.credential_evidence_validation import (
     SourceCurrentness,
     append_invalid_replacement,
     append_judgment,
+    build_completed_analysis,
     build_candidate_substitution_projection,
     calculate_progress,
     effective_selected_items,
@@ -274,6 +275,71 @@ def test_saturation_checkpoint_is_blind_safe_and_never_auto_stops():
     assert "semantic_class_distribution" not in checkpoint
 
 
+def test_completed_analysis_is_private_detailed_safe_aggregate_and_diagnostic_only(tmp_path):
+    protocol = load_credential_evidence_protocol()
+    manifest = _manifest(protocol)
+    manifest["protocol_fingerprint"] = protocol.fingerprint
+    judgments = []
+    for item in manifest["sample"]["selected"]:
+        judgments.append({
+            "record_id": f"j-{item['review_number']}",
+            "preparation_id": manifest["preparation_id"],
+            "review_number": item["review_number"],
+            "snapshot_fingerprint": item["snapshot_fingerprint"],
+            "credential_semantics_label": "HARD_CREDENTIAL",
+            "experiential_substitution_label": "NO_CREDIBLE_EXPERIENTIAL_SUBSTITUTE",
+            "independent_capability_gaps": ["TECHNICAL_SKILL_GAP"],
+            "note": f"private note {item['review_number']}",
+            "recorded_at": f"2026-09-18T00:00:{item['review_number']:02d}+00:00",
+            "supersedes_record_id": None,
+        })
+    observation_id = manifest["evidence_population"]["snapshots"][0]["job_observation_id"]
+    spec019 = {
+        "experiment_id": "EXP-STRETCH-EVIDENCE-001",
+        "run_id": "spec019-test",
+        "fingerprints": {"estimated_cost_per_semantic_call_usd": 0.002},
+        "private_detail": {"current_corpus": [{
+            "job_observation_id": observation_id,
+            "normal_candidate": True,
+            "stretch_assessment": {"requirements": [{
+                "concept_id": "bachelors_degree", "gap_severity": "DECISIVE",
+            }]},
+        } for _ in range(144)]},
+    }
+    spec019_path = tmp_path / "spec019.json"
+    spec019_path.write_text(json.dumps(spec019), encoding="utf-8")
+    spec020 = {
+        "status": "TERMINATED_SOURCE_DECAY_CONFOUNDED",
+        "coverage": {
+            "substantively_interpretable_count": 8,
+            "interpretable_question_b_label_counts": {
+                "EXPERIENCE_PLAUSIBLY_SUBSTITUTES": 6,
+                "DEGREE_GAP_DECISIVE": 2,
+            },
+        },
+    }
+    spec020_path = tmp_path / "spec020.json"
+    spec020_path.write_text(json.dumps(spec020), encoding="utf-8")
+
+    detailed, safe = build_completed_analysis(
+        manifest, judgments, [],
+        spec019_audit_path=spec019_path,
+        spec020_termination_path=spec020_path,
+    )
+    assert safe["status"] == "COMPLETE_PLANNED_COUNT"
+    assert safe["coverage"]["reviewed"] == 36
+    assert safe["coverage"]["question_a_distribution"]["HARD_CREDENTIAL"] == 36
+    assert safe["spec019_diagnostic_replay"]["verified_degree_driven_case_count"] == 144
+    assert safe["architecture_comparison"]["B_SEPARATE_CREDENTIAL_COMPATIBILITY"][
+        "degree_driven_capability_excessive_in_verified_corpus"
+    ] == 0
+    assert safe["integrity"]["runtime_behavior_changed"] is False
+    safe_text = json.dumps(safe)
+    assert "private note" not in safe_text
+    assert "role_title" not in safe_text and "source_url" not in safe_text
+    assert detailed["records"][0]["judgment"]["note"].startswith("private note")
+
+
 def test_preparation_is_zero_call_read_only_and_safe_summary_excludes_private_rows(tmp_path, monkeypatch):
     database = tmp_path / "operational.sqlite3"
     database.write_bytes(b"read-only-operational-fixture")
@@ -332,6 +398,10 @@ def test_private_v2_evidence_is_ignored_but_sanitized_aggregate_is_trackable():
         assert subprocess.run(["git", "check-ignore", "-q", path], cwd=ROOT).returncode == 0
     assert subprocess.run(
         ["git", "check-ignore", "-q", "output/credential_evidence_validation/example/aggregate_summary.json"],
+        cwd=ROOT,
+    ).returncode == 1
+    assert subprocess.run(
+        ["git", "check-ignore", "-q", "output/credential_evidence_validation/example/aggregate_result.json"],
         cwd=ROOT,
     ).returncode == 1
 
